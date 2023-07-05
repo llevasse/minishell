@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 20:37:05 by mwubneh           #+#    #+#             */
-/*   Updated: 2022/11/12 16:33:06 by mwubneh          ###   ########lyon.fr   */
+/*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
+/*   Updated: 2023/07/05 18:28:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
+# include "../libft/libft.h"
+# include <stdio.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <dirent.h>
+
+char *ft_strsep(char **p_str, const char *delim);
+
+#endif
