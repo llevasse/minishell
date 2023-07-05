@@ -6,11 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:24:13 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/05 18:26:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/05 22:34:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../headers/minishell.h"
+#include "minishell.h"
 
 /// @brief return pointer to first word(token) in **p_str 
 /// and update *p_str to past token.
