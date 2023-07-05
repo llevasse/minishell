@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   strsep_test.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/05 18:28:36 by llevasse         ###   ########.fr       */
+/*   Created: 2023/07/05 15:42:23 by llevasse          #+#    #+#             */
+/*   Updated: 2023/07/05 17:50:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include <stdio.h>
+#include <string.h>
 
-# include "../libft/libft.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include <signal.h>
-# include <dirent.h>
-
-char *ft_strsep(char **p_str, const char *delim);
-
-#endif
+int main(int argc, char **argv)
+{
+	char str[] = "cc hello hi";
+	char *p = str;
+	printf("%s\n", p); 
+	strsep(&p, " ");
+	printf("%s\n", p);
+	strsep(&p, " ");
+	printf("%s\n", p);
+}
