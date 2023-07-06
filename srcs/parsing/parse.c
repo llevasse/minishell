@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 18:43:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:40:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	parse(char *input)
 t_cmd *init_cmd(char *input)
 {
 	t_cmd	*cmd;
-	int	i;
 
 	cmd = malloc(sizeof(struct s_cmd));
 	if (!cmd)
@@ -42,6 +41,14 @@ t_cmd *init_cmd(char *input)
 	if (!*input)
 		return (cmd);
 	cmd->args = NULL;
+	get_args(cmd, input);
+	return (cmd);
+}
+
+void get_args(t_cmd *cmd, char *input)
+{
+	int	i;
+
 	i = 0;
 	while (input[i] && input[i] != '|')
 		i++;
@@ -49,7 +56,7 @@ t_cmd *init_cmd(char *input)
 		input[i - 1] = '\0';
 	cmd->args = ft_split(input, ' ');
 	if (!cmd->args)
-		return (free(cmd), NULL);
+		return (free(cmd));
 	input += i;
-	return (cmd);
 }
+
