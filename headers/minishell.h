@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 17:28:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 18:37:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,18 @@ typedef struct s_cmd
 }	t_cmd;
 
 // SRCS/PARSE //
-char *ft_strsep(char **p_str, const char *delim);
+char	*ft_strsep(char **p_str, const char *delim);
 void	parse(char *input);
+t_cmd	*init_cmd(char *input);
 
 
 // SRCS/BUILTIN //
-void ft_echo(void);
-void ft_env(void);
-void ft_unset(void);
-void ft_exit(void);
-void ft_pwd(void);
-void ft_export(void);
-void ft_cd(void);
+void	ft_echo(void);
+void	ft_env(void);
+void	ft_unset(void);
+void	ft_exit(void);
+void	ft_pwd(void);
+void	ft_export(void);
+void	ft_cd(void);
 
 #endif
