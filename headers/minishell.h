@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 09:54:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 17:28:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,14 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <dirent.h>
+
+typedef struct s_cmd
+{
+	char		*cmd;
+	char		**args;
+	struct s_cmd	*input_cmd;
+	struct s_cmd	*output_cmd;
+}	t_cmd;
 
 // SRCS/PARSE //
 char *ft_strsep(char **p_str, const char *delim);
