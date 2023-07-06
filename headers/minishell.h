@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/05 18:28:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 09:31:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,17 @@
 # include <signal.h>
 # include <dirent.h>
 
+// SRCS/PARSE //
 char *ft_strsep(char **p_str, const char *delim);
+
+
+// SRCS/BUILTIN //
+void ft_echo(void);
+void ft_env(void);
+void ft_unset(void);
+void ft_exit(void);
+void ft_pwd(void);
+void ft_export(void);
+void ft_cd(void);
 
 #endif
