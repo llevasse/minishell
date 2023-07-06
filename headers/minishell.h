@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 22:38:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 22:59:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strsep(char **p_str, const char *delim);
 void	parse(char *input);
 t_cmd	*init_cmd(char *input);
 void	get_args(t_cmd *cmd, char *input);
-
+void	check_cmd(t_cmd *cmd);
 
 // SRCS/BUILTIN //
 void	ft_echo(void);
