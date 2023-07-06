@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 09:58:35 by llevasse         ###   ########.fr       */
+/*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
+/*   Updated: 2023/07/06 09:58:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main()
+void	parse(char *input)
 {
-	while (1)
-		parse(readline("minihell >>"));
-	return (0);
+	ft_printf("%s unknown command\n", ft_strsep(&input, " "));
 }

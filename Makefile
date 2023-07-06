@@ -10,6 +10,7 @@ LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 #---MINISHELL_VAR----------------------------------
 SRC		=	srcs/minishell.c \
 			srcs/parsing/ft_strsep.c \
+			srcs/parsing/parse.c \
 			srcs/builtin/ft_echo.c \
 			srcs/builtin/ft_env.c \
 			srcs/builtin/ft_unset.c \
