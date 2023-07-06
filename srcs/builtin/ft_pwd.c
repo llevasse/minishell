@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 09:28:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 23:13:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_pwd(void)
 {
-	ft_printf("Cc, je suis pwd\n");
+	ft_printf("Cc, je suis pwd");
 }
 

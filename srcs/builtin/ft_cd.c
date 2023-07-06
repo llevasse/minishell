@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 09:26:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 23:11:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	ft_cd(void)
 {
-	ft_printf("Cc, je suis cd\n");
+	ft_printf("Cc, je suis cd");
 }

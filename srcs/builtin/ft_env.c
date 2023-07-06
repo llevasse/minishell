@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 09:27:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 23:12:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	ft_env(void)
 {
-	ft_printf("Cc, je suis env\n");
+	ft_printf("Cc, je suis env");
 }
 

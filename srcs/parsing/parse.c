@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 23:00:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/06 23:15:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	parse(char *input)
 {
 	t_cmd	*cmd;
 
+	if (!*input)
+		return ;
 	cmd = init_cmd(input);
 	check_cmd(cmd);
 	printf("\n");
@@ -27,7 +29,7 @@ void	check_cmd(t_cmd *cmd)
 	
 	if (!cmd)
 		return ;
-	if (!ft_strncmp(cmd->cmd, "cd", 2))
+	if (!ft_strcmp(cmd->cmd, "cd"))
 		return (ft_cd());	
 	printf("%s unknown command with argument(s) ", cmd->cmd);
 	i = 0;
