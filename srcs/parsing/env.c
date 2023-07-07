@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 16:02:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:47:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,34 @@ int	check_present_in_path(char *cmd, char *path)
 	return (0);
 }
 
-// DIR *opendir(const char *name);
-// struct dirent *readdir(DIR *dirp);
+int check_dollar(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '$')
+		i++;
+	if (str[i] == '$')
+		return (i);
+	return (-1);
+}
+
+int check_is_env_var(char **str)
+{
+	int	i;
+	char	*var;
+	char	*new_str;
+
+	if (check_dollar(*str) == -1)
+		return (0);
+	i = check_dollar(*str);
+	var = ft_strdup(getenv(*str + i + 1));
+	if (!var)
+		return ((void) printf("\33[2K\r"), 0);
+	*(str + i) = '\0';
+	new_str = ft_strjoin(*str, var);
+	free(*str);
+	*str = new_str;
+	return (1);
+}
+

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 11:58:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:40:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	check_cmd(t_cmd *cmd)
 		return (ft_pwd());	
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		return (ft_unset());
-	if (check_cmd_in_env(cmd->cmd))
+	if (check_cmd_in_env(cmd->cmd) || !check_is_env_var(&cmd->cmd))
 		return ;
 	printf("%s unknown command with argument(s) ", cmd->cmd);
 	i = 0;

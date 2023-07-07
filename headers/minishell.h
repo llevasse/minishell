@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 15:39:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/07 23:39:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	get_args(t_cmd *cmd, char *input);
 void	check_cmd(t_cmd *cmd);
 int		check_cmd_in_env(char *cmd);
 int		check_present_in_path(char *cmd, char *path);
+int		check_is_env_var(char **str);
 
 // SRCS/EXEC //
 void	false_exec(char *path, char *cmd);
