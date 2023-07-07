@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 10:49:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 11:36:14 by llevasse         ###   ########.fr       */
+/*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
+/*   Updated: 2023/07/07 11:35:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-void	false_exec(t_cmd *cmd)
+int	check_cmd_in_env(char *cmd)
 {
-	printf("Coucou, je suis la fausse exec function :O");
+	char *path;
+
+	path = getenv("PATH");
+	printf("PATH : %s\n", path);
 	(void)cmd;
+	return (1);
 }

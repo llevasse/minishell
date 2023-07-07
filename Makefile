@@ -15,6 +15,7 @@ LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 SRC		=	srcs/minishell.c \
 			srcs/parsing/ft_strsep.c \
 			srcs/parsing/parse.c \
+			srcs/parsing/env.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \
 			srcs/builtin/ft_env.c \
@@ -43,6 +44,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs
 				@mkdir -p $(OBJS_DIR)srcs/parsing
 				@mkdir -p $(OBJS_DIR)srcs/builtin
+				@mkdir -p $(OBJS_DIR)srcs/exec
 
 all:			$(NAME)
 
