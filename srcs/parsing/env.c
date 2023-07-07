@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 23:47:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 00:31:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,13 @@ int check_is_env_var(char **str)
 	i = check_dollar(*str);
 	var = ft_strdup(getenv(*str + i + 1));
 	if (!var)
-		return ((void) printf("\33[2K\r"), 0);
+		return (0);
+	if (i == 0)
+	{
+		free(*str);
+		*str = var;
+		return (1);
+	}
 	*(str + i) = '\0';
 	new_str = ft_strjoin(*str, var);
 	free(*str);
