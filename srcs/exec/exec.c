@@ -6,15 +6,14 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:49:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 11:36:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/07 12:07:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-void	false_exec(t_cmd *cmd)
+void	false_exec(char *path, char *cmd)
 {
-	printf("Coucou, je suis la fausse exec function :O");
-	(void)cmd;
+	printf("Coucou, j'exec le programme a %s/%s :O", path, cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 11:35:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/07 12:07:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ t_cmd	*init_cmd(char *input);
 void	get_args(t_cmd *cmd, char *input);
 void	check_cmd(t_cmd *cmd);
 int	check_cmd_in_env(char *cmd);
+int	check_present_in_path(char *cmd, char *path);
 
 // SRCS/EXEC //
-void	false_exec(t_cmd *cmd);
+void	false_exec(char *path, char *cmd);
 
 // SRCS/BUILTIN //
 void	ft_echo(void);
