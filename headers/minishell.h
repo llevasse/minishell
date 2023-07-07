@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 12:07:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/07 15:39:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef struct s_cmd
 {
-	char		*cmd;
-	char		**args;
+	char			*cmd;
+	char			**args;
 	struct s_cmd	*input_cmd;
 	struct s_cmd	*output_cmd;
 }	t_cmd;
@@ -36,8 +36,8 @@ void	parse(char *input);
 t_cmd	*init_cmd(char *input);
 void	get_args(t_cmd *cmd, char *input);
 void	check_cmd(t_cmd *cmd);
-int	check_cmd_in_env(char *cmd);
-int	check_present_in_path(char *cmd, char *path);
+int		check_cmd_in_env(char *cmd);
+int		check_present_in_path(char *cmd, char *path);
 
 // SRCS/EXEC //
 void	false_exec(char *path, char *cmd);
