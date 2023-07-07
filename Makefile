@@ -1,8 +1,12 @@
 #---COMMON_VAR-----------------------------------
 NAME		=	minishell
-CC			=	cc
+CC		=	cc
 FLAGS		=	-Wall -Werror -Wextra
-RM			=	rm -rf
+RM		=	rm -rf
+RED		=	\033[0;31m
+GREEN		=	\033[0;32m
+YELLOW		=	\033[0;33m
+NC		=	\033[0m
 #---LIBFT_VAR-------------------------------------
 LIBFT_PATH	=	libft/
 LIBFT_NAME	=	libft.a
@@ -42,23 +46,23 @@ $(OBJS_DIR):
 all:			$(NAME)
 
 lib:
-				@echo "\033[0;33m\nCOMPILING $(LIBFT_PATH)\n"
+				@echo "$(YELLOW)\nCOMPILING $(LIBFT_PATH)\n"
 				@make -sC $(LIBFT_PATH)
-				@echo "\033[1;32mLIBFT_lib created\n"
+				@echo "$(GREEN)LIBFT created\n"
 
 clean:
-				@echo "\033[0;31mDeleting Obj file in $(LIBFT_PATH)...\n"
+				@echo "$(RED)Deleting Obj file in $(LIBFT_PATH)...\n"
 				@make clean -sC $(LIBFT_PATH)
-				@echo "\033[1;32mDone\n"
-				@echo "\033[0;31mDeleting minishell object...\n"
+				@echo "$(GREEN)Done\n"
+				@echo "$(RED)Deleting minishell object...\n"
 				@$(RM) $(OBJS_DIR)
-				@echo "\033[1;32mDone\n"
+				@echo "$(GREEN)Done\n"
 
 fclean:			clean
-				@echo "\033[0;31mDeleting minishell executable..."
+				@echo "$(RED)Deleting minishell executable..."
 				@rm -f $(NAME)
 				@make fclean -C $(LIBFT_PATH)
-				@echo "\033[1;32mDone\n"
+				@echo "$(GREEN)Done\n"
 
 re:				fclean all
 
