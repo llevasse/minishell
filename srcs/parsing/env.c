@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 12:33:26 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/08 17:53:16 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(char *cmd)
+int	check_cmd_in_env(t_cmd *cmd)
 {
 	char	*path;
 	int		has_exec;
@@ -32,18 +32,18 @@ int	check_cmd_in_env(char *cmd)
 
 /// @brief Check if cmd in a command present in path.
 /// @return If cmd is found return 1 else 0.
-int	check_present_in_path(char *cmd, char *path)
+int	check_present_in_path(t_cmd *cmd, char *path)
 {
-	DIR		*current_dir;
+	DIR				*current_dir;
 	struct dirent	*dir_entry;
 
 	current_dir = opendir(path);
 	if (!current_dir)
 		return (0);
 	dir_entry = readdir(current_dir);
-	while (dir_entry && ft_strcmp(cmd, dir_entry->d_name))
+	while (dir_entry && ft_strcmp(cmd->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
-	if (dir_entry && !ft_strcmp(cmd, dir_entry->d_name))
+	if (dir_entry && !ft_strcmp(cmd->cmd, dir_entry->d_name))
 		return (false_exec(path, cmd), closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
@@ -52,7 +52,7 @@ int	check_present_in_path(char *cmd, char *path)
 /// @brief Check if '$' is present in *str.
 /// @param *str String to check.
 /// @return Return position of '$' in *str or -1 if none is found.
-int check_dollar(char *str)
+int	check_dollar(const char *str)
 {
 	int	i;
 
@@ -68,10 +68,11 @@ int check_dollar(char *str)
 
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
-/// @return Return 0 if no env variable and otherwise return 1 and replace env variable int *str with it's contant.
-int check_is_env_var(char **str)
+/// @return Return 0 if no env variable and otherwise return 1
+/// and replace env variable int *str with his content.
+int	check_is_env_var(char **str)
 {
-	int	i;
+	int		i;
 	char	*var;
 	char	*new_str;
 
@@ -93,4 +94,3 @@ int check_is_env_var(char **str)
 	*str = new_str;
 	return (1);
 }
-

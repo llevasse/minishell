@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 13:02:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 17:54:03 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_cmd(t_cmd *cmd)
 		return (ft_pwd());	
 	if (!ft_strcmp(cmd->cmd, "unset"))
 		return (ft_unset());
-	if (check_cmd_in_env(cmd->cmd))
+	if (check_cmd_in_env(cmd))
 		return ;
 	if (check_is_env_var(&cmd->cmd))
 		return (check_cmd(cmd));
@@ -76,6 +76,7 @@ t_cmd *init_cmd(char *input)
 /// @brief Get, and assign to t_cmd, args from inputed string.
 /// @param *cmd Pointer to t_cmd,
 /// @param *input Inputed string to get args from.
+
 void get_args(t_cmd *cmd, char *input)
 {
 	int	i;
