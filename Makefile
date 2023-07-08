@@ -34,7 +34,7 @@ HEADER		=	headers
 $(NAME):		$(OBJS) 
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
-				@norminette $(FILES) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
+				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
 
 
 $(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib
