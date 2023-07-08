@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 18:10:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 19:10:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_cmd(t_cmd *cmd);
 int		check_cmd_in_env(char *cmd);
 int		check_present_in_path(char *cmd, char *path);
 int		check_is_env_var(char **str);
-int		check_dollar(char *str);
+int		get_char_pos(char *str, char c);
 int		check_quotes(t_cmd *cmd);
 void	pass_double_quotes(t_cmd *cmd);
 
