@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 12:19:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:33:26 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 int	check_cmd_in_env(char *cmd)
 {
 	char	*path;
-	int	has_exec;
+	int		has_exec;
 	char	*p_path;
 
 	has_exec = 0;
@@ -41,7 +41,7 @@ int	check_present_in_path(char *cmd, char *path)
 	if (!current_dir)
 		return (0);
 	dir_entry = readdir(current_dir);
-	while (dir_entry && strcmp(cmd, dir_entry->d_name))
+	while (dir_entry && ft_strcmp(cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
 	if (dir_entry && !ft_strcmp(cmd, dir_entry->d_name))
 		return (false_exec(path, cmd), closedir(current_dir), 1);
