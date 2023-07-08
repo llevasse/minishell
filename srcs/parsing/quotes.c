@@ -6,27 +6,27 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 23:19:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 23:32:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /// @brief Check if quotes are present in cmd.
-/// @param *cmd Pointer to t_cmd.
+/// @param *cmd Pointer to t_prompt.
 /// @return Return 0 if no quotes and 1 if there is.
-int	check_quotes(t_cmd *cmd)
+int	check_quotes(t_prompt *prompt)
 {
 	int	i;
 
 	i = 0;
-	while (cmd->cmd[i] && cmd->cmd[i] != '"' && cmd->cmd[i] != '\'')
+	while (prompt->cmd[i] && prompt->cmd[i] != '"' && prompt->cmd[i] != '\'')
 		i++;
-	if (!cmd->cmd[i])
+	if (!prompt->cmd[i])
 		return (0);
-	if (cmd->cmd[i] == '"')
-		pass_double_quotes(cmd);
-	check_cmd(cmd);
+	if (prompt->cmd[i] == '"')
+		pass_double_quotes(prompt);
+	check_cmd(prompt);
 	return (1);
 }
 
@@ -62,24 +62,24 @@ char	*get_quoted_str(char *str, char quote)
 }
 
 // WARNING : right now we'll just assume that the input contain two double quotes !
-void	pass_double_quotes(t_cmd *cmd)
+void	pass_double_quotes(t_prompt *prompt)
 {
 	char	*new_str;
 	char	*in_quotes;
 	int	i;
 
-	cmd->checked = 1;
+	prompt->checked = 1;
 	i = 0;
-	while (cmd->cmd[i] && cmd->cmd[i] != '"')
+	while (prompt->cmd[i] && prompt->cmd[i] != '"')
 		i++;
-	cmd->cmd[i] = '\0';
-	in_quotes = get_quoted_str(cmd->cmd, '"');
+	prompt->cmd[i] = '\0';
+	in_quotes = get_quoted_str(prompt->cmd, '"');
 	if (!in_quotes)
 		return ;
-	new_str = ft_strjoin(cmd->cmd, in_quotes);
-	cmd->cmd[i++] = '"';
-	while (cmd->cmd[i] && cmd->cmd[i] != '"')
+	new_str = ft_strjoin(prompt->cmd, in_quotes);
+	prompt->cmd[i++] = '"';
+	while (prompt->cmd[i] && prompt->cmd[i] != '"')
 		i++;
-	new_str = ft_strjoin(new_str, (cmd->cmd + i + 1));
-	cmd->cmd = new_str;
+	new_str = ft_strjoin(new_str, (prompt->cmd + i + 1));
+	prompt->cmd = new_str;
 }
