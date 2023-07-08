@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 00:31:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:03:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,15 @@ int	check_present_in_path(char *cmd, char *path)
 	return (0);
 }
 
+/// @brief Check if '$' is present in *str.
+/// @param *str String to check.
+/// @return Return position of '$' in *str or -1 if none is found.
 int check_dollar(char *str)
 {
 	int	i;
 
+	if (!str)
+		return (-1);
 	i = 0;
 	while (str[i] && str[i] != '$')
 		i++;
@@ -61,6 +66,9 @@ int check_dollar(char *str)
 	return (-1);
 }
 
+/// @brief Check if a string contain a env variable.
+/// @param **str Pointer to string to check.
+/// @return Return 0 if no env variable and otherwise return 1 and replace env variable int *str with it's contant.
 int check_is_env_var(char **str)
 {
 	int	i;
