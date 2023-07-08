@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 12:05:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:18:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ t_cmd *init_cmd(char *input)
 	cmd = malloc(sizeof(struct s_cmd));
 	if (!cmd)
 		return (NULL);
+	cmd->args = NULL;
 	cmd->cmd = ft_strsep(&input, " ");
 	if (!*input)
 		return (cmd);
-	cmd->args = NULL;
 	get_args(cmd, input);
 	return (cmd);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 12:08:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 12:19:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int check_is_env_var(char **str)
 		*str = var;
 		return (1);
 	}
-	(*str) + i = '\0';
+	(*str)[i] = '\0';
 	new_str = ft_strjoin(*str, var);
 	free(*str);
 	*str = new_str;
