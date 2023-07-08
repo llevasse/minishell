@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 13:02:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 18:15:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	check_cmd(t_cmd *cmd)
 	int	i;
 	
 	if (!cmd)
+		return ;
+	if (check_quotes(cmd))
 		return ;
 	if (!ft_strcmp(cmd->cmd, "cd"))
 		return (ft_cd());	
@@ -65,6 +67,7 @@ t_cmd *init_cmd(char *input)
 	cmd = malloc(sizeof(struct s_cmd));
 	if (!cmd)
 		return (NULL);
+	cmd->checked = 0;
 	cmd->args = NULL;
 	cmd->cmd = ft_strsep(&input, " ");
 	if (!*input)
