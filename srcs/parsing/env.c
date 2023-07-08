@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 23:06:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 23:21:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int check_is_env_var(char **str)
 	i = get_char_pos(*str, '$');
 	var = ft_strdup(getenv(*str + i + 1));
 	if (!var)
-		return (0);
+		return ((*str = ""),0);
 	if (i == 0)
 	{
 		free(*str);
