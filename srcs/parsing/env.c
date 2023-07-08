@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 12:33:26 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/08 23:06:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,20 @@ int	check_present_in_path(char *cmd, char *path)
 	return (0);
 }
 
-/// @brief Check if '$' is present in *str.
+/// @brief Check if c is present in *str.
 /// @param *str String to check.
-/// @return Return position of '$' in *str or -1 if none is found.
-int check_dollar(char *str)
+/// @param c Character to find
+/// @return Return position of c in *str or -1 if none is found.
+int get_char_pos(char *str, char c)
 {
 	int	i;
 
 	if (!str)
 		return (-1);
 	i = 0;
-	while (str[i] && str[i] != '$')
+	while (str[i] && str[i] != c)
 		i++;
-	if (str[i] == '$')
+	if (str[i] == c)
 		return (i);
 	return (-1);
 }
@@ -75,9 +76,9 @@ int check_is_env_var(char **str)
 	char	*var;
 	char	*new_str;
 
-	if (check_dollar(*str) == -1)
+	if (get_char_pos(*str, '$') == -1)
 		return (0);
-	i = check_dollar(*str);
+	i = get_char_pos(*str, '$');
 	var = ft_strdup(getenv(*str + i + 1));
 	if (!var)
 		return (0);
