@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 23:31:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 00:03:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,43 @@ void	parse(char *input)
 	printf("\n");
 }
 
+int	check_builtin(t_prompt *prompt)
+{
+	if (!ft_strcmp(prompt->cmd, "cd"))
+		return (ft_cd(), 1);
+	if (!ft_strcmp(prompt->cmd, "echo"))
+		return (ft_echo(), 1);
+	if (!ft_strcmp(prompt->cmd, "env"))
+		return (ft_env(), 1);
+	if (!ft_strcmp(prompt->cmd, "exit"))
+		return (ft_exit(), 1);
+	if (!ft_strcmp(prompt->cmd, "export"))
+		return (ft_export(), 1);
+	if (!ft_strcmp(prompt->cmd, "pwd"))
+		return (ft_pwd(), 1);
+	if (!ft_strcmp(prompt->cmd, "unset"))
+		return (ft_unset(), 1);
+	return (0);
+}
+
 /// @brief Check if t_prompt is a builtin of a command in PATH
 /// @param *cmd Pointer to t_prompt;
 void	check_cmd(t_prompt *prompt)
 {
 	int	i;
-	
+
 	if (!prompt)
+		return ;
+	if (check_builtin(prompt))
 		return ;
 	if (check_quotes(prompt))
 		return ;
-	if (!ft_strcmp(prompt->cmd, "cd"))
-		return (ft_cd());	
-	if (!ft_strcmp(prompt->cmd, "echo"))
-		return (ft_echo());	
-	if (!ft_strcmp(prompt->cmd, "env"))
-		return (ft_env());	
-	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit());	
-	if (!ft_strcmp(prompt->cmd, "export"))
-		return (ft_export());	
-	if (!ft_strcmp(prompt->cmd, "pwd"))
-		return (ft_pwd());	
-	if (!ft_strcmp(prompt->cmd, "unset"))
-		return (ft_unset());
 	if (check_cmd_in_env(prompt->cmd))
 		return ;
 	if (check_is_env_var(&prompt->cmd))
 		return (check_cmd(prompt));
-	printf("%s unknown command with argument(s) ", prompt->cmd);
 	i = 0;
+	printf("%s unknown command with argument(s) ", prompt->cmd);
 	while (prompt->args && prompt->args[i])
 		printf("%s ", prompt->args[i++]);
 }
@@ -60,7 +67,7 @@ void	check_cmd(t_prompt *prompt)
 /// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt *init_prompt(char *input)
+t_prompt	*init_prompt(char *input)
 {
 	t_prompt	*prompt;
 
@@ -79,7 +86,7 @@ t_prompt *init_prompt(char *input)
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
 /// @param *input Inputed string to get args from.
-void get_args(t_prompt *prompt, char *input)
+void	get_args(t_prompt *prompt, char *input)
 {
 	int	i;
 
@@ -93,4 +100,3 @@ void get_args(t_prompt *prompt, char *input)
 		return (free(prompt));
 	input += i;
 }
-

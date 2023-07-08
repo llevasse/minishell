@@ -34,8 +34,7 @@ HEADER		=	headers
 $(NAME):		$(OBJS) 
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
-				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
-
+				$(norm)
 
 $(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
@@ -48,6 +47,9 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
 all:			$(NAME)
+
+norm:	
+				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
 
 lib:
 				@echo "$(YELLOW)\nCOMPILING $(LIBFT_PATH)\n"

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:24:13 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/05 22:34:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 23:51:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
 /// to get token from.
 /// @param *delim Const str containing every delimiting character.
 /// @return Return pointer to first token.
-char *ft_strsep(char **p_str, const char *delim)
+char	*ft_strsep(char **p_str, const char *delim)
 {
 	int	i;
+
 	if (!*p_str)
 		return (NULL);
 	if (!delim)
@@ -33,4 +34,3 @@ char *ft_strsep(char **p_str, const char *delim)
 	*p_str += i;
 	return (*p_str - i);
 }
-

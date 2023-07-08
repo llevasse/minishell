@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/06 23:13:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 00:02:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,3 @@ void	ft_unset(void)
 {
 	ft_printf("Cc, je suis unset");
 }
-

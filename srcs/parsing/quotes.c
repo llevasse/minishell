@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 23:32:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 00:00:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	check_quotes(t_prompt *prompt)
 /// @return Content of quoted str or NULL if error.
 char	*get_quoted_str(char *str, char quote)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	char	*new_str;
-	
+
 	i = 0;
 	j = 0;
 	while (str[i] && str[i] != quote)
@@ -61,12 +61,12 @@ char	*get_quoted_str(char *str, char quote)
 	return (new_str);
 }
 
-// WARNING : right now we'll just assume that the input contain two double quotes !
+// WARNING : right now we'll just assume that the input contain two quotes !
 void	pass_double_quotes(t_prompt *prompt)
 {
 	char	*new_str;
 	char	*in_quotes;
-	int	i;
+	int		i;
 
 	prompt->checked = 1;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 23:21:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 23:59:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	check_cmd_in_env(char *cmd)
 /// @return If cmd is found return 1 else 0.
 int	check_present_in_path(char *cmd, char *path)
 {
-	DIR		*current_dir;
+	DIR				*current_dir;
 	struct dirent	*dir_entry;
 
 	current_dir = opendir(path);
@@ -53,7 +53,7 @@ int	check_present_in_path(char *cmd, char *path)
 /// @param *str String to check.
 /// @param c Character to find
 /// @return Return position of c in *str or -1 if none is found.
-int get_char_pos(char *str, char c)
+int	get_char_pos(char *str, char c)
 {
 	int	i;
 
@@ -69,10 +69,11 @@ int get_char_pos(char *str, char c)
 
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
-/// @return Return 0 if no env variable and otherwise return 1 and replace env variable int *str with it's contant.
-int check_is_env_var(char **str)
+/// @return Return 0 if no env variable, 
+/// otherwise return 1 and replace env variable int *str with it's contant.
+int	check_is_env_var(char **str)
 {
-	int	i;
+	int		i;
 	char	*var;
 	char	*new_str;
 
@@ -81,7 +82,7 @@ int check_is_env_var(char **str)
 	i = get_char_pos(*str, '$');
 	var = ft_strdup(getenv(*str + i + 1));
 	if (!var)
-		return ((*str = ""),0);
+		return ((*str = ""), 0);
 	if (i == 0)
 	{
 		free(*str);
@@ -94,4 +95,3 @@ int check_is_env_var(char **str)
 	*str = new_str;
 	return (1);
 }
-
