@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 12:18:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/08 13:02:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	parse(char *input)
 	printf("\n");
 }
 
+/// @brief Check if t_cmd is a builtin of a command in PATH
+/// @param *cmd Pointer to t_cmd;
 void	check_cmd(t_cmd *cmd)
 {
 	int	i;
@@ -53,6 +55,9 @@ void	check_cmd(t_cmd *cmd)
 		printf("%s ", cmd->args[i++]);
 }
 
+/// @brief Allocate memory and assign values to t_cmd.
+/// @param *input Inputed string to get command from.
+/// @return Return pointer to t_cmd or NULL if something failed.
 t_cmd *init_cmd(char *input)
 {
 	t_cmd	*cmd;
@@ -68,6 +73,9 @@ t_cmd *init_cmd(char *input)
 	return (cmd);
 }
 
+/// @brief Get, and assign to t_cmd, args from inputed string.
+/// @param *cmd Pointer to t_cmd,
+/// @param *input Inputed string to get args from.
 void get_args(t_cmd *cmd, char *input)
 {
 	int	i;
