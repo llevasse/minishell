@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 11:43:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 12:03:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	check_quotes(t_prompt *prompt)
 	if (!prompt->cmd[i])
 		return (0);
 	if (prompt->cmd[i] == '"')
-	{
 		pass_double_quotes(prompt);
-	}
 	check_cmd(prompt);
 	return (1);
 }
@@ -72,13 +70,13 @@ char	*get_quoted_str(char *str, char quote)
 	char	*new_str;
 
 	i = get_char_pos(str, quote);
-	j = i - get_char_pos(str + i + 1, quote);
+	j = get_char_pos(str + i + 1, quote) - i;
 	new_str = malloc((j + 1) * sizeof(char));
 	if (!new_str)
 		return (NULL);
 	j = 0;
 	i++;
-	while (str[i + j] != quote)
+	while (str[i + j] && str[i + j] != quote)
 	{
 		new_str[j] = str[i + j];
 		j++;
@@ -96,16 +94,13 @@ void	pass_double_quotes(t_prompt *prompt)
 
 	prompt->checked = 1;
 	no_end_quote(prompt, '"', "dquote>");
-	printf("cmd post dquote : |%s|\n", prompt->cmd);
 	i = get_char_pos(prompt->cmd, '"');
-	prompt->cmd[i] = '\0';
 	in_quotes = get_quoted_str(prompt->cmd, '"');
 	if (!in_quotes)
 		return ;
+	prompt->cmd[i] = 0;
 	new_str = ft_strjoin(prompt->cmd, in_quotes);
-	prompt->cmd[i++] = '"';
-	while (prompt->cmd[i] && prompt->cmd[i] != '"')
-		i++;
+	i = get_char_pos(prompt->cmd + i, '"');
 	new_str = ft_strjoin(new_str, (prompt->cmd + i + 1));
 	prompt->cmd = new_str;
 }
