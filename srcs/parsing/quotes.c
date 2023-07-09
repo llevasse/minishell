@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 10:40:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 11:31:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,29 @@ int	check_quotes(t_prompt *prompt)
 	return (1);
 }
 
+void	no_end_quote(t_prompt *prompt, char quote, char *to_print)
+{
+	char	*new_str;
+	int	i;
+
+	i = get_char_pos(prompt->cmd, quote);
+	while (get_char_pos(prompt->cmd + i + 1, quote) == -1)
+	{
+		new_str = readline(to_print);
+		if (!new_str)
+			prompt->cmd = "error";
+	//	printf("(%d)", *new_str);
+		prompt->cmd = ft_strjoin(prompt->cmd, "\n");
+		if (*new_str != '\0')
+			prompt->cmd = ft_strjoin(prompt->cmd, new_str);
+		free(new_str);
+		new_str = NULL;
+		if (!prompt->cmd)
+			prompt->cmd = "error";
+	}
+
+}
+
 /// @brief allocate and assign content of quote to a new str
 /// @param *str Str containing quoted content,
 /// @param quote Character used as quote.
@@ -42,12 +65,8 @@ char	*get_quoted_str(char *str, char quote)
 	int		j;
 	char	*new_str;
 
-	i = 0;
-	j = 0;
-	while (str[i] && str[i] != quote)
-		i++;
-	while (str[i + j] && str[i + j] != quote)
-		j++;
+	i = get_char_pos(str, quote);
+	j = i - get_char_pos(str + i + 1, quote);
 	new_str = malloc((j + 1) * sizeof(char));
 	if (!new_str)
 		return (NULL);
@@ -63,7 +82,6 @@ char	*get_quoted_str(char *str, char quote)
 	return (new_str);
 }
 
-// WARNING : right now we'll just assume that the input contain two quotes !
 void	pass_double_quotes(t_prompt *prompt)
 {
 	char	*new_str;
@@ -71,18 +89,9 @@ void	pass_double_quotes(t_prompt *prompt)
 	int		i;
 
 	prompt->checked = 1;
-	i = 0;
-	while (prompt->cmd[i] && prompt->cmd[i] != '"')
-		i++;
-	while (get_char_pos(prompt->cmd + i + 1, '"') == -1)
-	{
-		new_str = readline("dquote>");
-		if (*new_str == '\0')
-			prompt->cmd = ft_strjoin(prompt->cmd, "\n");
-		else
-			prompt->cmd = ft_strjoin(prompt->cmd,new_str);
-		free(new_str);
-	}
+	no_end_quote(prompt, '"', "dquote>");
+	printf("cmd post dquote : |%s|\n", prompt->cmd);
+	i = get_char_pos(prompt->cmd, '"');
 	prompt->cmd[i] = '\0';
 	in_quotes = get_quoted_str(prompt->cmd, '"');
 	if (!in_quotes)
