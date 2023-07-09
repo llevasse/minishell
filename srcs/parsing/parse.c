@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 17:54:03 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/09 13:51:22 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	parse(char *input)
 {
-	t_cmd	*cmd;
+	t_prompt	*cmd;
 
 	if (!*input)
 		return ;
@@ -25,7 +25,7 @@ void	parse(char *input)
 
 /// @brief Check if t_cmd is a builtin of a command in PATH
 /// @param *cmd Pointer to t_cmd;
-void	check_cmd(t_cmd *cmd)
+void	check_cmd(t_prompt *cmd)
 {
 	int	i;
 	
@@ -58,11 +58,11 @@ void	check_cmd(t_cmd *cmd)
 /// @brief Allocate memory and assign values to t_cmd.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_cmd or NULL if something failed.
-t_cmd *init_cmd(char *input)
+t_prompt *init_cmd(char *input)
 {
-	t_cmd	*cmd;
+	t_prompt	*cmd;
 
-	cmd = malloc(sizeof(struct s_cmd));
+	cmd = malloc(sizeof(struct s_prompt));
 	if (!cmd)
 		return (NULL);
 	cmd->args = NULL;
@@ -77,7 +77,7 @@ t_cmd *init_cmd(char *input)
 /// @param *cmd Pointer to t_cmd,
 /// @param *input Inputed string to get args from.
 
-void get_args(t_cmd *cmd, char *input)
+void get_args(t_prompt *cmd, char *input)
 {
 	int	i;
 

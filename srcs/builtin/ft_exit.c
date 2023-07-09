@@ -14,6 +14,6 @@
 
 void	ft_exit(void)
 {
-	ft_printf("Cc, je suis exit");
+
 }
 

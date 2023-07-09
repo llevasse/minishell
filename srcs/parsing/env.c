@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 17:53:16 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/09 13:49:39 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(t_cmd *cmd)
+int	check_cmd_in_env(t_prompt *cmd)
 {
 	char	*path;
 	int		has_exec;
@@ -32,7 +32,7 @@ int	check_cmd_in_env(t_cmd *cmd)
 
 /// @brief Check if cmd in a command present in path.
 /// @return If cmd is found return 1 else 0.
-int	check_present_in_path(t_cmd *cmd, char *path)
+int	check_present_in_path(t_prompt *cmd, char *path)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;

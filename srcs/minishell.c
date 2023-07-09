@@ -6,15 +6,14 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/07 23:43:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 13:48:24 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main()
+int	main(void)
 {
-	while (1)
-		parse(readline("minihell >>"));
-	return (0);
+	while (42)
+		parse(readline("minishell >>"));
 }
