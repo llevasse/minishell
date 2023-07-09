@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 14:12:44 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/09 23:38:53 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse(char *input)
 		return ;
 	cmd = init_cmd(input);
 	check_cmd(cmd);
-	printf("\n");
+	//printf("\n");
 }
 
 /// @brief Check if t_cmd is a builtin of a command in PATH
@@ -34,7 +34,7 @@ void	check_cmd(t_prompt *cmd)
 	if (!ft_strcmp(cmd->cmd, "cd"))
 		return (ft_cd());	
 	if (!ft_strcmp(cmd->cmd, "echo"))
-		return (ft_echo());	
+		return (ft_echo(cmd));
 	if (!ft_strcmp(cmd->cmd, "env"))
 		return (ft_env());	
 	if (!ft_strcmp(cmd->cmd, "exit"))
@@ -49,7 +49,7 @@ void	check_cmd(t_prompt *cmd)
 		return ;
 	if (check_is_env_var(&cmd->cmd))
 		return (check_cmd(cmd));
-	printf("%s unknown command with argument(s) ", cmd->cmd);
+	printf("%s unknown command with argument(s) \n", cmd->cmd);
 	i = 0;
 	while (cmd->args && cmd->args[i])
 		printf("%s ", cmd->args[i++]);
