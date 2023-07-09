@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 15:42:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:54:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 
 typedef struct s_prompt
 {
-	int				checked;
+	int			d_quotes;
+	int			quotes;
 	char			*cmd;
 	char			**args;
 	struct s_prompt	*input_cmd;
@@ -43,6 +44,7 @@ int			check_is_env_var(char **str);
 int			get_char_pos(char *str, char c);
 int			check_quotes(t_prompt *prompt);
 void		pass_double_quotes(t_prompt *prompt);
+void		pass_single_quotes(t_prompt *prompt);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);

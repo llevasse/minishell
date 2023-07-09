@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 12:03:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 19:54:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	check_quotes(t_prompt *prompt)
 		return (0);
 	if (prompt->cmd[i] == '"')
 		pass_double_quotes(prompt);
+	else if (prompt->cmd[i] == 39)
+		pass_single_quotes(prompt);
 	check_cmd(prompt);
 	return (1);
 }
@@ -62,8 +64,9 @@ void	no_end_quote(t_prompt *prompt, char quote, char *to_print)
 /// @brief allocate and assign content of quote to a new str
 /// @param *str Str containing quoted content,
 /// @param quote Character used as quote.
+/// @param env_var 1 if checking for env var, and 0 if not 
 /// @return Content of quoted str or NULL if error.
-char	*get_quoted_str(char *str, char quote)
+char	*get_quoted_str(char *str, char quote, int env_var)
 {
 	int		i;
 	int		j;
@@ -82,7 +85,8 @@ char	*get_quoted_str(char *str, char quote)
 		j++;
 	}
 	new_str[j] = 0;
-	check_is_env_var(&new_str);
+	if (env_var)
+		check_is_env_var(&new_str);
 	return (new_str);
 }
 
@@ -92,15 +96,34 @@ void	pass_double_quotes(t_prompt *prompt)
 	char	*in_quotes;
 	int		i;
 
-	prompt->checked = 1;
+	prompt->d_quotes = 1;
 	no_end_quote(prompt, '"', "dquote>");
 	i = get_char_pos(prompt->cmd, '"');
-	in_quotes = get_quoted_str(prompt->cmd, '"');
+	in_quotes = get_quoted_str(prompt->cmd, '"', 1);
 	if (!in_quotes)
 		return ;
 	prompt->cmd[i] = 0;
 	new_str = ft_strjoin(prompt->cmd, in_quotes);
 	i = get_char_pos(prompt->cmd + i, '"');
+	new_str = ft_strjoin(new_str, (prompt->cmd + i + 1));
+	prompt->cmd = new_str;
+}
+
+void	pass_single_quotes(t_prompt *prompt)
+{
+	char	*new_str;
+	char	*in_quotes;
+	int		i;
+
+	prompt->quotes = 1;
+	no_end_quote(prompt, (char)39, "quote>");
+	i = get_char_pos(prompt->cmd, (char)39);
+	in_quotes = get_quoted_str(prompt->cmd, (char)39, 0);
+	if (!in_quotes)
+		return ;
+	prompt->cmd[i] = 0;
+	new_str = ft_strjoin(prompt->cmd, in_quotes);
+	i = get_char_pos(prompt->cmd + i, (char)39);
 	new_str = ft_strjoin(new_str, (prompt->cmd + i + 1));
 	prompt->cmd = new_str;
 }
