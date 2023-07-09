@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 13:47:43 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/09 14:13:20 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void		false_exec(char *path, t_prompt *cmd);
 void		ft_echo(void);
 void		ft_env(void);
 void		ft_unset(void);
-void		ft_exit(void);
+void		ft_exit(t_prompt *exit);
 void		ft_pwd(void);
 void		ft_export(void);
 void		ft_cd(void);

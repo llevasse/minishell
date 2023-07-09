@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 13:51:22 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/09 14:12:44 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	check_cmd(t_prompt *cmd)
 	if (!ft_strcmp(cmd->cmd, "env"))
 		return (ft_env());	
 	if (!ft_strcmp(cmd->cmd, "exit"))
-		return (ft_exit());	
+		return (ft_exit(cmd));
 	if (!ft_strcmp(cmd->cmd, "export"))
 		return (ft_export());	
 	if (!ft_strcmp(cmd->cmd, "pwd"))
