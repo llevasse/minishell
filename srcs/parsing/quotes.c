@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 11:31:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 11:43:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ int	check_quotes(t_prompt *prompt)
 	return (1);
 }
 
+
+/// @brief Check if the prompt cmd has a full quote.
+/// @param *prompt Pointer to t_prompt,
+/// @param quote Character showing begining and end of quote,
+/// @param *to_print String to print as prompt while the quote is not ended.
+/// @return Do nothing if quote is full, 
+/// otherwise create an infinte loop until quote ends.
 void	no_end_quote(t_prompt *prompt, char quote, char *to_print)
 {
 	char	*new_str;
@@ -43,7 +50,6 @@ void	no_end_quote(t_prompt *prompt, char quote, char *to_print)
 		new_str = readline(to_print);
 		if (!new_str)
 			prompt->cmd = "error";
-	//	printf("(%d)", *new_str);
 		prompt->cmd = ft_strjoin(prompt->cmd, "\n");
 		if (*new_str != '\0')
 			prompt->cmd = ft_strjoin(prompt->cmd, new_str);
