@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 15:40:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 23:26:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,31 +67,88 @@ int	get_char_pos(char *str, char c)
 	return (-1);
 }
 
+/// @brief get first possible environnement variable int *str
+/// @param *str String to search in.
+/// @return Env variable name or NULL if error
+char	*get_env_var_name(char *str)
+{
+	int		i;
+	int		j;
+	char	*var_name;
+
+	i = get_char_pos(str, '$');
+	i++;
+	j = 0;
+	while (str[i + j] && str[i + j] != '$' && str[i + j] != 39)
+		j++;
+	var_name = malloc((j + 2) * sizeof(char));
+	if (!var_name)
+		return (NULL);
+	ft_strlcpy(var_name, str + (i - 1), j + 2);
+	return (var_name);
+}
+
+/// @brief Get position of substr if present and -1 if not
+int		get_substr_pos(char *str, char *sub_str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && !ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
+		i++;
+	if (!str[i])
+		return (-1);
+	return (i);
+}
+
+/// @brief Replace *old_substr in **str by *new_substr.
+void	replace_str(char **str, char *old_substr, char *new_substr)
+{
+	char	*new_str;
+	char	*pre_substr;
+	char	*post_substr;
+	int		substr_pos;
+
+	if (!new_substr)
+		new_substr = "";
+	substr_pos = get_substr_pos(*str, old_substr); 
+	pre_substr = malloc(substr_pos * sizeof(char));
+	if (!pre_substr)
+		return ;
+	ft_strlcpy(pre_substr, *str, substr_pos);
+	printf("%s pre substr | ", pre_substr);
+	printf("(%s / %s) old_/new_substr | ", old_substr, new_substr);
+	post_substr = ft_strdup(*str + substr_pos + ft_strlen(old_substr));
+	printf("%s post substr\n", post_substr);
+	if (!post_substr)
+		return ((void)(free(pre_substr)));
+	new_str = ft_strjoin(pre_substr, new_substr);
+	free(pre_substr);
+	new_substr = NULL;
+	if (!new_str)
+		return ((void)(free(post_substr)));
+	new_substr = ft_strjoin(new_str, post_substr);
+	free(post_substr);
+	free(new_str);
+	if (!new_substr)
+		return ;
+	*str = new_str;
+}
+
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
 /// and replace env variable int *str with his content.
 int	check_is_env_var(char **str)
 {
-	int		i;
 	char	*var;
-	char	*new_str;
 
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
-	i = get_char_pos(*str, '$');
-	var = ft_strdup(getenv(*str + i + 1));
-	if (!var)
-		return ((*str = ""), 0);
-	if (i == 0)
+	while (get_char_pos(*str, '$') >= 0)
 	{
-		free(*str);
-		*str = var;
-		return (1);
+		var = get_env_var_name(*str);
+		replace_str(str, var, getenv(var + 1));
 	}
-	(*str)[i] = '\0';
-	new_str = ft_strjoin(*str, var);
-	free(*str);
-	*str = new_str;
 	return (1);
 }
