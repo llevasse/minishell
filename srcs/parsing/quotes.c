@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 00:00:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 10:40:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	check_quotes(t_prompt *prompt)
 	if (!prompt->cmd[i])
 		return (0);
 	if (prompt->cmd[i] == '"')
+	{
 		pass_double_quotes(prompt);
+	}
 	check_cmd(prompt);
 	return (1);
 }
@@ -72,6 +74,15 @@ void	pass_double_quotes(t_prompt *prompt)
 	i = 0;
 	while (prompt->cmd[i] && prompt->cmd[i] != '"')
 		i++;
+	while (get_char_pos(prompt->cmd + i + 1, '"') == -1)
+	{
+		new_str = readline("dquote>");
+		if (*new_str == '\0')
+			prompt->cmd = ft_strjoin(prompt->cmd, "\n");
+		else
+			prompt->cmd = ft_strjoin(prompt->cmd,new_str);
+		free(new_str);
+	}
 	prompt->cmd[i] = '\0';
 	in_quotes = get_quoted_str(prompt->cmd, '"');
 	if (!in_quotes)
