@@ -6,13 +6,15 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 00:04:21 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/10 00:13:49 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void print_args(char **args, int i);
+//TODO quotes ?
+
+static void	print_args(char **args, int i);
 
 void	ft_echo(t_prompt *cmd)
 {
@@ -35,7 +37,7 @@ void	ft_echo(t_prompt *cmd)
 	}
 }
 
-static void print_args(char **args, int i)
+static void	print_args(char **args, int i)
 {
 	while (args[++i])
 	{
