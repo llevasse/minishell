@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 10:29:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:43:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_builtin(t_prompt *prompt)
 	if (!ft_strcmp(prompt->cmd, "env"))
 		return (ft_env(), 1);
 	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(), 1);
+		return (ft_exit(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (ft_export(), 1);
 	if (!ft_strcmp(prompt->cmd, "pwd"))
@@ -54,7 +54,7 @@ void	check_cmd(t_prompt *prompt)
 		return ;
 	if (!prompt->checked && check_quotes(prompt))
 		return ;
-	if (check_cmd_in_env(prompt->cmd))
+	if (check_cmd_in_env(prompt))
 		return ;
 	if (check_is_env_var(&prompt->cmd))
 		return (check_cmd(prompt));

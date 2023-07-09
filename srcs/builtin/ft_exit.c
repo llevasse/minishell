@@ -6,13 +6,25 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 00:01:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:38:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(void)
+void	ft_exit(t_prompt *prompt)
 {
-	ft_printf("Cc, je suis exit");
+	if (prompt->cmd)
+		free(prompt->cmd);
+	if (prompt->args)
+	{
+		int i;
+
+		i = -1;
+		while(prompt->args[++i])
+			free(prompt->args[i]);
+		free(prompt->args[i]);
+	}
+	free(prompt);
+	exit(-1);
 }

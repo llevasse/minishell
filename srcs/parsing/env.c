@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/08 23:59:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 15:40:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(char *cmd)
+int	check_cmd_in_env(t_prompt *prompt)
 {
 	char	*path;
 	int		has_exec;
@@ -26,13 +26,13 @@ int	check_cmd_in_env(char *cmd)
 		return (0);
 	p_path = path;
 	while (*path && !has_exec)
-		has_exec = check_present_in_path(cmd, ft_strsep(&path, ":"));
+		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"));
 	return ((void)p_path, has_exec);
 }
 
-/// @brief Check if cmd in a command present in path.
+/// @brief Check if prompt is a command present in path.
 /// @return If cmd is found return 1 else 0.
-int	check_present_in_path(char *cmd, char *path)
+int	check_present_in_path(t_prompt *prompt, char *path)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;
@@ -41,10 +41,10 @@ int	check_present_in_path(char *cmd, char *path)
 	if (!current_dir)
 		return (0);
 	dir_entry = readdir(current_dir);
-	while (dir_entry && ft_strcmp(cmd, dir_entry->d_name))
+	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
-	if (dir_entry && !ft_strcmp(cmd, dir_entry->d_name))
-		return (false_exec(path, cmd), closedir(current_dir), 1);
+	if (dir_entry && !ft_strcmp(prompt->cmd, dir_entry->d_name))
+		return (false_exec(path, prompt), closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
 }
@@ -69,8 +69,8 @@ int	get_char_pos(char *str, char c)
 
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
-/// @return Return 0 if no env variable, 
-/// otherwise return 1 and replace env variable int *str with it's contant.
+/// @return Return 0 if no env variable and otherwise return 1
+/// and replace env variable int *str with his content.
 int	check_is_env_var(char **str)
 {
 	int		i;
