@@ -16,6 +16,7 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/ft_strsep.c \
 			srcs/parsing/parse.c \
 			srcs/parsing/env.c \
+			srcs/parsing/replace_str.c \
 			srcs/parsing/quotes.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 19:54:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/09 23:34:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ int			check_cmd_in_env(t_prompt *prompt);
 int			check_present_in_path(t_prompt *prompt, char *path);
 int			check_is_env_var(char **str);
 int			get_char_pos(char *str, char c);
+int			get_substr_pos(char *str, char *sub_str);
 int			check_quotes(t_prompt *prompt);
 void		pass_double_quotes(t_prompt *prompt);
 void		pass_single_quotes(t_prompt *prompt);
+void		replace_str(char **str, char *old_substr, char *new_substr);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);
