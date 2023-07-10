@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 15:43:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:27:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	parse(char *input)
 		return ;
 	prompt = init_prompt(input);
 	check_cmd(prompt);
-	printf("\n");
+	//printf("\n");
 }
 
 int	check_builtin(t_prompt *prompt)
@@ -28,7 +28,7 @@ int	check_builtin(t_prompt *prompt)
 	if (!ft_strcmp(prompt->cmd, "cd"))
 		return (ft_cd(), 1);
 	if (!ft_strcmp(prompt->cmd, "echo"))
-		return (ft_echo(), 1);
+		return (ft_echo(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "env"))
 		return (ft_env(), 1);
 	if (!ft_strcmp(prompt->cmd, "exit"))
