@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 23:34:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:43:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void		replace_str(char **str, char *old_substr, char *new_substr);
 void		false_exec(char *path, t_prompt *prompt);
 
 // SRCS/BUILTIN //
-void		ft_echo(void);
+void		ft_echo(t_prompt *cmd);
 void		ft_env(void);
 void		ft_unset(void);
-void		ft_exit(t_prompt *exit);
+void		ft_exit(t_prompt *cmd);
 void		ft_pwd(void);
 void		ft_export(void);
 void		ft_cd(void);
