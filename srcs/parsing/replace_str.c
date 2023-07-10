@@ -6,11 +6,40 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 09:51:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:46:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*get_pre_substr(char *str, char *substr)
+{
+	char	*pre_substr;
+	int		substr_pos;
+
+	substr_pos = get_substr_pos(str, substr); 
+	printf("%d substr pos\n", substr_pos);
+	str[substr_pos] = 0;
+	pre_substr = ft_strdup(str);
+	if (!pre_substr)
+		return (NULL);
+	str[substr_pos] = *substr;
+	printf("'%s' pre substr\n", pre_substr);
+	return (pre_substr);
+}
+
+char	*get_post_substr(char *str, char *substr)
+{
+	char	*post_substr;
+	int		substr_pos;
+
+	substr_pos = get_substr_pos(str, substr);
+	post_substr = ft_strdup(str + substr_pos + ft_strlen(substr));
+	if (!post_substr)
+		return (NULL);
+	printf("'%s' post substr\n", post_substr);
+	return (post_substr);
+}
 
 /// @brief Replace *old_substr in **str by *new_substr.
 void	replace_str(char **str, char *old_substr, char *new_substr)
@@ -18,19 +47,14 @@ void	replace_str(char **str, char *old_substr, char *new_substr)
 	char	*new_str;
 	char	*pre_substr;
 	char	*post_substr;
-	int		substr_pos;
 
+	printf("'%s' str\n", *str);
 	if (!new_substr)
 		new_substr = "";
-	substr_pos = get_substr_pos(*str, old_substr); 
-	pre_substr = malloc(substr_pos * sizeof(char));
+	pre_substr = get_pre_substr(*str, old_substr);
 	if (!pre_substr)
 		return ;
-	ft_strlcpy(pre_substr, *str, substr_pos);
-	printf("'%s' str | '%s' pre substr | ", *str, pre_substr);
-	printf("('%s' / '%s') old_/new_substr | ", old_substr, new_substr);
-	post_substr = ft_strdup(*str + substr_pos + ft_strlen(old_substr));
-	printf("'%s' post substr\n", post_substr);
+	post_substr = get_post_substr(*str, old_substr);
 	if (!post_substr)
 		return ((void)(free(pre_substr)));
 	new_str = ft_strjoin(pre_substr, new_substr);

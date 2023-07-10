@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 23:33:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:45:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int		get_substr_pos(char *str, char *sub_str)
 	int	i;
 
 	i = 0;
-	while (str[i] && !ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
+	while (str[i] && ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
 		i++;
 	if (!str[i])
 		return (-1);
@@ -111,10 +111,10 @@ int	check_is_env_var(char **str)
 
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
-	while (get_char_pos(*str, '$') >= 0)
-	{
+//	while (get_char_pos(*str, '$') >= 0)
+//	{
 		var = get_env_var_name(*str);
 		replace_str(str, var, getenv(var + 1));
-	}
+//	}
 	return (1);
 }
