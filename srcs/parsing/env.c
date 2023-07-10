@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 13:45:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 13:55:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ char	*get_env_var_name(char *str)
 	i = get_char_pos(str, '$');
 	i++;
 	j = 0;
-	while (str[i + j] && str[i + j] != '$' && str[i + j] != 39)
+	while (str[i + j] && str[i + j] != '$' && str[i + j] != 39 \
+			&& str[i + j] != '"')
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
 	if (!var_name)

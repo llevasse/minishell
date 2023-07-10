@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 09:54:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:00:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	check_cmd(t_prompt *prompt)
 		return ;
 	if (check_builtin(prompt))
 		return ;
+	if (!prompt->quotes && check_is_env_var(&prompt->cmd))
+		return (check_cmd(prompt));
 	if (!prompt->d_quotes && !prompt->quotes && check_quotes(prompt))
 		return ;
 	if (check_cmd_in_env(prompt))
 		return ;
-	if (!prompt->quotes && check_is_env_var(&prompt->cmd))
-		return (check_cmd(prompt));
 	i = 0;
 	if (prompt->cmd[0] == '\0')
 		prompt->cmd = "''";
