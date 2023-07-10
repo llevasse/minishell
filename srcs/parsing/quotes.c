@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 18:26:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:03:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*get_quoted_str(char *str, char quote, int env_var)
 
 	i = get_char_pos(str, quote);
 	j = get_char_pos(str + i + 1, quote) - i;
-	printf("%d | %d | searching '%s'\n", i, j, str);
+//	printf("%d | %d | searching '%s'\n", i, j, str);
 	new_str = malloc((j + 1) * sizeof(char));
 	if (!new_str)
 		return (NULL);
@@ -84,13 +84,13 @@ char	*get_quoted_str(char *str, char quote, int env_var)
 	while (str[i + j] && str[i + j] != quote)
 	{
 		new_str[j] = str[i + j];
-		printf("%d | %d | current '%s'\n", i, j, new_str);
+//		printf("%d | %d | current '%s'\n", i, j, new_str);
 		j++;
 	}
 	new_str[j] = 0;
 	if (env_var)
 		check_is_env_var(&new_str);
-	printf("%d | %d | current '%s'\n", i, j, new_str);
+//	printf("%d | %d | current '%s'\n", i, j, new_str);
 	return (new_str);
 }
 

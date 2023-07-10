@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 18:51:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:05:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	check_is_env_var(char **str)
 	while (get_char_pos(*str, '$') >= 0)
 	{
 		var = get_env_var_name(*str);
-		printf("Searching for %s(%s) var\n", var, var + 1);
+//		printf("Searching for %s(%s) var\n", var, var + 1);
 		replace_str(str, var, getenv(var + 1));
 	}
 	return (1);
