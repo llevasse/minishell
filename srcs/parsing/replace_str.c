@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 23:34:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:51:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	replace_str(char **str, char *old_substr, char *new_substr)
 	if (!pre_substr)
 		return ;
 	ft_strlcpy(pre_substr, *str, substr_pos);
-	printf("%s str | %s pre substr | ", *str, pre_substr);
-	printf("(%s / %s) old_/new_substr | ", old_substr, new_substr);
+	printf("'%s' str | '%s' pre substr | ", *str, pre_substr);
+	printf("('%s' / '%s') old_/new_substr | ", old_substr, new_substr);
 	post_substr = ft_strdup(*str + substr_pos + ft_strlen(old_substr));
-	printf("%s post substr\n", post_substr);
+	printf("'%s' post substr\n", post_substr);
 	if (!post_substr)
 		return ((void)(free(pre_substr)));
 	new_str = ft_strjoin(pre_substr, new_substr);
@@ -43,6 +43,6 @@ void	replace_str(char **str, char *old_substr, char *new_substr)
 	free(new_str);
 	if (!new_substr)
 		return ;
-	*str = new_str;
+	*str = new_substr;
 }
 

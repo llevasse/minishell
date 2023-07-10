@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 09:43:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 09:52:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	check_cmd(t_prompt *prompt)
 	printf("%s unknown command with argument(s) ", prompt->cmd);
 	while (prompt->args && prompt->args[i])
 		printf("%s ", prompt->args[i++]);
+	print("\n");
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
