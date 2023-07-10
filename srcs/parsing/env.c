@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 13:55:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 15:01:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,10 @@ int	check_is_env_var(char **str)
 
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
-//	while (get_char_pos(*str, '$') >= 0)
-//	{
+	while (get_char_pos(*str, '$') >= 0)
+	{
 		var = get_env_var_name(*str);
 		replace_str(str, var, getenv(var + 1));
-//	}
+	}
 	return (1);
 }

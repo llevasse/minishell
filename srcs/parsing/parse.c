@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 14:00:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 14:53:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,9 @@ void	check_cmd(t_prompt *prompt)
 		return ;
 	if (!prompt->quotes && check_is_env_var(&prompt->cmd))
 		return (check_cmd(prompt));
-	if (!prompt->d_quotes && !prompt->quotes && check_quotes(prompt))
-		return ;
+	if (!prompt->d_quotes && !prompt->quotes && \
+			check_quotes(prompt, &prompt->cmd))
+		return (check_cmd(prompt));
 	if (check_cmd_in_env(prompt))
 		return ;
 	i = 0;
@@ -85,22 +86,4 @@ t_prompt	*init_prompt(char *input)
 		return (prompt);
 	get_args(prompt, input);
 	return (prompt);
-}
-
-/// @brief Get, and assign to t_prompt, args from inputed string.
-/// @param *cmd Pointer to t_prompt,
-/// @param *input Inputed string to get args from.
-void	get_args(t_prompt *prompt, char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i] && input[i] != '|')
-		i++;
-	if (input[i] == '|')
-		input[i - 1] = '\0';
-	prompt->args = ft_split(input, ' ');
-	if (!prompt->args)
-		return (free(prompt));
-	input += i;
 }
