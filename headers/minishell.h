@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:13:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:33:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,12 @@ int			check_is_env_var(char **str);
 int			get_char_pos(char *str, char c);
 int			get_substr_pos(char *str, char *sub_str);
 int			check_quotes(t_prompt *prompt, char **str);
+void		no_end_quote(char **str, char quote, char *to_print);
 void		pass_double_quotes(t_prompt *prompt, char **str);
 void		pass_single_quotes(t_prompt *prompt, char **str);
 void		replace_str(char **str, char *old_substr, char *new_substr);
 void		parse_args(t_prompt *prompt, char **args);
-char		**ft_split_args(t_prompt *prompt, char const *s, char c);
+char		**ft_split_args(t_prompt *prompt, char *s, char c);
 char		*get_quoted_str(char *str, char quote, int env_var);
 
 // SRCS/EXEC //

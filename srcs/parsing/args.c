@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:13:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 23:33:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	**alloc_tab_args(char const *s, char c)
 	return (res);
 }
 
-char	**ft_split_args(t_prompt *prompt, char const *s, char c)
+char	**ft_split_args(t_prompt *prompt, char *s, char c)
 {
 	char	**res;
 	int		i;
@@ -88,18 +88,20 @@ char	**ft_split_args(t_prompt *prompt, char const *s, char c)
 		if (s[i] == '"')
 		{
 			prompt->d_quotes = 1;
-			res[index_word] = get_quoted_str((char *)s + i++, '"', 1);
+			no_end_quote(&s + i, '"', "dquote>");
+			res[index_word] = get_quoted_str(s + i++, '"', 1);
 			if (!res[index_word])
 				return (free_tab(res, index_word));
-			i += get_char_pos((char *)s + i, '"') + 1;
+			i += get_char_pos(s + i, '"') + 1;
 		}
 		else if (s[i] == 39)
 		{
 			prompt->quotes = 1;
-			res[index_word] = get_quoted_str((char *)s + i++, 39, 0);
+			no_end_quote(&s + i, 39, "quote>");
+			res[index_word] = get_quoted_str(s + i++, 39, 0);
 			if (!res[index_word])
 				return (free_tab(res, index_word));
-			i += get_char_pos((char *)s + i, 39) + 1;
+			i += get_char_pos(s + i, 39) + 1;
 		}
 		else
 		{
