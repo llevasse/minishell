@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 15:01:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 18:51:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*get_env_var_name(char *str)
 	i++;
 	j = 0;
 	while (str[i + j] && str[i + j] != '$' && str[i + j] != 39 \
-			&& str[i + j] != '"')
+			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
 	if (!var_name)
@@ -115,6 +115,7 @@ int	check_is_env_var(char **str)
 	while (get_char_pos(*str, '$') >= 0)
 	{
 		var = get_env_var_name(*str);
+		printf("Searching for %s(%s) var\n", var, var + 1);
 		replace_str(str, var, getenv(var + 1));
 	}
 	return (1);

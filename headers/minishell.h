@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 15:00:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/10 17:58:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void		pass_double_quotes(t_prompt *prompt, char **str);
 void		pass_single_quotes(t_prompt *prompt, char **str);
 void		replace_str(char **str, char *old_substr, char *new_substr);
 void		parse_args(t_prompt *prompt, char **args);
+char		**ft_split_args(char const *s, char c);
+char		*get_quoted_str(char *str, char quote, int env_var);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);
