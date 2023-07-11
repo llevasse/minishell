@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:05:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 21:12:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(t_prompt *prompt)
+int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*path;
 	int		has_exec;

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 19:06:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 21:27:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,43 @@ typedef	struct s_garbage
 }	t_garbage;
 
 // SRCS/PARSE //
+
+// parse.c
+void		parse(char *input, t_garbage *garbage);
+t_prompt	*init_prompt(char *input, t_garbage *garbage);
+void		check_cmd(t_prompt *prompt, t_garbage *garbage);
+int			check_builtin(t_prompt *prompt);
+
+// ft_strsep.c 
 char		*ft_strsep(char **p_str, const char *delim);
-void		parse(char *input);
-t_prompt	*init_prompt(char *input);
-void		get_args(t_prompt *prompt, char *input);
-void		check_cmd(t_prompt *prompt);
+
+// args.c
+void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
+void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
+char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
+char		**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage);
+
+// env.c
 int			check_cmd_in_env(t_prompt *prompt);
 int			check_present_in_path(t_prompt *prompt, char *path);
 int			check_is_env_var(char **str);
 int			get_char_pos(char *str, char c);
 int			get_substr_pos(char *str, char *sub_str);
-int			check_quotes(t_prompt *prompt, char **str);
-void		no_end_quote(char **str, char quote, char *to_print);
-void		pass_double_quotes(t_prompt *prompt, char **str);
-void		pass_single_quotes(t_prompt *prompt, char **str);
-void		replace_str(char **str, char *old_substr, char *new_substr);
-void		parse_args(t_prompt *prompt, char **args);
-char		**ft_split_args(t_prompt *prompt, char *s, char c);
-char		*get_quoted_str(char *str, char quote, int env_var);
+char		*get_env_var_name(char *str);
+
+// garbage_collector.c
+void		free_garbage(t_garbage *garbage);
 t_garbage	ft_new_garbage(void	*address);
 void		ft_add_garbage(t_garbage **lst, t_garbage *new);
+
+// quotes.c
+int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
+void		no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage);
+void		pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
+void		pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
+char		*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage);
+
+void		replace_str(char **str, char *old_substr, char *new_substr, t_garbage *garbage);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);

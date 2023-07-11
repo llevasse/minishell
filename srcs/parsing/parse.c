@@ -6,13 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 14:53:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 20:55:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parse(char *input)
+void	parse(char *input, t_garbage *garbage)
 {
 	t_prompt	*prompt;
 
@@ -20,7 +20,6 @@ void	parse(char *input)
 		return ;
 	prompt = init_prompt(input);
 	check_cmd(prompt);
-	//printf("\n");
 }
 
 int	check_builtin(t_prompt *prompt)
@@ -44,7 +43,7 @@ int	check_builtin(t_prompt *prompt)
 
 /// @brief Check if t_prompt is a builtin of a command in PATH
 /// @param *cmd Pointer to t_prompt;
-void	check_cmd(t_prompt *prompt)
+void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 {
 	int	i;
 
@@ -71,7 +70,7 @@ void	check_cmd(t_prompt *prompt)
 /// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt	*init_prompt(char *input)
+t_prompt	*init_prompt(char *input, t_garbage *garbage)
 {
 	t_prompt	*prompt;
 

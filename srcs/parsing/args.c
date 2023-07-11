@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 18:13:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 21:10:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
 /// @param *input Inputed string to get args from.
-void	get_args(t_prompt *prompt, char *input)
+void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ void	get_args(t_prompt *prompt, char *input)
 	input += i;
 }
 
-void	parse_args(t_prompt *prompt, char **args)
+void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 {
 	int	i;
 
@@ -46,7 +46,7 @@ void	parse_args(t_prompt *prompt, char **args)
 	}
 }
 
-char	**alloc_tab_args(char const *s, char c)
+char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 {
 	int		i;
 	int		j;
@@ -70,7 +70,7 @@ char	**alloc_tab_args(char const *s, char c)
 	return (res);
 }
 
-char	**ft_split_args(t_prompt *prompt, char *s, char c)
+char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
 	char	**res;
 	int		i;
