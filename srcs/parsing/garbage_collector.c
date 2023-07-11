@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 19:18:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 22:14:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 
 void	free_garbage(t_garbage	*garbage)
 {
-	if (!garbage)
-		return ;
+	if (garbage)
+	{
 	free_garbage(garbage->next);
 	free(garbage->content);
 	free(garbage);
+	}
 }
 
-t_garbage	ft_new_garbage(void	*address)
+t_garbage	ft_new_garbage(void	*address, t_garbage *garbage)
 {
 	t_garbage	*new;
 
 	new = malloc(sizeof(struct s_garbage));
 	if (!new)
-		return (NULL);
+		return (ft_exit(garbage));
 	new->address = address;
 	new->next = NULL;
 }

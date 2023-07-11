@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 21:10:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 22:29:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		input[i - 1] = '\0';
 	prompt->args = ft_split_args(prompt, input, ' ');
 	if (!prompt->args)
-		return (free(prompt));
+		return (ft_exit(garbage);
 	parse_args(prompt, prompt->args);
 	input += i;
 }
@@ -66,7 +66,31 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 	}
 	res = malloc((j + 1) * sizeof(char *));
 	if (!res)
-		return (NULL);
+		return (ft_exit(garbage));
+	ft_add_garbage(&garbage, ft_new_garbage(&res));
+	return (res);
+}
+
+char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
+{
+	int		j;
+	int		len_word;
+	char	*res;
+
+	j = 0;
+	len_word = 0;
+	while (s[i + len_word] != c && s[i + len_word] != '\0')
+		len_word++;
+	res = malloc((len_word + 1) * sizeof(char));
+	if (!res)
+		return (ft_exit(garbage), NULL);
+	while (j < len_word && s[i] != '\0')
+	{
+		res[j] = s[i];
+		i++;
+		j++;
+	}
+	res[j] = '\0';
 	return (res);
 }
 
@@ -80,8 +104,6 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 		return (NULL);
 	index_word = 0;
 	res = alloc_tab_args(s, c);
-	if (!res)
-		return (NULL);
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
@@ -90,8 +112,6 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 			prompt->d_quotes = 1;
 			no_end_quote(&s + i, '"', "dquote>");
 			res[index_word] = get_quoted_str(s + i++, '"', 1);
-			if (!res[index_word])
-				return (free_tab(res, index_word));
 			i += get_char_pos(s + i, '"') + 1;
 		}
 		else if (s[i] == 39)
@@ -99,15 +119,11 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 			prompt->quotes = 1;
 			no_end_quote(&s + i, 39, "quote>");
 			res[index_word] = get_quoted_str(s + i++, 39, 0);
-			if (!res[index_word])
-				return (free_tab(res, index_word));
 			i += get_char_pos(s + i, 39) + 1;
 		}
 		else
 		{
-			res[index_word] = get_word(s, c, i);
-			if (!res[index_word])
-				return (free_tab(res, index_word));
+			res[index_word] = get_word_arg(s, c, i, garbage);
 			while (s[i] != c && s[i] != '\0')
 				i++;
 		}
