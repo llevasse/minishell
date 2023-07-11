@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:33:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:06:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ typedef struct s_prompt
 	struct s_prompt	*output_cmd;
 }	t_prompt;
 
+typedef	struct s_garbage
+{
+	void				*address;
+	struct	s_garbage	*next;
+}	t_garbage;
+
 // SRCS/PARSE //
 char		*ft_strsep(char **p_str, const char *delim);
 void		parse(char *input);
@@ -51,6 +57,8 @@ void		replace_str(char **str, char *old_substr, char *new_substr);
 void		parse_args(t_prompt *prompt, char **args);
 char		**ft_split_args(t_prompt *prompt, char *s, char c);
 char		*get_quoted_str(char *str, char quote, int env_var);
+t_garbage	ft_new_garbage(void	*address);
+void		ft_add_garbage(t_garbage **lst, t_garbage *new);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);
