@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 09:26:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 11:25:06 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 void	ft_exit(t_prompt *prompt)
 {
+	int	i;
+
 	if (prompt->cmd)
 		free(prompt->cmd);
 	if (prompt->args)
 	{
 		i = -1;
-		while(prompt->args[++i])
+		while (prompt->args[++i])
 			free(prompt->args[i]);
 		free(prompt->args[i]);
 	}
