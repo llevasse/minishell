@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:33:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 11:41:55 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef struct s_prompt
 {
-	int			d_quotes;
-	int			quotes;
+	int				d_quotes;
+	int				quotes;
 	char			*cmd;
 	char			**args;
 	struct s_prompt	*input_cmd;

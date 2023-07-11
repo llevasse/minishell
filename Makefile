@@ -33,7 +33,7 @@ OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 HEADER		=	headers
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS) lib
+$(NAME):		$(OBJS)
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 				$(norm)
@@ -48,7 +48,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
-all:			$(NAME)
+all:			 lib $(NAME)
 
 norm:	
 				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
