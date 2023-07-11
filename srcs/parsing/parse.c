@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 23:38:53 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/10 14:53:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,81 +14,76 @@
 
 void	parse(char *input)
 {
-	t_prompt	*cmd;
+	t_prompt	*prompt;
 
 	if (!*input)
 		return ;
-	cmd = init_cmd(input);
-	check_cmd(cmd);
+	prompt = init_prompt(input);
+	check_cmd(prompt);
 	//printf("\n");
 }
 
-/// @brief Check if t_cmd is a builtin of a command in PATH
-/// @param *cmd Pointer to t_cmd;
-void	check_cmd(t_prompt *cmd)
+int	check_builtin(t_prompt *prompt)
 {
-	int	i;
-	
-	if (!cmd)
-		return ;
-	if (!ft_strcmp(cmd->cmd, "cd"))
-		return (ft_cd());	
-	if (!ft_strcmp(cmd->cmd, "echo"))
-		return (ft_echo(cmd));
-	if (!ft_strcmp(cmd->cmd, "env"))
-		return (ft_env());	
-	if (!ft_strcmp(cmd->cmd, "exit"))
-		return (ft_exit(cmd));
-	if (!ft_strcmp(cmd->cmd, "export"))
-		return (ft_export());	
-	if (!ft_strcmp(cmd->cmd, "pwd"))
-		return (ft_pwd());	
-	if (!ft_strcmp(cmd->cmd, "unset"))
-		return (ft_unset());
-	if (check_cmd_in_env(cmd))
-		return ;
-	if (check_is_env_var(&cmd->cmd))
-		return (check_cmd(cmd));
-	printf("%s unknown command with argument(s) \n", cmd->cmd);
-	i = 0;
-	while (cmd->args && cmd->args[i])
-		printf("%s ", cmd->args[i++]);
+	if (!ft_strcmp(prompt->cmd, "cd"))
+		return (ft_cd(), 1);
+	if (!ft_strcmp(prompt->cmd, "echo"))
+		return (ft_echo(prompt), 1);
+	if (!ft_strcmp(prompt->cmd, "env"))
+		return (ft_env(), 1);
+	if (!ft_strcmp(prompt->cmd, "exit"))
+		return (ft_exit(prompt), 1);
+	if (!ft_strcmp(prompt->cmd, "export"))
+		return (ft_export(), 1);
+	if (!ft_strcmp(prompt->cmd, "pwd"))
+		return (ft_pwd(), 1);
+	if (!ft_strcmp(prompt->cmd, "unset"))
+		return (ft_unset(), 1);
+	return (0);
 }
 
-/// @brief Allocate memory and assign values to t_cmd.
+/// @brief Check if t_prompt is a builtin of a command in PATH
+/// @param *cmd Pointer to t_prompt;
+void	check_cmd(t_prompt *prompt)
+{
+	int	i;
+
+	if (!prompt)
+		return ;
+	if (check_builtin(prompt))
+		return ;
+	if (!prompt->quotes && check_is_env_var(&prompt->cmd))
+		return (check_cmd(prompt));
+	if (!prompt->d_quotes && !prompt->quotes && \
+			check_quotes(prompt, &prompt->cmd))
+		return (check_cmd(prompt));
+	if (check_cmd_in_env(prompt))
+		return ;
+	i = 0;
+	if (prompt->cmd[0] == '\0')
+		prompt->cmd = "''";
+	printf("%s unknown command with argument(s) ", prompt->cmd);
+	while (prompt->args && prompt->args[i])
+		printf("%s ", prompt->args[i++]);
+	printf("\n");
+}
+
+/// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
-/// @return Return pointer to t_cmd or NULL if something failed.
-t_prompt *init_cmd(char *input)
+/// @return Return pointer to t_prompt or NULL if something failed.
+t_prompt	*init_prompt(char *input)
 {
-	t_prompt	*cmd;
+	t_prompt	*prompt;
 
-	cmd = malloc(sizeof(struct s_prompt));
-	if (!cmd)
+	prompt = malloc(sizeof(struct s_prompt));
+	if (!prompt)
 		return (NULL);
-	cmd->args = NULL;
-	cmd->cmd = ft_strsep(&input, " ");
+	prompt->d_quotes = 0;
+	prompt->quotes = 0;
+	prompt->args = NULL;
+	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input)
-		return (cmd);
-	get_args(cmd, input);
-	return (cmd);
+		return (prompt);
+	get_args(prompt, input);
+	return (prompt);
 }
-
-/// @brief Get, and assign to t_cmd, args from inputed string.
-/// @param *cmd Pointer to t_cmd,
-/// @param *input Inputed string to get args from.
-
-void get_args(t_prompt *cmd, char *input)
-{
-	int	i;
-
-	i = 0;
-	while (input[i] && input[i] != '|')
-		i++;
-	if (input[i] == '|')
-		input[i - 1] = '\0';
-	cmd->args = ft_split(input, ' ');
-	if (!cmd->args)
-		return (free(cmd));
-	input += i;
-}
-

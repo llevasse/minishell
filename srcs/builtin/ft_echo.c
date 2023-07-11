@@ -6,16 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 00:21:50 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/10 09:26:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //TODO quotes ?
-//QUESTIONS
-// Do we check the quotes during parsing and retrieve the end of the arguments at that point,
-// Or do we check at runtime if the quotes are closed and if not, do we make a close request?
 
 static void	print_args(char **args, int i);
 

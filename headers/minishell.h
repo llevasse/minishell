@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 23:17:52 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/10 23:33:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 
 typedef struct s_prompt
 {
+	int			d_quotes;
+	int			quotes;
 	char			*cmd;
 	char			**args;
 	struct s_prompt	*input_cmd;
@@ -33,15 +35,25 @@ typedef struct s_prompt
 // SRCS/PARSE //
 char		*ft_strsep(char **p_str, const char *delim);
 void		parse(char *input);
-t_prompt	*init_cmd(char *input);
-void		get_args(t_prompt *cmd, char *input);
-void		check_cmd(t_prompt *cmd);
-int			check_cmd_in_env(t_prompt *cmd);
-int			check_present_in_path(t_prompt *cmd, char *path);
+t_prompt	*init_prompt(char *input);
+void		get_args(t_prompt *prompt, char *input);
+void		check_cmd(t_prompt *prompt);
+int			check_cmd_in_env(t_prompt *prompt);
+int			check_present_in_path(t_prompt *prompt, char *path);
 int			check_is_env_var(char **str);
+int			get_char_pos(char *str, char c);
+int			get_substr_pos(char *str, char *sub_str);
+int			check_quotes(t_prompt *prompt, char **str);
+void		no_end_quote(char **str, char quote, char *to_print);
+void		pass_double_quotes(t_prompt *prompt, char **str);
+void		pass_single_quotes(t_prompt *prompt, char **str);
+void		replace_str(char **str, char *old_substr, char *new_substr);
+void		parse_args(t_prompt *prompt, char **args);
+char		**ft_split_args(t_prompt *prompt, char *s, char c);
+char		*get_quoted_str(char *str, char quote, int env_var);
 
 // SRCS/EXEC //
-void		false_exec(char *path, t_prompt *cmd);
+void		false_exec(char *path, t_prompt *prompt);
 
 // SRCS/BUILTIN //
 void		ft_echo(t_prompt *cmd);

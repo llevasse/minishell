@@ -16,6 +16,9 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/ft_strsep.c \
 			srcs/parsing/parse.c \
 			srcs/parsing/env.c \
+			srcs/parsing/replace_str.c \
+			srcs/parsing/quotes.c \
+			srcs/parsing/args.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \
 			srcs/builtin/ft_env.c \
@@ -33,8 +36,7 @@ HEADER		=	headers
 $(NAME):		$(OBJS) lib
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
-				@norminette $(FILES) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
-
+				$(norm)
 
 $(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
@@ -47,6 +49,9 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
 all:			$(NAME)
+
+norm:	
+				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
 
 lib:
 				@echo "$(YELLOW)\nCOMPILING $(LIBFT_PATH)\n"

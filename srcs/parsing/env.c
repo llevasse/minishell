@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 13:49:39 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/10 23:05:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(t_prompt *cmd)
+int	check_cmd_in_env(t_prompt *prompt)
 {
 	char	*path;
 	int		has_exec;
@@ -26,13 +26,13 @@ int	check_cmd_in_env(t_prompt *cmd)
 		return (0);
 	p_path = path;
 	while (*path && !has_exec)
-		has_exec = check_present_in_path(cmd, ft_strsep(&path, ":"));
+		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"));
 	return ((void)p_path, has_exec);
 }
 
-/// @brief Check if cmd in a command present in path.
+/// @brief Check if prompt is a command present in path.
 /// @return If cmd is found return 1 else 0.
-int	check_present_in_path(t_prompt *cmd, char *path)
+int	check_present_in_path(t_prompt *prompt, char *path)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;
@@ -41,29 +41,65 @@ int	check_present_in_path(t_prompt *cmd, char *path)
 	if (!current_dir)
 		return (0);
 	dir_entry = readdir(current_dir);
-	while (dir_entry && ft_strcmp(cmd->cmd, dir_entry->d_name))
+	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
-	if (dir_entry && !ft_strcmp(cmd->cmd, dir_entry->d_name))
-		return (false_exec(path, cmd), closedir(current_dir), 1);
+	if (dir_entry && !ft_strcmp(prompt->cmd, dir_entry->d_name))
+		return (false_exec(path, prompt), closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
 }
 
-/// @brief Check if '$' is present in *str.
+/// @brief Check if c is present in *str.
 /// @param *str String to check.
-/// @return Return position of '$' in *str or -1 if none is found.
-int	check_dollar(const char *str)
+/// @param c Character to find
+/// @return Return position of c in *str or -1 if none is found.
+int	get_char_pos(char *str, char c)
 {
 	int	i;
 
 	if (!str)
 		return (-1);
 	i = 0;
-	while (str[i] && str[i] != '$')
+	while (str[i] && str[i] != c)
 		i++;
-	if (str[i] == '$')
+	if (str[i] == c)
 		return (i);
 	return (-1);
+}
+
+/// @brief get first possible environnement variable int *str
+/// @param *str String to search in.
+/// @return Env variable name or NULL if error
+char	*get_env_var_name(char *str)
+{
+	int		i;
+	int		j;
+	char	*var_name;
+
+	i = get_char_pos(str, '$');
+	i++;
+	j = 0;
+	while (str[i + j] && str[i + j] != '$' && str[i + j] != 39 \
+			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
+		j++;
+	var_name = malloc((j + 2) * sizeof(char));
+	if (!var_name)
+		return (NULL);
+	ft_strlcpy(var_name, str + (i - 1), j + 2);
+	return (var_name);
+}
+
+/// @brief Get position of substr if present and -1 if not
+int		get_substr_pos(char *str, char *sub_str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
+		i++;
+	if (!str[i])
+		return (-1);
+	return (i);
 }
 
 /// @brief Check if a string contain a env variable.
@@ -72,25 +108,15 @@ int	check_dollar(const char *str)
 /// and replace env variable int *str with his content.
 int	check_is_env_var(char **str)
 {
-	int		i;
 	char	*var;
-	char	*new_str;
 
-	if (check_dollar(*str) == -1)
+	if (get_char_pos(*str, '$') == -1)
 		return (0);
-	i = check_dollar(*str);
-	var = ft_strdup(getenv(*str + i + 1));
-	if (!var)
-		return (0);
-	if (i == 0)
+	while (get_char_pos(*str, '$') >= 0)
 	{
-		free(*str);
-		*str = var;
-		return (1);
+		var = get_env_var_name(*str);
+//		printf("Searching for %s(%s) var\n", var, var + 1);
+		replace_str(str, var, getenv(var + 1));
 	}
-	(*str)[i] = '\0';
-	new_str = ft_strjoin(*str, var);
-	free(*str);
-	*str = new_str;
 	return (1);
 }
