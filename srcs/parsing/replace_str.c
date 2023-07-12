@@ -6,29 +6,45 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:05:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/12 10:32:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_pre_substr(char *str, char *substr)
+/// @brief Get position of substr if present and -1 if not
+int		get_substr_pos(char *str, char *sub_str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
+		i++;
+	if (!str[i])
+		return (-1);
+	return (i);
+}
+
+char	*get_pre_substr(char *str, char *substr, t_garbage *garbage)
 {
 	char	*pre_substr;
 	int		substr_pos;
 
 	substr_pos = get_substr_pos(str, substr); 
+	if (substr_pos == -1)
+		return ("");
 //	printf("%d substr pos\n", substr_pos);
 	str[substr_pos] = 0;
 	pre_substr = ft_strdup(str);
 	if (!pre_substr)
-		return (NULL);
+		return (ft_exit(garbage), NULL);
+	ft_add_garbage(&garbage, ft_new_garbage(pre_substr));
 	str[substr_pos] = *substr;
 //	printf("'%s' pre substr\n", pre_substr);
 	return (pre_substr);
 }
 
-char	*get_post_substr(char *str, char *substr)
+char	*get_post_substr(char *str, char *substr, t_garbage *garbage)
 {
 	char	*post_substr;
 	int		substr_pos;
@@ -36,13 +52,14 @@ char	*get_post_substr(char *str, char *substr)
 	substr_pos = get_substr_pos(str, substr);
 	post_substr = ft_strdup(str + substr_pos + ft_strlen(substr));
 	if (!post_substr)
-		return (NULL);
+		return (ft_exit());
+	ft_add_garbage(&garbage, ft_new_garbage(post_substr));
 //	printf("'%s' post substr\n", post_substr);
 	return (post_substr);
 }
 
 /// @brief Replace *old_substr in **str by *new_substr.
-void	replace_str(char **str, char *old_substr, char *new_substr)
+void	replace_str(char **str, char *old_substr, char *new_substr, t_garbage *garbage)
 {
 	char	*new_str;
 	char	*pre_substr;
