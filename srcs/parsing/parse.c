@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 22:19:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/12 09:59:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	parse(char *input, t_garbage *garbage)
 	if (!*input)
 		return ;
 	prompt = init_prompt(input, garbage);
-	check_cmd(prompt);
+	check_cmd(prompt, garbage);
 }
 
-int	check_builtin(t_prompt *prompt)
+int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, "cd"))
 		return (ft_cd(), 1);
@@ -31,7 +31,7 @@ int	check_builtin(t_prompt *prompt)
 	if (!ft_strcmp(prompt->cmd, "env"))
 		return (ft_env(), 1);
 	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(prompt), 1);
+		return (ft_exit(garbage), 1);
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (ft_export(), 1);
 	if (!ft_strcmp(prompt->cmd, "pwd"))
@@ -49,13 +49,13 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 
 	if (!prompt)
 		return ;
-	if (check_builtin(prompt))
+	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->quotes && check_is_env_var(&prompt->cmd))
-		return (check_cmd(prompt));
+		return (check_cmd(prompt, garbage));
 	if (!prompt->d_quotes && !prompt->quotes && \
-			check_quotes(prompt, &prompt->cmd))
-		return (check_cmd(prompt));
+			check_quotes(prompt, &prompt->cmd, garbage))
+		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt))
 		return ;
 	i = 0;
@@ -77,13 +77,13 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt = malloc(sizeof(struct s_prompt));
 	if (!prompt)
 		return (ft_exit(garbage),NULL);
-	ft_add_garbage(&garbage, ft_new_garbage(&prompt));	
+	ft_add_garbage(&garbage, ft_new_garbage(prompt));	
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
 	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input)
 		return (prompt);
-	get_args(prompt, input);
+	get_args(prompt, input, garbage);
 	return (prompt);
 }
