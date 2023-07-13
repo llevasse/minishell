@@ -1,7 +1,7 @@
 #---COMMON_VAR-----------------------------------
 NAME		=	minishell
 CC		=	cc
-FLAGS		=	-Wall -Werror -Wextra
+FLAGS		=	-Wall -Werror -Wextra -fsanitize=address
 RM		=	rm -rf
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m
@@ -33,7 +33,7 @@ OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 HEADER		=	headers
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS)
+$(NAME):		$(OBJS_DIR) $(OBJS)
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 				$(norm)
@@ -48,7 +48,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
-all:			 lib $(NAME)
+all:			$(NAME)
 
 norm:	
 				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'

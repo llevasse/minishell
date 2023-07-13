@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:10:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 18:50:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 18:34:58 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(char *src);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
