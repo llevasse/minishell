@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/12 09:59:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:47:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		return ;
 	if (check_builtin(prompt, garbage))
 		return ;
-	if (!prompt->quotes && check_is_env_var(&prompt->cmd))
+	if (!prompt->quotes && check_is_env_var(&prompt->cmd, garbage))
 		return (check_cmd(prompt, garbage));
 	if (!prompt->d_quotes && !prompt->quotes && \
 			check_quotes(prompt, &prompt->cmd, garbage))
 		return (check_cmd(prompt, garbage));
-	if (check_cmd_in_env(prompt))
+	if (check_cmd_in_env(prompt, garbage))
 		return ;
 	i = 0;
 	if (prompt->cmd[0] == '\0')
@@ -75,9 +75,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	t_prompt	*prompt;
 
 	prompt = malloc(sizeof(struct s_prompt));
-	if (!prompt)
-		return (ft_exit(garbage),NULL);
-	ft_add_garbage(&garbage, ft_new_garbage(prompt));	
+	ft_add_garbage(&garbage, ft_new_garbage(prompt, garbage));	
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
