@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 14:37:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:56:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 	return (var_name);
 }
 
-
-
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
@@ -102,7 +100,6 @@ int	check_is_env_var(char **str, t_garbage *garbage)
 	while (get_char_pos(*str, '$') >= 0)
 	{
 		var = get_env_var_name(*str, garbage);
-//		printf("Searching for %s(%s) var\n", var, var + 1);
 		replace_str(str, var, getenv(var + 1), garbage);
 	}
 	return (1);

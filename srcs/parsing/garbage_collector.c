@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 21:48:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/14 22:02:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	ft_add_garbage(t_garbage **lst, t_garbage *new)
 		while (temp->next != NULL)
 			temp = temp->next;
 		temp->next = new;
-		printf("adding address %p to list\n", new->address);
 		return ;
 	}
 	*lst = new;

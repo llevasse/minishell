@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 14:17:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/14 22:07:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 	{
 		new_str = readline(to_print);
 		*str = ft_strjoin(*str, "\n");
-		ft_add_garbage(&garbage, ft_new_garbage(*str));	
+		ft_add_garbage(&garbage, ft_new_garbage(*str, garbage));
 		if (*new_str != '\0')
 			*str = ft_strjoin(*str, new_str);
 		free(new_str);
 		new_str = NULL;
-		ft_add_garbage(&garbage, ft_new_garbage(*str));	
+		ft_add_garbage(&garbage, ft_new_garbage(*str, garbage));
 	}
 
 }
@@ -73,21 +73,18 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 
 	i = get_char_pos(str, quote);
 	j = get_char_pos(str + i + 1, quote) - i;
-//	printf("%d | %d | searching '%s'\n", i, j, str);
 	new_str = malloc((j + 1) * sizeof(char));
-	ft_add_garbage(&garbage, ft_new_garbage(new_str));	
+	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
 	j = 0;
 	i++;
 	while (str[i + j] && str[i + j] != quote)
 	{
 		new_str[j] = str[i + j];
-//		printf("%d | %d | current '%s'\n", i, j, new_str);
 		j++;
 	}
 	new_str[j] = 0;
 	if (env_var)
 		check_is_env_var(&new_str, garbage);
-//	printf("%d | %d | current '%s'\n", i, j, new_str);
 	return (new_str);
 }
 
@@ -105,10 +102,10 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 		return ;
 	*str[i] = 0;
 	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, ft_new_garbage(new_str));	
+	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
 	i = get_char_pos(*str + i, '"');
 	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, ft_new_garbage(new_str));	
+	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
 	*str = new_str;
 }
 
@@ -122,13 +119,11 @@ void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	no_end_quote(str, (char)39, "quote>", garbage);
 	i = get_char_pos(*str, (char)39);
 	in_quotes = get_quoted_str(*str, (char)39, 0, garbage);
-	if (!in_quotes)
-		return ;
 	prompt->cmd[i] = 0;
 	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, ft_new_garbage(new_str));	
+	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
 	i = get_char_pos(*str + i, (char)39);
 	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, ft_new_garbage(new_str));	
+	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
 	*str = new_str;
 }

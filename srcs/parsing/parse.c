@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 21:47:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/14 21:55:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	t_prompt	*prompt;
 
 	prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(&garbage, ft_new_garbage(prompt, garbage));	
+	ft_add_garbage(&garbage, ft_new_garbage(prompt, garbage));
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
