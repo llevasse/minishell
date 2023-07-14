@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 22:29:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/14 14:26:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		i++;
 	if (input[i] == '|')
 		input[i - 1] = '\0';
-	prompt->args = ft_split_args(prompt, input, ' ');
+	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
-		return (ft_exit(garbage);
-	parse_args(prompt, prompt->args);
+		return (ft_exit(garbage));
+	parse_args(prompt, prompt->args, garbage);
 	input += i;
 }
 
@@ -39,9 +39,9 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	while (args[i])
 	{
 		if (!prompt->d_quotes && !prompt->quotes)
-			check_quotes(prompt, &args[i]);
+			check_quotes(prompt, &args[i], garbage);
 		if (!prompt->quotes)
-			check_is_env_var(&args[i]);
+			check_is_env_var(&args[i], garbage);
 		i++;
 	}
 }
@@ -65,9 +65,7 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 			i++;
 	}
 	res = malloc((j + 1) * sizeof(char *));
-	if (!res)
-		return (ft_exit(garbage));
-	ft_add_garbage(&garbage, ft_new_garbage(&res));
+	ft_add_garbage(&garbage, ft_new_garbage(res));
 	return (res);
 }
 
@@ -82,8 +80,7 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	while (s[i + len_word] != c && s[i + len_word] != '\0')
 		len_word++;
 	res = malloc((len_word + 1) * sizeof(char));
-	if (!res)
-		return (ft_exit(garbage), NULL);
+	ft_add_garbage(&garbage, ft_new_garbage(res));
 	while (j < len_word && s[i] != '\0')
 	{
 		res[j] = s[i];
@@ -103,22 +100,22 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	if (!s)
 		return (NULL);
 	index_word = 0;
-	res = alloc_tab_args(s, c);
+	res = alloc_tab_args(s, c, garbage);
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
 		if (s[i] == '"')
 		{
 			prompt->d_quotes = 1;
-			no_end_quote(&s + i, '"', "dquote>");
-			res[index_word] = get_quoted_str(s + i++, '"', 1);
+			no_end_quote(&s + i, '"', "dquote>", garbage); 
+			res[index_word] = get_quoted_str(s + i++, '"', 1, garbage);
 			i += get_char_pos(s + i, '"') + 1;
 		}
 		else if (s[i] == 39)
 		{
 			prompt->quotes = 1;
-			no_end_quote(&s + i, 39, "quote>");
-			res[index_word] = get_quoted_str(s + i++, 39, 0);
+			no_end_quote(&s + i, 39, "quote>", garbage);
+			res[index_word] = get_quoted_str(s + i++, 39, 0, garbage);
 			i += get_char_pos(s + i, 39) + 1;
 		}
 		else
