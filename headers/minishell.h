@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 14:14:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 22:56:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef struct s_prompt
 	int				quotes;
 	char			*cmd;
 	char			**args;
-	struct s_prompt	*input_cmd;
-	struct s_prompt	*output_cmd;
+	struct s_prompt	*input_prompt;
+	struct s_prompt	*output_prompt;
 }	t_prompt;
 
 typedef struct s_garbage
@@ -84,6 +84,11 @@ char		*get_quoted_str(char *str, char quote, int env_var,
 void		replace_str(char **str, char *old_substr, char *new_substr,
 				t_garbage *garbage);
 int			get_substr_pos(char *str, char *sub_str);
+
+// direction.c
+void	check_redirection(char *input, t_prompt *first_prompt, t_garbage *garbage);
+void	set_output(char *input, t_prompt *input_prompt, t_garbage *garbage);
+void	set_output_append(char *input, t_prompt *input_prompt, t_garbage *garbage);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);
