@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 08:56:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 14:14:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 		if (s[i] == '"')
 		{
 			prompt->d_quotes = 1;
-			no_end_quote(&s + i, '"', "dquote>", garbage); 
+			no_end_quote(&s + i, '"', "dquote>", garbage);
 			res[index_word] = get_quoted_str(s + i++, '"', 1, garbage);
 			i += get_char_pos(s + i, '"') + 1;
 		}

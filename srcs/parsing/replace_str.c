@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 08:59:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 13:17:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,3 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 	ft_add_garbage(&garbage, new_substr);
 	*str = new_substr;
 }
-

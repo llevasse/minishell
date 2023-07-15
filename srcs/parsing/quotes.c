@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 08:54:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 13:18:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	return (1);
 }
 
-
 /// @brief Check if the prompt cmd has a full quote.
 /// @param *prompt Pointer to t_prompt,
 /// @param quote Character showing begining and end of quote,
@@ -43,7 +42,7 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 {
 	char	*new_str;
-	int	i;
+	int		i;
 
 	i = get_char_pos(*str, quote);
 	while (get_char_pos(*str + i + 1, quote) == -1)
@@ -57,7 +56,6 @@ void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 		new_str = NULL;
 		ft_add_garbage(&garbage, *str);
 	}
-
 }
 
 /// @brief allocate and assign content of quote to a new str
