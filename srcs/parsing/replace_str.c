@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 22:03:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 08:59:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_pre_substr(char *str, char *substr, t_garbage *garbage)
 	pre_substr = ft_strdup(str);
 	if (!pre_substr)
 		return (ft_exit(garbage), NULL);
-	ft_add_garbage(&garbage, ft_new_garbage(pre_substr, garbage));
+	ft_add_garbage(&garbage, pre_substr);
 	str[substr_pos] = *substr;
 	return (pre_substr);
 }
@@ -51,7 +51,7 @@ char	*get_post_substr(char *str, char *substr, t_garbage *garbage)
 	post_substr = ft_strdup(str + substr_pos + ft_strlen(substr));
 	if (!post_substr)
 		return (ft_exit(garbage), NULL);
-	ft_add_garbage(&garbage, ft_new_garbage(post_substr, garbage));
+	ft_add_garbage(&garbage, post_substr);
 	return (post_substr);
 }
 
@@ -68,9 +68,9 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 	pre_substr = get_pre_substr(*str, old_substr, garbage);
 	post_substr = get_post_substr(*str, old_substr, garbage);
 	new_str = ft_strjoin(pre_substr, new_substr);
-	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
+	ft_add_garbage(&garbage, new_str);
 	new_substr = ft_strjoin(new_str, post_substr);
-	ft_add_garbage(&garbage, ft_new_garbage(new_substr, garbage));
+	ft_add_garbage(&garbage, new_substr);
 	*str = new_substr;
 }
 

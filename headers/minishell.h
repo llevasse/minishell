@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 14:28:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 08:52:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char		*get_env_var_name(char *str, t_garbage *garbage);
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
 t_garbage	*ft_new_garbage(void	*address, t_garbage *garbage);
-void		ft_add_garbage(t_garbage **lst, t_garbage *new);
+void		ft_add_garbage(t_garbage **lst, void *address);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);

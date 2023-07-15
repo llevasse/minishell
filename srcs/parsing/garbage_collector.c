@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 22:02:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 08:59:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,19 @@ t_garbage	*ft_new_garbage(void	*address, t_garbage *garbage)
 	return (new);
 }
 
-void	ft_add_garbage(t_garbage **lst, t_garbage *new)
+void	ft_add_garbage(t_garbage **lst, void *address)
 {
 	t_garbage	*temp;
-
-	if (!new)
+	
+	if (!address)
 		return (ft_exit(*lst));
 	if (*lst)
 	{
 		temp = *lst;
 		while (temp->next != NULL)
 			temp = temp->next;
-		temp->next = new;
+		temp->next = ft_new_garbage(address, *lst);
 		return ;
 	}
-	*lst = new;
+	*lst = ft_new_garbage(address, *lst);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 22:07:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 08:54:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 	{
 		new_str = readline(to_print);
 		*str = ft_strjoin(*str, "\n");
-		ft_add_garbage(&garbage, ft_new_garbage(*str, garbage));
+		ft_add_garbage(&garbage, *str);
 		if (*new_str != '\0')
 			*str = ft_strjoin(*str, new_str);
 		free(new_str);
 		new_str = NULL;
-		ft_add_garbage(&garbage, ft_new_garbage(*str, garbage));
+		ft_add_garbage(&garbage, *str);
 	}
 
 }
@@ -74,7 +74,7 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	i = get_char_pos(str, quote);
 	j = get_char_pos(str + i + 1, quote) - i;
 	new_str = malloc((j + 1) * sizeof(char));
-	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
+	ft_add_garbage(&garbage, new_str);
 	j = 0;
 	i++;
 	while (str[i + j] && str[i + j] != quote)
@@ -102,10 +102,10 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 		return ;
 	*str[i] = 0;
 	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
+	ft_add_garbage(&garbage, new_str);
 	i = get_char_pos(*str + i, '"');
 	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
+	ft_add_garbage(&garbage, new_str);
 	*str = new_str;
 }
 
@@ -121,9 +121,9 @@ void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	in_quotes = get_quoted_str(*str, (char)39, 0, garbage);
 	prompt->cmd[i] = 0;
 	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
+	ft_add_garbage(&garbage, new_str);
 	i = get_char_pos(*str + i, (char)39);
 	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, ft_new_garbage(new_str, garbage));
+	ft_add_garbage(&garbage, new_str);
 	*str = new_str;
 }
