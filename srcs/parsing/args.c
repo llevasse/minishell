@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 14:14:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/15 15:01:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	int	i;
 
 	i = 0;
-	while (input[i] && input[i] != '|')
+	while (input[i] && !ft_is_in_str("|><", input[i]))
 		i++;
-	if (input[i] == '|')
+	if (ft_is_in_str("|><", input[i]))
 		input[i - 1] = '\0';
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
