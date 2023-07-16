@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 15:01:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:49:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	if (!prompt->args)
 		return (ft_exit(garbage));
 	parse_args(prompt, prompt->args, garbage);
+	if (ft_is_in_str("|><", input[i]))
+		input[i - 1] = ' ';
 	input += i;
 }
 

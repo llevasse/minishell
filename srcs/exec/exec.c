@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:49:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 15:38:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:26:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,16 @@ void	false_exec(char *path, t_prompt *prompt)
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no avaible builtin\n", 26));
 		execve(argv[0], argv, NULL);
+		if (prompt->write_fd == 1)
+			reset_stdio_fd(prompt);
 	}
 	else
 		wait(NULL);
+}
+
+void	reset_stdio_fd(t_prompt *prompt)
+{
+	close(prompt->write_fd);
+	dup2(prompt->old_stdout, 1);
+	close(prompt->old_stdout);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/16 10:53:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/16 22:27:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_prompt
 	int				d_quotes;
 	int				quotes;
 	int				write_fd;
+	int				old_stdout;
+	int				old_stdin;
 	char			*cmd;
 	char			**args;
 	struct s_prompt	*input_prompt;
@@ -87,12 +89,13 @@ void		replace_str(char **str, char *old_substr, char *new_substr,
 int			get_substr_pos(char *str, char *sub_str);
 
 // direction.c
-void	check_redirection(char *input, t_prompt *first_prompt, t_garbage *garbage);
-void	set_output(char *input, t_prompt *input_prompt, t_garbage *garbage);
-void	set_output_append(char *input, t_prompt *input_prompt, t_garbage *garbage);
+void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage);
+void	set_output(char *input, t_prompt *prompt);
+void	set_output_append(char *input, t_prompt *prompt);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt);
+void		reset_stdio_fd(t_prompt *prompt);
 
 // SRCS/BUILTIN //
 void		ft_echo(t_prompt *cmd);
