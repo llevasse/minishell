@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/16 22:54:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/16 23:11:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 void	set_output(char *input, t_prompt *prompt)
 {
 	int			i;
+	char		*name;
 
-	printf("sa race : |%s|\n", input);
 	i = get_char_pos(input, '>');
 	if (input[i + 1] == '>')
 		return (set_output_append(input, prompt));
@@ -34,9 +34,13 @@ void	set_output(char *input, t_prompt *prompt)
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around >\n"));
+	printf("sa race0 %s\n", input + i);
+	name = ft_strsep(&input + i, " "); 
+	printf("sa race1 %s\n", name);
+	printf("sa race2 %s\n", input);
 	prompt->old_stdout = dup(1);
 	close(1);
-	prompt->write_fd = open(ft_strsep(&input + i, " "), O_RDWR | O_TRUNC | O_CREAT, 0666);
+	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
 	printf("Opened file at fd : %d", prompt->write_fd);	
 	if (prompt->write_fd == -1)
 	{
