@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/16 10:59:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/16 15:21:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	if (!*input)
 		return (prompt);
 	get_args(prompt, input, garbage);
+	check_redirection(input, prompt, garbage);
 	return (prompt);
 }

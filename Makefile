@@ -35,12 +35,11 @@ OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 HEADER		=	headers
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS) lib
+$(NAME):		$(OBJS) lib norm
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
-				$(norm)
 
-$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib
+$(OBJS_DIR)%.o:	%.c $(OBJS_DIR) lib
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 $(OBJS_DIR):
