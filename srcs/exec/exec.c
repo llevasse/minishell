@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 10:49:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 11:09:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:13:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	false_exec(char *path, t_prompt *prompt)
 {
 	pid_t	pid;
+	char	*argv[3];
+
 
 	pid = fork();
 	if (pid == -1)
@@ -28,8 +30,9 @@ void	false_exec(char *path, t_prompt *prompt)
 				return ((void) write(2, "error\n", 6), exit(-1));
 			prompt->args[0] = NULL;
 		}
-		char *argv[] = {ft_strjoin(ft_strjoin(path, "/"), prompt->cmd), prompt->args[0], NULL};
-		printf("Coucou, j'exec le programme a %s/%s :O", path, prompt->cmd);
+		argv[0] = ft_strjoin(ft_strjoin(path, "/"), prompt->cmd);
+		argv[1] = prompt->args[0];
+		argv[2] = NULL;
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no avaible builtin\n", 26));
 		execve(argv[0], argv, NULL);
