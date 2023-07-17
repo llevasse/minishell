@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 11:27:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:02:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 	{
 		while (s[i] == c && s[i] != '\0')
 			i++;
+		if (!s[i])
+			break ;
 		if (s[i] && (s[i] != c || s[i] == 39 || s[i] == '"'))
 			j++;
 		i++;
-		if (!s[i])
-			break ;
 		while (s[i] && s[i] != c && s[i] != 39 && s[i] != '"')
 			i++;
 	}
