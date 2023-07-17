@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/16 22:49:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:08:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	parse(char *input, t_garbage *garbage)
 		return ;
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
+	if (prompt->write_fd == 1)
+		reset_stdio_fd(prompt);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)

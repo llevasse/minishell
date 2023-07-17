@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 10:02:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 11:10:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,11 @@ void	set_output_append(char *input, t_prompt *prompt)
 		printf("Error in opening file, set redirection to error output\n");
 		prompt->write_fd = 2;
 	}
+}
+
+void	reset_stdio_fd(t_prompt *prompt)
+{
+	close(prompt->write_fd);
+	dup2(prompt->old_stdout, 1);
+	close(prompt->old_stdout);
 }
