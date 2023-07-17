@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/16 23:11:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:02:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,11 @@ void	set_output(char *input, t_prompt *prompt)
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around >\n"));
-	printf("sa race0 %s\n", input + i);
-	name = ft_strsep(&input + i, " "); 
-	printf("sa race1 %s\n", name);
-	printf("sa race2 %s\n", input);
+	input += i;
+	name = ft_strsep(&input, " ");
 	prompt->old_stdout = dup(1);
 	close(1);
 	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
-	printf("Opened file at fd : %d", prompt->write_fd);	
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening file, set redirection to error output\n");
