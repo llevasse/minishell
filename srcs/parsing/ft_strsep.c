@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/05 17:24:13 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/16 23:08:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 22:30:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ char	*ft_strsep(char **p_str, const char *delim)
 	i = 0;
 	while ((*p_str)[i] && !ft_is_in_str(delim, (*p_str)[i]))
 		i++;
-	if (!(*p_str)[i])
-		return (*p_str);
 	while ((*p_str)[i] && ft_is_in_str(delim, (*p_str)[i]))
 		(*p_str)[i++] = '\0';
 	*p_str += i;
