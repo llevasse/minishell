@@ -6,28 +6,69 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 16:48:28 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 19:02:10 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *clear_path(char *path)
+char	*remove_dir(char *path)
 {
-	char	*new;
 	size_t	i;
 	size_t	j;
+	char	*new;
 
 	i = ft_strlen(path);
-	while (path[i] != '/')
+	while (path[i] && path[i] != '/')
 		i--;
-	new = malloc(sizeof(char) * (i + 1));
+	new = malloc(sizeof(char ) * i + 1);
 	if (!new)
 		return (exit(-1), NULL);
-	j = -1;
-	while (++j < i && path[j])
+	j = 0;
+	while (path[j] != '/' && j < i)
+	{
 		new[j] = path[j];
+		j++;
+	}
+	new[j] = '\0';
+	printf ("in remove : %s\n", new);
 	return (new);
+}
+
+char	*ft_clear_path(char *path)
+{
+	size_t	i;
+	char	*new_path;
+	char	**directory;
+
+	i = -1;
+	directory = ft_split(path, '/');
+	free(path);
+	new_path = malloc(sizeof(char) * 1);
+	if (!new_path)
+		return (exit(-1), NULL);
+	new_path[0] = '\0';
+	while (directory[++i])
+	{
+		if (!ft_strcmp(directory[i + 1], "."))
+		{
+			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
+			i++;
+		}
+		else if (!ft_strcmp(directory[i + 1], ".."))
+		{
+			printf(".. \n");
+			if (directory[i + 1])
+				i += 1;
+		}
+		else
+		{
+			printf("test %zu: %s\n", i, new_path);
+			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
+		}
+	}
+	printf("clear path : %s\n", new_path);
+	return (new_path);
 }
 
 void	ft_cd(t_prompt *prompt)
@@ -48,12 +89,15 @@ void	ft_cd(t_prompt *prompt)
 	}
 	else if (prompt->args)
 	{
-		if ()
+		new_path = ft_strjoin(ft_strjoin(getenv("PWD"), "/"), prompt->args[0]);
+		printf("before: %s\n", new_path);
+		new_path = ft_clear_path(new_path);
 		if (chdir(new_path) == 0)
 		{
 			setenv("PWD", new_path, 1);
-			printf("%s\n", new_path);
+			printf("in : %s\n", new_path);
 		}
-		printf("%s\n", prompt->args[0]);
+		else
+			ft_printf("wrong directory\n");
 	}
 }
