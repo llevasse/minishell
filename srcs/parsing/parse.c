@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
+/*   Updated: 2023/07/17 14:50:48 by mwubneh          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 14:19:53 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 14:45:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +87,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 t_prompt	*init_prompt(char *input, t_garbage *garbage)
 {
 	t_prompt	*prompt;
+	size_t		len;
 
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(&garbage, prompt);
@@ -82,8 +95,9 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
+	len = ft_strlen(input);
 	prompt->cmd = ft_strsep(&input, " ");
-	if (!*input)
+	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
 	check_redirection(input, prompt, garbage);

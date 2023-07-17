@@ -3,15 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   direction.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
+/*   Updated: 2023/07/17 14:50:29 by mwubneh          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   direction.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 13:53:14 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 13:22:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 #include <ctype.h>
+
+//TODO pass environment variable content as file name 
+// ex : cat srcs/minishell.c > $USER
+// will print the outpur of cat in a file named after the content of $USER
+
 
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
