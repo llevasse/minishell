@@ -6,11 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 13:02:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:51:33 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../headers/minishell.h"
 
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,

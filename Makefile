@@ -51,7 +51,7 @@ $(OBJS_DIR):
 
 all:			$(NAME)
 
-norm:	
+norm:
 				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
 
 lib:

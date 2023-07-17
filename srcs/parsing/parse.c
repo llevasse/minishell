@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
+/*   Updated: 2023/07/17 17:53:07 by mwubneh          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
@@ -27,7 +39,7 @@ void	parse(char *input, t_garbage *garbage)
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, "cd"))
-		return (ft_cd(), 1);
+		return (ft_cd(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "echo"))
 		return (ft_echo(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "env"))
@@ -39,7 +51,7 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 	if (!ft_strcmp(prompt->cmd, "pwd"))
 		return (ft_pwd(), 1);
 	if (!ft_strcmp(prompt->cmd, "unset"))
-		return (ft_unset(), 1);
+		return (ft_unset(prompt), 1);
 	return (0);
 }
 

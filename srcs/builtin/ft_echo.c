@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 09:26:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:19:13 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@
 
 static void	print_args(char **args, int i);
 
-void	ft_echo(t_prompt *cmd)
+void	ft_echo(t_prompt *prompt)
 {
-	if (!cmd->args)
+	if (!prompt->args)
 		write(1, "\n", 1);
-	else if (cmd->args && !ft_strcmp(cmd->args[0], "-n"))
+	else if (prompt->args && !ft_strcmp(prompt->args[0], "-n"))
 	{
-		if (!cmd->args[1])
+		if (!prompt->args[1])
 			write(1, "", 0);
 		else
 		{
-			print_args(&cmd->args[1], -1);
+			print_args(&prompt->args[1], -1);
 			write(1, "%\n", 2);
 		}
 	}
 	else
 	{
-		print_args(cmd->args, -1);
+		print_args(prompt->args, -1);
 		write(1, "\n", 2);
 	}
 }

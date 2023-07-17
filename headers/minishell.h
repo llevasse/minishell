@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 11:09:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:53:55 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ void		replace_str(char **str, char *old_substr, char *new_substr,
 int			get_substr_pos(char *str, char *sub_str);
 
 // direction.c
-void		check_redirection(char *input, t_prompt *prompt, t_garbage *garbage);
+void		check_redirection(char *input, t_prompt *prompt,
+				t_garbage *garbage);
 void		set_output(char *input, t_prompt *prompt);
 void		set_output_append(char *input, t_prompt *prompt);
 void		reset_stdio_fd(t_prompt *prompt);
@@ -98,12 +99,12 @@ void		reset_stdio_fd(t_prompt *prompt);
 void		false_exec(char *path, t_prompt *prompt);
 
 // SRCS/BUILTIN //
-void		ft_echo(t_prompt *cmd);
+void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
-void		ft_unset(void);
+void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage);
 void		ft_pwd(void);
 void		ft_export(void);
-void		ft_cd(void);
+void		ft_cd(t_prompt *prompt);
 
 #endif

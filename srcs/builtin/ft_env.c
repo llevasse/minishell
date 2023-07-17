@@ -6,13 +6,19 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/09 00:01:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/11 12:03:05 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern char	**environ;
+
 void	ft_env(void)
 {
-	ft_printf("Cc, je suis env");
+	int	i;
+
+	i = -1;
+	while (environ[++i])
+		ft_printf("%s\n", environ[i]);
 }
