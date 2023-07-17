@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 13:53:50 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 14:18:24 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,12 @@ void		reset_stdio_fd(t_prompt *prompt);
 void		false_exec(char *path, t_prompt *prompt);
 
 // SRCS/BUILTIN //
-void		ft_echo(t_prompt *cmd);
+void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 void		ft_unset(void);
 void		ft_exit(t_garbage *garbage);
 void		ft_pwd(void);
 void		ft_export(void);
-void		ft_cd(void);
+void		ft_cd(t_prompt *prompt);
 
 #endif

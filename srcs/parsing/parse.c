@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 11:08:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 14:19:53 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse(char *input, t_garbage *garbage)
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, "cd"))
-		return (ft_cd(), 1);
+		return (ft_cd(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "echo"))
 		return (ft_echo(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "env"))
