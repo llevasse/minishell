@@ -6,25 +6,14 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 19:06:41 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 23:49:41 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../headers/minishell.h"
 
-char	*ft_clear_path(char *path)
+char	*get_new_path(char **directory, char *new_path, size_t i)
 {
-	size_t	i;
-	char	*new_path;
-	char	**directory;
-
-	i = -1;
-	directory = ft_split(path, '/');
-	free(path);
-	new_path = malloc(sizeof(char) * 1);
-	if (!new_path)
-		return (exit(-1), NULL);
-	new_path[0] = '\0';
 	while (directory[++i])
 	{
 		if (!ft_strcmp(directory[i + 1], "."))
@@ -40,6 +29,21 @@ char	*ft_clear_path(char *path)
 		else
 			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
 	}
+	return (new_path);
+}
+
+char	*ft_clear_path(char *path)
+{
+	char	*new_path;
+	char	**directory;
+
+	directory = ft_split(path, '/');
+	free(path);
+	new_path = malloc(sizeof(char) * 1);
+	if (!new_path)
+		return (exit(-1), NULL);
+	new_path[0] = '\0';
+	new_path = get_new_path(directory, new_path, -1);
 	return (new_path);
 }
 

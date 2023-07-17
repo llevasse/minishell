@@ -6,11 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 13:17:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 23:48:54 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../headers/minishell.h"
 
 /// @brief Get position of substr if present and -1 if not
 int	get_substr_pos(char *str, char *sub_str)

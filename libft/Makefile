@@ -15,7 +15,7 @@ FLAGS			=	-Wall -Wextra -Werror
 
 CC				=	cc
 
-OBJS_DIR	=	.OBJS/
+OBJS_DIR		=	.OBJS/
 
 STR_FILES		=	str/ft_strchr.c \
 					str/ft_strnstr.c \
@@ -89,24 +89,27 @@ FILES			=	$(PRINTING_FILES) \
 					$(FILES_GNL) \
 					$(PRINTF_FILES) \
 
-OBJS				=	$(addprefix $(OBJS_DIR), $(FILES:.c=.o))
-HEADER				=	libft.h
+OBJS			=	$(addprefix $(OBJS_DIR), $(FILES:.c=.o))
+HEADER			=	libft.h
 
-RED					=	\033[0;31m
-GREEN				=	\033[0;32m
-NC					=	\033[0m
+RED				=	\033[0;31m
+GREEN			=	\033[0;32m
+NC				=	\033[0m
 
 NAME			=	libft.a
 
 HEADER			=	libft.h
 
-$(NAME):		$(OBJS)
-					ar rcs $(NAME) $(OBJS)
-					@echo "$(GREEN)Libft compiled :D$(NC)"
-					@norminette $(FILES)libft.h | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
+all:			$(NAME)
 
-$(OBJS_DIR)%.o:	%.c $(HEADER) Makefile | $(OBJS_DIR)
-				$(CC) $(FLAGS) -c $< -o $@
+$(NAME):		$(OBJS) $(HEADER)
+				ar rcs $(NAME) $(OBJS)
+				@echo "$(GREEN)Libft compiled :D$(NC)"
+				@norminette $(FILES)libft.h | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
+
+
+$(OBJS_DIR)%.o:	%.c Makefile | $(OBJS_DIR)
+				@$(CC) $(FLAGS) -c $< -o $@
 
 $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
@@ -119,14 +122,12 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)print
 				@mkdir -p $(OBJS_DIR)str
 
-all:			$(NAME)
-
 clean:
-					rm -rf $(OBJS) $(OBJS_DIR)
+				rm -rf $(OBJS)
 
 fclean:			clean
-					rm -f $(NAME)
-				
+				rm -f $(NAME)
+
 re:				fclean all
 
 .PHONY:			all	clean	fclean	re 
