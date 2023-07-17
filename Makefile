@@ -19,6 +19,8 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/replace_str.c \
 			srcs/parsing/quotes.c \
 			srcs/parsing/args.c \
+			srcs/parsing/garbage_collector.c \
+			srcs/parsing/direction.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \
 			srcs/builtin/ft_env.c \
@@ -33,12 +35,12 @@ OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 HEADER		=	headers
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS_DIR) $(OBJS)
+
+$(NAME):		$(OBJS) lib norm
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
-				$(norm)
 
-$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib
+$(OBJS_DIR)%.o:	%.c $(OBJS_DIR) lib
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 $(OBJS_DIR):

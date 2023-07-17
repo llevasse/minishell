@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/10 23:05:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/16 15:15:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,17 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(t_prompt *prompt)
+int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*path;
 	int		has_exec;
-	char	*p_path;
 
 	has_exec = 0;
 	path = ft_strdup(getenv("PATH"));
-	if (!path)
-		return (0);
-	p_path = path;
+	ft_add_garbage(&garbage, path);
 	while (*path && !has_exec)
 		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"));
-	return ((void)p_path, has_exec);
+	return (has_exec);
 }
 
 /// @brief Check if prompt is a command present in path.
@@ -70,7 +67,7 @@ int	get_char_pos(char *str, char c)
 /// @brief get first possible environnement variable int *str
 /// @param *str String to search in.
 /// @return Env variable name or NULL if error
-char	*get_env_var_name(char *str)
+char	*get_env_var_name(char *str, t_garbage *garbage)
 {
 	int		i;
 	int		j;
@@ -83,30 +80,16 @@ char	*get_env_var_name(char *str)
 			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
-	if (!var_name)
-		return (NULL);
+	ft_add_garbage(&garbage, var_name);
 	ft_strlcpy(var_name, str + (i - 1), j + 2);
 	return (var_name);
-}
-
-/// @brief Get position of substr if present and -1 if not
-int		get_substr_pos(char *str, char *sub_str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
-		i++;
-	if (!str[i])
-		return (-1);
-	return (i);
 }
 
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
 /// and replace env variable int *str with his content.
-int	check_is_env_var(char **str)
+int	check_is_env_var(char **str, t_garbage *garbage)
 {
 	char	*var;
 
@@ -114,9 +97,8 @@ int	check_is_env_var(char **str)
 		return (0);
 	while (get_char_pos(*str, '$') >= 0)
 	{
-		var = get_env_var_name(*str);
-//		printf("Searching for %s(%s) var\n", var, var + 1);
-		replace_str(str, var, getenv(var + 1));
+		var = get_env_var_name(*str, garbage);
+		replace_str(str, var, getenv(var + 1), garbage);
 	}
 	return (1);
 }

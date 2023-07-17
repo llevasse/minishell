@@ -1,7 +1,4 @@
-*.a
-*.o
-*/*.o
-*.swp
-*.out
-minishell
-*.log
+*
+!.gitignore
+!*.c
+!*/

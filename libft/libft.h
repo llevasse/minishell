@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:10:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 18:34:58 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 13:46:05 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 char	*ft_itoa(int n);
+int		ft_isspace(char c);
 
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 
