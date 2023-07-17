@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/17 14:50:29 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/17 23:17:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@
 //TODO pass environment variable content as file name 
 // ex : cat srcs/minishell.c > $USER
 // will print the outpur of cat in a file named after the content of $USER
+
+//TODO cat text0.txt > output.txt text1.txt
+//	is the same as doing 'cat text0.txt text1.txt > output.txt
 
 
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
