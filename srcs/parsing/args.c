@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 08:56:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/17 13:02:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	int	i;
 
 	i = 0;
-	while (input[i] && input[i] != '|')
+	while (input[i] && !ft_is_in_str("|><", input[i]))
 		i++;
-	if (input[i] == '|')
+	if (ft_is_in_str("|><", input[i]))
 		input[i - 1] = '\0';
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
 		return (ft_exit(garbage));
 	parse_args(prompt, prompt->args, garbage);
+	if (ft_is_in_str("|><", input[i]))
+		input[i - 1] = ' ';
 	input += i;
 }
 
@@ -58,10 +60,12 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 	{
 		while (s[i] == c && s[i] != '\0')
 			i++;
+		if (!s[i])
+			break ;
 		if (s[i] && (s[i] != c || s[i] == 39 || s[i] == '"'))
 			j++;
 		i++;
-		while (s[i] && s[i] != c && s[i] == 39 && s[i] != '"')
+		while (s[i] && s[i] != c && s[i] != 39 && s[i] != '"')
 			i++;
 	}
 	res = malloc((j + 1) * sizeof(char *));
@@ -107,7 +111,7 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 		if (s[i] == '"')
 		{
 			prompt->d_quotes = 1;
-			no_end_quote(&s + i, '"', "dquote>", garbage); 
+			no_end_quote(&s + i, '"', "dquote>", garbage);
 			res[index_word] = get_quoted_str(s + i++, '"', 1, garbage);
 			i += get_char_pos(s + i, '"') + 1;
 		}

@@ -20,6 +20,7 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/quotes.c \
 			srcs/parsing/args.c \
 			srcs/parsing/garbage_collector.c \
+			srcs/parsing/direction.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \
 			srcs/builtin/ft_env.c \
@@ -34,12 +35,11 @@ OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 HEADER		=	headers
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS)
+$(NAME):		$(OBJS) lib norm
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
-				$(norm)
 
-$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib
+$(OBJS_DIR)%.o:	%.c $(OBJS_DIR) lib
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 $(OBJS_DIR):
@@ -49,7 +49,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
-all:			lib $(NAME)
+all:			$(NAME)
 
 norm:	
 				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
