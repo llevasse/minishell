@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 17:53:55 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/18 10:39:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char		**ft_split_args(t_prompt *prompt, char *s, char c,
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
-int			check_present_in_path(t_prompt *prompt, char *path);
+int			check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage);
 int			check_is_env_var(char **str, t_garbage *garbage);
 int			get_char_pos(char *str, char c);
 char		*get_env_var_name(char *str, t_garbage *garbage);
@@ -91,12 +91,13 @@ int			get_substr_pos(char *str, char *sub_str);
 // direction.c
 void		check_redirection(char *input, t_prompt *prompt,
 				t_garbage *garbage);
-void		set_output(char *input, t_prompt *prompt);
-void		set_output_append(char *input, t_prompt *prompt);
+void		set_output(char *input, t_prompt *prompt, t_garbage *garbage);
+void		set_output_append(char *input, t_prompt *prompt, t_garbage *garbage);
 void		reset_stdio_fd(t_prompt *prompt);
 
 // SRCS/EXEC //
-void		false_exec(char *path, t_prompt *prompt);
+void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);
+char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 
 // SRCS/BUILTIN //
 void		ft_echo(t_prompt *prompt);
