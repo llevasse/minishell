@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 10:31:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:39:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{	
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
-			return ((void) write(2, "Error, no builtin found\n", 26));
+			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
 	}
 	else
