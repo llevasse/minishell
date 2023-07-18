@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 10:39:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:04:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,25 @@
 # include <signal.h>
 # include <dirent.h>
 
+typedef struct s_export
+{
+	char				*key;
+	char				*content;
+	struct s_export		next;
+}	t_export;
+
 typedef struct s_prompt
 {
-	int				d_quotes;
-	int				quotes;
-	int				write_fd;
-	int				old_stdout;
-	int				old_stdin;
-	char			*cmd;
-	char			**args;
-	struct s_prompt	*input_prompt;
-	struct s_prompt	*output_prompt;
+	int					d_quotes;
+	int					quotes;
+	int					write_fd;
+	int					old_stdout;
+	int					old_stdin;
+	char				*cmd;
+	char				**args;
+	t_export			export_args;
+	struct s_prompt		*input_prompt;
+	struct s_prompt		*output_prompt;
 }	t_prompt;
 
 typedef struct s_garbage
@@ -71,6 +79,11 @@ char		*get_env_var_name(char *str, t_garbage *garbage);
 void		free_garbage(t_garbage *garbage);
 t_garbage	*ft_new_garbage(void	*address, t_garbage *garbage);
 void		ft_add_garbage(t_garbage **lst, void *address);
+
+// export.c
+t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
+void		ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage);
+t_export	*get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);

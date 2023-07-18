@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 13:51:33 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/18 21:03:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	int	i;
 
 	i = 0;
+	if (!ft_strcmp(prompt->cmd, "export"))
+		return (get_export_args(prompt, input, garbage));
 	while (input[i] && !ft_is_in_str("|><", input[i]))
 		i++;
 	if (ft_is_in_str("|><", input[i]))

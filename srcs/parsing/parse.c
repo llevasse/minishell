@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/17 17:53:07 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/18 20:58:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
+	prompt->export_args = NULL;
 	len = ft_strlen(input);
 	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))
