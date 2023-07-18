@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 10:40:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:50:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*name;
 
 	i = get_char_pos(input, '>');
-	while (input[i] && input[i] == '>' && isspace(input[i]))
+	while (input[i] && (input[i] == '>' || isspace(input[i])))
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around >\n"));
