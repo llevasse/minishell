@@ -3,22 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   direction.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 08:27:30 by llevasse         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   direction.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 13:22:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:40:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +29,7 @@ void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 
 	i = get_char_pos(input, '>');
 	if (input[i + 1] == '>')
-		return (set_output_append(input, prompt));
+		return (set_output_append(input, prompt, garbage));
 	while (input[i] && (input[i] == '>' || isspace(input[i])))
 		i++;
 	if (!input[i])
@@ -60,21 +48,27 @@ void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	}
 }
 
-void	set_output_append(char *input, t_prompt *prompt)
+void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage)
 {
-	int	i;	
+	int		i;
+	char	*name;
 
 	i = get_char_pos(input, '>');
 	while (input[i] && input[i] == '>' && isspace(input[i]))
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around >\n"));
-	prompt->write_fd = open(ft_strsep(&input, " "),
-			O_RDWR | O_APPEND | O_CREAT, 0666);
+	input += i;
+	while (get_char_pos(input, '$') != -1)
+		check_is_env_var(&input, garbage);
+	name = ft_strsep(&input, " ");
+	prompt->old_stdout = dup(1);
+	close(1);
+	prompt->write_fd = open(name, O_RDWR | O_APPEND | O_CREAT, 0666);
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening file, set redirection to error output\n");
-		prompt->write_fd = 2;
+		dup2(prompt->old_stdout, STDOUT_FILENO);
 	}
 }
 
