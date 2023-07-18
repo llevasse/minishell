@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 22:04:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:07:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,13 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		return ((void)printf("Bad assignment\n"));
 	key = ft_strdup(ft_strsep(&input, "="));
 	ft_add_garbage(&garbage, key);
-	if (get_char_pos(key, '"') != -1)
+	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key, garbage);
 	else
 		check_is_env_var(&key, garbage);
 	content = ft_strdup(ft_strsep(&input, " "));
 	ft_add_garbage(&garbage, content);
-	if (get_char_pos(content, '"') != -1)
+	if (get_char_pos(content, '"') != -1 || get_char_pos(content, 39) != -1)
 		check_quotes(prompt, &content, garbage);
 	else
 		check_is_env_var(&content, garbage);
