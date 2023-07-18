@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:49:41 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/18 11:37:27 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ char	*get_new_path(char **directory, char *new_path, size_t i)
 		if (!ft_strcmp(directory[i + 1], "."))
 		{
 			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
+			if (!directory[i + 1])
+				break ;
 			i++;
 		}
 		else if (!ft_strcmp(directory[i + 1], ".."))
 		{
-			if (directory[i + 1])
-				i += 1;
+			if (!directory[i + 1])
+				break ;
+			i += 1;
 		}
 		else
 			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
@@ -68,6 +71,7 @@ void	ft_cd(t_prompt *prompt)
 		new_path = ft_clear_path(new_path);
 		if (chdir(new_path) == 0)
 		{
+			printf("%s\n", new_path);
 			setenv("PWD", new_path, 1);
 		}
 		else
