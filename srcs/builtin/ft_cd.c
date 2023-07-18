@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 14:11:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:35:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,22 @@ void	ft_cd(t_prompt *prompt)
 	if (!prompt->args)
 	{
 		new_path = getenv("HOME");
-		printf("Searching for dir : %s\n", new_path);
 		if (chdir(new_path) == 0)
 			setenv("PWD", new_path, 1);
 		else
 			printf("echec\n");
 	}
+	else if (prompt->args[0][0] == '/')
+	{
+		if (chdir(prompt->args[0]) == 0)
+				setenv("PWD", prompt->args[0], 1);
+		else
+			printf("Error :(\n");
+	}
 	else if (prompt->args)
 	{
 		new_path = ft_strjoin(ft_strjoin(getenv("PWD"), "/"), prompt->args[0]);
 		new_path = ft_clear_path(new_path);
-		printf("Searching for dir : %s\n", new_path);
 		if (chdir(new_path) == 0)
 			setenv("PWD", new_path, 1);
 		else
