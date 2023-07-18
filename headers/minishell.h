@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 17:53:55 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/18 08:06:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int			get_substr_pos(char *str, char *sub_str);
 // direction.c
 void		check_redirection(char *input, t_prompt *prompt,
 				t_garbage *garbage);
-void		set_output(char *input, t_prompt *prompt);
+void		set_output(char *input, t_prompt *prompt, t_garbage *garbage);
 void		set_output_append(char *input, t_prompt *prompt);
 void		reset_stdio_fd(t_prompt *prompt);
 

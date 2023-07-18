@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/17 23:17:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 08:08:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,6 @@
 #include "../../headers/minishell.h"
 #include <ctype.h>
 
-//TODO pass environment variable content as file name 
-// ex : cat srcs/minishell.c > $USER
-// will print the outpur of cat in a file named after the content of $USER
-
 //TODO cat text0.txt > output.txt text1.txt
 //	is the same as doing 'cat text0.txt text1.txt > output.txt
 
@@ -36,11 +32,10 @@
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	if (get_char_pos(input, '>') != -1)
-		set_output(input, prompt);
-	(void)garbage;
+		set_output(input, prompt, garbage);
 }
 
-void	set_output(char *input, t_prompt *prompt)
+void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int			i;
 	char		*name;
@@ -53,6 +48,8 @@ void	set_output(char *input, t_prompt *prompt)
 	if (!input[i])
 		return ((void)printf("Parsing error around >\n"));
 	input += i;
+	while (get_char_pos(input, '$') != -1)
+		check_is_env_var(&input, garbage);
 	name = ft_strsep(&input, " ");
 	prompt->old_stdout = dup(1);
 	close(1);
