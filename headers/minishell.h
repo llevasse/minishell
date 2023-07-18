@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 21:04:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:22:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_export
 {
 	char				*key;
 	char				*content;
-	struct s_export		next;
+	struct s_export		*next;
 }	t_export;
 
 typedef struct s_prompt
@@ -38,7 +38,7 @@ typedef struct s_prompt
 	int					old_stdin;
 	char				*cmd;
 	char				**args;
-	t_export			export_args;
+	t_export			*export_args;
 	struct s_prompt		*input_prompt;
 	struct s_prompt		*output_prompt;
 }	t_prompt;

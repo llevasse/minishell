@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 21:04:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:28:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,12 @@ void	ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage)
 
 t_export	*get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
+	int	equal_pos;
 
+	equal_pos = get_char_pos(input, '=');
+	if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
+		return ((void)printf("Bad assignment\n"), NULL);
+	(void)prompt;
+	(void)garbage;
+	return (NULL);
 }
