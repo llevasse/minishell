@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 08:08:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 08:27:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <ctype.h>
 
 //TODO cat text0.txt > output.txt text1.txt
 //	is the same as doing 'cat text0.txt text1.txt > output.txt
