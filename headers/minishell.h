@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 21:22:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:49:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void		ft_add_garbage(t_garbage **lst, void *address);
 // export.c
 t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
 void		ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage);
-t_export	*get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
+void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
@@ -118,7 +118,7 @@ void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage);
 void		ft_pwd(void);
-void		ft_export(void);
+void		ft_export(t_prompt *prompt);
 void		ft_cd(t_prompt *prompt);
 
 #endif

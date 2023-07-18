@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 21:28:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:44:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,20 @@ void	ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage)
 	*lst = new;
 }
 
-t_export	*get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
+void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
-	int	equal_pos;
+	int		equal_pos;
+	char	*key;
+	char	*content;
 
 	equal_pos = get_char_pos(input, '=');
 	if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
-		return ((void)printf("Bad assignment\n"), NULL);
-	(void)prompt;
-	(void)garbage;
-	return (NULL);
+		return ((void)printf("Bad assignment\n"));
+	key = ft_strdup(ft_strsep(&input, "="));
+	ft_add_garbage(&garbage, key);
+	check_quotes(prompt, &key, garbage);
+	content = ft_strdup(ft_strsep(&input, " "));
+	ft_add_garbage(&garbage, content);
+	check_quotes(prompt, &content, garbage);
+	prompt->export_args = ft_new_export(key, content, garbage);
 }

@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 20:58:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 21:49:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 	if (!ft_strcmp(prompt->cmd, "exit"))
 		return (ft_exit(garbage), 1);
 	if (!ft_strcmp(prompt->cmd, "export"))
-		return (ft_export(), 1);
+		return (ft_export(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "pwd"))
 		return (ft_pwd(), 1);
 	if (!ft_strcmp(prompt->cmd, "unset"))
