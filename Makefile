@@ -1,7 +1,7 @@
 #---COMMON_VAR-----------------------------------
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Werror -Wextra
+FLAGS		=	-Wall -Werror -Wextra -fsanitize=address
 RM			=	rm -rf
 RED			=	\033[0;31m
 GREEN		=	\033[0;32m
