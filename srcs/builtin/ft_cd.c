@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 11:37:27 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/18 11:39:55 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,7 @@ void	ft_cd(t_prompt *prompt)
 	{
 		new_path = ft_strjoin("/Users/", getenv("USER"));
 		if (chdir(new_path) == 0)
-		{
 			setenv("PWD", new_path, 1);
-		}
 		else
 			printf("echec\n");
 	}
