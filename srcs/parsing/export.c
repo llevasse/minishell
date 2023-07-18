@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 22:01:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 22:04:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		check_is_env_var(&key, garbage);
 	content = ft_strdup(ft_strsep(&input, " "));
 	ft_add_garbage(&garbage, content);
-	check_quotes(prompt, &content, garbage);
+	if (get_char_pos(content, '"') != -1)
+		check_quotes(prompt, &content, garbage);
+	else
+		check_is_env_var(&content, garbage);
 	prompt->export_args = ft_new_export(key, content, garbage);
 }
