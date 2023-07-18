@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 08:54:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:19:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,60 @@
 
 extern char	**environ;
 
-void	false_exec(char *path, t_prompt *prompt)
+void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 {
 	pid_t	pid;
-	char	*argv[3];
+	char	**argv;
 
 	pid = fork();
 	if (pid == -1)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	else if (pid == 0)
-	{
-		if (!prompt->args)
-		{
-			prompt->args = malloc(sizeof(char *) * 1);
-			if (!prompt->args)
-				return ((void) write(2, "error\n", 6), exit(-1));
-			prompt->args[0] = getenv("PWD");
-		}
-		argv[0] = ft_strjoin(ft_strjoin(path, "/"), prompt->cmd);
-		printf("%s\n", argv[0]);
-		argv[1] = prompt->args[0];
-		argv[2] = NULL;
+	{	
+		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 26));
 		execve(argv[0], argv, environ);
 	}
 	else
 		wait(NULL);
+}
+
+int	get_tab_size(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
+{
+	char	**argv;
+	char	*cmd_path;
+	int		i;
+
+	if (!prompt->args)
+		{
+			prompt->args = malloc(sizeof(char *) * 2);
+			ft_add_garbage(&garbage, prompt->args);
+			prompt->args[0] = getenv("PWD");
+			prompt->args[1] = NULL;
+		}
+	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
+	ft_add_garbage(&garbage, argv);
+	cmd_path = ft_strjoin(path, "/");
+	ft_add_garbage(&garbage, cmd_path);
+	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
+	ft_add_garbage(&garbage, argv[0]);
+	i = 0;
+	while (prompt->args[i])
+	{
+		argv[i + 1] = prompt->args[i];
+		i++;
+	}
+	argv[i + 1] = NULL;
+	return (argv);
 }
