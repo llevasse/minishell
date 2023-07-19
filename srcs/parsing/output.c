@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 23:09:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:28:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	while (get_char_pos(input, '$') != -1)
 		check_is_env_var(&input, garbage);
 	name = ft_strsep(&input, " ");
-//	printf("Write to file %s\n", name);
+	printf("Write to file %s\n", name);
 	prompt->old_stdout = dup(1);
 	close(1);
 	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
@@ -89,5 +89,6 @@ void	multiple_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	check_cmd(new_prompt, garbage);
 	if (new_prompt->write_fd == 1)
 		reset_stdio_fd(new_prompt);
-
+	replace_str(&input, get_output(dup_input, garbage), "", garbage);
+	printf("post multiple_output input %s\n", input);
 }
