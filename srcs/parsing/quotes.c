@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 21:57:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:02:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,19 +109,16 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 
 void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 {
-	char	*new_str;
+	char	*original_quote;
 	char	*in_quotes;
 	int		i;
 
 	prompt->quotes = 1;
 	no_end_quote(str, (char)39, "quote>", garbage);
 	i = get_char_pos(*str, (char)39);
+	original_quote = ft_strdup(*str + i);
+	ft_add_garbage(&garbage, original_quote);
+	original_quote[get_char_pos(original_quote + 1, 39) + 2] = '\0';
 	in_quotes = get_quoted_str(*str, (char)39, 0, garbage);
-	prompt->cmd[i] = 0;
-	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, new_str);
-	i = get_char_pos(*str + i, (char)39);
-	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, new_str);
-	*str = new_str;
+	replace_str(str, original_quote, in_quotes, garbage);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 10:44:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:05:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ char	*get_key(t_prompt *prompt, char *input, t_garbage *garbage)
 		check_is_env_var(&key, garbage);
 	if (key[0] == '\0')
 		return ((void)printf("Bad assignment\n"), NULL);
-	printf("Key : |%s|\n", key);
 	if (get_char_pos(key, '$') != -1)
 		return ((void)printf("Invalid key : %s\n", key), NULL);
 	return (key);
@@ -82,6 +81,7 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
 		return ((void)printf("Bad assignment\n"));
 	key = get_key(prompt, input, garbage);
+	printf("Post get_key input : %s\n\n", input);
 	content = get_content(prompt, input, garbage);
 	prompt->export_args = ft_new_export(key, content, garbage);
 }
