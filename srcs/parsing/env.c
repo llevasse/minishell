@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 22:01:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:32:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 	ft_add_garbage(&garbage, path);
 	while (*path && !has_exec)
 		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"), garbage);
+	if (prompt->write_fd == 1)
+		reset_stdio_fd(prompt);
 	return (has_exec);
 }
 
