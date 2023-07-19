@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 15:21:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:03:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void		reset_stdio_fd(t_prompt *prompt);
 
 // output.c
 void		set_output(char *input, t_prompt *prompt, t_garbage *garbage);
+void		multiple_output(char *input, t_prompt *prompt, t_garbage *garbage);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);
