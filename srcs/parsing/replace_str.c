@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 22:12:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 22:50:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 
 	if (!new_substr)
 		new_substr = "";
-	printf("substr |%s| in |%s|\n", old_substr, *str);
 	pre_substr = get_pre_substr(*str, old_substr, garbage);
 	post_substr = get_post_substr(*str, old_substr, garbage);
 	new_str = ft_strjoin(pre_substr, new_substr);

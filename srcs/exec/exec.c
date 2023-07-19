@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 13:39:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 23:05:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	while (prompt->args[i])
 	{
 		argv[i + 1] = prompt->args[i];
+//		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;
