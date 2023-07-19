@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/18 21:49:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 22:16:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 
 	if (!prompt)
 		return ;
+	i = 0;
+	printf("current cmd : |%s", prompt->cmd);
+	while (prompt->args && prompt->args[i])
+		printf("%s ", prompt->args[i++]);
+	printf("|\n");
 	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->d_quotes && !prompt->quotes && \
@@ -72,7 +77,6 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt, garbage))
 		return ;
-	i = 0;
 	if (prompt->cmd[0] == '\0')
 		prompt->cmd = "''";
 	printf("%s unknown command with argument(s) ", prompt->cmd);

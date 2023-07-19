@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 22:00:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 22:15:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ char	*get_output(char *input, t_garbage *garbage)
 	
 	i = get_char_pos(input, '>');
 	j = 0;
-	while (input[i + j] && input[i + j] == '>' && ft_isspace(input[i + j]))
+	while (input[i + j] && (input[i + j] == '>' || ft_isspace(input[i + j])))
 		j++;
 	while (input[i + j] && !ft_isspace(input[i + j]))
 		j++;
 	output = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(&garbage, output);
-	ft_strlcpy(output, input + i, j);
+	ft_strlcpy(output, input + i, j + 1);
 	return (output);	
 }
 
@@ -75,7 +75,6 @@ void	multiple_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	output = get_output(input, garbage);
 	dup_input = ft_strdup(input);
 	replace_str(&dup_input, output, "", garbage);
-	printf("CC\n");
 	new_prompt->write_fd = -1;
 	new_prompt->d_quotes = prompt->d_quotes;
 	new_prompt->quotes = prompt->d_quotes;

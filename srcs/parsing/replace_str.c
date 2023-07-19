@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/15 13:17:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 22:12:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,19 @@ char	*get_post_substr(char *str, char *substr, t_garbage *garbage)
 {
 	char	*post_substr;
 	int		substr_pos;
+	int		substr_len;
 
 	substr_pos = get_substr_pos(str, substr);
-	post_substr = ft_strdup(str + substr_pos + ft_strlen(substr));
-	if (!post_substr)
-		return (ft_exit(garbage), NULL);
-	ft_add_garbage(&garbage, post_substr);
+	substr_len = ft_strlen(substr);
+	if (*(str + substr_pos + substr_len) == 0)
+		post_substr = "";
+	else
+	{	
+		post_substr = ft_strdup(str + substr_pos + substr_len);
+		if (!post_substr)
+			return (ft_exit(garbage), NULL);
+		ft_add_garbage(&garbage, post_substr);
+	}
 	return (post_substr);
 }
 
@@ -65,6 +72,7 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 
 	if (!new_substr)
 		new_substr = "";
+	printf("substr |%s| in |%s|\n", old_substr, *str);
 	pre_substr = get_pre_substr(*str, old_substr, garbage);
 	post_substr = get_post_substr(*str, old_substr, garbage);
 	new_str = ft_strjoin(pre_substr, new_substr);
