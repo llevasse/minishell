@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 12:50:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:27:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 	char	*content;
 
 	content = ft_strdup(ft_strsep(input, " "));
-	printf("Content : %s\n\n", content);
 	ft_add_garbage(&garbage, content);
 	if (get_char_pos(content, '"') != -1 || get_char_pos(content, 39) != -1)
 		check_quotes(prompt, &content, garbage);
@@ -78,10 +77,14 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	char	*key;
 	char	*content;
 
-	equal_pos = get_char_pos(input, '=');
-	if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
-		return ((void)printf("Bad assignment\n"));
-	key = get_key(prompt, &input, garbage);
-	content = get_content(prompt, &input, garbage);
-	prompt->export_args = ft_new_export(key, content, garbage);
+	prompt->export_args = NULL;
+	while (get_char_pos(input, '=') != -1)
+	{
+		equal_pos = get_char_pos(input, '=');
+		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
+			return ((void)printf("Bad assignment\n"));
+		key = get_key(prompt, &input, garbage);
+		content = get_content(prompt, &input, garbage);
+		ft_add_export(&prompt->export_args, key, content, garbage);
+	}
 }
