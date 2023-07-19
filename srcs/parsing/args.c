@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 21:43:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:23:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,6 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	i = 0;
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt, input, garbage));
-	while (input[i] && !ft_is_in_str("|><", input[i]))
-		i++;
-	if (ft_is_in_str("|><", input[i]))
-		input[i - 1] = '\0';
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
 		return (ft_exit(garbage));
@@ -42,11 +38,25 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	i = 0;
 	while (args[i])
 	{
+		if (!ft_strcmp(args[i], ">"))
+		{
+			delete_element_at_index(args, i);
+			delete_element_at_index(args, i);		
+		}
 		if (!prompt->d_quotes && !prompt->quotes)
 			check_quotes(prompt, &args[i], garbage);
 		if (!prompt->quotes)
 			check_is_env_var(&args[i], garbage);
 		i++;
+	}
+}
+
+void	delete_element_at_index(char **tab, int index)
+{
+	while (tab[index])
+	{
+		tab[index] = tab[index + 1];
+		index++;
 	}
 }
 

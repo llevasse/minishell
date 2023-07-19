@@ -6,14 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 14:52:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:24:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//TODO cat text0.txt > output.txt text1.txt
-//	is the same as doing 'cat text0.txt text1.txt > output.txt
 
 //TODO redirection multiple output
 // ex : cat text1 text2 > text3 > text4 -> will write in text3 & text4 content of text1 and 2
