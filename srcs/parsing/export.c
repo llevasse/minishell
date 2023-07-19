@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 12:39:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:50:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ void	ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage)
 	*lst = new;
 }
 
-char	*get_key(t_prompt *prompt, char *input, t_garbage *garbage)
+char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*key;	
 
-	key = ft_strdup(ft_strsep(&input, "="));
+	key = ft_strdup(ft_strsep(input, "="));
 	ft_add_garbage(&garbage, key);
 	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key, garbage);
@@ -58,11 +58,12 @@ char	*get_key(t_prompt *prompt, char *input, t_garbage *garbage)
 	return (key);
 }
 
-char	*get_content(t_prompt *prompt, char *input, t_garbage *garbage)
+char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*content;
 
-	content = ft_strdup(ft_strsep(&input, " "));
+	content = ft_strdup(ft_strsep(input, " "));
+	printf("Content : %s\n\n", content);
 	ft_add_garbage(&garbage, content);
 	if (get_char_pos(content, '"') != -1 || get_char_pos(content, 39) != -1)
 		check_quotes(prompt, &content, garbage);
@@ -80,7 +81,7 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	equal_pos = get_char_pos(input, '=');
 	if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
 		return ((void)printf("Bad assignment\n"));
-	key = get_key(prompt, input, garbage);
-	content = get_content(prompt, input, garbage);
+	key = get_key(prompt, &input, garbage);
+	content = get_content(prompt, &input, garbage);
 	prompt->export_args = ft_new_export(key, content, garbage);
 }
