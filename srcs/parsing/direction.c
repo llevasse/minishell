@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 10:50:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:42:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 //TODO cat text0.txt > output.txt text1.txt
 //	is the same as doing 'cat text0.txt text1.txt > output.txt
 
+//TODO redirection input
+
+//TODO heredoc
 
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
