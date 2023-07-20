@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/20 09:45:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 15:15:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	if (!prompt)
 		return ;
 	i = 0;
-	//printf("current cmd : |%s ", prompt->cmd);
-	//while (prompt->args && prompt->args[i])
-	//	printf("%s ", prompt->args[i++]);
-	//printf("|\n");
 	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->d_quotes && !prompt->quotes && \
@@ -94,6 +90,8 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(&garbage, prompt);
 	prompt->write_fd = -1;
+	prompt->old_stdout = -1;
+	prompt->old_stdin = -1;
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
