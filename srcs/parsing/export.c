@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 13:27:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:20:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void	ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage)
 	*lst = new;
 }
 
+/// @brief get element before '=' when export is called.
+/// @param *prompt pointer to prompt struct,
+/// @param *input address of string of the prompt input,
+/// @param *garbage pointer to garbage collector.
+/// @return return string containing key of export.
 char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*key;	
@@ -58,6 +63,11 @@ char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 	return (key);
 }
 
+/// @brief get element past '=' when export is called.
+/// @param *prompt pointer to prompt struct,
+/// @param *input address of string of the prompt input,
+/// @param *garbage pointer to garbage collector.
+/// @return return string containing content of export.
 char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*content;
@@ -71,6 +81,11 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 	return (content);
 }
 
+
+/// @brief In case of export cmd, get and assign every export element.
+/// @param *prompt Pointer to prompt struct,
+/// @param *input String of the prompt input,
+/// @param *garbage Pointer to garbage collector.
 void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
 	int		equal_pos;
