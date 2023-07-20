@@ -6,17 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 09:29:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 10:29:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//TODO redirection multiple output
-// ex : cat text1 text2 > text3 > text4 -> will write in text3 & text4 content of text1 and 2
-
-//TODO cat > text5 text3 tex4
-// will print content if text3 and text4 in text5
 
 void	printf_args(char **tab)
 {
@@ -28,12 +22,17 @@ void	printf_args(char **tab)
 		printf("%s\n", tab[i++]);
 }
 
+/// @brief Handle output redirection in prompt.
+/// Close stdout fd and assign to output file fd 1, 
+/// So that execve will write into it.
+/// @param *input Prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
 void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int			i;
 	char		*name;
 
-	//printf("Set redirection input : %s\n", input);
 	i = get_char_pos(input, '>');
 	if (input[i + 1] == '>')
 		return (set_output_append(input, prompt, garbage));
@@ -57,6 +56,11 @@ void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	}
 }
 
+
+/// @brief Get output redirection args ("> {file_name}")
+/// @param *input Prompt input,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return a string in the format "> {file_name}"
 char	*get_output(char *input, t_garbage *garbage)
 {
 	char	*output;
@@ -75,9 +79,12 @@ char	*get_output(char *input, t_garbage *garbage)
 	return (output);	
 }
 
-//ex if prompt = cat text1 text2 > text3 > text4
-//will send to check_cmd cat text1 text2 > text3
-//and cat text1 text2 > text4
+/// @brief Handle multiple output in prompt.
+/// Rerun check_cmd with one output redirection removed, 
+/// recursivly, until all output have been filled.
+/// @param *input Prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
 void	multiple_output(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	char		*output;
