@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 09:50:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:14:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 
 //TODO heredoc
 
+
+/// @brief Check and apply redirection in input.
+/// @param *input String of the prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	if (get_char_pos(input, '>') != -1)
@@ -23,7 +28,10 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 }
 
 
-
+/// @brief Append output of cmd to end of file.
+/// @param *input String of the prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
 void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int		i;
@@ -48,6 +56,8 @@ void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage)
 	}
 }
 
+/// @brief Reset fd 1 to stdout.
+/// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
 	if (prompt->write_fd >= 0)
