@@ -6,11 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 23:40:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:49:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
@@ -26,8 +26,8 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	if (!prompt->args)
 		return (ft_exit(garbage));
 	parse_args(prompt, prompt->args, garbage);
-	if (ft_is_in_str("|><", input[i]))
-		input[i - 1] = ' ';
+//	if (ft_is_in_str("|><", input[i]))
+//		input[i - 1] = ' ';
 	input += i;
 }
 
@@ -40,9 +40,9 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	{
 		if (!ft_strcmp(args[i], ">"))
 		{
-		//	printf("rm arg %s\n", args[i]);
+//			printf("rm arg %s\n", args[i]);
 			delete_element_at_index(args, i);
-			//printf("rm arg %s\n", args[i]);
+//			printf("rm arg %s\n", args[i]);
 			delete_element_at_index(args, i);		
 		}
 		if (prompt && garbage)

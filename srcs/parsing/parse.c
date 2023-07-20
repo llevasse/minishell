@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/19 23:33:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:45:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void	parse(char *input, t_garbage *garbage)
 		return ;
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
-//	if (prompt->write_fd == 1)
-//		reset_stdio_fd(prompt);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -105,6 +103,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
+//	printf("Cmd : %s\n", prompt->cmd);
 	check_redirection(input, prompt, garbage);
 	return (prompt);
 }
