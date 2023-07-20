@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 22:28:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:44:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 	int			i;
 	char		*name;
 
-	printf("Input of set_input : %s\n", input);
 	i = get_char_pos(input, '<');
 	if (input[i + 1] == '<')
 		return (set_output_append(input, prompt, garbage));
@@ -43,7 +42,6 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 		printf("Error in opening file, set redirection to error output\n");
 		dup2(prompt->old_stdin, STDOUT_FILENO);
 	}
-	printf("End set_input\n");
 }
 
 
