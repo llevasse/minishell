@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 23:41:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:29:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 //TODO redirection multiple output
 // ex : cat text1 text2 > text3 > text4 -> will write in text3 & text4 content of text1 and 2
+
+//TODO cat > text5 text3 tex4
+// will print content if text3 and text4 in text5
 
 void	printf_args(char **tab)
 {
