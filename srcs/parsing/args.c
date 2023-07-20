@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 09:49:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 11:03:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	input += i;
 }
 
+/// @brief Parse each quoted args and env variable,
+/// and delete from tab each redirection and redirection file.
+/// @param *prompt Pointer to prompt struct,
+/// @param **args Pointer to args,
+/// @param *garbage Pointer to garbage collector.
 void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 {
 	int	i;
@@ -56,6 +61,9 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	}
 }
 
+///	@brief Delete element in tab at index.
+/// @param **tab Pointer to tab,
+/// @param index Index of element to delete
 void	delete_element_at_index(char **tab, int index)
 {
 	while (tab[index])
@@ -65,6 +73,11 @@ void	delete_element_at_index(char **tab, int index)
 	}
 }
 
+/// @brief Allocate enough memory for tab based on numbers of elements in *s.
+/// @param *s String containing every element args before split,
+/// @param c Char separating every element in *s,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return allocated pointer of char *.
 char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 {
 	int		i;
@@ -90,6 +103,12 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 	return (res);
 }
 
+/// @brief Get next word at index.
+/// @param *s String containing every element args before split,
+/// @param c Char separating every element in *s,
+/// @param i index to search word from,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return word.
 char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 {
 	int		j;
@@ -112,6 +131,13 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	return (res);
 }
 
+/// @brief Split a string by each c char,
+/// but also take account of quotes and other bash specific args.
+/// @param *prompt Pointer to prompt struct,
+/// @param *s String to split split,
+/// @param c Char separating every element in *s,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return a tab containing every separated element.
 char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
 	char	**res;
