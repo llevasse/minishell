@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 16:04:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:09:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,13 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around <\n"));
-//	if (get_char_pos(input + i, '>') != -1)
-//		multiple_output(input, prompt, garbage);
 	input += i;
 	while (get_char_pos(input, '$') != -1)
 		check_is_env_var(&input, garbage);
 	name = ft_strsep(&input, " ");
 	prompt->old_stdin = dup(0);
-	prompt->old_stdout = dup(1);
-	close(0);
-	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	prompt->write_fd = open(name, O_RDONLY);
+	dup2(prompt->write_fd, STDIN_FILENO);
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening file, set redirection to error output\n");
