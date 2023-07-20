@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/20 15:15:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:30:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	parse(char *input, t_garbage *garbage)
 {
 	t_prompt	*prompt;
 
-	if (!*input)
+	if (!input || !*input)
 		return ;
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
