@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/19 11:02:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:13:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 		pass_single_quotes(prompt, str, garbage);
 	return (1);
 }
+
+// TODO fix bug segfault if more than two (d_)quotes are used.
 
 /// @brief Check if the prompt cmd has a full quote.
 /// @param *prompt Pointer to t_prompt,
