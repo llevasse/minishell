@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/21 22:13:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/21 22:38:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 	i = get_char_pos(*str, quote);
 	while (get_char_pos(*str + i + 1, quote) == -1)
 	{
+		printf("\n Still no end quotes in str |%s| :(\n", *str);
 		new_str = readline(to_print);
 		*str = ft_strjoin(*str, "\n");
 		ft_add_garbage(&garbage, *str);
