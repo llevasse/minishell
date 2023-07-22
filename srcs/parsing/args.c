@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 11:21:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:49:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	i = 0;
 	while (args[i])
 	{
-		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<"))
+		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || \
+		!ft_strcmp(args[i], ">>") || !ft_strcmp(args[i], "<<"))
 		{
 //			printf("rm arg %s\n", args[i]);
 			delete_element_at_index(args, i);

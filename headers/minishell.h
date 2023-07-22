@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 15:00:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 17:39:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ void		multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage);
 
 // heredoc.c
 void		heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
+int			create_heredoc_fd(char **heredoc_name, t_garbage *garbage);
+void		write_heredoc(int fd, char *heredoc_name, t_garbage *garbage);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);
