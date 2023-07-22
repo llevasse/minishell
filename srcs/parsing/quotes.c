@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 14:18:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 14:28:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,10 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	return (new_str);
 }
 
+/// @brief Replace doubles quotes with it's content
+/// @param *prompt Pointer prompt struct,
+/// @param **str Pointer to str containing at least one d_quote,
+/// @param *garbage Pointer to garbage struct. 
 void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 {
 	char	*new_str;
@@ -105,6 +109,10 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	*str = new_str;
 }
 
+/// @brief Replace single quotes with it's content
+/// @param *prompt Pointer prompt struct,
+/// @param **str Pointer to str containing at least one quote,
+/// @param *garbage Pointer to garbage struct. 
 void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 {
 	char	*original_quote;
