@@ -24,6 +24,7 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/direction.c \
 			srcs/parsing/output.c \
 			srcs/parsing/input.c \
+			srcs/parsing/heredoc.c \
 			srcs/parsing/export.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \
