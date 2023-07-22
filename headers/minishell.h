@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 10:03:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 11:19:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ char		**ft_split_args(t_prompt *prompt, char *s, char c,
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
 int			check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage);
 int			check_is_env_var(char **str, t_garbage *garbage);
-int			get_char_pos(char *str, char c);
 char		*get_env_var_name(char *str, t_garbage *garbage);
+
+// chars.c
+int			get_char_pos(char *str, char c);
+int			get_char_occurance(char *str, char c);
 
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
@@ -88,7 +91,7 @@ void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
-void		no_end_quote(char *str, char quote, char *to_print,
+void		no_end_quote(char **str, char quote, char *to_print,
 				t_garbage *garbage);
 void		pass_double_quotes(t_prompt *prompt, char **str,
 				t_garbage *garbage);

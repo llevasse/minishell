@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 22:43:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 11:13:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,6 @@ int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
 		return (false_exec(path, prompt, garbage), closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
-}
-
-/// @brief Check if c is present in *str.
-/// @param *str String to check.
-/// @param c Character to find
-/// @return Return position of c in *str or -1 if none is found.
-int	get_char_pos(char *str, char c)
-{
-	int	i;
-
-	if (!str)
-		return (-1);
-	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
-	if (str[i] == c)
-		return (i);
-	return (-1);
 }
 
 /// @brief get first possible environnement variable int *str
