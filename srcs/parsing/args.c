@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/21 22:51:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:04:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,9 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 		{
 			printf("Quote spotted at index %d\n", i);
 			prompt->d_quotes = 1;
-			printf("Pre no_end_quote str :%s\n", s + i);
-			no_end_quote((&s) + i, '"', "dquote>", garbage);
-			printf("Post no_end_quote str :%s\n", s);
+			printf("Pre no_end_quote str :%s\nAt address %p\n", s + i, s + i);
+			no_end_quote(s + i, '"', "dquote>", garbage);
+			printf("Post no_end_quote str :%s\n\n", s);
 			res[index_word] = get_quoted_str(s + i++, '"', 1, garbage);
 			i += get_char_pos(s + i, '"') + 1;
 		}

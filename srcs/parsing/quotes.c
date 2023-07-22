@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/21 22:38:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:04:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,23 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 /// @param *to_print String to print as prompt while the quote is not ended.
 /// @return Do nothing if quote is full, 
 /// otherwise create an infinte loop until quote ends.
-void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
+void	no_end_quote(char *str, char quote, char *to_print, t_garbage *garbage)
 {
 	char	*new_str;
 	int		i;
 
-	i = get_char_pos(*str, quote);
-	while (get_char_pos(*str + i + 1, quote) == -1)
+	printf("\nChecking end quotes in str |%s|\nAt address %p :(\n", str, str);
+	i = get_char_pos(str, quote);
+	while (get_char_pos(str + i + 1, quote) == -1)
 	{
-		printf("\n Still no end quotes in str |%s| :(\n", *str);
 		new_str = readline(to_print);
-		*str = ft_strjoin(*str, "\n");
-		ft_add_garbage(&garbage, *str);
+		str = ft_strjoin(str, "\n");
+		ft_add_garbage(&garbage, str);
 		if (*new_str != '\0')
-			*str = ft_strjoin(*str, new_str);
+			str = ft_strjoin(str, new_str);
 		free(new_str);
 		new_str = NULL;
-		ft_add_garbage(&garbage, *str);
+		ft_add_garbage(&garbage, str);
 	}
 }
 
@@ -96,7 +96,7 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	int		i;
 
 	prompt->d_quotes = 1;
-	no_end_quote(str, '"', "dquote>", garbage);
+	no_end_quote(*str, '"', "dquote>", garbage);
 	i = get_char_pos(*str, '"');
 	in_quotes = get_quoted_str(*str, '"', 1, garbage);
 	if (!in_quotes)
@@ -117,7 +117,7 @@ void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	int		i;
 
 	prompt->quotes = 1;
-	no_end_quote(str, (char)39, "quote>", garbage);
+	no_end_quote(*str, (char)39, "quote>", garbage);
 	i = get_char_pos(*str, (char)39);
 	original_quote = ft_strdup(*str + i);
 	ft_add_garbage(&garbage, original_quote);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 14:17:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 10:03:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
-void		no_end_quote(char **str, char quote, char *to_print,
+void		no_end_quote(char *str, char quote, char *to_print,
 				t_garbage *garbage);
 void		pass_double_quotes(t_prompt *prompt, char **str,
 				t_garbage *garbage);
