@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 21:53:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/22 22:35:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,14 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	
 	i = get_char_pos(input, '<') + 2;
 	eof_name = ft_strdup(input + i);
+	printf("got %p as EOF_NAME\n", eof_name);
+	ft_add_garbage(&garbage, eof_name);
 	cut_section = get_cut_section(input + (i - 2), garbage);
 	printf("Got cut and replace as |%s|\n", cut_section);
 	i = 0;
-	while (ft_isspace(*eof_name))
-		eof_name++;
-	ft_add_garbage(&garbage, eof_name);
+	while (ft_isspace(eof_name[i]))
+		i++;
+	eof_name += i;
 	eof_name = ft_strsep(&eof_name, " ");
 	ft_add_garbage(&garbage, eof_name);
 	fd = create_heredoc_fd(&eof_name, garbage);
