@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 21:44:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:15:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*eof_name;
 	char	*cut_section;
 	int		i;
-	int		fd;
 	
 	i = get_char_pos(input, '<') + 2;
 	eof_name = ft_strdup(input + i);
@@ -30,10 +29,16 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	while (ft_isspace(eof_name[i]))
 		i++;
 	eof_name += i;
-	eof_name = ft_strsep(&eof_name, " ");
-	fd = create_heredoc_fd(&eof_name, garbage);
-	printf("Got EOF : %s with fd %d\n", eof_name, fd);
-	write_heredoc(fd, eof_name + 1, garbage);
+	if (*eof_name == '"')
+	{
+		eof_name = get_quoted_str(eof_name, *eof_name, 1, garbage);
+		write_heredoc(&eof_name, garbage, 0);
+	}
+	else
+	{
+		eof_name = ft_strsep(&eof_name, " ");
+		write_heredoc(&eof_name, garbage, 1);
+	}
 	replace_str(&input, cut_section, eof_name, garbage);
 	get_args(prompt, input, garbage);
 }
@@ -64,19 +69,23 @@ int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }
 
-void	write_heredoc(int fd, char *heredoc_name, t_garbage *garbage)
+void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 {
-	char *text;
-	char *prompt;
+	char	*text;
+	char	*prompt;
+	int		fd;
 
-	prompt = ft_strjoin(heredoc_name, " >");
+	fd = create_heredoc_fd(heredoc_name, garbage);
+	printf("Got EOF : %s with fd %d\n", *heredoc_name + 1, fd);
+	prompt = ft_strjoin(*heredoc_name + 1, " >");
 	ft_add_garbage(0, &garbage, prompt);
 	while (1)
 	{
 		text = readline(prompt);
-		if (!ft_strcmp(text, heredoc_name))
+		if (!ft_strcmp(text, *heredoc_name + 1))
 			break ;
-		check_is_env_var(&text, garbage);
+		if (use_env_var)
+			check_is_env_var(&text, garbage);
 		write(fd, text, ft_strlen(text));
 		write(fd, "\n", 1);
 		free(text);
