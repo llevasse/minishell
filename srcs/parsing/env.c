@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 11:13:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:35:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 
 	has_exec = 0;
 	path = ft_strdup(getenv("PATH"));
-	ft_add_garbage(&garbage, path);
+	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
 		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"), garbage);
 	reset_stdio_fd(prompt);
@@ -63,7 +63,7 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
-	ft_add_garbage(&garbage, var_name);
+	ft_add_garbage(0, &garbage, var_name);
 	ft_strlcpy(var_name, str + (i - 1), j + 2);
 	return (var_name);
 }

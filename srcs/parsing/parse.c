@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/20 22:38:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:35:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	size_t		len;
 
 	prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(&garbage, prompt);
+	ft_add_garbage(0, &garbage, prompt);
 	prompt->write_fd = -1;
 	prompt->old_stdout = -1;
 	prompt->old_stdin = -1;

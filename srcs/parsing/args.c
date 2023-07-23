@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 17:49:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:35:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 			i++;
 	}
 	res = malloc((j + 1) * sizeof(char *));
-	ft_add_garbage(&garbage, res);
+	ft_add_garbage(0, &garbage, res);
 	return (res);
 }
 
@@ -121,7 +121,7 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	while (s[i + len_word] != c && s[i + len_word] != '\0')
 		len_word++;
 	res = malloc((len_word + 1) * sizeof(char));
-	ft_add_garbage(&garbage, res);
+	ft_add_garbage(0, &garbage, res);
 	while (j < len_word && s[i] != '\0')
 	{
 		res[j] = s[i];
