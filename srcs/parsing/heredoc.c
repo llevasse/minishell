@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:44:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:45:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	i = get_char_pos(input, '<') + 2;
 	eof_name = ft_strdup(input + i);
 	printf("got %p as EOF_NAME\n", eof_name);
-	ft_add_garbage(1, &garbage, eof_name);
+	ft_add_garbage(0, &garbage, eof_name);
 	cut_section = get_cut_section(input + (i - 2), garbage);
 	printf("Got cut and replace as |%s|\n", cut_section);
 	i = 0;
@@ -31,7 +31,6 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 		i++;
 	eof_name += i;
 	eof_name = ft_strsep(&eof_name, " ");
-//	ft_add_garbage(1, &garbage, eof_name);
 	fd = create_heredoc_fd(&eof_name, garbage);
 	printf("Got EOF : %s with fd %d\n", eof_name, fd);
 	write_heredoc(fd, eof_name + 1, garbage);
@@ -46,7 +45,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 
 	i = 0;
 	str = ft_strdup(input);
-	ft_add_garbage(1, &garbage, str);
+	ft_add_garbage(0, &garbage, str);
 	while (str[i] && str[i] == '<')
 		i++;
 	while (str[i] && ft_isspace(str[i]))
@@ -61,7 +60,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
 {
 	*heredoc_name = ft_strjoin(".", *heredoc_name);
-	ft_add_garbage(1, &garbage, *heredoc_name);
+	ft_add_garbage(0, &garbage, *heredoc_name);
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }
 
@@ -71,7 +70,7 @@ void	write_heredoc(int fd, char *heredoc_name, t_garbage *garbage)
 	char *prompt;
 
 	prompt = ft_strjoin(heredoc_name, " >");
-	ft_add_garbage(1, &garbage, prompt);
+	ft_add_garbage(0, &garbage, prompt);
 	while (1)
 	{
 		text = readline(prompt);
