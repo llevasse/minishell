@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/19 23:05:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:39:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,16 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	if (!prompt->args)
 		{
 			prompt->args = malloc(sizeof(char *) * 2);
-			ft_add_garbage(&garbage, prompt->args);
+			ft_add_garbage(0, &garbage, prompt->args);
 			prompt->args[0] = getenv("PWD");
 			prompt->args[1] = NULL;
 		}
 	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
-	ft_add_garbage(&garbage, argv);
+	ft_add_garbage(0, &garbage, argv);
 	cmd_path = ft_strjoin(path, "/");
-	ft_add_garbage(&garbage, cmd_path);
+	ft_add_garbage(0, &garbage, cmd_path);
 	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
-	ft_add_garbage(&garbage, argv[0]);
+	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
 	while (prompt->args[i])
 	{

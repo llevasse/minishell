@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 11:19:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:37:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ int			get_char_occurance(char *str, char c);
 
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
-t_garbage	*ft_new_garbage(void	*address, t_garbage *garbage);
-void		ft_add_garbage(t_garbage **lst, void *address);
+t_garbage	*ft_new_garbage(int log, void *address, t_garbage *garbage);
+void		ft_add_garbage(int log, t_garbage **lst, void *address);
 
 // export.c
 t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
@@ -118,6 +118,12 @@ void		multiple_output(char *input, t_prompt *prompt, t_garbage *garbage);
 // input.c
 void		set_input(char *input, t_prompt *prompt, t_garbage *garbage);
 void		multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage);
+
+// heredoc.c
+void		heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
+int			create_heredoc_fd(char **heredoc_name, t_garbage *garbage);
+void		write_heredoc(int fd, char *heredoc_name, t_garbage *garbage);
+char		*get_cut_section(char *input, t_garbage *garbage);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);

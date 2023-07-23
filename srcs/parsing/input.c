@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 22:44:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:34:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 
 	i = get_char_pos(input, '<');
 	if (input[i + 1] == '<')
-		return (set_output_append(input, prompt, garbage));
+		return (heredoc(input, prompt, garbage));
 	while (input[i] && (input[i] == '<' || isspace(input[i])))
 		i++;
 	if (!input[i])
@@ -62,7 +62,7 @@ char	*get_input(char *input_prompt, t_garbage *garbage)
 	while (input_prompt[i + j] && !ft_isspace(input_prompt[i + j]))
 		j++;
 	input = malloc((j + 1) * sizeof(char));
-	ft_add_garbage(&garbage, input);
+	ft_add_garbage(0, &garbage, input);
 	ft_strlcpy(input, input_prompt + i, j + 1);
 	return (input);	
 }
@@ -80,7 +80,7 @@ void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
 	t_prompt	*new_prompt;
 	
 	new_prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(&garbage, new_prompt);
+	ft_add_garbage(0, &garbage, new_prompt);
 	input = get_input(input_prompt, garbage);
 	dup_input_prompt = ft_strdup(input_prompt);
 	replace_str(&dup_input_prompt, input, "", garbage);

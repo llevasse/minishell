@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/20 13:20:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 10:35:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_export	*ft_new_export(char *key, char *content, t_garbage *garbage)
 	t_export	*new;
 
 	new = malloc(sizeof(struct s_export));
-	ft_add_garbage(&garbage, new);
+	ft_add_garbage(0, &garbage, new);
 	new->key = key;
 	new->content = content;
 	new->next = NULL;
@@ -51,7 +51,7 @@ char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 	char	*key;	
 
 	key = ft_strdup(ft_strsep(input, "="));
-	ft_add_garbage(&garbage, key);
+	ft_add_garbage(0, &garbage, key);
 	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key, garbage);
 	else
@@ -73,7 +73,7 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 	char	*content;
 
 	content = ft_strdup(ft_strsep(input, " "));
-	ft_add_garbage(&garbage, content);
+	ft_add_garbage(0, &garbage, content);
 	if (get_char_pos(content, '"') != -1 || get_char_pos(content, 39) != -1)
 		check_quotes(prompt, &content, garbage);
 	else
