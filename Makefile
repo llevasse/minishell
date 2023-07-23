@@ -40,11 +40,11 @@ OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
 HEADER		=	headers
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS) lib norm
+$(NAME):		$(OBJS) lib norm Makefile $(HEADER)/minishell.h
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
-$(OBJS_DIR)%.o:	%.c $(OBJS_DIR) lib
+$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib Makefile $(HEADER)/minishell.h
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 $(OBJS_DIR):
