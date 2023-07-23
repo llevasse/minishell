@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 22:15:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:22:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	while (ft_isspace(eof_name[i]))
 		i++;
 	eof_name += i;
-	if (*eof_name == '"')
+	if (*eof_name == '"' || *eof_name == 39)
 	{
 		eof_name = get_quoted_str(eof_name, *eof_name, 1, garbage);
 		write_heredoc(&eof_name, garbage, 0);
@@ -76,7 +76,7 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 	int		fd;
 
 	fd = create_heredoc_fd(heredoc_name, garbage);
-	printf("Got EOF : %s with fd %d\n", *heredoc_name + 1, fd);
+	printf("Got EOF : %s with fd %d\n", *heredoc_name, fd);
 	prompt = ft_strjoin(*heredoc_name + 1, " >");
 	ft_add_garbage(0, &garbage, prompt);
 	while (1)
