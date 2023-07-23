@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 22:22:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:45:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,19 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	return (str);
 }
 
+void	replace_space_in_name(char **str, t_garbage *garbage)
+{
+	int	i;
+
+	i = 0;
+	while (*str[i] && !ft_isspace(*str[i]))
+		i++;
+	if (!*str[i])
+		return ;
+	replace_str(str, str[i - 1], "\\ ", garbage);
+	replace_space_in_name(str + i, garbage);
+}
+
 int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
 {
 	*heredoc_name = ft_strjoin(".", *heredoc_name);
@@ -93,4 +106,6 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 	}
 	free(text);
 	text = NULL;
+	replace_space_in_name(heredoc_name, garbage);
+	printf("Pls delete \"%s\"\n", *heredoc_name);
 }
