@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:45:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/23 21:44:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	write_heredoc(int fd, char *heredoc_name, t_garbage *garbage)
 		text = readline(prompt);
 		if (!ft_strcmp(text, heredoc_name))
 			break ;
+		check_is_env_var(&text, garbage);
 		write(fd, text, ft_strlen(text));
 		write(fd, "\n", 1);
 		free(text);
