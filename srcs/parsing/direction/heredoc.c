@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 22:17:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:21:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,26 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
-	char	*quoted;
+	char	*name;
+	char	quote[1];
 	int		i;
 
 	i = 0;
 	str = ft_strdup(input);
-	quoted = NULL;
+	name = NULL;
 	ft_add_garbage(0, &garbage, str);
 	while (str[i] && str[i] == '<')
 		i++;
 	while (str[i] && ft_isspace(str[i]))
 		i++;
 	if (str[i] == '"' || str[i] == 39)
-		quoted = get_quoted_str(str + i, str[i], 0, garbage);
+	{
+		quote[0] = str[i];
+		name = ft_strjoin(get_quoted_str(str + i, str[i], 0, garbage), quote);
+		ft_add_garbage(0, &garbage, name);
+		name = ft_strjoin(quote, name);
+		ft_add_garbage(0, &garbage, name);
+	}
 	else
 	{
 		while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
@@ -76,15 +83,23 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	}
 	if (str[i] != 0)
 		str[i] = 0;
-	if (!str[i] && quoted)
+	if (!str[i] && name)
 	{
-		str = ft_strjoin(str, quoted);
+		str = ft_strjoin(str, name);
 		ft_add_garbage(0, &garbage, str);
 	}
 	printf("Got cut and replace as |%s|\n", str);
 	return (str);
 }
 
+// TODO replace space of file name with '\ ' to fix some stuff
+// ex :
+// minishell >> cat << 'j j'
+// j j >j j
+// minishell >> ls -a
+// minishell >> ./ ../ .git/ .j j
+// minishell >> rm .j j
+// cannot remove '.j' and 'j'
 /// @brief Create heredoc file and get its fd.
 /// @param **heredoc_name Pointer to string of heredoc name,
 /// @param *garbage Pointer to garbage collector.
