@@ -6,13 +6,18 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 09:58:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:25:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
+/// @brief Handle heredoc in prompt.
+/// Create invisible file, write heredoc content in it, and pass it to command.
+/// @param *input Prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
 void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	char	*eof_name;
@@ -43,6 +48,10 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	get_args(prompt, input, garbage);
 }
 
+/// @brief Get section in input calling the heredoc.
+/// @param *input Prompt input,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return heredoc call as str.
 char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
@@ -62,6 +71,10 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	return (str);
 }
 
+/// @brief Create heredoc file and get its fd.
+/// @param **heredoc_name Pointer to string of heredoc name,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return fd of heredoc.
 int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
 {
 	*heredoc_name = ft_strjoin(".", *heredoc_name);
@@ -69,6 +82,10 @@ int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }
 
+/// @brief Write readline input in heredoc file.
+/// @param **heredoc_name Pointer to string of heredoc name,
+/// @param *garbage Pointer to garbage collector,
+/// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
 void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 {
 	char	*text;
@@ -92,6 +109,8 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 	}
 	free(text);
 	text = NULL;
+
+	//TODO created equivalent of printf but return the string instead of printing it.
 	*heredoc_name = ft_strjoin("\"", *heredoc_name);
 	ft_add_garbage(0, &garbage, *heredoc_name);
 	*heredoc_name = ft_strjoin(*heredoc_name, "\"");
