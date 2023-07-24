@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 16:25:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:41:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*cut_section;
 	int		i;
 	
-	i = get_char_pos(input, '<') + 2;
+	i = get_char_pos(input, '<') + 3;
 	eof_name = ft_strdup(input + i);
-	printf("got %p as EOF_NAME\n", eof_name);
+	printf("got %p as |%s|(EOF_NAME)\n", eof_name, eof_name);
 	ft_add_garbage(0, &garbage, eof_name);
-	cut_section = get_cut_section(input + (i - 2), garbage);
-	printf("Got cut and replace as |%s|\n", cut_section);
+	cut_section = get_cut_section(input + (i - 3), garbage);
 	i = 0;
 	while (ft_isspace(eof_name[i]))
 		i++;
@@ -45,6 +44,8 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 		write_heredoc(&eof_name, garbage, 1);
 	}
 	replace_str(&input, cut_section, eof_name, garbage);
+	check_redirection(input, prompt, garbage);
+	printf("New input |%s|\n", input);
 	get_args(prompt, input, garbage);
 }
 
@@ -64,10 +65,11 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 		i++;
 	while (str[i] && ft_isspace(str[i]))
 		i++;
-	while (str[i] && (!ft_isspace(str[i]) || !ft_is_in_str("<>|", str[i])))
+	while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
 		i++;
 	if (str[i] != 0)
 		str[i] = 0;
+	printf("Got cut and replace as |%s|\n", str);
 	return (str);
 }
 

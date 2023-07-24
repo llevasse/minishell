@@ -6,21 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:35:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:13:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	printf_args(char **tab)
-{
-	int	i;
-
-	i = 0;
-	printf("ARGS:\n");
-	while (tab[i])
-		printf("%s\n", tab[i++]);
-}
 
 /// @brief Handle output redirection in prompt.
 /// Close stdout fd and assign to output file fd 1, 
@@ -55,7 +45,6 @@ void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 		dup2(prompt->old_stdout, STDOUT_FILENO);
 	}
 }
-
 
 /// @brief Get output redirection args ("> {file_name}")
 /// @param *input Prompt input,

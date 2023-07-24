@@ -6,11 +6,21 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:35:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:08:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	printf_args(char **tab)
+{
+	int	i;
+
+	i = 0;
+	printf("ARGS:\n");
+	while (tab[i])
+		printf("%s\n", tab[i++]);
+}
 
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
