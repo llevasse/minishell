@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 09:53:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 09:58:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,4 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 	ft_add_garbage(0, &garbage, *heredoc_name);
 	*heredoc_name = ft_strjoin(*heredoc_name, "\"");
 	ft_add_garbage(0, &garbage, *heredoc_name);
-	printf("Pls delete \"%s\"\n", *heredoc_name);
 }
