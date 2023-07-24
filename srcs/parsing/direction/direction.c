@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 16:16:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:48:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //TODO pipes
 
-//output input combination
+//TODO output input combination
 //ex : exec 3<> file # Open file and assign it to fd 3
 
 /// @brief Check and apply redirection in input.

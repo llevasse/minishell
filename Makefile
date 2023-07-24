@@ -21,10 +21,10 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/quotes.c \
 			srcs/parsing/args.c \
 			srcs/parsing/garbage_collector.c \
-			srcs/parsing/direction.c \
-			srcs/parsing/output.c \
-			srcs/parsing/input.c \
-			srcs/parsing/heredoc.c \
+			srcs/parsing/direction/direction.c \
+			srcs/parsing/direction/output.c \
+			srcs/parsing/direction/input.c \
+			srcs/parsing/direction/heredoc.c \
 			srcs/parsing/export.c \
 			srcs/exec/exec.c \
 			srcs/builtin/ft_echo.c \
