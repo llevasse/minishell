@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 22:45:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 08:22:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,23 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	return (str);
 }
 
-void	replace_space_in_name(char **str, t_garbage *garbage)
+char	*replace_space_in_name(char *str, t_garbage *garbage)
 {
 	int	i;
 
 	i = 0;
-	while (*str[i] && !ft_isspace(*str[i]))
+	printf("Searching space in |%s|\n", str);
+	while (str[i] && !ft_isspace(str[i]))
+	{
+		printf("Searching '%c'\n", str[i]);
 		i++;
-	if (!*str[i])
-		return ;
-	replace_str(str, str[i - 1], "\\ ", garbage);
-	replace_space_in_name(str + i, garbage);
+	}
+	if (!str[i])
+		return ((void)printf("No more space found :(\n"), str);
+	replace_str(&str, &str[i], "\\ ", garbage);
+	printf("Post replace |%s|\n", str);
+	replace_space_in_name(str + i + 2, garbage);
+	return (str);
 }
 
 int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
@@ -106,6 +112,6 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 	}
 	free(text);
 	text = NULL;
-	replace_space_in_name(heredoc_name, garbage);
+	*heredoc_name = replace_space_in_name(*heredoc_name, garbage);
 	printf("Pls delete \"%s\"\n", *heredoc_name);
 }
