@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 22:07:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 22:17:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,31 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
+	char	*quoted;
 	int		i;
 
 	i = 0;
 	str = ft_strdup(input);
+	quoted = NULL;
 	ft_add_garbage(0, &garbage, str);
 	while (str[i] && str[i] == '<')
 		i++;
 	while (str[i] && ft_isspace(str[i]))
 		i++;
-	while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
-		i++;
+	if (str[i] == '"' || str[i] == 39)
+		quoted = get_quoted_str(str + i, str[i], 0, garbage);
+	else
+	{
+		while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
+			i++;
+	}
 	if (str[i] != 0)
 		str[i] = 0;
+	if (!str[i] && quoted)
+	{
+		str = ft_strjoin(str, quoted);
+		ft_add_garbage(0, &garbage, str);
+	}
 	printf("Got cut and replace as |%s|\n", str);
 	return (str);
 }
