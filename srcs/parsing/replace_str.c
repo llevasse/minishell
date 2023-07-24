@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:35:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 09:28:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,15 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 	char	*pre_substr;
 	char	*post_substr;
 
+	printf("Replace_str received |%s|\n", *str);
+	printf("Old substr : |%s|\n", old_substr);
+	printf("New substr : |%s|\n", new_substr);
 	if (!new_substr)
 		new_substr = "";
 	pre_substr = get_pre_substr(*str, old_substr, garbage);
+	printf("Pre substr : |%s|\n", pre_substr);
 	post_substr = get_post_substr(*str, old_substr, garbage);
+	printf("Post substr : |%s|\n", post_substr);
 	new_str = ft_strjoin(pre_substr, new_substr);
 	ft_add_garbage(0, &garbage, new_str);
 	new_substr = ft_strjoin(new_str, post_substr);

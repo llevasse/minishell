@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 08:22:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 09:31:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,20 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 
 char	*replace_space_in_name(char *str, t_garbage *garbage)
 {
-	int	i;
+	int		i;
+	char 	space[1];
 
 	i = 0;
-	printf("Searching space in |%s|\n", str);
+	//printf("Searching space in |%s|\n", str);
 	while (str[i] && !ft_isspace(str[i]))
 	{
-		printf("Searching '%c'\n", str[i]);
+	//	printf("Searching '%c'\n", str[i]);
 		i++;
 	}
 	if (!str[i])
 		return ((void)printf("No more space found :(\n"), str);
-	replace_str(&str, &str[i], "\\ ", garbage);
+	space[0] = str[i];
+	replace_str(&str, space, "\\ ", garbage);
 	printf("Post replace |%s|\n", str);
 	replace_space_in_name(str + i + 2, garbage);
 	return (str);
@@ -95,7 +97,7 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 	int		fd;
 
 	fd = create_heredoc_fd(heredoc_name, garbage);
-	printf("Got EOF : %s with fd %d\n", *heredoc_name, fd);
+//	printf("Got EOF : %s with fd %d\n", *heredoc_name, fd);
 	prompt = ft_strjoin(*heredoc_name + 1, " >");
 	ft_add_garbage(0, &garbage, prompt);
 	while (1)
