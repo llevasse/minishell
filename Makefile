@@ -51,6 +51,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
 				@mkdir -p $(OBJS_DIR)srcs
 				@mkdir -p $(OBJS_DIR)srcs/parsing
+				@mkdir -p $(OBJS_DIR)srcs/parsing/direction
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
