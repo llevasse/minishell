@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 17:41:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/24 22:07:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 		write_heredoc(&eof_name, garbage, 1);
 	}
 	replace_str(&input, cut_section, eof_name, garbage);
+	get_args(prompt, input, garbage);
 	check_redirection(input, prompt, garbage);
 	printf("New input |%s|\n", input);
-	get_args(prompt, input, garbage);
 }
 
 /// @brief Get section in input calling the heredoc.
