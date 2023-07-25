@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 22:11:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:21:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ char		*get_quoted_str(char *str, char quote, int env_var,
 void		replace_str(char **str, char *old_substr, char *new_substr,
 				t_garbage *garbage);
 int			get_substr_pos(char *str, char *sub_str);
+
+// insert_at_index.c
+char		*insert_at_index(char *str, char *to_insert, int index, t_garbage *garbage);
 
 // direction.c
 void		check_redirection(char *input, t_prompt *prompt,

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 16:57:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:20:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,18 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 	{
 //		printf("Searching '%c'\n", str[i]);
 		i++;
-//		if (str[i] && ft_isspace(str[i]) && str[i - 1] == '\\')
-//			i++;
+		if (str[i] && ft_isspace(str[i]) && str[i - 1] == '\\')
+			i++;
 	}
 	if (!str[i])
 		return ((void)printf("No more space found :(\n"), str);
 	space[0] = str[i];
 	space[1] = 0;
 	// TODO replace at index !
-	replace_str(&str, space, "\\ ", garbage);
+	str = insert_at_index(str, "\\", i, garbage);
+//	replace_str(&str, space, "\\ ", garbage);
 	printf("Post replace |%s|\n", str);
-	str = replace_space_in_name(str + i + 2, garbage);
+	str = replace_space_in_name(str, garbage);
 	return (str);
 }
 // TODO replace space of file name with '\ ' to fix some stuff
