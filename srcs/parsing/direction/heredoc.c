@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 16:28:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:57:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 		str = ft_strjoin(str, name);
 		ft_add_garbage(0, &garbage, str);
 	}
-//	printf("Got cut and replace as |%s|\n", str);
+	printf("Got cut and replace as |%s|\n", str);
 	return (str);
 }
 
@@ -102,19 +102,22 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 	char 	space[2];
 
 	i = 0;
-	printf("Searching space in |%s|\n", str);
+//	printf("Searching space in |%s|\n", str);
 	while (str[i] && !ft_isspace(str[i]))
 	{
-		printf("Searching '%c'\n", str[i]);
+//		printf("Searching '%c'\n", str[i]);
 		i++;
+//		if (str[i] && ft_isspace(str[i]) && str[i - 1] == '\\')
+//			i++;
 	}
 	if (!str[i])
 		return ((void)printf("No more space found :(\n"), str);
 	space[0] = str[i];
 	space[1] = 0;
+	// TODO replace at index !
 	replace_str(&str, space, "\\ ", garbage);
 	printf("Post replace |%s|\n", str);
-//	replace_space_in_name(str + i + 2, garbage);
+	str = replace_space_in_name(str + i + 2, garbage);
 	return (str);
 }
 // TODO replace space of file name with '\ ' to fix some stuff
