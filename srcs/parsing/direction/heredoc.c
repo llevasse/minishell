@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:36:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 23:42:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	
 	i = get_char_pos(input, '<') + 3;
 	eof_name = ft_strdup(input + i);
-	printf("got %p as |%s|(EOF_NAME)\n", eof_name, eof_name);
+//	printf("got %p as |%s|(EOF_NAME)\n", eof_name, eof_name);
 	ft_add_garbage(0, &garbage, eof_name);
 	cut_section = get_cut_section(input + (i - 3), garbage);
 	i = 0;
@@ -46,7 +46,7 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	replace_str(&input, cut_section, eof_name, garbage);
 	get_args(prompt, input, garbage);
 	check_redirection(input, prompt, garbage);
-	printf("New input |%s|\n", input);
+//	printf("New input |%s|\n", input);
 }
 
 /// @brief Get section in input calling the heredoc.
@@ -159,7 +159,6 @@ void	write_heredoc(t_prompt *p, char **heredoc_name, t_garbage *garbage, int use
 	}
 	free(text);
 	text = NULL;
-
 	//TODO created equivalent of printf but return the string instead of printing it.
 	*heredoc_name = ft_strjoin("\"", *heredoc_name);
 	ft_add_garbage(0, &garbage, *heredoc_name);

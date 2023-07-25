@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:32:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 23:45:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 	}
 }
 
-
 /// @brief Get outin redirection args ("> {file_name}")
 /// @param *input Prompt input,
 /// @param *garbage Pointer to garbage collector.
@@ -57,17 +56,18 @@ char	*get_input(char *input_prompt, t_garbage *garbage)
 	char	*input;
 	int		i;
 	int		j;
-	
+
 	i = get_char_pos(input_prompt, '<');
 	j = 0;
-	while (input_prompt[i + j] && (input_prompt[i + j] == '<' || ft_isspace(input_prompt[i + j])))
+	while (input_prompt[i + j] && \
+	(input_prompt[i + j] == '<' || ft_isspace(input_prompt[i + j])))
 		j++;
 	while (input_prompt[i + j] && !ft_isspace(input_prompt[i + j]))
 		j++;
 	input = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(0, &garbage, input);
 	ft_strlcpy(input, input_prompt + i, j + 1);
-	return (input);	
+	return (input);
 }
 
 /// @brief Handle multiple output in prompt.
@@ -81,7 +81,7 @@ void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
 	char		*input;
 	char		*dup_input_prompt;	
 	t_prompt	*new_prompt;
-	
+
 	new_prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, new_prompt);
 	input = get_input(input_prompt, garbage);
@@ -96,6 +96,7 @@ void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
 	get_args(new_prompt, dup_input_prompt, garbage);
 	check_redirection(dup_input_prompt, new_prompt, garbage);
 	check_cmd(new_prompt, garbage);
-	replace_str(&input_prompt, get_input(dup_input_prompt, garbage), "", garbage);
+	replace_str(&input_prompt, 
+		get_input(dup_input_prompt, garbage), "", garbage);
 	parse_args(NULL, prompt->args, NULL);
 }
