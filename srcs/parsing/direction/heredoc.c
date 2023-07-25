@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 20:33:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 23:32:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,14 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 /// @param **heredoc_name Pointer to string of heredoc name,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return fd of heredoc.
-int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
+int		create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage)
 {
 	*heredoc_name = ft_strjoin(".", replace_space_in_name(*heredoc_name, garbage));
 	ft_add_garbage(0, &garbage, *heredoc_name);
+	prompt->next_cmd = ft_strjoin(prompt->next_cmd, " ");
+	ft_add_garbage(0, &garbage, prompt->next_cmd);
+	prompt->next_cmd = ft_strjoin(prompt->next_cmd, *heredoc_name);
+	ft_add_garbage(0, &garbage, prompt->next_cmd);
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }
 

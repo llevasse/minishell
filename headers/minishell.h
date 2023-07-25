@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 20:21:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 23:30:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ typedef struct s_prompt
 	char				*cmd;
 	char				**args;
 	t_export			*export_args;
-	struct s_prompt		*input_prompt;
-	struct s_prompt		*output_prompt;
+	char				*next_cmd;
 }	t_prompt;
 
 typedef struct s_garbage
@@ -124,7 +123,7 @@ void		multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage);
 
 // heredoc.c
 void		heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
-int			create_heredoc_fd(char **heredoc_name, t_garbage *garbage);
+int			create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage);
 void		write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var);
 char		*get_cut_section(char *input, t_garbage *garbage);
 
