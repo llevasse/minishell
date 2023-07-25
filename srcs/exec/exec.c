@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/24 15:30:59 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/25 14:33:29 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	false_exec(char *path, t_prompt *prompt)
 			prompt->args[0] = getenv("PWD");
 		}
 		argv[0] = ft_strjoin(ft_strjoin(path, "/"), prompt->cmd);
-		printf("%s\n", argv[0]);
 		argv[1] = prompt->args[0];
 		argv[2] = NULL;
 		if (access(argv[0], X_OK == -1))
@@ -53,5 +52,5 @@ void	false_exec(char *path, t_prompt *prompt)
 		execve(argv[0], argv, environ);
 	}
 	else
-		wait(NULL);
+		waitpid(pid, NULL, 0);
 }
