@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:32:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 23:36:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	if (*eof_name == '"' || *eof_name == 39)
 	{
 		eof_name = get_quoted_str(eof_name, *eof_name, 1, garbage);
-		write_heredoc(&eof_name, garbage, 0);
+		write_heredoc(prompt, &eof_name, garbage, 0);
 	}
 	else
 	{
 		eof_name = ft_strsep(&eof_name, " ");
-		write_heredoc(&eof_name, garbage, 1);
+		write_heredoc(prompt, &eof_name, garbage, 1);
 	}
 	replace_str(&input, cut_section, eof_name, garbage);
 	get_args(prompt, input, garbage);
@@ -133,7 +133,7 @@ int		create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage
 /// @param **heredoc_name Pointer to string of heredoc name,
 /// @param *garbage Pointer to garbage collector,
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
-void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
+void	write_heredoc(t_prompt *p, char **heredoc_name, t_garbage *garbage, int use_env_var)
 {
 	char	*text;
 	char	*prompt;
@@ -142,7 +142,7 @@ void	write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var)
 
 	delimiter = ft_strdup(*heredoc_name);
 	ft_add_garbage(0, &garbage, delimiter);
-	fd = create_heredoc_fd(heredoc_name, garbage);
+	fd = create_heredoc_fd(p, heredoc_name, garbage);
 	prompt = ft_strjoin(delimiter, " >");
 	ft_add_garbage(0, &garbage, prompt);
 	while (1)
