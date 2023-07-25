@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 23:21:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:29:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,26 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	return (str);
 }
 
+char	*replace_space_in_name(char *str, t_garbage *garbage)
+{
+	int		i;
+	char 	space[1];
+
+	i = 0;
+	printf("Searching space in |%s|\n", str);
+	while (str[i] && !ft_isspace(str[i]))
+	{
+		printf("Searching '%c'\n", str[i]);
+		i++;
+	}
+	if (!str[i])
+		return ((void)printf("No more space found :(\n"), str);
+	space[0] = str[i];
+	replace_str(&str, space, "\\ ", garbage);
+	printf("Post replace |%s|\n", str);
+//	replace_space_in_name(str + i + 2, garbage);
+	return (str);
+}
 // TODO replace space of file name with '\ ' to fix some stuff
 // ex :
 // minishell >> cat << 'j j'
@@ -106,7 +126,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 /// @return Return fd of heredoc.
 int		create_heredoc_fd(char **heredoc_name, t_garbage *garbage)
 {
-	*heredoc_name = ft_strjoin(".", *heredoc_name);
+	*heredoc_name = ft_strjoin(".", replace_space_in_name(*heredoc_name, garbage));
 	ft_add_garbage(0, &garbage, *heredoc_name);
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }
