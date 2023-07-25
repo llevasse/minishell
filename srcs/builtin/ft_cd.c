@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 11:39:55 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/24 17:44:56 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_new_path(char **directory, char *new_path, size_t i)
 		{
 			if (!directory[i + 1])
 				break ;
-			i += 1;
+			i++;
 		}
 		else
 			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
@@ -53,13 +53,15 @@ char	*ft_clear_path(char *path)
 void	ft_cd(t_prompt *prompt)
 {
 	char	*new_path;
+	char 	cwd[PATH_MAX];
+
 
 	new_path = getenv("PWD");
 	if (!prompt->args)
 	{
 		new_path = ft_strjoin("/Users/", getenv("USER"));
 		if (chdir(new_path) == 0)
-			setenv("PWD", new_path, 1);
+			getcwd(cwd, PATH_MAX);
 		else
 			printf("echec\n");
 	}
@@ -67,11 +69,9 @@ void	ft_cd(t_prompt *prompt)
 	{
 		new_path = ft_strjoin(ft_strjoin(getenv("PWD"), "/"), prompt->args[0]);
 		new_path = ft_clear_path(new_path);
+		printf("%s\n", new_path);
 		if (chdir(new_path) == 0)
-		{
-			printf("%s\n", new_path);
-			setenv("PWD", new_path, 1);
-		}
+			getcwd(cwd, PATH_MAX);
 		else
 			ft_printf("wrong directory\n");
 	}
