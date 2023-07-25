@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 16:10:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:28:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 char	*replace_space_in_name(char *str, t_garbage *garbage)
 {
 	int		i;
-	char 	space[1];
+	char 	space[2];
 
 	i = 0;
 	printf("Searching space in |%s|\n", str);
@@ -111,6 +111,7 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 	if (!str[i])
 		return ((void)printf("No more space found :(\n"), str);
 	space[0] = str[i];
+	space[1] = 0;
 	replace_str(&str, space, "\\ ", garbage);
 	printf("Post replace |%s|\n", str);
 //	replace_space_in_name(str + i + 2, garbage);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 22:46:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:26:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_substr_pos(char *str, char *sub_str)
 	while (str[i] && ft_strncmp(str + i, sub_str, ft_strlen(sub_str)))
 		i++;
 	if (!str[i])
-		return (0);
+		return (-1);
 	return (i);
 }
 
@@ -29,14 +29,16 @@ char	*get_pre_substr(char *str, char *substr, t_garbage *garbage)
 {
 	char	*pre_substr;
 	int		substr_pos;
+	int		substr_len;
 
+	printf("get_pre_substr |%s|(%d)\n", str, (int)ft_strlen(str));
 	substr_pos = get_substr_pos(str, substr);
+	substr_len = (int)ft_strlen(substr);
 	if (substr_pos == -1)
 		return ("");
+	printf("Substr |%s|(%d) at pos %d\n", substr, substr_len, substr_pos);
 	str[substr_pos] = 0;
 	pre_substr = ft_strdup(str);
-	if (!pre_substr)
-		return (ft_exit(garbage), NULL);
 	ft_add_garbage(0, &garbage, pre_substr);
 	str[substr_pos] = *substr;
 	return (pre_substr);
@@ -54,7 +56,6 @@ char	*get_post_substr(char *str, char *substr, t_garbage *garbage)
 		post_substr = "";
 	else
 	{
-		printf("Substr |%s|(%d) at pos %d\n", substr, substr_len, substr_pos);
 		post_substr = ft_strdup(str + substr_pos + substr_len);
 		if (!post_substr)
 			return (ft_exit(garbage), NULL);
@@ -74,6 +75,8 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 	printf("Replace_str received |%s|\n", *str);
 	printf("Old substr : |%s|\n", old_substr);
 	printf("New substr : |%s|\n", new_substr);
+	if (get_substr_pos(*str, old_substr) == -1)
+		return ;
 	if (!new_substr)
 		new_substr = "";
 	pre_substr = get_pre_substr(*str, old_substr, garbage);
