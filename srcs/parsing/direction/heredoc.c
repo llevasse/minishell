@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 20:20:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 20:27:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,43 +92,28 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 		str = ft_strjoin(str, name);
 		ft_add_garbage(0, &garbage, str);
 	}
-	printf("Got cut and replace as |%s|\n", str);
+//	printf("Got cut and replace as |%s|\n", str);
 	return (str);
 }
 
 char	*replace_space_in_name(char *str, t_garbage *garbage)
 {
 	int		i;
-	char 	space[2];
 
 	i = 0;
-//	printf("Searching space in |%s|\n", str);
 	while (str[i] && !ft_isspace(str[i]))
 	{
-//		printf("Searching '%c'\n", str[i]);
 		i++;
 		if (str[i] && ft_isspace(str[i]) && str[i - 1] == '\\')
 			i++;
 	}
 	if (!str[i])
-		return ((void)printf("No more space found :(\n"), str);
-	space[0] = str[i];
-	space[1] = 0;
-	// TODO replace at index !
+		return (str);
 	str = insert_at_index(str, "\\", i, garbage);
-//	replace_str(&str, space, "\\ ", garbage);
-	printf("Post replace |%s|\n", str);
 	str = replace_space_in_name(str, garbage);
 	return (str);
 }
-// TODO replace space of file name with '\ ' to fix some stuff
-// ex :
-// minishell >> cat << 'j j'
-// j j >j j
-// minishell >> ls -a
-// minishell >> ./ ../ .git/ .j j
-// minishell >> rm .j j
-// cannot remove '.j' and 'j'
+
 /// @brief Create heredoc file and get its fd.
 /// @param **heredoc_name Pointer to string of heredoc name,
 /// @param *garbage Pointer to garbage collector.
