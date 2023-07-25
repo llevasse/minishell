@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 11:29:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:10:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
 	char	*name;
-	char	quote[1];
+	char	quote[2];
 	int		i;
 
 	i = 0;
 	str = ft_strdup(input);
+//	printf("get_cut_section received |%s|\n", str);
 	name = NULL;
 	ft_add_garbage(0, &garbage, str);
 	while (str[i] && str[i] == '<')
@@ -71,10 +72,13 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	if (str[i] == '"' || str[i] == 39)
 	{
 		quote[0] = str[i];
+		quote[1] = 0;
 		name = ft_strjoin(get_quoted_str(str + i, str[i], 0, garbage), quote);
+//		printf("0 get_cut_section quoted |%s|\n", name);
 		ft_add_garbage(0, &garbage, name);
 		name = ft_strjoin(quote, name);
 		ft_add_garbage(0, &garbage, name);
+//		printf("1 get_cut_section quoted |%s|\n", name);
 	}
 	else
 	{
@@ -88,7 +92,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 		str = ft_strjoin(str, name);
 		ft_add_garbage(0, &garbage, str);
 	}
-	printf("Got cut and replace as |%s|\n", str);
+//	printf("Got cut and replace as |%s|\n", str);
 	return (str);
 }
 
