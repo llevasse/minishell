@@ -6,11 +6,12 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 16:48:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:35:13 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../headers/minishell.h"
+#include <ctype.h>
 
 //TODO pipes
 

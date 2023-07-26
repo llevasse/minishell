@@ -6,11 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:34:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:32:25 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../headers/minishell.h"
 
 /// @brief Handle input redirection in prompt.
 /// Close stdin fd and assign to input file fd 0, 

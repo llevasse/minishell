@@ -6,12 +6,12 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 23:17:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:32:21 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "minishell.h"
+#include "../../../headers/minishell.h"
 
 /// @brief Handle heredoc in prompt.
 /// Create invisible file, write heredoc content in it, and pass it to command.

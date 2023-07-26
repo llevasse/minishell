@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 11:12:43 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/22 11:19:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:30:34 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../../headers/minishell.h"
 
 /// @brief Check if c is present in *str.
 /// @param *str String to check.

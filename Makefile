@@ -41,7 +41,7 @@ HEADER		=	headers/minishell.h
 #---RULES----------------------------------------
 all:			norm lib $(NAME)
 
-$(NAME):		$(OBJS) lib norm Makefile $(HEADER)/minishell.h
+$(NAME):		$(OBJS) lib norm Makefile $(HEADER)
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
