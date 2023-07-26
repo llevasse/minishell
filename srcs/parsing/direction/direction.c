@@ -6,41 +6,51 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:08:58 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/24 16:48:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
-#include <ctype.h>
+#include "minishell.h"
 
-//TODO pass environment variable content as file name 
-// ex : cat srcs/minishell.c > $USER
-// will print the outpur of cat in a file named after the content of $USER
+//TODO pipes
 
+//TODO output input combination
+//ex : exec 3<> file # Open file and assign it to fd 3
+
+/// @brief Check and apply redirection in input.
+/// @param *input String of the prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	if (get_char_pos(input, '>') != -1)
-		set_output(input, prompt);
-	(void)garbage;
+		set_output(input, prompt, garbage);
+	if (get_char_pos(input, '<') != -1)
+		set_input(input, prompt, garbage);
 }
 
-void	set_output(char *input, t_prompt *prompt)
+
+/// @brief Append output of cmd to end of file.
+/// @param *input String of the prompt input,
+/// @param *prompt Pointer to prompt struct,
+/// @param *garbage Pointer to garbage collector.
+void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage)
 {
-	int			i;
-	char		*name;
+	int		i;
+	char	*name;
 
 	i = get_char_pos(input, '>');
-	if (input[i + 1] == '>')
-		return (set_output_append(input, prompt));
 	while (input[i] && (input[i] == '>' || isspace(input[i])))
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around >\n"));
 	input += i;
+	while (get_char_pos(input, '$') != -1)
+		check_is_env_var(&input, garbage);
 	name = ft_strsep(&input, " ");
 	prompt->old_stdout = dup(1);
 	close(1);
-	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	prompt->write_fd = open(name, O_RDWR | O_APPEND | O_CREAT, 0666);
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening file, set redirection to error output\n");
@@ -48,27 +58,21 @@ void	set_output(char *input, t_prompt *prompt)
 	}
 }
 
-void	set_output_append(char *input, t_prompt *prompt)
-{
-	int	i;	
-
-	i = get_char_pos(input, '>');
-	while (input[i] && input[i] == '>' && isspace(input[i]))
-		i++;
-	if (!input[i])
-		return ((void)printf("Parsing error around >\n"));
-	prompt->write_fd = open(ft_strsep(&input, " "),
-			O_RDWR | O_APPEND | O_CREAT, 0666);
-	if (prompt->write_fd == -1)
-	{
-		printf("Error in opening file, set redirection to error output\n");
-		prompt->write_fd = 2;
-	}
-}
-
+/// @brief Reset fd 1 to stdout.
+/// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
-	close(prompt->write_fd);
-	dup2(prompt->old_stdout, 1);
-	close(prompt->old_stdout);
+	if (prompt->old_stdout != -1)
+	{
+		close(prompt->write_fd);
+		dup2(prompt->old_stdout, 1);
+		if (prompt->old_stdout >= 0)
+			close(prompt->old_stdout);
+	}
+	if (prompt->old_stdin != -1)
+	{
+		close(prompt->write_fd);
+		dup2(prompt->old_stdin, 0);
+		close(prompt->old_stdin);
+	}
 }

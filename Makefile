@@ -12,23 +12,28 @@ LIBFT_PATH	=	libft/
 LIBFT_NAME	=	libft.a
 LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 #---MINISHELL_VAR----------------------------------
-SRC			=	srcs/minishell.c \
-				srcs/parsing/ft_strsep.c \
-				srcs/parsing/parse.c \
-				srcs/parsing/env.c \
-				srcs/parsing/replace_str.c \
-				srcs/parsing/quotes.c \
-				srcs/parsing/args.c \
-				srcs/parsing/garbage_collector.c \
-				srcs/parsing/direction.c \
-				srcs/exec/exec.c \
-				srcs/builtin/ft_echo.c \
-				srcs/builtin/ft_env.c \
-				srcs/builtin/ft_unset.c \
-				srcs/builtin/ft_exit.c \
-				srcs/builtin/ft_pwd.c \
-				srcs/builtin/ft_export.c \
-				srcs/builtin/ft_cd.c \
+SRC		=	srcs/minishell.c \
+			srcs/parsing/ft_strsep.c \
+			srcs/parsing/parse.c \
+			srcs/parsing/env.c \
+			srcs/parsing/chars.c \
+			srcs/parsing/replace_str.c \
+			srcs/parsing/quotes.c \
+			srcs/parsing/args.c \
+			srcs/parsing/garbage_collector.c \
+			srcs/parsing/direction/direction.c \
+			srcs/parsing/direction/output.c \
+			srcs/parsing/direction/input.c \
+			srcs/parsing/direction/heredoc.c \
+			srcs/parsing/export.c \
+			srcs/exec/exec.c \
+			srcs/builtin/ft_echo.c \
+			srcs/builtin/ft_env.c \
+			srcs/builtin/ft_unset.c \
+			srcs/builtin/ft_exit.c \
+			srcs/builtin/ft_pwd.c \
+			srcs/builtin/ft_export.c \
+			srcs/builtin/ft_cd.c \
 
 OBJS_DIR	=	.OBJS/
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
@@ -36,12 +41,12 @@ HEADER		=	headers/minishell.h
 #---RULES----------------------------------------
 all:			norm lib $(NAME)
 
-$(NAME):		$(OBJS) $(HEADER)
+$(NAME):		$(OBJS) lib norm Makefile $(HEADER)/minishell.h
 				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
-norm:			| $(SRC) $(HEADER)
-				@norminette $(SRC) $(HEADER) | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
+$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib Makefile $(HEADER)/minishell.h
+				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 lib:			$(LIBFT_PATH)
 				@echo "$(YELLOW)\nCOMPILING $(LIBFT_PATH)\n"
@@ -55,6 +60,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
 				@mkdir -p $(OBJS_DIR)srcs
 				@mkdir -p $(OBJS_DIR)srcs/parsing
+				@mkdir -p $(OBJS_DIR)srcs/parsing/direction
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
 

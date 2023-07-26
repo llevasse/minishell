@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:48:50 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/23 10:35:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,21 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 /// @param quote Character showing begining and end of quote,
 /// @param *to_print String to print as prompt while the quote is not ended.
 /// @return Do nothing if quote is full, 
-/// otherwise create an infinte loop until quote ends.
+/// otherwise create an infinite loop until quote ends.
 void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 {
 	char	*new_str;
-	int		i;
 
-	i = get_char_pos(*str, quote);
-	while (get_char_pos(*str + i + 1, quote) == -1)
+	while (get_char_occurance(*str, quote) % 2 != 0)
 	{
 		new_str = readline(to_print);
 		*str = ft_strjoin(*str, "\n");
-		ft_add_garbage(&garbage, *str);
+		ft_add_garbage(0, &garbage, *str);
 		if (*new_str != '\0')
 			*str = ft_strjoin(*str, new_str);
 		free(new_str);
 		new_str = NULL;
-		ft_add_garbage(&garbage, *str);
+		ft_add_garbage(0, &garbage, *str);
 	}
 }
 
@@ -72,7 +70,7 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	i = get_char_pos(str, quote);
 	j = get_char_pos(str + i + 1, quote) - i;
 	new_str = malloc((j + 1) * sizeof(char));
-	ft_add_garbage(&garbage, new_str);
+	ft_add_garbage(0, &garbage, new_str);
 	j = 0;
 	i++;
 	while (str[i + j] && str[i + j] != quote)
@@ -86,6 +84,10 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	return (new_str);
 }
 
+/// @brief Replace doubles quotes with it's content
+/// @param *prompt Pointer prompt struct,
+/// @param **str Pointer to str containing at least one d_quote,
+/// @param *garbage Pointer to garbage struct. 
 void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 {
 	char	*new_str;
@@ -100,28 +102,29 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 		return ;
 	*str[i] = 0;
 	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, new_str);
+	ft_add_garbage(0, &garbage, new_str);
 	i = get_char_pos(*str + i, '"');
 	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, new_str);
+	ft_add_garbage(0, &garbage, new_str);
 	*str = new_str;
 }
 
+/// @brief Replace single quotes with it's content
+/// @param *prompt Pointer prompt struct,
+/// @param **str Pointer to str containing at least one quote,
+/// @param *garbage Pointer to garbage struct. 
 void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 {
-	char	*new_str;
+	char	*original_quote;
 	char	*in_quotes;
 	int		i;
 
 	prompt->quotes = 1;
 	no_end_quote(str, (char)39, "quote>", garbage);
 	i = get_char_pos(*str, (char)39);
+	original_quote = ft_strdup(*str + i);
+	ft_add_garbage(0, &garbage, original_quote);
+	original_quote[get_char_pos(original_quote + 1, 39) + 2] = '\0';
 	in_quotes = get_quoted_str(*str, (char)39, 0, garbage);
-	prompt->cmd[i] = 0;
-	new_str = ft_strjoin(*str, in_quotes);
-	ft_add_garbage(&garbage, new_str);
-	i = get_char_pos(*str + i, (char)39);
-	new_str = ft_strjoin(new_str, (*str + i + 1));
-	ft_add_garbage(&garbage, new_str);
-	*str = new_str;
+	replace_str(str, original_quote, in_quotes, garbage);
 }

@@ -16,12 +16,12 @@ void	parse(char *input, t_garbage *garbage)
 {
 	t_prompt	*prompt;
 
+	if (!input)
+		ft_exit(garbage);
 	if (!*input)
 		return ;
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
-	if (prompt->write_fd == 1)
-		reset_stdio_fd(prompt);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -35,7 +35,7 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 	if (!ft_strcmp(prompt->cmd, "exit"))
 		return (ft_exit(garbage), 1);
 	if (!ft_strcmp(prompt->cmd, "export"))
-		return (ft_export(), 1);
+		return (ft_export(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "pwd"))
 		return (ft_pwd(), 1);
 	if (!ft_strcmp(prompt->cmd, "unset"))
@@ -51,6 +51,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 
 	if (!prompt)
 		return ;
+	i = 0;
 	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->d_quotes && !prompt->quotes && \
@@ -60,7 +61,6 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt, garbage))
 		return ;
-	i = 0;
 	if (prompt->cmd[0] == '\0')
 		prompt->cmd = "''";
 	printf("%s unknown command with argument(s) ", prompt->cmd);
@@ -78,16 +78,20 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	size_t		len;
 
 	prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(&garbage, prompt);
+	ft_add_garbage(0, &garbage, prompt);
 	prompt->write_fd = -1;
+	prompt->old_stdout = -1;
+	prompt->old_stdin = -1;
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;
+	prompt->export_args = NULL;
 	len = ft_strlen(input);
 	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
+//	printf("Cmd : %s\n", prompt->cmd);
 	check_redirection(input, prompt, garbage);
 	return (prompt);
 }

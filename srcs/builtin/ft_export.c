@@ -6,13 +6,26 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:50:00 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/19 13:27:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-void	ft_export(void)
+void	ft_export(t_prompt *prompt)
 {
-	ft_printf("Cc, je suis export");
+	t_export	*temp;
+
+	printf("Cc, je suis ft_export.\n");
+	temp = prompt->export_args;
+	while (temp)
+	{
+		if (!temp->key)
+			return ;
+		if (temp)
+			printf("Je vais assigne la key \"%s\" au content \"%s\"\n", temp->key, temp->content);
+		else
+			printf("Je vais imprimer une liste des exports\n");
+		temp = temp->next;
+	}
 }

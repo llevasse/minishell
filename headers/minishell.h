@@ -23,17 +23,25 @@
 # include <dirent.h>
 # include <limits.h>
 
+typedef struct s_export
+{
+	char				*key;
+	char				*content;
+	struct s_export		*next;
+}	t_export;
+
 typedef struct s_prompt
 {
-	int				d_quotes;
-	int				quotes;
-	int				write_fd;
-	int				old_stdout;
-	int				old_stdin;
-	char			*cmd;
-	char			**args;
-	struct s_prompt	*input_prompt;
-	struct s_prompt	*output_prompt;
+	int					d_quotes;
+	int					quotes;
+	int					write_fd;
+	int					old_stdout;
+	int					old_stdin;
+	char				*cmd;
+	char				**args;
+	t_export			*export_args;
+	struct s_prompt		*input_prompt;
+	struct s_prompt		*output_prompt;
 }	t_prompt;
 
 typedef struct s_garbage
@@ -56,6 +64,7 @@ char		*ft_strsep(char **p_str, const char *delim);
 // args.c
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
 void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
+void		delete_element_at_index(char **tab, int index);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
 char		**ft_split_args(t_prompt *prompt, char *s, char c,
@@ -63,15 +72,23 @@ char		**ft_split_args(t_prompt *prompt, char *s, char c,
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
-int			check_present_in_path(t_prompt *prompt, char *path);
+int			check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage);
 int			check_is_env_var(char **str, t_garbage *garbage);
-int			get_char_pos(char *str, char c);
 char		*get_env_var_name(char *str, t_garbage *garbage);
+
+// chars.c
+int			get_char_pos(char *str, char c);
+int			get_char_occurance(char *str, char c);
 
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
-t_garbage	*ft_new_garbage(void	*address, t_garbage *garbage);
-void		ft_add_garbage(t_garbage **lst, void *address);
+t_garbage	*ft_new_garbage(int log, void *address, t_garbage *garbage);
+void		ft_add_garbage(int log, t_garbage **lst, void *address);
+
+// export.c
+t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
+void		ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage);
+void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
@@ -92,12 +109,26 @@ int			get_substr_pos(char *str, char *sub_str);
 // direction.c
 void		check_redirection(char *input, t_prompt *prompt,
 				t_garbage *garbage);
-void		set_output(char *input, t_prompt *prompt);
-void		set_output_append(char *input, t_prompt *prompt);
+void		set_output_append(char *input, t_prompt *prompt, t_garbage *garbage);
 void		reset_stdio_fd(t_prompt *prompt);
 
+// output.c
+void		set_output(char *input, t_prompt *prompt, t_garbage *garbage);
+void		multiple_output(char *input, t_prompt *prompt, t_garbage *garbage);
+
+// input.c
+void		set_input(char *input, t_prompt *prompt, t_garbage *garbage);
+void		multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage);
+
+// heredoc.c
+void		heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
+int			create_heredoc_fd(char **heredoc_name, t_garbage *garbage);
+void		write_heredoc(char **heredoc_name, t_garbage *garbage, int use_env_var);
+char		*get_cut_section(char *input, t_garbage *garbage);
+
 // SRCS/EXEC //
-void		false_exec(char *path, t_prompt *prompt);
+void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);
+char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 
 // SRCS/BUILTIN //
 void		ft_echo(t_prompt *prompt);
@@ -105,7 +136,7 @@ void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage);
 void		ft_pwd(void);
-void		ft_export(void);
+void		ft_export(t_prompt *prompt);
 void		ft_cd(t_prompt *prompt);
 
 #endif

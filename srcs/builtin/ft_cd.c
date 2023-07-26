@@ -20,7 +20,6 @@ void	ft_cd(t_prompt *prompt)
 	char	*new_path;
 	char	cwd[PATH_MAX];
 
-	new_path = getenv("PWD");
 	if (!prompt->args)
 		cd_without_args(new_path);
 	else if (prompt->args)

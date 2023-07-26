@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:47:57 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/23 10:35:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,16 @@ int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 
 	has_exec = 0;
 	path = ft_strdup(getenv("PATH"));
-	ft_add_garbage(&garbage, path);
+	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
-		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"));
+		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"), garbage);
+	reset_stdio_fd(prompt);
 	return (has_exec);
 }
 
 /// @brief Check if prompt is a command present in path.
 /// @return If cmd is found return 1 else 0.
-int	check_present_in_path(t_prompt *prompt, char *path)
+int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;
@@ -41,27 +42,9 @@ int	check_present_in_path(t_prompt *prompt, char *path)
 	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
 	if (dir_entry && !ft_strcmp(prompt->cmd, dir_entry->d_name))
-		return (false_exec(path, prompt), closedir(current_dir), 1);
+		return (false_exec(path, prompt, garbage), closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
-}
-
-/// @brief Check if c is present in *str.
-/// @param *str String to check.
-/// @param c Character to find
-/// @return Return position of c in *str or -1 if none is found.
-int	get_char_pos(char *str, char c)
-{
-	int	i;
-
-	if (!str)
-		return (-1);
-	i = 0;
-	while (str[i] && str[i] != c)
-		i++;
-	if (str[i] == c)
-		return (i);
-	return (-1);
 }
 
 /// @brief get first possible environnement variable int *str
@@ -80,7 +63,7 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
-	ft_add_garbage(&garbage, var_name);
+	ft_add_garbage(0, &garbage, var_name);
 	ft_strlcpy(var_name, str + (i - 1), j + 2);
 	return (var_name);
 }
