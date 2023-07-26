@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:32:33 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/25 23:50:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*get_output(char *input, t_garbage *garbage)
 	char	*output;
 	int		i;
 	int		j;
-	
+
 	i = get_char_pos(input, '>');
 	j = 0;
 	while (input[i + j] && (input[i + j] == '>' || ft_isspace(input[i + j])))
@@ -65,7 +65,7 @@ char	*get_output(char *input, t_garbage *garbage)
 	output = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(0, &garbage, output);
 	ft_strlcpy(output, input + i, j + 1);
-	return (output);	
+	return (output);
 }
 
 /// @brief Handle multiple output in prompt.
@@ -79,7 +79,7 @@ void	multiple_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	char		*output;
 	char		*dup_input;	
 	t_prompt	*new_prompt;
-	
+
 	new_prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, new_prompt);
 	output = get_output(input, garbage);

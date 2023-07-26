@@ -1,88 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   split_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
+/*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:30:38 by mwubneh          ###   ########.fr       */
+/*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
+/*   Updated: 2023/07/26 19:33:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-
-void	printf_args(char **tab)
-{
-	int	i;
-
-	i = 0;
-	printf("ARGS:\n");
-	while (tab[i])
-		printf("%s\n", tab[i++]);
-}
-
-/// @brief Get, and assign to t_prompt, args from inputed string.
-/// @param *cmd Pointer to t_prompt,
-/// @param *input Inputed string to get args from.
-void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_strcmp(prompt->cmd, "export"))
-		return (get_export_args(prompt, input, garbage));
-	prompt->args = ft_split_args(prompt, input, ' ', garbage);
-	if (!prompt->args)
-		return (ft_exit(garbage));
-	parse_args(prompt, prompt->args, garbage);
-//	if (ft_is_in_str("|><", input[i]))
-//		input[i - 1] = ' ';
-	input += i;
-}
-
-/// @brief Parse each quoted args and env variable,
-/// and delete from tab each redirection and redirection file.
-/// @param *prompt Pointer to prompt struct,
-/// @param **args Pointer to args,
-/// @param *garbage Pointer to garbage collector.
-void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || \
-		!ft_strcmp(args[i], ">>") || !ft_strcmp(args[i], "<<"))
-		{
-//			printf("rm arg %s\n", args[i]);
-			delete_element_at_index(args, i);
-//			printf("rm arg %s\n", args[i]);
-			delete_element_at_index(args, i);		
-		}
-		if (prompt && garbage)
-		{
-			if (!prompt->d_quotes && !prompt->quotes)
-				check_quotes(prompt, &args[i], garbage);
-			if (!prompt->quotes)
-				check_is_env_var(&args[i], garbage);
-		}		
-		i++;
-	}
-}
-
-///	@brief Delete element in tab at index.
-/// @param **tab Pointer to tab,
-/// @param index Index of element to delete
-void	delete_element_at_index(char **tab, int index)
-{
-	while (tab[index])
-	{
-		tab[index] = tab[index + 1];
-		index++;
-	}
-}
 
 /// @brief Allocate enough memory for tab based on numbers of elements in *s.
 /// @param *s String containing every element args before split,

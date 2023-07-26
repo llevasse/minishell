@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:10:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 13:46:05 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/26 15:34:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include "ft_printf/ft_printf.h"
+# include "ft_joinf/ft_joinf.h"
 # include "gnl/get_next_line.h"
 # include <stddef.h>
 # include <stdlib.h>

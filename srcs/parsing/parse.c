@@ -22,6 +22,8 @@ void	parse(char *input, t_garbage *garbage)
 		return ;
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
+	if (prompt->next_cmd)
+		parse(prompt->next_cmd, garbage);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -86,12 +88,12 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->quotes = 0;
 	prompt->args = NULL;
 	prompt->export_args = NULL;
+	prompt->next_cmd = NULL;
 	len = ft_strlen(input);
 	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
-//	printf("Cmd : %s\n", prompt->cmd);
 	check_redirection(input, prompt, garbage);
 	return (prompt);
 }

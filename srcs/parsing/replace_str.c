@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 09:44:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:09:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ char	*get_pre_substr(char *str, char *substr, t_garbage *garbage)
 {
 	char	*pre_substr;
 	int		substr_pos;
+	int		substr_len;
 
 	substr_pos = get_substr_pos(str, substr);
+	substr_len = (int)ft_strlen(substr);
 	if (substr_pos == -1)
 		return ("");
 	str[substr_pos] = 0;
 	pre_substr = ft_strdup(str);
-	if (!pre_substr)
-		return (ft_exit(garbage), NULL);
 	ft_add_garbage(0, &garbage, pre_substr);
 	str[substr_pos] = *substr;
 	return (pre_substr);
@@ -53,7 +53,7 @@ char	*get_post_substr(char *str, char *substr, t_garbage *garbage)
 	if (*(str + substr_pos + substr_len) == 0)
 		post_substr = "";
 	else
-	{	
+	{
 		post_substr = ft_strdup(str + substr_pos + substr_len);
 		if (!post_substr)
 			return (ft_exit(garbage), NULL);
@@ -70,15 +70,12 @@ void	replace_str(char **str, char *old_substr, char *new_substr,
 	char	*pre_substr;
 	char	*post_substr;
 
-//	printf("Replace_str received |%s|\n", *str);
-//	printf("Old substr : |%s|\n", old_substr);
-//	printf("New substr : |%s|\n", new_substr);
+	if (get_substr_pos(*str, old_substr) == -1)
+		return ;
 	if (!new_substr)
 		new_substr = "";
 	pre_substr = get_pre_substr(*str, old_substr, garbage);
-//	printf("Pre substr : |%s|\n", pre_substr);
 	post_substr = get_post_substr(*str, old_substr, garbage);
-//	printf("Post substr : |%s|\n", post_substr);
 	new_str = ft_strjoin(pre_substr, new_substr);
 	ft_add_garbage(0, &garbage, new_str);
 	new_substr = ft_strjoin(new_str, post_substr);
