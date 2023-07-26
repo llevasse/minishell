@@ -6,11 +6,12 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 14:53:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 19:10:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_joinf.h"
+#include <stdio.h>
 
 /// @brief Print string with options and variable. 
 /// @param *string string to print,
@@ -28,6 +29,7 @@ char	*ft_joinf(char *string, ...)
 	str = malloc(sizeof(char) * (predict_full_str_len(string, args) + 1));
 	if (!str)
 		return (va_end(args), str);
+	ft_bzero(str, predict_full_str_len(string, args) + 1);
 	i = 0;
 	while (*string)
 	{
@@ -36,7 +38,7 @@ char	*ft_joinf(char *string, ...)
 		if (*string == '%')
 		{
 			string++;
-			pass_specifier(*string, args, &str, &i);
+			i = pass_specifier(*string, args, &str, i);
 		}
 		if (*string)
 			string++;
@@ -45,24 +47,31 @@ char	*ft_joinf(char *string, ...)
 }
 
 // TODO check possible memory error
-void	pass_specifier(char specifier, va_list args, char **str, int *i)
+int	pass_specifier(char specifier, va_list args, char **str, int i)
 {
 	char	*parse;
 	int		j;
 
 	if (specifier == 'c')
-		return ((void)(*str[*i++] = va_arg(args, int)));
+	{
+		(*str)[i] = (char)va_arg(args, int); 
+		return (i + 1);
+	}
 	if (specifier == 's')
 		parse = va_arg(args, char *);
 	if (specifier == 'd' || specifier == 'i')
 		parse = ft_itoa(va_arg(args, int));
 	if (!parse)
-		return ;
+		return (i);
 	j = 0;
 	while (parse[j])
-		*str[*i++] = parse[j++];
+	{
+		printf("current str : %s\n", *str);
+		(*str)[i++] = parse[j++];
+	}
 	if (specifier == 'd' || specifier == 'i')
 		free(parse);
+	return (i);
 }
 
 int	predict_full_str_len(char *str, va_list args)
