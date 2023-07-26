@@ -6,11 +6,14 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 22:50:58 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/26 23:05:38 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_joinf.h"
+
+static int	pass_specifier(char specifier, va_list args, char **str, int i);
+static int	predict_full_str_len(char *str, va_list args);
 
 char	*ft_joinf(char *string, ...)
 {
@@ -43,7 +46,7 @@ char	*ft_joinf(char *string, ...)
 }
 
 // TODO check possible memory error
-int	pass_specifier(char specifier, va_list args, char **str, int i)
+static int	pass_specifier(char specifier, va_list args, char **str, int i)
 {
 	char	*parse;
 	int		j;

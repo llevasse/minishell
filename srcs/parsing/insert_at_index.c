@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:37:10 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:08:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:23:18 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../headers/minishell.h"
 
 /// @brief Insert char *to_insert at the index of *str.
 /// @param *str String needing to add *to_insert into,

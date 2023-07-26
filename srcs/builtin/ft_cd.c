@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 16:31:45 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/26 23:26:27 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_cd(t_prompt *prompt)
 	char	*new_path;
 	char	cwd[PATH_MAX];
 
+	new_path = NULL;
 	if (!prompt->args)
 		cd_without_args(new_path);
 	else if (prompt->args)

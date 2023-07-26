@@ -127,7 +127,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)str
 
 clean:
-				rm -rf $(OBJS)
+				rm -rf $(OBJS_DIR)$(OBJS)
 
 fclean:			clean
 				rm -f $(NAME)

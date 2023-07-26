@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:18:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:23:00 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../headers/minishell.h"
 
 /// @brief Handle heredoc in prompt.
 /// Create invisible file, write heredoc content in it, and pass it to command.
@@ -135,6 +135,7 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	char	*delimiter;
 	int		fd;
 
+	(void)fd;//silence unsused variable;
 	delimiter = ft_strdup(*heredoc_name);
 	ft_add_garbage(0, &garbage, delimiter);
 	fd = create_heredoc_fd(p, heredoc_name, garbage);

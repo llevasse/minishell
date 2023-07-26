@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 19:33:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:21:17 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "../../../headers/minishell.h"
 
 /// @brief Allocate enough memory for tab based on numbers of elements in *s.
 /// @param *s String containing every element args before split,
