@@ -19,7 +19,8 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/chars.c \
 			srcs/parsing/replace_str.c \
 			srcs/parsing/quotes.c \
-			srcs/parsing/args.c \
+			srcs/parsing/args/args.c \
+			srcs/parsing/args/split_args.c \
 			srcs/parsing/garbage_collector.c \
 			srcs/parsing/direction/direction.c \
 			srcs/parsing/direction/output.c \
@@ -52,6 +53,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
 				@mkdir -p $(OBJS_DIR)srcs
 				@mkdir -p $(OBJS_DIR)srcs/parsing
+				@mkdir -p $(OBJS_DIR)srcs/parsing/args
 				@mkdir -p $(OBJS_DIR)srcs/parsing/direction
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
