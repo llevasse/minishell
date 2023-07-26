@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 19:37:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:21:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ void	delete_redirection(int i, char **args)
 		delete_element_at_index(args, i);
 		delete_element_at_index(args, i);
 	}
+}
+
+void	printf_args(char **tab)
+{
+	int	i;
+
+	i = 0;
+	printf("ARGS:\n");
+	while (tab[i])
+		printf("%s\n", tab[i++]);
 }
 
 /// @brief Parse each quoted args and env variable,
