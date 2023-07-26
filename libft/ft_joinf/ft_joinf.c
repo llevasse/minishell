@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:21:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 22:21:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ char	*ft_joinf(char *string, ...)
 		if (*string)
 			string++;
 	}
+	str[i] = 0;
 	return (va_end(args), str);
 }
 
@@ -58,9 +59,14 @@ int	pass_specifier(char specifier, va_list args, char **str, int i)
 		parse = ft_itoa(va_arg(args, int));
 	if (!parse)
 		return (i);
-	j = 0;
-	while (parse[j])
-		(*str)[i++] = parse[j++];
+	j = -1;
+	while (parse[++j])
+	{
+		if (!parse[j])
+			break ;
+		(*str)[i + j] = parse[j];
+	}
+	i += j;
 	if (specifier == 'd' || specifier == 'i')
 		free(parse);
 	return (i);
@@ -77,7 +83,7 @@ int	predict_full_str_len(char *str, va_list args)
 	{
 		if (*str == '%' && ft_is_in_str("%%csdiuxXp", *(str + 1)))
 		{
-			i += predict_len(str, args_cp);
+			i += predict_len(str + 1, args_cp);
 			str += 2;
 		}
 		else
