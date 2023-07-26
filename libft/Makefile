@@ -6,7 +6,7 @@
 #    By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/21 16:33:32 by leo               #+#    #+#              #
-#    Updated: 2023/07/06 23:08:10 by llevasse         ###   ########.fr        #
+#    Updated: 2023/07/26 15:35:57 by llevasse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,8 @@ PRINTF_FILES	=	ft_printf/flags/print_precision.c \
 					ft_printf/flags/print_pound.c \
 					ft_printf/ft_printf_utils.c \
 					ft_printf/ft_printf.c
+JOINF_FILES		=	ft_joinf/ft_joinf_utils.c \
+					ft_joinf/ft_joinf.c
 
 
 FILES_GNL		=	./gnl/get_next_line.c \
@@ -88,6 +90,7 @@ FILES			=	$(PRINTING_FILES) \
 					$(INT_FILES) \
 					$(FILES_GNL) \
 					$(PRINTF_FILES) \
+					$(JOINF_FILES) \
 
 OBJS				=	$(addprefix $(OBJS_DIR), $(FILES:.c=.o))
 HEADER				=	libft.h
@@ -111,6 +114,7 @@ $(OBJS_DIR)%.o:	%.c $(HEADER) Makefile | $(OBJS_DIR)
 $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
 				@mkdir -p $(OBJS_DIR)boolean
+				@mkdir -p $(OBJS_DIR)ft_joinf
 				@mkdir -p $(OBJS_DIR)ft_printf
 				@mkdir -p $(OBJS_DIR)ft_printf/flags
 				@mkdir -p $(OBJS_DIR)gnl
