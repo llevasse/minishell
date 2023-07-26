@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:35:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:10:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_export	*ft_new_export(char *key, char *content, t_garbage *garbage)
 	return (new);
 }
 
-void	ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage)
+void	ft_add_export(t_export **lst, char *key, char *content, 
+			t_garbage *garbage)
 {
 	t_export	*temp;
 	t_export	*new;
@@ -80,7 +81,6 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 		check_is_env_var(&content, garbage);
 	return (content);
 }
-
 
 /// @brief In case of export cmd, get and assign every export element.
 /// @param *prompt Pointer to prompt struct,

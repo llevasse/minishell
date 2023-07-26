@@ -6,17 +6,12 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 19:10:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:21:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_joinf.h"
-#include <stdio.h>
 
-/// @brief Print string with options and variable. 
-/// @param *string string to print,
-/// @param Any variable to print.
-/// @return Return number of char printed and -1 if error occured.
 char	*ft_joinf(char *string, ...)
 {
 	va_list	args;
@@ -65,10 +60,7 @@ int	pass_specifier(char specifier, va_list args, char **str, int i)
 		return (i);
 	j = 0;
 	while (parse[j])
-	{
-		printf("current str : %s\n", *str);
 		(*str)[i++] = parse[j++];
-	}
 	if (specifier == 'd' || specifier == 'i')
 		free(parse);
 	return (i);

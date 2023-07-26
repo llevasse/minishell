@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:49:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/26 21:18:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,16 +147,12 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 			break ;
 		if (use_env_var)
 			check_is_env_var(&text, garbage);
-		write(fd, text, ft_strlen(text));
-		write(fd, "\n", 1);
+		ft_putendl_fd(text, 1);
 		free(text);
 		text = NULL;
 	}
 	free(text);
 	text = NULL;
-	*heredoc_name = ft_strjoin("\"", *heredoc_name);
-	ft_add_garbage(0, &garbage, *heredoc_name);
-	*heredoc_name = ft_strjoin(*heredoc_name, "\"");
+	*heredoc_name = ft_joinf("\"%s\"", *heredoc_name);
 	ft_add_garbage(0, &garbage, *heredoc_name);
 }
-//TODO created equivalent of printf but return the string instead of printing it.
