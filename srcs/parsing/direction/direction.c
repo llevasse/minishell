@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/24 16:48:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/25 23:51:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	if (get_char_pos(input, '<') != -1)
 		set_input(input, prompt, garbage);
 }
-
 
 /// @brief Append output of cmd to end of file.
 /// @param *input String of the prompt input,
