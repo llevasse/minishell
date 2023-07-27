@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:09:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:20:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ char	*get_pre_substr(char *str, char *substr, t_garbage *garbage)
 {
 	char	*pre_substr;
 	int		substr_pos;
-	int		substr_len;
 
 	substr_pos = get_substr_pos(str, substr);
-	substr_len = (int)ft_strlen(substr);
 	if (substr_pos == -1)
 		return ("");
 	str[substr_pos] = 0;

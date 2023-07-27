@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/26 21:07:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 13:25:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ void	parse(char *input, t_garbage *garbage)
 	check_cmd(prompt, garbage);
 	if (prompt->next_cmd)
 		parse(prompt->next_cmd, garbage);
+	free_garbage(garbage);
+	garbage = NULL;
+	garbage = ft_new_garbage(0, NULL, garbage);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
