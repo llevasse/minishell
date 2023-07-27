@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:49:53 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/27 11:44:55 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,9 @@ void	ft_env(void)
 
 	i = -1;
 	while (environ[++i])
+	{
+		if (ft_strcmp(environ[i], "") == 0)
+			i++;
 		ft_printf("%s\n", environ[i]);
+	}
 }
