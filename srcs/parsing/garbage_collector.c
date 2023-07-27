@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 13:18:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:00:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	free_garbage(t_garbage	*garbage)
 		free(garbage);
 		garbage = NULL;
 	}
-	else
-		printf("Freed garbage\n");
 }
 
 t_garbage	*ft_new_garbage(int log, void *address, t_garbage *garbage)

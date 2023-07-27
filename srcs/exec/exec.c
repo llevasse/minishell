@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/26 22:15:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 23:01:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
+
+// TODO if just used cat without arguments, dont use PWD.
 /// @brief Get arguments to pass to execve.
 /// @param *path String of path to executable,
 /// @param *prompt Pointer to prompt struct,
@@ -74,7 +76,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	while (prompt->args[i])
 	{
 		argv[i + 1] = prompt->args[i];
-//		printf("Args : |%s|\n", argv[i + 1]);
+		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;
