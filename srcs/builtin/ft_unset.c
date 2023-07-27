@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 12:25:59 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/27 12:31:08 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_unset(t_prompt *prompt)
 {
 	char	*path[PATH_MAX];
 
+	ft_bzero(path, PATH_MAX);
 	if (!prompt->args)
 		return ;
 	if (!ft_strcmp(prompt->args[0], "PWD"))
