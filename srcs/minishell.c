@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 20:40:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 21:15:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 // TODO signals
 // TODO history
 
+void	handle_sigint(int sig)
+{
+	if (sig == SIGINT)
+		rl_on_new_line();
+}
+
 int	main(void)
 {
 	char		*s;
@@ -22,6 +28,7 @@ int	main(void)
 
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL, garbage);
+	signal(SIGINT, handle_sigint);
 	while (42)
 	{
 		s = readline("minishell >>");
