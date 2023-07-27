@@ -6,13 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 14:19:13 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/27 10:51:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//TODO quotes ?
 
 static void	print_args(char **args, int i);
 

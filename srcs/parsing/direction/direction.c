@@ -6,16 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:51:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:51:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //TODO pipes
-
-//TODO output input combination
-//ex : exec 3<> file # Open file and assign it to fd 3
 
 /// @brief Check and apply redirection in input.
 /// @param *input String of the prompt input,
