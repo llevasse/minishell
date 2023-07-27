@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 13:23:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 20:40:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,8 @@ int	main(void)
 		s = readline("minishell >>");
 		add_history(s);
 		parse(s, garbage);
+		free_garbage(garbage);
+		garbage = NULL;
+		garbage = ft_new_garbage(0, NULL, garbage);
 	}
 }
