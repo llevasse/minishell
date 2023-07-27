@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 12:52:52 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:04:05 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ extern char	**environ;
 
 static int	unset_env(char *arg, size_t size);
 
+
+//unset is checking for PWD, if PWD is unset OLDPWD is set, for saving the WD.
 void	ft_unset(t_prompt *prompt)
 {
 	char	path[PATH_MAX];
@@ -30,6 +32,7 @@ void	ft_unset(t_prompt *prompt)
 			return ;
 }
 
+//Setting the line with Key = ARGS to "".
 static int	unset_env(char *arg, size_t size)
 {
 	ssize_t	i;
