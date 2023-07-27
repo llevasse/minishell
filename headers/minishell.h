@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:37:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 21:46:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <dirent.h>
+
+typedef struct s_minishell
+{
+	int					error_value;
+	void				*garbage;
+}	t_minishell;
 
 typedef struct s_export
 {
