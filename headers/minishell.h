@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/28 21:38:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 22:13:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_prompt
 	char				*cmd;
 	char				**args;
 	t_export			*export_args;
-	char				*next_cmd;
+	struct s_prompt		*next_cmd;
 }	t_prompt;
 
 typedef struct s_garbage

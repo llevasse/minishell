@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 13:21:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 22:11:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,7 @@ int	create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage)
 	*heredoc_name = ft_strjoin(".", 
 			replace_space_in_name(*heredoc_name, garbage));
 	ft_add_garbage(0, &garbage, *heredoc_name);
-	prompt->next_cmd = ft_strjoin(prompt->next_cmd, " ");
-	ft_add_garbage(0, &garbage, prompt->next_cmd);
-	prompt->next_cmd = ft_strjoin(prompt->next_cmd, *heredoc_name);
+	prompt->next_cmd = ft_joinf("rm %s", *heredoc_name);
 	ft_add_garbage(0, &garbage, prompt->next_cmd);
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }

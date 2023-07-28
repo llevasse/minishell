@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/28 21:45:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 21:49:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,12 @@ void reset_the_terminal(void)
 
 void	handler(int sig, siginfo_t *info, void *context)
 {
-	char	delete[2];
-
-	delete[0] = 127;
-	delete[1] = 127;
 	if (sig == SIGINT)
 	{
 		write(1, "^C\n", 3);
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (sig == SIGQUIT)
-		write(1, delete, 2);
 	(void)info;
 	(void)context;
 }
