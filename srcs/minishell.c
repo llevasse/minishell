@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/27 22:33:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 10:51:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 struct s_minishell	g_minishell;
 
-void	handler(int sig)
+void	handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 	{
@@ -25,6 +25,10 @@ void	handler(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	if (sig == SIGQUIT)
+		rl_replace_line("minishell >>", 0);
+	(void)info;
+	(void)context;
 }
 
 int	main(void)
@@ -36,9 +40,10 @@ int	main(void)
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL, garbage);
 	g_minishell.garbage = garbage;
-	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = &handler;
-	if (sigaction(SIGINT, &sa, NULL) < 0)
+	sigemptyset(&(sa.sa_mask));
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = &handler;
+	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
 		return (1);
 	while (42)
 	{
