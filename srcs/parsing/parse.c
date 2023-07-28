@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/28 22:16:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 22:45:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern struct s_minishell	g_minishell;
 
 void	parse(char *input, t_garbage *garbage)
 {
@@ -108,4 +110,24 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	get_args(prompt, input, garbage);
 	check_redirection(input, prompt, garbage);
 	return (prompt);
+}
+
+void	ft_add_prompt(t_prompt **lst, t_prompt *new)
+{
+	t_prompt	*temp;
+
+	if (!new)
+		return (ft_exit(g_minishell.garbage));
+	if (*lst)
+	{
+		temp = *lst;
+		while (temp->next_cmd != NULL)
+		{
+			temp = temp->next_cmd;
+//			printf("cc\n");
+		}
+		temp->next_cmd = new;
+		return ;
+	}
+	*lst = new;
 }
