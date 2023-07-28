@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/26 22:15:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 09:39:19 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	if (pid == -1)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	else if (pid == 0)
-	{	
+	{
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
@@ -58,12 +58,12 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	int		i;
 
 	if (!prompt->args)
-		{
-			prompt->args = malloc(sizeof(char *) * 2);
-			ft_add_garbage(0, &garbage, prompt->args);
-			prompt->args[0] = getenv("PWD");
-			prompt->args[1] = NULL;
-		}
+	{
+		prompt->args = malloc(sizeof(char *) * 2);
+		ft_add_garbage(0, &garbage, prompt->args);
+		prompt->args[0] = getenv("PWD");
+		prompt->args[1] = NULL;
+	}
 	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
 	ft_add_garbage(0, &garbage, argv);
 	cmd_path = ft_strjoin(path, "/");
@@ -71,10 +71,9 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
 	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
-	while (prompt->args[i])
+	while (prompt->args[i] && ft_strcmp(prompt->cmd, "cat"))
 	{
 		argv[i + 1] = prompt->args[i];
-//		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;

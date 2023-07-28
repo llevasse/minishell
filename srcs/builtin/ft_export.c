@@ -24,7 +24,6 @@ void	ft_export(t_prompt *prompt)
 			return ;
 		if (temp)
 		{
-			printf("Je vais assigne la key \"%s\" au content \"%s\"\n", temp->key, temp->content);
 			setenv(temp->key, temp->content, 1);
 		}
 		else
