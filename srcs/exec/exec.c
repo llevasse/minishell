@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/27 23:01:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 10:02:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int	get_tab_size(char **tab)
 }
 
 
-// TODO if just used cat without arguments, dont use PWD.
+// command like cat or grep passed without argument
+// will not work if '-' is not added as argument.
+// where command like ls will need PWD.
 /// @brief Get arguments to pass to execve.
 /// @param *path String of path to executable,
 /// @param *prompt Pointer to prompt struct,
@@ -63,7 +65,9 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 		{
 			prompt->args = malloc(sizeof(char *) * 2);
 			ft_add_garbage(0, &garbage, prompt->args);
-			prompt->args[0] = getenv("PWD");
+			prompt->args[0] = "-";
+			if (!ft_strcmp(prompt->cmd, "ls"))
+				prompt->args[0] = getenv("PWD");
 			prompt->args[1] = NULL;
 		}
 	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
@@ -76,7 +80,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	while (prompt->args[i])
 	{
 		argv[i + 1] = prompt->args[i];
-		printf("Args : |%s|\n", argv[i + 1]);
+//		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;
