@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/28 22:45:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 17:15:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,7 @@ void	ft_add_prompt(t_prompt **lst, t_prompt *new)
 	{
 		temp = *lst;
 		while (temp->next_cmd != NULL)
-		{
 			temp = temp->next_cmd;
-//			printf("cc\n");
-		}
 		temp->next_cmd = new;
 		return ;
 	}
