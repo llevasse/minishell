@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 17:14:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:58:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*cut_section;
 	int		i;
 
-	i = get_char_pos(input, '<') + 3;
+	i = get_char_pos(input, '<');
+	while (input[i] == '<' || ft_isspace(input[i]))
+		i++;
 	eof_name = ft_strdup(input + i);
 	ft_add_garbage(0, &garbage, eof_name);
 	cut_section = get_cut_section(input + (i - 3), garbage);
