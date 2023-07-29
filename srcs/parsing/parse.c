@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/28 23:08:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/28 22:45:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 {
 	t_prompt	*prompt;
 	size_t		len;
-	char		*dup;
 
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, prompt);
@@ -105,10 +104,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
 	len = ft_strlen(input);
-	dup = ft_strdup(input);
-	
-	prompt->cmd = ft_strsep(&dup, " ");
-
+	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
