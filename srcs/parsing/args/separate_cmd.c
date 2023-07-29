@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 18:15:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:24:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage)
 		return ;
 	input[pos++] = 0;
 	while (input[pos] && 
-			(ft_is_in_str("|&", input[pos] || ft_isspace(input[pos]))))
+			(ft_is_in_str("|&;", input[pos]) || ft_isspace(input[pos])))
 		pos++;
 	if (!input[pos])
 		return ;
@@ -38,6 +38,8 @@ int	get_nearer_separator_pos(char *input)
 		pos = get_separator_pos(input, "||");
 	if (get_separator_pos(input, "&&") != -1 && pos <= get_separator_pos(input, "&&"))
 		pos = get_separator_pos(input, "&&");
+	if (get_separator_pos(input, ";") != -1 && pos <= get_separator_pos(input, ";"))
+		pos = get_separator_pos(input, ";");
 	return (pos);
 }
 

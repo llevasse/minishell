@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 18:12:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:11:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 		}
 		i++;
 	}
+	printf_args(args);
 }
 
 ///	@brief Delete element in tab at index.
