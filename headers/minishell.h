@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/28 22:33:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 18:12:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
 char		**ft_split_args(t_prompt *prompt, char *s, char c,
 				t_garbage *garbage);
+
+// separate_cmd.c
+void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
+int			get_separator_pos(char *input, char *separator);
+int			is_char_quoted(char *str, int pos);
+int			get_nearer_separator_pos(char *input);
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);

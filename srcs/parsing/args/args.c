@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 17:14:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 18:12:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,11 @@
 void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
 	int		i;
-	char	*dup_str;
 
 	i = 0;
-	dup_str = ft_strdup(input);
-	ft_add_garbage(0, &garbage, dup_str);
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt, input, garbage));
-	if (get_char_pos(input, '|') != -1)
-	{
-		dup_str += get_char_pos(input, '|') + 1;
-		input[get_char_pos(input, '|')] = 0;
-		ft_add_prompt(&prompt, init_prompt(dup_str, garbage));
-	}
+	separate_cmd(prompt, input, garbage);
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
 		return (ft_exit(garbage));

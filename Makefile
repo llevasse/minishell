@@ -21,6 +21,7 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/quotes.c \
 			srcs/parsing/args/args.c \
 			srcs/parsing/args/split_args.c \
+			srcs/parsing/args/separate_cmd.c \
 			srcs/parsing/garbage_collector.c \
 			srcs/parsing/direction/direction.c \
 			srcs/parsing/direction/output.c \
