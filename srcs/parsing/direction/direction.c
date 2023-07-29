@@ -6,13 +6,15 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/28 22:06:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 19:32:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //TODO pipes
+
+// TODO check if directions are in quotes
 
 /// @brief Check and apply redirection in input.
 /// @param *input String of the prompt input,

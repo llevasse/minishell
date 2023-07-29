@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 19:11:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:41:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 
 void	delete_redirection(int i, char **args)
 {
-	if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || \
-	!ft_strcmp(args[i], ">>") || !ft_strcmp(args[i], "<<"))
+	if (!ft_strncmp(args[i], ">", 1) || !ft_strncmp(args[i], "<", 1) || \
+	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], "<<", 2))
 	{
 		delete_element_at_index(args, i);
 		delete_element_at_index(args, i);
@@ -78,7 +78,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 		}
 		i++;
 	}
-	printf_args(args);
+//	printf_args(args);
 }
 
 ///	@brief Delete element in tab at index.

@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/29 19:12:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:42:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
-	printf("CMD : |%s|\n", prompt->cmd);
+//	printf("CMD : |%s|\n", prompt->cmd);
 	get_args(prompt, input, garbage);
 	check_redirection(input, prompt, garbage);
 	return (prompt);
