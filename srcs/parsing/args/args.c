@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 21:41:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 23:24:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,17 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 
 void	delete_redirection(int i, char **args)
 {
-	if (!ft_strncmp(args[i], ">", 1) || !ft_strncmp(args[i], "<", 1) || \
-	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], "<<", 2))
+	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
+	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
 	{
 		delete_element_at_index(args, i);
 		delete_element_at_index(args, i);
 	}
+	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
+	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+		delete_element_at_index(args, i);
 }
 
 void	printf_args(char **tab)
@@ -45,9 +50,10 @@ void	printf_args(char **tab)
 	int	i;
 
 	i = 0;
-	printf("ARGS:\n");
+	printf("ARGS:");
 	while (tab[i])
-		printf("%s\n", tab[i++]);
+		printf(" %s", tab[i++]);
+	printf("\n");
 }
 
 /// @brief Parse each quoted args and env variable,
@@ -62,6 +68,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	i = 0;
 	while (args[i])
 	{
+		printf_args(args);
 		delete_redirection(i, args);
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
 		{
