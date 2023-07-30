@@ -6,13 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 11:03:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 13:35:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// TODO fix bug when cmd is echo.
 
 /// @brief Handle input redirection in prompt.
 /// Close stdin fd and assign to input file fd 0, 

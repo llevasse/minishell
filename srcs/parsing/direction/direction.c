@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 19:32:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 15:24:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,23 @@
 /// @param *garbage Pointer to garbage collector.
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
-	if (get_char_pos(input, '>') != -1)
-		set_output(input, prompt, garbage);
-	if (get_char_pos(input, '<') != -1)
-		set_input(input, prompt, garbage);
+	int	pos;
+
+	pos = -1;
+	if (get_separator_pos(input, "<") != -1 && \
+		pos <= get_separator_pos(input, "<"))
+		pos = get_separator_pos(input, "<");
+	if (get_separator_pos(input, ">") != -1 && \
+		pos <= get_separator_pos(input, ">"))
+		pos = get_separator_pos(input, ">");
+	if (pos != -1)
+	{
+		pos++;
+		if (input[pos] == '>')
+			set_output(input + pos, prompt, garbage);
+		if (input[pos] == '<')
+			set_input(input + pos, prompt, garbage);
+	}
 }
 
 /// @brief Append output of cmd to end of file.

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 19:24:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 15:24:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,11 @@ int	get_nearer_separator_pos(char *input)
 
 int	is_char_quoted(char *str, int pos)
 {
-	if (get_char_occurance(str + pos, '"') % 2 != 0)
+	if (get_char_pos(str + pos, '"') != -1 && \
+		get_char_occurance(str + pos, '"') % 2 != 0)
 		return (1);
-	if (get_char_occurance(str + pos, 39) % 2 != 0)
+	if (get_char_pos(str + pos, 39) != -1 && \
+		get_char_occurance(str + pos, 39) % 2 != 0)
 		return (1);
 	return (0);
 }
@@ -60,9 +62,9 @@ int	get_separator_pos(char *input, char *separator)
 	if (get_substr_pos(input, separator) != -1)
 	{
 		pos = get_substr_pos(input, separator);
-		while (is_char_quoted(input, pos))
+		while (is_char_quoted(input, pos + ft_strlen(separator)))
 		{
-			pos = get_substr_pos(input + pos, separator);
+			pos += get_substr_pos(input + pos + ft_strlen(separator), separator);
 			if (pos == -1)
 				break ;
 		}
