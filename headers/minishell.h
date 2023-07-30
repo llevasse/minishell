@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 18:12:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:31:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char		**ft_split_args(t_prompt *prompt, char *s, char c,
 
 // separate_cmd.c
 void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
-int			get_separator_pos(char *input, char *separator);
+int			get_separator_pos(char *input, char *sep);
 int			is_char_quoted(char *str, int pos);
 int			get_nearer_separator_pos(char *input);
 
