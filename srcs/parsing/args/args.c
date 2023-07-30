@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 23:24:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 10:36:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	int	i;
 
 	i = 0;
+//	printf("Pre parse args\n");
+//	printf_args(args);
 	while (args[i])
 	{
-		printf_args(args);
 		delete_redirection(i, args);
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
 		{
@@ -85,6 +86,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 		}
 		i++;
 	}
+//	printf("Post parse args\n");
 //	printf_args(args);
 }
 
