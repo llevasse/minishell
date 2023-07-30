@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 19:10:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:42:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_add_garbage(int log, t_garbage **lst, void *address)
 	{
 		temp = *lst;
 		while (temp->next != NULL)
-		{	
+		{
 			if (temp->address == address)
 				return (free(new));
 			temp = temp->next;

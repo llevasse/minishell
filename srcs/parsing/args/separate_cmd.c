@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 16:32:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:43:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 /// @param *garbage Pointer to garbage collector.
 void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage)
 {
-	int	pos = get_nearer_separator_pos(input);
+	int	pos;
+
+	pos = get_nearer_separator_pos(input);
 	if (pos == -1)
 		return ;
 	input[pos++] = 0;
 	while (input[pos] && 
-			(ft_is_in_str("|&;", input[pos]) || ft_isspace(input[pos])))
+		(ft_is_in_str("|&;", input[pos]) || ft_isspace(input[pos])))
 		pos++;
 	if (!input[pos])
 		return ;
@@ -68,7 +70,6 @@ int	is_char_quoted(char *str, int pos)
 		return (1);
 	return (0);
 }
-
 
 /// @brief get position of sep that is NOT quoted.
 /// @param *input Str to search sep,

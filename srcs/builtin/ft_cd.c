@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/18 14:35:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:50:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_cd(t_prompt *prompt)
 	else if (prompt->args[0][0] == '/')
 	{
 		if (chdir(prompt->args[0]) == 0)
-				setenv("PWD", prompt->args[0], 1);
+			setenv("PWD", prompt->args[0], 1);
 		else
 			printf("Error :(\n");
 	}

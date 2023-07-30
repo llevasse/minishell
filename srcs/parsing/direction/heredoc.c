@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 10:36:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:46:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	str = ft_strdup(input);
 	name = NULL;
 	ft_add_garbage(0, &garbage, str);
-	while (str[i] && str[i] == '<')
-		i++;
-	while (str[i] && ft_isspace(str[i]))
+	while (str[i] && (str[i] == '<' || ft_isspace(str[i])))
 		i++;
 	if (str[i] == '"' || str[i] == 39)
 	{

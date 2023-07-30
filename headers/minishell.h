@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 16:31:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:49:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ int			get_nearer_separator_pos(char *input);
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
-int			check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage);
+int			check_present_in_path(t_prompt *prompt, char *path,
+				t_garbage *garbage);
 int			check_is_env_var(char **str, t_garbage *garbage);
 char		*get_env_var_name(char *str, t_garbage *garbage);
 
@@ -100,7 +101,8 @@ void		ft_add_garbage(int log, t_garbage **lst, void *address);
 
 // export.c
 t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
-void		ft_add_export(t_export **lst, char *key, char *content, t_garbage *garbage);
+void		ft_add_export(t_export **lst, char *key, char *content,
+				t_garbage *garbage);
 void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 
 // quotes.c

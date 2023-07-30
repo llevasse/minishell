@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/30 10:23:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:52:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	if (pid == -1)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	else if (pid == 0)
-	{	
+	{
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
@@ -46,7 +46,6 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
-
 // command like cat or grep passed without argument
 // will not work if '-' is not added as argument.
 // where command like ls will need PWD.
@@ -62,14 +61,14 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	int		i;
 
 	if (!prompt->args)
-		{
-			prompt->args = malloc(sizeof(char *) * 2);
-			ft_add_garbage(0, &garbage, prompt->args);
-			prompt->args[0] = "-";
-			if (!ft_strcmp(prompt->cmd, "ls"))
-				prompt->args[0] = getenv("PWD");
-			prompt->args[1] = NULL;
-		}
+	{
+		prompt->args = malloc(sizeof(char *) * 2);
+		ft_add_garbage(0, &garbage, prompt->args);
+		prompt->args[0] = "-";
+		if (!ft_strcmp(prompt->cmd, "ls"))
+			prompt->args[0] = getenv("PWD");
+		prompt->args[1] = NULL;
+	}
 	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
 	ft_add_garbage(0, &garbage, argv);
 	cmd_path = ft_strjoin(path, "/");
