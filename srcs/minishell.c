@@ -6,21 +6,19 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 14:51:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:40:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // TODO signals
-// TODO history
 
 struct s_minishell	g_minishell;
 
-// TODO prevent ctrl+\ to print anything
 struct termios		termios_save;
 
-void reset_the_terminal(void)
+void	reset_the_terminal(void)
 {
 	tcsetattr(0, 0, &termios_save );
 }
@@ -59,7 +57,7 @@ int	main(void)
 	sigemptyset(&(sa.sa_mask));
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handler;
-//	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
+	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
 //		return (1);
 	while (42)
 	{
