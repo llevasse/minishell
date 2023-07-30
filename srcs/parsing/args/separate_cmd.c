@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 16:43:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 20:17:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	is_char_quoted(char *str, int pos)
 /// @param *input Str to search sep,
 ///	@param *sep Str to search.
 /// @return return position of sep or -1 if none is found.
-int	get_separatop_pos(char *input, char *sep)
+int	get_separator_pos(char *input, char *sep)
 {
 	int	pos;
 
