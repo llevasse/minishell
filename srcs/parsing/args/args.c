@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 15:45:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 22:25:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,6 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	input += i;
 }
 
-void	delete_redirection(int i, char **args)
-{
-	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
-	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
-	{
-		delete_element_at_index(args, i);
-		delete_element_at_index(args, i);
-	}
-	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
-	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-		delete_element_at_index(args, i);
-}
-
 void	printf_args(char **tab)
 {
 	int	i;
@@ -61,40 +46,65 @@ void	printf_args(char **tab)
 /// @param *prompt Pointer to prompt struct,
 /// @param **args Pointer to args,
 /// @param *garbage Pointer to garbage collector.
-void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
+void	parse_args(t_prompt *prompt, t_garbage *garbage)
 {
-	int	i;
+	t_arg	*temp;
 
-	i = 0;
-	while (args[i])
+	temp = prompt->args;
+	while (temp)
 	{
-		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
+		if (temp->s[ft_strlen(temp->s) - 1] == '\\' && temp->next)
 		{
-			args[i] = ft_joinf("%s %s", args[i], args[i + 1]);
-			ft_add_garbage(0, &garbage, args[i]);
-			delete_element_at_index(args, i + 1);
+			temp->s = ft_joinf("%s %s", temp->s, temp->next->s);
+			ft_add_garbage(0, &garbage, temp->s);
+			delete_element_at_index(prompt, temp->next->id);
 		}
 		if (prompt && garbage)
 		{
-			if (!prompt->d_quotes && !prompt->quotes)
-				check_quotes(prompt, &args[i], garbage);
-			if (!prompt->quotes)
-				check_is_env_var(&args[i], garbage);
-			check_for_wildcard(prompt, &args[i], garbage);
+			if (!temp->dquotes && !temp->quotes)
+				check_quotes(prompt, &(temp->s), garbage);
+			if (!temp->quotes)
+				check_is_env_var(&(temp->s), garbage);
+			check_for_wildcard(prompt, garbage);
 		}
 		delete_redirection(i, args);
 		i++;
 	}
 }
 
+void	delete_redirection(int i, char **args)
+{
+	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
+	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+	{
+		delete_element_at_index(args, i);
+		delete_element_at_index(args, i);
+	}
+	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
+	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+		delete_element_at_index(args, i);
+}
+
 ///	@brief Delete element in tab at index.
 /// @param **tab Pointer to tab,
 /// @param index Index of element to delete
-void	delete_element_at_index(char **tab, int index)
+void	delete_element_at_index(t_prompt *prompt, int id)
 {
-	while (tab[index])
+	t_arg	*temp;
+
+	temp = prompt->args;
+	while (temp && temp->next && temp->next->id != id)
+		temp = temp->next;
+	if (!temp)
+		return ;
+	temp->next = temp->next->next;
+	temp = prompt->args;
+	temp->id = 0;
+	while (temp)
 	{
-		tab[index] = tab[index + 1];
-		index++;
+		temp->next->id = temp->id + 1;
+		temp = temp->next;
 	}
 }

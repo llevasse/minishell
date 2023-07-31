@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 19:10:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 22:20:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ typedef struct s_export
 
 typedef struct s_arg
 {
-	char				*content;
+	char				*s;
 	int					dquotes;
 	int					quotes;
+	int					id;
 	struct s_arg		*next;
 }	t_arg;
 
@@ -79,8 +80,8 @@ char		*ft_strsep(char **p_str, const char *delim);
 
 // args.c
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
-void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
-void		delete_element_at_index(char **tab, int index);
+void		parse_args(t_prompt *prompt, t_garbage *garbage);
+void		delete_element_at_index(t_prompt *prompt, int id);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
 t_arg		*ft_split_args(t_prompt *prompt, char *s, char c,

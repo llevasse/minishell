@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 19:11:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 22:09:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_arg	*ft_new_arg(char *s, int quote, int dquote, t_garbage *garbage)
 	new->content = s;
 	new->dquotes = dquote;
 	new->quotes = quote;
+	new->id = 0;
 	new->next = NULL;
 	return (new);
 }
@@ -62,16 +63,20 @@ void	ft_add_arg(t_arg **lst, char *s, int quote, int dquote, t_garbage *garbage)
 {
 	t_arg	*temp;
 	t_arg	*new;
+	int		id;
 
+	id = 0;
 	new = ft_new_arg(s, quote, dquote, garbage);
 	if (*lst)
 	{
 		temp = *lst;
-		while (temp->next != NULL)
+		while (temp->next != NULL && id++;)
 			temp = temp->next;
+		new->id = id;
 		temp->next = new;
 		return ;
 	}
+	new->id = id;
 	*lst = new;
 }
 
