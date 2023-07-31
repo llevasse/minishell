@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 16:49:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:46:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
 int			get_separator_pos(char *input, char *sep);
 int			is_char_quoted(char *str, int pos);
 int			get_nearer_separator_pos(char *input);
+
+// wildcard.c
+void		check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage);
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
