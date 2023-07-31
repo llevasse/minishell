@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 17:23:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:10:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ typedef struct s_export
 	struct s_export		*next;
 }	t_export;
 
+typedef struct s_arg
+{
+	char				*content;
+	int					dquotes;
+	int					quotes;
+	struct s_arg		*next;
+}	t_arg;
+
 typedef struct s_prompt
 {
 	int					d_quotes;
@@ -46,7 +54,7 @@ typedef struct s_prompt
 	int					old_stdout;
 	int					old_stdin;
 	char				*cmd;
-	char				**args;
+	t_arg				*args;
 	t_export			*export_args;
 	struct s_prompt		*next_cmd;
 }	t_prompt;
@@ -75,7 +83,7 @@ void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
 void		delete_element_at_index(char **tab, int index);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
-char		**ft_split_args(t_prompt *prompt, char *s, char c,
+t_arg		*ft_split_args(t_prompt *prompt, char *s, char c,
 				t_garbage *garbage);
 
 // separate_cmd.c

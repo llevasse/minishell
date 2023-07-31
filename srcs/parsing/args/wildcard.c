@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 17:37:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:48:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+// TODO store args in chain instead of array
 
 void	check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage)
 {
