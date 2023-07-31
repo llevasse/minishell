@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/30 16:41:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:40:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// TODO wildcards '*' for current dir
 
 extern struct s_minishell	g_minishell;
 
