@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 17:24:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:37:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage)
 {
 	char	*pwd;
 
+	if (get_char_pos(*arg, '*') == -1)
+		return ;
 	pwd = get_pwd(garbage);
-	printf("Wildcard : %s\n", pwd);
+	printf("Pwd : %s\n", pwd);
 	(void)arg;
 	(void)prompt;
 }
