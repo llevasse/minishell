@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 15:46:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:26:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <signal.h>
 # include <dirent.h>
 # include <termios.h>
+# include <errno.h>
 
 typedef struct s_minishell
 {
@@ -85,6 +86,7 @@ int			get_nearer_separator_pos(char *input);
 
 // wildcard.c
 void		check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage);
+char		*get_pwd(t_garbage *garbage)
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
