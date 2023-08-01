@@ -23,7 +23,7 @@ int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 	path = ft_strdup(getenv("PATH"));
 	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
-		has_exec = check_present_in_path(prompt, 
+		has_exec = check_present_in_path(prompt,
 				ft_strsep(&path, ":"), garbage);
 	reset_stdio_fd(prompt);
 	return (has_exec);
