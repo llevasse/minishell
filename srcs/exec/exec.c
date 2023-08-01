@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/01 17:50:37 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/01 17:51:24 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		if (ft_strcmp("clear", prompt->cmd))
+		if (!ft_strcmp("clear", prompt->cmd))
 			prompt->args[0] = NULL;
 		else
 			prompt->args[0] = getenv("PWD");
