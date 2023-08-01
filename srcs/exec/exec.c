@@ -74,6 +74,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	while (prompt->args[i] && ft_strcmp(prompt->cmd, "cat"))
 	{
 		argv[i + 1] = prompt->args[i];
+//		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;
