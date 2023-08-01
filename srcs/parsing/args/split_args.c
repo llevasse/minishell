@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 22:09:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 09:44:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_arg	*ft_new_arg(char *s, int quote, int dquote, t_garbage *garbage)
 
 	new = malloc(sizeof(struct s_arg));
 	ft_add_garbage(0, &garbage, new);
-	new->content = s;
+	new->s = s;
 	new->dquotes = dquote;
 	new->quotes = quote;
 	new->id = 0;
@@ -70,7 +70,7 @@ void	ft_add_arg(t_arg **lst, char *s, int quote, int dquote, t_garbage *garbage)
 	if (*lst)
 	{
 		temp = *lst;
-		while (temp->next != NULL && id++;)
+		while (temp->next != NULL && id++)
 			temp = temp->next;
 		new->id = id;
 		temp->next = new;

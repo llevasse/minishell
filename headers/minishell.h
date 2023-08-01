@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 22:20:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 09:43:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char		*ft_strsep(char **p_str, const char *delim);
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
 void		parse_args(t_prompt *prompt, t_garbage *garbage);
 void		delete_element_at_index(t_prompt *prompt, int id);
+void		delete_redirection(t_prompt *prompt, int id);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
 t_arg		*ft_split_args(t_prompt *prompt, char *s, char c,
@@ -94,7 +95,7 @@ int			is_char_quoted(char *str, int pos);
 int			get_nearer_separator_pos(char *input);
 
 // wildcard.c
-void		check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage);
+void		check_for_wildcard(t_prompt *prompt, t_garbage *garbage);
 char		*get_pwd(t_garbage *garbage);
 
 // env.c

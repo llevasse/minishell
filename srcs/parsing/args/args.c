@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 22:25:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 09:43:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
 		return (ft_exit(garbage));
-	parse_args(prompt, prompt->args, garbage);
+	parse_args(prompt, garbage);
 	input += i;
 }
 
@@ -65,26 +65,32 @@ void	parse_args(t_prompt *prompt, t_garbage *garbage)
 				check_quotes(prompt, &(temp->s), garbage);
 			if (!temp->quotes)
 				check_is_env_var(&(temp->s), garbage);
-			check_for_wildcard(prompt, garbage);
 		}
-		delete_redirection(i, args);
-		i++;
+		delete_redirection(prompt, temp->id);
+		check_for_wildcard(prompt, garbage);
 	}
 }
 
-void	delete_redirection(int i, char **args)
+void	delete_redirection(t_prompt *prompt, int id)
 {
-	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
-	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+	t_arg	*temp;
+
+	temp = prompt->args;
+	while (temp && temp->id != id)
+		temp = temp->next;
+	if (!temp)
+		return ;
+	if ((!ft_strcmp(temp->s, ">") && ft_strlen(temp->s) == 1) || \
+	(!ft_strcmp(temp->s, "<") && ft_strlen(temp->s) == 1) || \
+	(!ft_strcmp(temp->s, ">>") && ft_strlen(temp->s) == 2) || \
+	(!ft_strcmp(temp->s, "<<") && ft_strlen(temp->s) == 2))
 	{
-		delete_element_at_index(args, i);
-		delete_element_at_index(args, i);
+		delete_element_at_index(prompt, id);
+		delete_element_at_index(prompt, id);
 	}
-	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
-	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-		delete_element_at_index(args, i);
+	else if (!ft_strncmp(temp->s, "<<", 2) || !ft_strncmp(temp->s, "<", 1) || \
+	!ft_strncmp(temp->s, ">>", 2) || !ft_strncmp(temp->s, ">", 1))
+		delete_element_at_index(prompt, id);
 }
 
 ///	@brief Delete element in tab at index.
