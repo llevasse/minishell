@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/31 19:13:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:26:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	printf("%s unknown command with argument(s) ", prompt->cmd);
 	while (prompt->args)
 	{
-		printf("%s ", prompt->args->content);
+		printf("%s ", prompt->args->s);
 		prompt->args = prompt->args->next;
 	}
 	printf("\n");
