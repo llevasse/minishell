@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 22:36:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 22:38:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
 	{
 		if (!respect_pattern(files[i], pattern, garbage))
 			delete_element_at_index(files, i);
+		else
+			printf("pattern : %s\n", files[i]);
 		i++;
 	}
 }
