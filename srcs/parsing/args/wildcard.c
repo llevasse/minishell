@@ -6,27 +6,57 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 22:02:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 22:36:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	check_for_wildcard(t_prompt *prompt, char **arg, int index, t_garbage *garbage)
+void	check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *garbage)
 {
 	char	*pwd;
+	char	**new_args;
 
-	if (get_char_pos(*arg, '*') == -1)
+	if (get_char_pos(args[index], '*') == -1)
 		return ;
 	pwd = get_pwd(garbage);
-	printf("Pwd : %s\n", pwd);
-	(void)arg;
-	(void)prompt;
+	new_args = get_files_in_dir(pwd, garbage);
+	delete_unwanted_files(new_args, args[index], garbage);
+	delete_element_at_index(args, index);
+	prompt->args = insert_tab_at_index(args, new_args, index, garbage);
+}
+
+char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
+{
+	char	**new;
+	int		i;
+	int		j;
+
+	new = malloc((get_tab_size(t1) + get_tab_size(t2) + 1) * sizeof(char *));
+	ft_add_garbage(0, &garbage, new);
+	i = 0;
+	j = 0;
+	while (t1[i] && i < index)
+	{
+		new[i + j] = t1[i];
+		new[i++ + j] = NULL;
+	}
+	while (t2[j])
+	{
+		new[i + j] = t2[j];
+		new[i + j++] = NULL;
+	}
+	while (t1[i])
+	{
+		new[i + j] = t1[i];
+		new[i++ + j] = NULL;
+	}
+	return (new);
 }
 
 //TODO error handling for opendir
 
-int	respect_pattern(char *str, char *pattern)
+int	respect_pattern(char *str, char *pattern, t_garbage *garbage)
 {
 	char	**keys;
 	char	*last_key;
@@ -56,9 +86,17 @@ int	respect_pattern(char *str, char *pattern)
 	return (1);
 }
 
-void	delete_unwanted_files(char *str)
+void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
 {
-	// str : *str*x*.c*
+	int	i;
+
+	i = 0;
+	while (files[i])
+	{
+		if (!respect_pattern(files[i], pattern, garbage))
+			delete_element_at_index(files, i);
+		i++;
+	}
 }
 
 int	get_nb_of_files(char *path)
@@ -71,7 +109,7 @@ int	get_nb_of_files(char *path)
 	if (!current_dir)
 		return (0);
 	i = 0;
-	while ((dir_entry = readdir(current_dir) != NULL)
+	while ((dir_entry = readdir(current_dir)) != NULL)
 		i++;
 	return (i);
 }
@@ -89,7 +127,7 @@ char	**get_files_in_dir(char *path, t_garbage *garbage)
 	if (!current_dir)
 		return (0);
 	i = 0;
-	while ((dir_entry = readdir(current_dir) != NULL)
+	while ((dir_entry = readdir(current_dir)) != NULL)
 		files[i++] = dir_entry->d_name;
 	files[i] = NULL;
 	return (files);

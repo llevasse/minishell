@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 21:57:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 22:34:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_prompt
 	int					old_stdout;
 	int					old_stdin;
 	char				*cmd;
-	t_arg				*args;
+	char				**args;
 	t_export			*export_args;
 	struct s_prompt		*next_cmd;
 }	t_prompt;
@@ -80,12 +80,12 @@ char		*ft_strsep(char **p_str, const char *delim);
 
 // args.c
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
-void		parse_args(t_prompt *prompt, t_garbage *garbage);
-void		delete_element_at_index(t_prompt *prompt, int id);
-void		delete_redirection(t_prompt *prompt, int id);
+void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
+void		delete_element_at_index(char **args, int i);
+void		delete_redirection(int i, char **args);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
-t_arg		*ft_split_args(t_prompt *prompt, char *s, char c,
+char		**ft_split_args(t_prompt *prompt, char *s, char c,
 				t_garbage *garbage);
 int			get_arg_nb(t_arg *lst);
 
@@ -96,9 +96,12 @@ int			is_char_quoted(char *str, int pos);
 int			get_nearer_separator_pos(char *input);
 
 // wildcard.c
-void		check_for_wildcard(t_prompt *prompt, t_garbage *garbage);
+void		check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *garbage);
 char		*get_pwd(t_garbage *garbage);
 char		**get_files_in_dir(char *path, t_garbage *garbage);
+void		delete_unwanted_files(char **files, char *pattern, t_garbage *garbage);
+int			respect_pattern(char *str, char *pattern, t_garbage *garbage);
+char		**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage);
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
