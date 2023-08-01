@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 22:38:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 22:57:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,7 @@ void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
 		if (!respect_pattern(files[i], pattern, garbage))
 			delete_element_at_index(files, i);
 		else
-			printf("pattern : %s\n", files[i]);
-		i++;
+			i++;
 	}
 }
 
@@ -130,8 +129,12 @@ char	**get_files_in_dir(char *path, t_garbage *garbage)
 		return (0);
 	i = 0;
 	while ((dir_entry = readdir(current_dir)) != NULL)
-		files[i++] = dir_entry->d_name;
+	{
+		files[i] = ft_strdup(dir_entry->d_name);
+		ft_add_garbage(0, &garbage, files[i++]);
+	}
 	files[i] = NULL;
+	closedir(current_dir);
 	return (files);
 }
 
