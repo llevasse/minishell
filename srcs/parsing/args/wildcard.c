@@ -6,13 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 17:14:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 22:02:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage)
+void	check_for_wildcard(t_prompt *prompt, char **arg, int index, t_garbage *garbage)
 {
 	char	*pwd;
 
@@ -25,6 +25,41 @@ void	check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage)
 }
 
 //TODO error handling for opendir
+
+int	respect_pattern(char *str, char *pattern)
+{
+	char	**keys;
+	char	*last_key;
+	int		i;
+
+	keys = ft_split(pattern, '*');
+	ft_add_garbage(0, &garbage, keys);
+	i = 0;
+	if (*pattern == '*' && ft_strncmp(keys[0], str, ft_strlen(keys[0])))
+		return (0);
+	while (*str && keys[i])
+	{
+		if (get_substr_pos(str, keys[i]) == -1)
+			return (0);
+		str += get_substr_pos(str, keys[i]) + ft_strlen(keys[i]);
+		i++;
+	}
+	last_key = keys[get_tab_size(keys) - 1];
+	if (pattern[ft_strlen(pattern)] != '*')
+	{
+		if (ft_strcmp(pattern + (ft_strlen(pattern) - 
+			ft_strlen(last_key)), last_key))
+				return (0);
+	}
+	else if (keys[i] != NULL)
+		return (0);
+	return (1);
+}
+
+void	delete_unwanted_files(char *str)
+{
+	// str : *str*x*.c*
+}
 
 int	get_nb_of_files(char *path)
 {
