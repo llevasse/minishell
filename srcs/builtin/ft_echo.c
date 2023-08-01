@@ -6,25 +6,25 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 15:26:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/27 10:51:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_args(t_arg *args, int i);
+static void	print_args(char **args, int i);
 
 void	ft_echo(t_prompt *prompt)
 {
 	if (!prompt->args)
 		write(1, "\n", 1);
-	else if (prompt->args && !ft_strcmp(prompt->args->s, "-n"))
+	else if (prompt->args && !ft_strcmp(prompt->args[0], "-n"))
 	{
-		if (!prompt->args->next)
+		if (!prompt->args[1])
 			write(1, "", 0);
 		else
 		{
-			print_args(prompt->args->next, -1);
+			print_args(&prompt->args[1], -1);
 			write(1, "%\n", 2);
 		}
 	}
@@ -35,17 +35,12 @@ void	ft_echo(t_prompt *prompt)
 	}
 }
 
-static void	print_args(t_arg *args, int i)
+static void	print_args(char **args, int i)
 {
-	t_arg	*temp;
-
-	temp = args;
-	while (temp)
+	while (args[++i])
 	{
-		i++;
 		if (i != 0)
 			write(1, " ", 1);
-		write(1, temp->s, ft_strlen(temp->s));
-		temp = temp->next;
+		write(1, args[i], ft_strlen(args[i]));
 	}
 }

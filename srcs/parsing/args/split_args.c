@@ -6,11 +6,45 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 15:19:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/29 21:55:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/// @brief Allocate enough memory for tab based on numbers of elements in *s.
+/// @param *s String containing every element args before split,
+/// @param c Char separating every element in *s,
+/// @param *garbage Pointer to garbage collector.
+/// @return Return allocated pointer of char *.
+char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
+{
+	int		i;
+	int		j;
+	char	**res;
+
+	j = 0;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		while (s[i] == c && s[i] != '\0')
+			i++;
+		if (!s[i])
+			break ;
+		if (s[i] && (s[i] != c || s[i] == 39 || s[i] == '"'))
+			j++;
+		i++;
+		while (s[i] && s[i] != c && s[i] != 39 && s[i] != '"')
+		{
+			if (s[i] == '>' || s[i] == '<')
+				j++;
+			i++;
+		}
+	}
+	res = malloc((j + 1) * sizeof(char *));
+	ft_add_garbage(0, &garbage, res);
+	return (res);
+}
 
 /// @brief Get next word at index.
 /// @param *s String containing every element args before split,
@@ -45,48 +79,6 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	return (res);
 }
 
-t_arg	*ft_new_arg(char *s, int quote, int dquote, t_garbage *garbage)
-{
-	t_arg	*new;
-
-	new = malloc(sizeof(struct s_arg));
-	ft_add_garbage(0, &garbage, new);
-	new->s = s;
-	new->dquotes = dquote;
-	new->quotes = quote;
-	new->id = 0;
-	new->next = NULL;
-	return (new);
-}
-
-void	ft_add_arg(t_arg **lst, char *s, int quote, int dquote, t_garbage *garbage)
-{
-	t_arg	*temp;
-	t_arg	*new;
-	int		id;
-
-	id = 0;
-	new = ft_new_arg(s, quote, dquote, garbage);
-	if (*lst)
-	{
-		temp = *lst;
-		while (temp->next != NULL && id++)
-			temp = temp->next;
-		new->id = id;
-		temp->next = new;
-		return ;
-	}
-	new->id = id;
-	*lst = new;
-}
-
-int		get_arg_nb(t_arg *lst)
-{
-	if (lst)
-		return (1 + get_arg_nb(lst->next));
-	return (0);
-}
-
 /// @brief Split a string by each c char,
 /// but also take account of quotes and other bash specific args.
 /// @param *prompt Pointer to prompt struct,
@@ -94,39 +86,44 @@ int		get_arg_nb(t_arg *lst)
 /// @param c Char separating every element in *s,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return a tab containing every separated element.
-t_arg	*ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
+char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
-	t_arg	*arg;
+	char	**res;
 	int		i;
+	int		index_word;
 
 	if (!s)
 		return (NULL);
-	arg = NULL;
+	index_word = 0;
+	res = alloc_tab_args(s, c, garbage);
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
 		if (s[i] == '"')
 		{
+			prompt->d_quotes = 1;
 			if (get_char_occurance(s, '"') % 2 != 0)
 				no_end_quote(&s, '"', "dquote>", garbage);
-			ft_add_arg(&arg, get_quoted_str(s + i++, '"', 1, garbage), 0, 1, garbage);
+			res[index_word] = get_quoted_str(s + i++, '"', 1, garbage);
 			i += get_char_pos(s + i, '"') + 1;
 		}
 		else if (s[i] == 39)
 		{
+			prompt->quotes = 1;
 			if (get_char_occurance(s, 39) % 2 != 0)
 				no_end_quote(&s, 39, "quote>", garbage);
-			ft_add_arg(&arg, get_quoted_str(s + i++, 39, 1, garbage), 1, 0, garbage);
+			res[index_word] = get_quoted_str(s + i++, 39, 0, garbage);
 			i += get_char_pos(s + i, 39) + 1;
 		}
 		else
 		{
-			ft_add_arg(&arg, get_word_arg(s, c, i, garbage), 0, 0, garbage);
+			res[index_word] = get_word_arg(s, c, i, garbage);
 			while (s[i] != c && s[i] != '\0')
 				i++;
 		}
 		i = skip_char(s, c, i);
+		index_word++;
 	}
-	(void)prompt;
-	return (arg);
+	res[index_word] = NULL;
+	return (res);
 }

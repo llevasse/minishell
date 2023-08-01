@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 14:39:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:45:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,23 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
 		return (ft_exit(garbage));
-	parse_args(prompt, garbage);
+	parse_args(prompt, prompt->args, garbage);
 	input += i;
+}
+
+void	delete_redirection(int i, char **args)
+{
+	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
+	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+	{
+		delete_element_at_index(args, i);
+		delete_element_at_index(args, i);
+	}
+	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
+	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+		delete_element_at_index(args, i);
 }
 
 void	printf_args(char **tab)
@@ -46,71 +61,40 @@ void	printf_args(char **tab)
 /// @param *prompt Pointer to prompt struct,
 /// @param **args Pointer to args,
 /// @param *garbage Pointer to garbage collector.
-void	parse_args(t_prompt *prompt, t_garbage *garbage)
+void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 {
-	t_arg	*temp;
+	int	i;
 
-	temp = prompt->args;
-	while (temp)
+	i = 0;
+	while (args[i])
 	{
-		if (temp->s[ft_strlen(temp->s) - 1] == '\\' && temp->next)
+		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
 		{
-			temp->s = ft_joinf("%s %s", temp->s, temp->next->s);
-			ft_add_garbage(0, &garbage, temp->s);
-			delete_element_at_index(prompt, temp->next->id);
+			args[i] = ft_joinf("%s %s", args[i], args[i + 1]);
+			ft_add_garbage(0, &garbage, args[i]);
+			delete_element_at_index(args, i + 1);
 		}
 		if (prompt && garbage)
 		{
-			if (!temp->dquotes && !temp->quotes)
-				check_quotes(prompt, &(temp->s), garbage);
-			if (!temp->quotes)
-				check_is_env_var(&(temp->s), garbage);
-			check_for_wildcard(prompt, garbage);
+			if (!prompt->d_quotes && !prompt->quotes)
+				check_quotes(prompt, &args[i], garbage);
+			if (!prompt->quotes)
+				check_is_env_var(&args[i], garbage);
+			check_for_wildcard(prompt, &args[i], garbage);
 		}
-		delete_redirection(prompt, temp->id);
+		delete_redirection(i, args);
+		i++;
 	}
-}
-
-void	delete_redirection(t_prompt *prompt, int id)
-{
-	t_arg	*temp;
-
-	temp = prompt->args;
-	while (temp && temp->id != id)
-		temp = temp->next;
-	if (!temp)
-		return ;
-	if ((!ft_strcmp(temp->s, ">") && ft_strlen(temp->s) == 1) || \
-	(!ft_strcmp(temp->s, "<") && ft_strlen(temp->s) == 1) || \
-	(!ft_strcmp(temp->s, ">>") && ft_strlen(temp->s) == 2) || \
-	(!ft_strcmp(temp->s, "<<") && ft_strlen(temp->s) == 2))
-	{
-		delete_element_at_index(prompt, id);
-		delete_element_at_index(prompt, id);
-	}
-	else if (!ft_strncmp(temp->s, "<<", 2) || !ft_strncmp(temp->s, "<", 1) || \
-	!ft_strncmp(temp->s, ">>", 2) || !ft_strncmp(temp->s, ">", 1))
-		delete_element_at_index(prompt, id);
 }
 
 ///	@brief Delete element in tab at index.
 /// @param **tab Pointer to tab,
 /// @param index Index of element to delete
-void	delete_element_at_index(t_prompt *prompt, int id)
+void	delete_element_at_index(char **tab, int index)
 {
-	t_arg	*temp;
-
-	temp = prompt->args;
-	while (temp && temp->next && temp->next->id != id)
-		temp = temp->next;
-	if (!temp)
-		return ;
-	temp->next = temp->next->next;
-	temp = prompt->args;
-	temp->id = 0;
-	while (temp)
+	while (tab[index])
 	{
-		temp->next->id = temp->id + 1;
-		temp = temp->next;
+		tab[index] = tab[index + 1];
+		index++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 15:16:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/31 17:23:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@ typedef struct s_export
 	struct s_export		*next;
 }	t_export;
 
-typedef struct s_arg
-{
-	char				*s;
-	int					dquotes;
-	int					quotes;
-	int					id;
-	struct s_arg		*next;
-}	t_arg;
-
 typedef struct s_prompt
 {
 	int					d_quotes;
@@ -55,7 +46,7 @@ typedef struct s_prompt
 	int					old_stdout;
 	int					old_stdin;
 	char				*cmd;
-	t_arg				*args;
+	char				**args;
 	t_export			*export_args;
 	struct s_prompt		*next_cmd;
 }	t_prompt;
@@ -80,14 +71,12 @@ char		*ft_strsep(char **p_str, const char *delim);
 
 // args.c
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
-void		parse_args(t_prompt *prompt, t_garbage *garbage);
-void		delete_element_at_index(t_prompt *prompt, int id);
-void		delete_redirection(t_prompt *prompt, int id);
+void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
+void		delete_element_at_index(char **tab, int index);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
-t_arg		*ft_split_args(t_prompt *prompt, char *s, char c,
+char		**ft_split_args(t_prompt *prompt, char *s, char c,
 				t_garbage *garbage);
-int			get_arg_nb(t_arg *lst);
 
 // separate_cmd.c
 void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
@@ -96,7 +85,7 @@ int			is_char_quoted(char *str, int pos);
 int			get_nearer_separator_pos(char *input);
 
 // wildcard.c
-void		check_for_wildcard(t_prompt *prompt, t_garbage *garbage);
+void		check_for_wildcard(t_prompt *prompt, char **arg, t_garbage *garbage);
 char		*get_pwd(t_garbage *garbage);
 
 // env.c
