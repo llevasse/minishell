@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/28 09:39:19 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/01 17:44:38 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	else if (pid == 0)
 	{
 		argv = pass_args_exec(path, prompt, garbage);
+		int i = -1;
+		while (argv[++i])
+			printf("%s\n", argv[i]);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
@@ -74,7 +77,6 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	while (prompt->args[i] && ft_strcmp(prompt->cmd, "cat"))
 	{
 		argv[i + 1] = prompt->args[i];
-//		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;
