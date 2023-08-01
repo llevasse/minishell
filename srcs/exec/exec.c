@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/30 16:52:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:20:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,6 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 		wait(NULL);
 }
 
-/// @brief Get number of element in **tab.
-/// @param **tab Pointer to pointers of char.
-/// @return Return number of element in tab.
-int	get_tab_size(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
 // command like cat or grep passed without argument
 // will not work if '-' is not added as argument.
 // where command like ls will need PWD.
@@ -57,32 +44,35 @@ int	get_tab_size(char **tab)
 char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 {
 	char	**argv;
-	char	*cmd_path;
+	t_arg	*temp;
 	int		i;
 
 	if (!prompt->args)
 	{
-		prompt->args = malloc(sizeof(char *) * 2);
-		ft_add_garbage(0, &garbage, prompt->args);
-		prompt->args[0] = "-";
+		argv = malloc(sizeof(char *) * 3);
+		ft_add_garbage(0, &garbage, argv);
+		argv[1] = "-";
 		if (!ft_strcmp(prompt->cmd, "ls"))
-			prompt->args[0] = getenv("PWD");
-		prompt->args[1] = NULL;
+			argv[1] = getenv("PWD");
+		argv[2] = NULL;
 	}
-	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
-	ft_add_garbage(0, &garbage, argv);
-	cmd_path = ft_strjoin(path, "/");
-	ft_add_garbage(0, &garbage, cmd_path);
-	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
-	ft_add_garbage(0, &garbage, argv[0]);
-	i = 0;
-//	printf("Cmd : |%s|\n", argv[i]);
-	while (prompt->args[i])
+	else
 	{
-		argv[i + 1] = prompt->args[i];
-//		printf("Args : |%s|\n", argv[i + 1]);
-		i++;
+		argv = malloc(sizeof(char *) * (get_arg_nb(prompt->args) + 2));
+		ft_add_garbage(0, &garbage, argv);
+		argv[0] = ft_joinf("%s/%s", path, prompt->cmd);
+		ft_add_garbage(0, &garbage, argv[0]);
+		i = 0;
+		temp = prompt->args;
+//		printf("Cmd : |%s|\n", argv[i]);
+		while (temp)
+		{
+			argv[i + 1] = temp->s;
+//			printf("Args : |%s|\n", argv[i + 1]);
+			temp = temp->next;
+			i++;
+		}
+		argv[i + 1] = NULL;
 	}
-	argv[i + 1] = NULL;
 	return (argv);
 }

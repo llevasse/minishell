@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 09:43:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:16:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
 t_arg		*ft_split_args(t_prompt *prompt, char *s, char c,
 				t_garbage *garbage);
+int			get_arg_nb(t_arg *lst);
 
 // separate_cmd.c
 void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);

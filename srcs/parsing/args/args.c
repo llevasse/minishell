@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 09:43:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 14:39:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,9 @@ void	parse_args(t_prompt *prompt, t_garbage *garbage)
 				check_quotes(prompt, &(temp->s), garbage);
 			if (!temp->quotes)
 				check_is_env_var(&(temp->s), garbage);
+			check_for_wildcard(prompt, garbage);
 		}
 		delete_redirection(prompt, temp->id);
-		check_for_wildcard(prompt, garbage);
 	}
 }
 

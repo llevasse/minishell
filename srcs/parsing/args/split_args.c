@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 09:44:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:19:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ void	ft_add_arg(t_arg **lst, char *s, int quote, int dquote, t_garbage *garbage)
 	}
 	new->id = id;
 	*lst = new;
+}
+
+int		get_arg_nb(t_arg *lst)
+{
+	if (lst)
+		return (1 + get_arg_nb(lst->next));
+	return (0);
 }
 
 /// @brief Split a string by each c char,
