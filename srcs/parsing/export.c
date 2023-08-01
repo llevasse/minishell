@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:10:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/01 15:57:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,21 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*content;
 
-	content = ft_strdup(ft_strsep(input, " "));
-	ft_add_garbage(0, &garbage, content);
-	if (get_char_pos(content, '"') != -1 || get_char_pos(content, 39) != -1)
-		check_quotes(prompt, &content, garbage);
+	check_is_env_var(&content, garbage);
+	if (**input == '"')
+	{
+		no_end_quote(input, '"', "dquote>", garbage);
+		content = get_quoted_str(*input, '"', 1, garbage);
+	}
+	else if (**input == 39) 
+	{
+		no_end_quote(input, 39, "quote>", garbage);
+		content = get_quoted_str(*input, 39, 0, garbage);
+	}
 	else
-		check_is_env_var(&content, garbage);
+		content = ft_strdup(ft_strsep(input, " "));
+	ft_add_garbage(0, &garbage, content);
+	(void)prompt;
 	return (content);
 }
 
