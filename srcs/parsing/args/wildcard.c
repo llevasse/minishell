@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/02 21:46:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/02 22:01:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,18 @@ char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
 	while (t1[i] && i < index)
 	{
 		new[i + j] = t1[i];
-		new[i++ + j] = NULL;
+		//printf("Adding |%s| to new arg list\n", new[i + j]);
+		new[i++ + j + 1] = NULL;
 	}
 	while (t2[j])
 	{
 		new[i + j] = t2[j];
-		new[i + j++] = NULL;
+		new[i + j++ + 1] = NULL;
 	}
 	while (t1[i])
 	{
 		new[i + j] = t1[i];
-		new[i++ + j] = NULL;
+		new[i++ + j + 1] = NULL;
 	}
 	return (new);
 }
