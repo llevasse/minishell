@@ -6,31 +6,49 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/02 13:30:41 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/02 16:03:29 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+#include <stdio.h>
 
 extern char	**environ;
 
-void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
-{
+void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage) {
 	pid_t	pid;
+	int		pipe_fd[2];
+	int 	tmp_fd;
 	char	**argv;
 
+	if (pipe(pipe_fd) == -1)
+		write(1, "pipe fail\n", 10);
+	tmp_fd = dup(0);
 	pid = fork();
 	if (pid == -1)
-		return ((void)write(2, "fork error\n", 11), exit(-1));
-	else if (pid == 0)
 	{
+		perror("fork fail\n");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		close(pipe_fd[1]);
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
+		close(pipe_fd[0]);
 	}
 	else
-		waitpid(pid, NULL, 0);
+	{
+		while (waitpid(-1, NULL, WUNTRACED) != -1)
+			;
+		dup2(tmp_fd, 0);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+
+	}
+	close(tmp_fd);
 }
 
 /// @brief Get number of element in **tab.

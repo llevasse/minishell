@@ -27,7 +27,7 @@ int	main(void)
 	}
 	else
 	{
-		char *line;
+		char	*line;
 		line = NULL;
 		close(fd[1]);
 		dup2(fd[0], 0);

@@ -1,15 +1,5 @@
-int main(void)
-{
-	if ( op == "|" && all cmd exist)
-	{
-		while (nbr < nbr_pipe)
-			pipe();
-			fork();
-			exec_ve();
-				write(fd[1], exec_ve(),);
-				close pipe child;
-				kill child;
-
-	}
-
-}
+1 : save entrée standard.
+2 : pipe/fork/dup2(fd[1] , 1)
+3 : close pipe() ans child
+4 : execute puis dup2(stdin_fileno, fd[0])
+5 : close(tmp_fd) puis execve.
