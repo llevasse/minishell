@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 22:57:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:46:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	respect_pattern(char *str, char *pattern, t_garbage *garbage)
 	keys = ft_split(pattern, '*');
 	ft_add_garbage(0, &garbage, keys);
 	i = 0;
-	if (*pattern == '*' && ft_strncmp(keys[0], str, ft_strlen(keys[0])))
+	if (pattern[0] != '*' && ft_strncmp(keys[0], str, ft_strlen(keys[0])))
 		return (0);
 	while (*str && keys[i])
 	{
