@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/28 09:06:07 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/02 13:53:22 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 
 static void	cd_without_args(char *new_path)
 {
-	new_path = ft_strjoin("/Users/", getenv("USER"));
+	char	*user;
+
+	user = getenv("USER");
+	if (!ft_strcmp(user, ""))
+		ft_printf("HOME not set !");
+	new_path = ft_strjoin("/Users/", user);
 	if (chdir(new_path) == 0)
 	{
 		setenv("PWD", new_path, 1);

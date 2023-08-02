@@ -22,12 +22,12 @@ int	main(void)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		write(fd[1], "coucou je suis dans l'enfant, ...., titre\n", 42);
+		false_exec(cmd 1,args,  sort1, ent1);
 		close(fd[1]);
 	}
 	else
 	{
-		char	*line;
+		char *line;
 		line = NULL;
 		close(fd[1]);
 		dup2(fd[0], 0);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 12:41:02 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/02 13:43:00 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_export(t_prompt *prompt)
 			setenv(temp->key, temp->content, 1);
 		}
 		else
-			printf("Je vais imprimer une liste des exports\n");
+			ft_printf("Je vais imprimer une liste des exports\n");
 		temp = temp->next;
 	}
 }
