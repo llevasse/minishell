@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 11:40:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:03:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,19 @@ void	check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *gar
 	char	*pwd;
 	char	**new_args;
 
-	if (!args[index] || get_char_pos(args[index], 42) == -1)
-		return ;
-	check_for_wildcard(prompt, args, index + 1, garbage);
+	if (!args[index])
+		return ((void)(prompt->args = args));
+	if (get_char_pos(args[index], 42) == -1)
+		check_for_wildcard(prompt, args, index + 1, garbage);
 	pwd = get_pwd(garbage);
 	new_args = get_files_in_dir(pwd, garbage);
 	delete_unwanted_files(new_args, args[index], garbage);
 	if (new_args[0])
 		delete_element_at_index(args, index);
-	prompt->args = insert_tab_at_index(args, new_args, index, garbage);
+	args = insert_tab_at_index(args, new_args, index, garbage);
+	while (args[index] && get_char_pos(args[index], 42) == -1)
+		index++;
+	check_for_wildcard(prompt, args, index, garbage);
 }
 
 char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
@@ -53,7 +57,6 @@ char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
 		new[i + j] = t1[i];
 		new[i++ + j + 1] = NULL;
 	}
-	printf_args(new);
 	return (new);
 }
 

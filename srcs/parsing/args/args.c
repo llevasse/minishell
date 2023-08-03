@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 11:43:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:03:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	delete_redirection(int i, char **args)
 		delete_element_at_index(args, i);
 }
 
-void	printf_args(char **tab)
+void	printf_args(char **tab, char *prompt)
 {
 	int	i;
 
 	i = 0;
-	printf("ARGS:");
+	printf("%s", prompt);
 	while (tab[i])
 		printf(" %s", tab[i++]);
 	printf("\n");
@@ -67,6 +67,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 
 	i = 0;
 	check_for_wildcard(prompt, args, 0, garbage);
+	printf_args(prompt->args, "new :");
 	while (args[i])
 	{
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
