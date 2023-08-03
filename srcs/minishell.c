@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/31 17:25:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:00:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 	{
 		write(1, "^C\n", 3);
 		rl_on_new_line();
+		rl_replace_line("minishell >>", 1);
 		rl_redisplay();
 	}
 	(void)info;

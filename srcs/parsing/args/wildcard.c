@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 12:27:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:13:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
 	keys = ft_split(pattern, 42);
 	ft_add_garbage(0, &garbage, keys);
 	i = 0;
-	if (pattern[0] == 42 && pattern [1] == 0)
+	if (get_char_occurance(pattern, 42) == (int)ft_strlen(pattern))
 		return ;
 	while (files[i])
 	{
