@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 10:16:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 10:25:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	get_nb_of_files(char *path)
 	i = 0;
 	while ((dir_entry = readdir(current_dir)) != NULL)
 		i++;
-	return (i);
+	return (i - 2);
 }
 
 char	**get_files_in_dir(char *path, t_garbage *garbage)
@@ -134,8 +134,12 @@ char	**get_files_in_dir(char *path, t_garbage *garbage)
 	i = 0;
 	while ((dir_entry = readdir(current_dir)) != NULL)
 	{
-		files[i] = ft_strdup(dir_entry->d_name);
-		ft_add_garbage(0, &garbage, files[i++]);
+		if (ft_strcmp(dir_entry->d_name, ".") && \
+			ft_strcmp(dir_entry->d_name, ".."))
+		{
+			files[i] = ft_strdup(dir_entry->d_name);
+			ft_add_garbage(0, &garbage, files[i++]);
+		}
 	}
 	files[i] = NULL;
 	closedir(current_dir);
