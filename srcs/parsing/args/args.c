@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 12:03:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:26:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 
 	i = 0;
 	check_for_wildcard(prompt, args, 0, garbage);
-	printf_args(prompt->args, "new :");
 	while (args[i])
 	{
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
