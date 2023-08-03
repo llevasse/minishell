@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 10:12:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 10:16:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *gar
 	pwd = get_pwd(garbage);
 	new_args = get_files_in_dir(pwd, garbage);
 	delete_unwanted_files(new_args, args[index], garbage);
-	delete_element_at_index(args, index);
+	if (new_args[0])
+		delete_element_at_index(args, index);
 	prompt->args = insert_tab_at_index(args, new_args, index, garbage);
 }
 
