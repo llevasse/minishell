@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 14:00:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 21:36:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ void	handler(int sig, siginfo_t *info, void *context)
 	(void)context;
 }
 
+char *get_mini_prompt(t_garbage *garbage)
+{
+	char	*prompt;
+	
+	prompt = ft_joinf("(%d)minishell >>", errno);
+	ft_add_garbage(0, &garbage, prompt);
+	return (prompt);
+}
+
 int	main(void)
 {
 	struct sigaction	sa;
@@ -62,7 +71,7 @@ int	main(void)
 		return (1);
 	while (42)
 	{
-		s = readline("minishell >>");
+		s = readline(get_mini_prompt(garbage));
 		add_history(s);
 		parse(s, garbage);
 		free_garbage(garbage);

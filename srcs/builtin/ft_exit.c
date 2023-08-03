@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/17 13:51:05 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/03 21:37:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@
 void	ft_exit(t_garbage *garbage)
 {
 	free_garbage(garbage);
-	exit(-1);
+	exit(errno);
 }
