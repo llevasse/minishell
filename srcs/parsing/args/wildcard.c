@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 12:03:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 12:06:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
+
+// TODO segfault if wildcard don't find any file
 
 void	check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *garbage)
 {
