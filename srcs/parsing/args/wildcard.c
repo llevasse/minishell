@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/02 22:01:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 10:12:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *gar
 	char	*pwd;
 	char	**new_args;
 
-	if (get_char_pos(args[index], '*') == -1)
+	if (get_char_pos(args[index], 42) == -1)
 		return ;
 	pwd = get_pwd(garbage);
 	new_args = get_files_in_dir(pwd, garbage);
@@ -39,7 +39,6 @@ char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
 	while (t1[i] && i < index)
 	{
 		new[i + j] = t1[i];
-		//printf("Adding |%s| to new arg list\n", new[i + j]);
 		new[i++ + j + 1] = NULL;
 	}
 	while (t2[j])
@@ -57,26 +56,24 @@ char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
 
 //TODO error handling for opendir
 
-int	respect_pattern(char *str, char *pattern, t_garbage *garbage)
+// fun fact, the asterisc sign value in ascii is 42, 42 is really everything
+
+int	respect_pattern(char *str, char *pattern, char **keys)
 {
-	char	**keys;
 	char	*last_key;
 	int		i;
 
-	keys = ft_split(pattern, '*');
-	ft_add_garbage(0, &garbage, keys);
 	i = 0;
-	if (pattern[0] != '*' && ft_strncmp(keys[0], str, ft_strlen(keys[0])))
+	if (pattern[0] != 42 && ft_strncmp(keys[0], str, ft_strlen(keys[0])))
 		return (0);
 	while (*str && keys[i])
 	{
-		if (get_substr_pos(str, keys[i]) == -1)
+		if (get_substr_pos(str, keys[i++]) == -1)
 			return (0);
-		str += get_substr_pos(str, keys[i]) + ft_strlen(keys[i]);
-		i++;
+		str += get_substr_pos(str, keys[i - 1]) + ft_strlen(keys[i - 1]);
 	}
 	last_key = keys[get_tab_size(keys) - 1];
-	if (pattern[ft_strlen(pattern)] != '*')
+	if (pattern[ft_strlen(pattern)] != 42)
 	{
 		if (ft_strcmp(pattern + (ft_strlen(pattern) - 
 			ft_strlen(last_key)), last_key))
@@ -90,11 +87,16 @@ int	respect_pattern(char *str, char *pattern, t_garbage *garbage)
 void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
 {
 	int	i;
+	char	**keys;
 
+	keys = ft_split(pattern, 42);
+	ft_add_garbage(0, &garbage, keys);
 	i = 0;
+	if (pattern[0] == 42 && pattern [1] == 0)
+		return ;
 	while (files[i])
 	{
-		if (!respect_pattern(files[i], pattern, garbage))
+		if (!respect_pattern(files[i], pattern, keys))
 			delete_element_at_index(files, i);
 		else
 			i++;

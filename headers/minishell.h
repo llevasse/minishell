@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/02 21:54:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 10:08:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void		check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *ga
 char		*get_pwd(t_garbage *garbage);
 char		**get_files_in_dir(char *path, t_garbage *garbage);
 void		delete_unwanted_files(char **files, char *pattern, t_garbage *garbage);
-int			respect_pattern(char *str, char *pattern, t_garbage *garbage);
+int			respect_pattern(char *str, char *pattern, char **keys);
 char		**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage);
 
 // env.c
