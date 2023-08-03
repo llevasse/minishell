@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/25 23:51:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/07/30 16:32:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,29 @@
 
 //TODO pipes
 
-//TODO output input combination
-//ex : exec 3<> file # Open file and assign it to fd 3
-
 /// @brief Check and apply redirection in input.
 /// @param *input String of the prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
-	if (get_char_pos(input, '>') != -1)
-		set_output(input, prompt, garbage);
-	if (get_char_pos(input, '<') != -1)
-		set_input(input, prompt, garbage);
+	int	pos;
+
+	pos = -1;
+	if (get_separator_pos(input, "<") != -1 && \
+		pos <= get_separator_pos(input, "<"))
+		pos = get_separator_pos(input, "<");
+	if (get_separator_pos(input, ">") != -1 && \
+		pos <= get_separator_pos(input, ">"))
+		pos = get_separator_pos(input, ">");
+	if (pos != -1)
+	{
+		pos++;
+		if (input[pos] == '>')
+			set_output(input + pos, prompt, garbage);
+		if (input[pos] == '<')
+			set_input(input + pos, prompt, garbage);
+	}
 }
 
 /// @brief Append output of cmd to end of file.

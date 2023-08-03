@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
+/*   Updated: 2023/08/03 14:49:10 by llevasse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
@@ -11,6 +23,8 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+extern struct s_minishell	g_minishell;
 
 void	parse(char *input, t_garbage *garbage)
 {
@@ -22,8 +36,9 @@ void	parse(char *input, t_garbage *garbage)
 		return ;
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
+	reset_stdio_fd(prompt);
 	if (prompt->next_cmd)
-		parse(prompt->next_cmd, garbage);
+		check_cmd(prompt->next_cmd, garbage);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -96,4 +111,21 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	get_args(prompt, input, garbage);
 	check_redirection(input, prompt, garbage);
 	return (prompt);
+}
+
+void	ft_add_prompt(t_prompt **lst, t_prompt *new)
+{
+	t_prompt	*temp;
+
+	if (!new)
+		return (ft_exit(g_minishell.garbage));
+	if (*lst)
+	{
+		temp = *lst;
+		while (temp->next_cmd != NULL)
+			temp = temp->next_cmd;
+		temp->next_cmd = new;
+		return ;
+	}
+	*lst = new;
 }

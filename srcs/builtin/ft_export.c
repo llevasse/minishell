@@ -6,6 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
+/*   Updated: 2023/07/30 16:50:44 by llevasse         ###   ########.fr       */
 /*   Updated: 2023/08/02 13:43:00 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -23,6 +24,8 @@ void	ft_export(t_prompt *prompt)
 		if (!temp->key)
 			return ;
 		if (temp)
+			printf("Je vais assigne la key \"%s\" au content \"%s\"\n",
+				temp->key, temp->content);
 		{
 			setenv(temp->key, temp->content, 1);
 		}

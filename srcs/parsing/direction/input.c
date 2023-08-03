@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 23:22:04 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/30 13:35:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 
 	i = get_char_pos(input, '<');
 	if (input[i + 1] == '<')
-	{
-		prompt->next_cmd = "rm";
 		return (heredoc(input, prompt, garbage));
-	}
-	while (input[i] && (input[i] == '<' || ft_isspace(input[i])))
+	while (input[i] && (input[i] == '<' || isspace(input[i])))
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around <\n"));

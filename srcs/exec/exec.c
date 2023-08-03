@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/03 19:05:21 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/30 16:52:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,9 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage) {
 	tmp_fd = dup(0);
 	pid = fork();
 	if (pid == -1)
+		return ((void)write(2, "fork error\n", 11), exit(-1));
+	else if (pid == 0)
 	{
-		perror("fork fail\n");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
-		close(pipe_fd[1]);
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
@@ -64,6 +60,9 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
+// command like cat or grep passed without argument
+// will not work if '-' is not added as argument.
+// where command like ls will need PWD.
 /// @brief Get arguments to pass to execve.
 /// @param *path String of path to executable,
 /// @param *prompt Pointer to prompt struct,
@@ -79,9 +78,8 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		if (!ft_strcmp("clear", prompt->cmd))
-			prompt->args[0] = NULL;
-		else
+		prompt->args[0] = "-";
+		if (!ft_strcmp(prompt->cmd, "ls"))
 			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
 	}
@@ -92,7 +90,8 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
 	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
-	while (prompt->args[i] && ft_strcmp(prompt->cmd, "cat"))
+//	printf("Cmd : |%s|\n", argv[i]);
+	while (prompt->args[i])
 	{
 		argv[i + 1] = prompt->args[i];
 		i++;

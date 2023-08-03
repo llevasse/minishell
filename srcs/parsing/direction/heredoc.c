@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 23:23:00 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/30 16:46:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*eof_name;
 	char	*cut_section;
 	int		i;
+	int		j;
 
-	i = get_char_pos(input, '<') + 3;
+	i = get_char_pos(input, '<');
+	j = i;
+	while (input[i] == '<' || ft_isspace(input[i]))
+		i++;
 	eof_name = ft_strdup(input + i);
 	ft_add_garbage(0, &garbage, eof_name);
-	cut_section = get_cut_section(input + (i - 3), garbage);
+	cut_section = get_cut_section(input + j, garbage);
 	i = 0;
 	while (ft_isspace(eof_name[i]))
 		i++;
@@ -61,9 +65,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	str = ft_strdup(input);
 	name = NULL;
 	ft_add_garbage(0, &garbage, str);
-	while (str[i] && str[i] == '<')
-		i++;
-	while (str[i] && ft_isspace(str[i]))
+	while (str[i] && (str[i] == '<' || ft_isspace(str[i])))
 		i++;
 	if (str[i] == '"' || str[i] == 39)
 	{
@@ -113,13 +115,16 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 /// @return Return fd of heredoc.
 int	create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage)
 {
+	char		*rm;
+	t_prompt	*new;
+
 	*heredoc_name = ft_strjoin(".", 
 			replace_space_in_name(*heredoc_name, garbage));
 	ft_add_garbage(0, &garbage, *heredoc_name);
-	prompt->next_cmd = ft_strjoin(prompt->next_cmd, " ");
-	ft_add_garbage(0, &garbage, prompt->next_cmd);
-	prompt->next_cmd = ft_strjoin(prompt->next_cmd, *heredoc_name);
-	ft_add_garbage(0, &garbage, prompt->next_cmd);
+	rm = ft_joinf("rm %s", *heredoc_name);
+	ft_add_garbage(0, &garbage, rm);
+	new = init_prompt(rm, garbage);
+	ft_add_prompt(&prompt, new);
 	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
 }
 
@@ -148,7 +153,7 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 			break ;
 		if (use_env_var)
 			check_is_env_var(&text, garbage);
-		ft_putendl_fd(text, 1);
+		ft_putendl_fd(text, fd);
 		free(text);
 		text = NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 23:08:24 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/03 15:26:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 /// @param *input Inputed string to get args from.
 void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt, input, garbage));
+	separate_cmd(prompt, input, garbage);
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	if (!prompt->args)
 		return (ft_exit(garbage));
@@ -31,22 +32,28 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 
 void	delete_redirection(int i, char **args)
 {
-	if (!ft_strcmp(args[i], ">") || !ft_strcmp(args[i], "<") || \
-	!ft_strcmp(args[i], ">>") || !ft_strcmp(args[i], "<<"))
+	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
+	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
+	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
 	{
 		delete_element_at_index(args, i);
 		delete_element_at_index(args, i);
 	}
+	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
+	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+		delete_element_at_index(args, i);
 }
 
-void	printf_args(char **tab)
+void	printf_args(char **tab, char *prompt)
 {
 	int	i;
 
 	i = 0;
-	printf("ARGS:\n");
+	printf("%s", prompt);
 	while (tab[i])
-		printf("%s\n", tab[i++]);
+		printf(" %s", tab[i++]);
+	printf("\n");
 }
 
 /// @brief Parse each quoted args and env variable,
@@ -59,9 +66,9 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	int	i;
 
 	i = 0;
+	check_for_wildcard(prompt, args, 0, garbage);
 	while (args[i])
 	{
-		delete_redirection(i, args);
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
 		{
 			args[i] = ft_joinf("%s %s", args[i], args[i + 1]);
@@ -75,18 +82,8 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 			if (!prompt->quotes)
 				check_is_env_var(&args[i], garbage);
 		}
+		else if (args[i])
+			delete_redirection(i, args);
 		i++;
-	}
-}
-
-///	@brief Delete element in tab at index.
-/// @param **tab Pointer to tab,
-/// @param index Index of element to delete
-void	delete_element_at_index(char **tab, int index)
-{
-	while (tab[index])
-	{
-		tab[index] = tab[index + 1];
-		index++;
 	}
 }

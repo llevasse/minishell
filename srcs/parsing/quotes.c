@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/23 10:35:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 14:48:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	i = 0;
 	if (get_char_pos(*str, '"') == -1 && get_char_pos(*str, 39) == -1)
 		return (0);
-	while (*str[i] && *str[i] != '"' && *str[i] != 39)
+	while ((*str)[i] && (*str)[i] != '"' && (*str)[i] != 39)
 		i++;
-	if (!*str[i])
+	if (!(*str)[i])
 		return (0);
-	if (*str[i] == '"')
+	if ((*str)[i] == '"')
 		pass_double_quotes(prompt, str, garbage);
-	else if (*str[i] == 39)
+	else if ((*str)[i] == 39)
 		pass_single_quotes(prompt, str, garbage);
 	return (1);
 }
@@ -68,7 +68,7 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	char	*new_str;
 
 	i = get_char_pos(str, quote);
-	j = get_char_pos(str + i + 1, quote) - i;
+	j = i - get_char_pos(str + i + 1, quote);
 	new_str = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(0, &garbage, new_str);
 	j = 0;

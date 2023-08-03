@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/02 13:53:22 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/07/30 16:50:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 	}
 	else
 	{
-		free(new_path);
-		ft_printf("wrong directory\n");
+		if (chdir(prompt->args[0]) == 0)
+			setenv("PWD", prompt->args[0], 1);
+		else
+			printf("Error :(\n");
 	}
 }
 

@@ -20,7 +20,10 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/replace_str.c \
 			srcs/parsing/quotes.c \
 			srcs/parsing/args/args.c \
+			srcs/parsing/args/tab_utils.c \
 			srcs/parsing/args/split_args.c \
+			srcs/parsing/args/separate_cmd.c \
+			srcs/parsing/args/wildcard.c \
 			srcs/parsing/garbage_collector.c \
 			srcs/parsing/direction/direction.c \
 			srcs/parsing/direction/output.c \
@@ -43,8 +46,8 @@ HEADER		=	headers/minishell.h
 #---RULES----------------------------------------
 all:			norm lib $(NAME)
 
-$(NAME):		$(OBJS) lib norm Makefile $(HEADER)
-				$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
+$(NAME):		$(OBJS) lib norm Makefile $(HEADER)/minishell.h
+				@$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
 $(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib Makefile $(HEADER)/minishell.h
