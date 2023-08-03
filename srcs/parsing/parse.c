@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/31 15:40:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:48:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 #include "minishell.h"
 
 // TODO wildcards '*' for current dir
+// Fix segfault when input of parse() == "ls'"
+
 
 extern struct s_minishell	g_minishell;
 

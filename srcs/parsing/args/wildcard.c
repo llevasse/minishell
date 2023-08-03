@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 10:25:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:40:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ void	check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *gar
 	char	*pwd;
 	char	**new_args;
 
-	if (get_char_pos(args[index], 42) == -1)
+	if (!args[index] || get_char_pos(args[index], 42) == -1)
 		return ;
+	check_for_wildcard(prompt, args, index + 1, garbage);
 	pwd = get_pwd(garbage);
 	new_args = get_files_in_dir(pwd, garbage);
 	delete_unwanted_files(new_args, args[index], garbage);
@@ -52,6 +53,7 @@ char	**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage)
 		new[i + j] = t1[i];
 		new[i++ + j + 1] = NULL;
 	}
+	printf_args(new);
 	return (new);
 }
 

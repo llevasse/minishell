@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/02 22:05:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 11:43:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	int	i;
 
 	i = 0;
+	check_for_wildcard(prompt, args, 0, garbage);
 	while (args[i])
 	{
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
@@ -80,10 +81,8 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 				check_quotes(prompt, &args[i], garbage);
 			if (!prompt->quotes)
 				check_is_env_var(&args[i], garbage);
-			check_for_wildcard(prompt, args, i, garbage);
-			printf_args(args);
 		}
-		if (args[i])
+		else if (args[i])
 			delete_redirection(i, args);
 		i++;
 	}
