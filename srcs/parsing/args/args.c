@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 12:26:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:26:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,5 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 		else if (args[i])
 			delete_redirection(i, args);
 		i++;
-	}
-}
-
-///	@brief Delete element in tab at index.
-/// @param **tab Pointer to tab,
-/// @param index Index of element to delete
-void	delete_element_at_index(char **tab, int index)
-{
-//	printf("Deleted %s at %d\n", tab[index], index);
-	while (tab[index])
-	{
-		tab[index] = tab[index + 1];
-		index++;
 	}
 }

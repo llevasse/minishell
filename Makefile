@@ -20,6 +20,7 @@ SRC		=	srcs/minishell.c \
 			srcs/parsing/replace_str.c \
 			srcs/parsing/quotes.c \
 			srcs/parsing/args/args.c \
+			srcs/parsing/args/tab_utils.c \
 			srcs/parsing/args/split_args.c \
 			srcs/parsing/args/separate_cmd.c \
 			srcs/parsing/args/wildcard.c \

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 11:53:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 15:28:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ char		*ft_strsep(char **p_str, const char *delim);
 // args.c
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
 void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
-void		delete_element_at_index(char **args, int i);
 void		delete_redirection(int i, char **args);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
@@ -90,6 +89,11 @@ char		**ft_split_args(t_prompt *prompt, char *s, char c,
 int			get_arg_nb(t_arg *lst);
 void		printf_args(char **tab, char *prompt);
 
+// tab_utils.c
+void		delete_element_at_index(char **args, int i);
+char		**insert_tab_at_index(char **t1, char **t2, 
+				int index, t_garbage *garbage);
+
 // separate_cmd.c
 void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
 int			get_separator_pos(char *input, char *sep);
@@ -97,12 +101,12 @@ int			is_char_quoted(char *str, int pos);
 int			get_nearer_separator_pos(char *input);
 
 // wildcard.c
-void		check_for_wildcard(t_prompt *prompt, char **args, int index, t_garbage *garbage);
-char		*get_pwd(t_garbage *garbage);
+void		check_for_wildcard(t_prompt *prompt, char **args,
+				int index, t_garbage *garbage);
 char		**get_files_in_dir(char *path, t_garbage *garbage);
-void		delete_unwanted_files(char **files, char *pattern, t_garbage *garbage);
+void		delete_unwanted_files(char **files, char *pattern, 
+				t_garbage *garbage);
 int			respect_pattern(char *str, char *pattern, char **keys);
-char		**insert_tab_at_index(char **t1, char **t2, int index, t_garbage *garbage);
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
@@ -143,12 +147,14 @@ void		replace_str(char **str, char *old_substr, char *new_substr,
 int			get_substr_pos(char *str, char *sub_str);
 
 // insert_at_index.c
-char		*insert_at_index(char *str, char *to_insert, int index, t_garbage *garbage);
+char		*insert_at_index(char *str, char *to_insert,
+				int index, t_garbage *garbage);
 
 // direction.c
 void		check_redirection(char *input, t_prompt *prompt,
 				t_garbage *garbage);
-void		set_output_append(char *input, t_prompt *prompt, t_garbage *garbage);
+void		set_output_append(char *input, t_prompt *prompt,
+				t_garbage *garbage);
 void		reset_stdio_fd(t_prompt *prompt);
 
 // output.c
@@ -157,12 +163,15 @@ void		multiple_output(char *input, t_prompt *prompt, t_garbage *garbage);
 
 // input.c
 void		set_input(char *input, t_prompt *prompt, t_garbage *garbage);
-void		multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage);
+void		multiple_input(char *input_prompt, t_prompt *prompt,
+				t_garbage *garbage);
 
 // heredoc.c
 void		heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
-int			create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage);
-void		write_heredoc(t_prompt *p, char **heredoc_name, t_garbage *garbage, int use_env_var);
+int			create_heredoc_fd(t_prompt *prompt, char **heredoc_name,
+				t_garbage *garbage);
+void		write_heredoc(t_prompt *p, char **heredoc_name,
+				t_garbage *garbage, int use_env_var);
 char		*get_cut_section(char *input, t_garbage *garbage);
 
 // SRCS/EXEC //
@@ -176,6 +185,7 @@ void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage);
 void		ft_pwd(void);
+char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);
 void		ft_cd(t_prompt *prompt);
 
