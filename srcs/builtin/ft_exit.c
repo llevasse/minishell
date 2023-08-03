@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/03 21:37:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:21:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@
 
 #include "minishell.h"
 
+extern struct s_minishell g_minishell;
+
 void	ft_exit(t_garbage *garbage)
 {
 	free_garbage(garbage);
-	exit(errno);
+	exit(g_minishell.error_value);
 }

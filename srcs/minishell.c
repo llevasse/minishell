@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 22:11:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 22:18:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char *get_mini_prompt(t_garbage *garbage)
 {
 	char	*prompt;
 	
-	prompt = ft_joinf("(%d)minishell >>", errno);
+	prompt = ft_joinf("(%d)minishell >>", g_minishell.error_value);
 	if (!prompt)
 		return ("(12)minishell >>");
 	ft_add_garbage(0, &garbage, prompt);
