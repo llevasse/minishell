@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 13:35:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 23:08:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 	}
 }
 
-/// @brief Get outin redirection args ("> {file_name}")
+/// @brief Get outin redirection args ("< {file_name}")
 /// @param *input Prompt input,
 /// @param *garbage Pointer to garbage collector.
-/// @return Return a string in the format "> {file_name}"
+/// @return Return a string in the format "< {file_name}"
 char	*get_input(char *input_prompt, t_garbage *garbage)
 {
 	char	*input;

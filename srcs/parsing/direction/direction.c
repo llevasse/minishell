@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 16:32:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 22:07:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		pos = get_separator_pos(input, ">");
 	if (pos != -1)
 	{
-		pos++;
 		if (input[pos] == '>')
 			set_output(input + pos, prompt, garbage);
 		if (input[pos] == '<')

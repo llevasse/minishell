@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 16:46:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 23:12:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//TODO replace heredoc file with fd :0
 
 /// @brief Handle heredoc in prompt.
 /// Create invisible file, write heredoc content in it, and pass it to command.
@@ -115,17 +117,20 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 /// @return Return fd of heredoc.
 int	create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage)
 {
-	char		*rm;
-	t_prompt	*new;
+	int			pipes[2];
 
-	*heredoc_name = ft_strjoin(".", 
-			replace_space_in_name(*heredoc_name, garbage));
-	ft_add_garbage(0, &garbage, *heredoc_name);
-	rm = ft_joinf("rm %s", *heredoc_name);
-	ft_add_garbage(0, &garbage, rm);
-	new = init_prompt(rm, garbage);
-	ft_add_prompt(&prompt, new);
-	return (open(*heredoc_name, O_RDWR | O_APPEND | O_CREAT, 0666));
+	*heredoc_name =	replace_space_in_name(*heredoc_name, garbage);
+	if (pipe(pipes) == -1)
+		return (-1);
+	prompt->old_stdin = dup(0);
+	prompt->write_fd = pipes[0];
+//	dup2(prompt->write_fd, STDIN_FILENO);
+	if (prompt->write_fd == -1)
+	{
+		printf("Error in opening file, set redirection to error output\n");
+		dup2(prompt->old_stdin, STDOUT_FILENO);
+	}
+	return (0);
 }
 
 /// @brief Write readline input in heredoc file.
@@ -138,11 +143,11 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	char	*text;
 	char	*prompt;
 	char	*delimiter;
-	int		fd;
 
 	delimiter = ft_strdup(*heredoc_name);
 	ft_add_garbage(0, &garbage, delimiter);
-	fd = create_heredoc_fd(p, heredoc_name, garbage);
+	if (create_heredoc_fd(p, heredoc_name, garbage))
+		return ;
 	prompt = ft_strjoin(delimiter, " >");
 	ft_add_garbage(0, &garbage, prompt);
 	while (1)
@@ -152,12 +157,10 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 			break ;
 		if (use_env_var)
 			check_is_env_var(&text, garbage);
-		ft_putendl_fd(text, fd);
+		ft_putendl_fd(text, p->write_fd);
 		free(text);
 		text = NULL;
 	}
 	free(text);
 	text = NULL;
-	*heredoc_name = ft_joinf("\"%s\"", *heredoc_name);
-	ft_add_garbage(0, &garbage, *heredoc_name);
 }
