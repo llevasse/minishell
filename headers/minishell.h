@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 10:09:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 14:10:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 typedef struct s_minishell
 {
-	int					error_value;
+	unsigned char		error_value;
 	void				*garbage;
 	pid_t				current_pid;
 }	t_minishell;
