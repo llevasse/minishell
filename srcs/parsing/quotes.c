@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 14:48:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 22:12:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,11 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	char	*new_str;
 
 	i = get_char_pos(str, quote);
-	j = i - get_char_pos(str + i + 1, quote);
+	j = get_char_pos(str + i + 1, quote);
+	if (j > i)
+		j -= i;
+	else
+		j = i - j;
 	new_str = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(0, &garbage, new_str);
 	j = 0;
