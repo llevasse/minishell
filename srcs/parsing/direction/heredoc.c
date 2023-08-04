@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 23:12:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 23:16:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int	create_heredoc_fd(t_prompt *prompt, char **heredoc_name, t_garbage *garbage)
 		return (-1);
 	prompt->old_stdin = dup(0);
 	prompt->write_fd = pipes[0];
-//	dup2(prompt->write_fd, STDIN_FILENO);
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening file, set redirection to error output\n");
@@ -163,4 +162,5 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	}
 	free(text);
 	text = NULL;
+	dup2(p->write_fd, STDIN_FILENO);
 }
