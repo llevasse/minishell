@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 22:49:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:22:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(void)
 		if (s == NULL)
 		{
 			printf("exit\n");
-			ft_exit(garbage);
+			ft_exit(garbage, NULL);
 		}
 		add_history(s);
 		parse(s, garbage);

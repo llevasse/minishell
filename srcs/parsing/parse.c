@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/03 14:49:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:23:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parse(char *input, t_garbage *garbage)
 	t_prompt	*prompt;
 
 	if (!input)
-		ft_exit(garbage);
+		ft_exit(garbage, NULL);
 	if (!*input)
 		return ;
 	prompt = init_prompt(input, garbage);
@@ -50,7 +50,7 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 	if (!ft_strcmp(prompt->cmd, "env"))
 		return (ft_env(), 1);
 	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(garbage), 1);
+		return (ft_exit(garbage, prompt->args), 1);
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (ft_export(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "pwd"))
@@ -118,7 +118,7 @@ void	ft_add_prompt(t_prompt **lst, t_prompt *new)
 	t_prompt	*temp;
 
 	if (!new)
-		return (ft_exit(g_minishell.garbage));
+		return (ft_exit(g_minishell.garbage, NULL));
 	if (*lst)
 	{
 		temp = *lst;

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:28:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:09:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int			get_tab_size(char **tab);
 void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
-void		ft_exit(t_garbage *garbage);
+void		ft_exit(t_garbage *garbage, char **args);
 void		ft_pwd(void);
 char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);

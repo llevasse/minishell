@@ -3,22 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/03 22:21:26 by llevasse         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/14 22:16:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:33:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +14,34 @@
 
 extern struct s_minishell g_minishell;
 
-void	ft_exit(t_garbage *garbage)
+int	is_only_digit(char *s)
 {
-	free_garbage(garbage);
-	exit(g_minishell.error_value);
+	int	i;
+
+	i = 0;
+	while (s[i] && ft_isdigit(s[i]))
+		i++;
+	if (s[i])
+		return (0);
+	return (1);
+}
+
+void	ft_exit(t_garbage *garbage, char **args)
+{
+	if (!args)
+	{
+		free_garbage(garbage);
+		exit(g_minishell.error_value);
+	}
+	if (is_only_digit(args[0]) && args[1])
+	{
+		errno = 1;
+		return ((void)printf("minishell : too many argumentsi\n"));
+	}
+	if (!is_only_digit(args[0]))
+	{
+		printf("minishell : too many argumentsi\n");
+		exit(2);
+	}
+	exit((unsigned char)ft_atoi(args[0]));
 }

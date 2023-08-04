@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:26:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:24:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		return (get_export_args(prompt, input, garbage));
 	separate_cmd(prompt, input, garbage);
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
-	if (!prompt->args)
-		return (ft_exit(garbage));
 	parse_args(prompt, prompt->args, garbage);
 	input += i;
 }
