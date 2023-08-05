@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 17:41:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 23:12:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 		eof_name = ft_strsep(&eof_name, " ");
 		write_heredoc(prompt, &eof_name, garbage, 1);
 	}
-	//replace_str(&input, cut_section, eof_name, garbage);
-	//printf_args(prompt->args, "post heredoc args :");
-	//check_redirection(input, prompt, garbage);
-	//parse_args(NULL, prompt->args, NULL);
 }
 
 /// @brief Get section in input calling the heredoc.
@@ -119,16 +115,16 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 int	create_heredoc_fd(t_prompt *prompt, int pipes[2])
 {
 	pipe(pipes);
-	prompt->write_fd = pipes[0];
+	prompt->old_stdin = dup(0);
+	prompt->old_stdout = dup(1);
+	prompt->write_fd = pipes[1];
 	printf("Current write_fd %d\n", prompt->write_fd);
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening heredoc\n");
 		return (-1);
 	}
-	prompt->old_stdin = dup(0);
-//	dup2(prompt->write_fd, 0);	
-//	printf("Current write_fd %d\n", prompt->write_fd);
+//	close(pipes[0]);
 	return (0);
 }
 
@@ -158,13 +154,16 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 			break ;
 		if (use_env_var)
 			check_is_env_var(&text, garbage);
-		ft_putendl_fd(text, pipes[0]);
+		ft_putendl_fd(text, p->write_fd);
 		free(text);
 		text = NULL;
 	}
 	free(text);
 	text = NULL;
-	dup2(pipes[0], 0);
-	close(pipes[0]);
-	close(pipes[1]);
+//	close(0);
+//	close(1);
+//	dup2(pipes[0], 1);
+	dup2(pipes[1], 0);
+//	close(pipes[1]);
+//	close(pipes[0]);
 }
