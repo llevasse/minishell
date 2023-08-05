@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 23:12:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 23:34:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int	create_heredoc_fd(t_prompt *prompt, int pipes[2])
 		printf("Error in opening heredoc\n");
 		return (-1);
 	}
-//	close(pipes[0]);
 	return (0);
 }
 
@@ -162,8 +161,7 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	text = NULL;
 //	close(0);
 //	close(1);
-//	dup2(pipes[0], 1);
-	dup2(pipes[1], 0);
+	dup2(pipes[1], STDIN_FILENO);
 //	close(pipes[1]);
 //	close(pipes[0]);
 }
