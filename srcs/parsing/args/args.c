@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 22:04:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:46:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 
 void	delete_redirection(int i, char **args)
 {
+	printf("Delete\n");
 	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
 	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
 	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
 	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
 	{
+		printf("Delete |%s|%s|\n", args[i], args[i + 1]);
 		delete_element_at_index(args, i);
 		delete_element_at_index(args, i);
 	}
@@ -64,7 +66,8 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	int	i;
 
 	i = 0;
-	check_for_wildcard(prompt, args, 0, garbage);
+	if (prompt && garbage)
+		check_for_wildcard(prompt, args, 0, garbage);
 	while (args[i])
 	{
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
