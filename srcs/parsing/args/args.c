@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 15:46:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:57:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,33 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	input += i;
 }
 
-void	delete_redirection(int i, char **args)
+void	delete_redirection(char **args)
 {
+	int	i;
+
+	i = 0;
 	printf("Delete\n");
-	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
-	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+	while (args[i])
 	{
-		printf("Delete |%s|%s|\n", args[i], args[i + 1]);
-		delete_element_at_index(args, i);
-		delete_element_at_index(args, i);
+		if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
+		(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
+		(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
+		(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+		{
+			if (args[i + 1])
+			{
+				printf("Delete |%s|%s|\n", args[i], args[i + 1]);
+				delete_element_at_index(args, i);
+				delete_element_at_index(args, i);
+			}
+			else
+				delete_element_at_index(args, i);
+		}
+		else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
+		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+			delete_element_at_index(args, i);
+		i++;
 	}
-	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
-	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-		delete_element_at_index(args, i);
 }
 
 void	printf_args(char **tab, char *prompt)
@@ -83,8 +95,6 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 			if (!prompt->quotes)
 				check_is_env_var(&args[i], garbage);
 		}
-		else
-			delete_redirection(i, args);
 		i++;
 	}
 }

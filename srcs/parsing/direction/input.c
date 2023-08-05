@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 23:08:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 16:02:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,16 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 	while (get_char_pos(input, '$') != -1)
 		check_is_env_var(&input, garbage);
 	name = ft_strsep(&input, " ");
-	prompt->old_stdin = dup(0);
 	prompt->write_fd = open(name, O_RDONLY);
-	dup2(prompt->write_fd, STDIN_FILENO);
 	if (prompt->write_fd == -1)
 	{
+		prompt->cmd = NULL;
 		printf("Error in opening file, set redirection to error output\n");
-		dup2(prompt->old_stdin, STDOUT_FILENO);
+		return ;
 	}
+	prompt->old_stdin = dup(0);
+	dup2(prompt->write_fd, STDIN_FILENO);
+	
 }
 
 /// @brief Get outin redirection args ("< {file_name}")

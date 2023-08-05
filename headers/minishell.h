@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 23:09:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 15:59:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char		*ft_strsep(char **p_str, const char *delim);
 // args.c
 void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
 void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
-void		delete_redirection(int i, char **args);
+void		delete_redirection(char **args);
 char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
 char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
 char		**ft_split_args(t_prompt *prompt, char *s, char c,
