@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 15:57:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:00:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	delete_redirection(char **args)
 	int	i;
 
 	i = 0;
-	printf("Delete\n");
+//	printf("Delete\n");
 	while (args[i])
 	{
 		if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
@@ -43,7 +43,7 @@ void	delete_redirection(char **args)
 		{
 			if (args[i + 1])
 			{
-				printf("Delete |%s|%s|\n", args[i], args[i + 1]);
+//				printf("Delete |%s|%s|\n", args[i], args[i + 1]);
 				delete_element_at_index(args, i);
 				delete_element_at_index(args, i);
 			}
@@ -63,7 +63,7 @@ void	printf_args(char **tab, char *prompt)
 
 	i = 0;
 	printf("%s", prompt);
-	while (tab[i])
+	while (tab && tab[i])
 		printf(" %s", tab[i++]);
 	printf("\n");
 }
