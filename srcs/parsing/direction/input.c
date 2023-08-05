@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 16:50:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/05 17:33:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 		return ;
 	}
 	prompt->old_stdin = dup(0);
-	dup2(prompt->write_fd, STDIN_FILENO);	
+	dup2(prompt->write_fd, STDIN_FILENO);
 }
 
 /// @brief Get outin redirection args ("< {file_name}")
