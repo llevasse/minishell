@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 17:00:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:28:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	delete_redirection(char **args)
 		else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
 		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
 			delete_element_at_index(args, i);
-		i++;
+		else
+			i++;
 	}
 }
 
