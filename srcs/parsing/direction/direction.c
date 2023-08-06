@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 18:27:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:25:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		input += pos + 1;
 		pos = -1;
 	}
+	delete_redirection(prompt->args);
 }
 
 /// @brief Append output of cmd to end of file.
