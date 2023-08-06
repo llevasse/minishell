@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 17:28:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 16:35:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,47 +24,9 @@
 # include <termios.h>
 # include <errno.h>
 
-typedef struct s_minishell
-{
-	unsigned char		error_value;
-	void				*garbage;
-	pid_t				current_pid;
-}	t_minishell;
-
-typedef struct s_export
-{
-	char				*key;
-	char				*content;
-	struct s_export		*next;
-}	t_export;
-
-typedef struct s_arg
-{
-	char				*s;
-	int					dquotes;
-	int					quotes;
-	int					id;
-	struct s_arg		*next;
-}	t_arg;
-
-typedef struct s_prompt
-{
-	int					d_quotes;
-	int					quotes;
-	int					write_fd;
-	int					old_stdout;
-	int					old_stdin;
-	char				*cmd;
-	char				**args;
-	t_export			*export_args;
-	struct s_prompt		*next_cmd;
-}	t_prompt;
-
-typedef struct s_garbage
-{
-	void				*address;
-	struct s_garbage	*next;
-}	t_garbage;
+# include "structs.h"
+# include "args.h"
+# include "direction.h"
 
 // SRCS/PARSE //
 
@@ -77,36 +39,6 @@ int			check_builtin(t_prompt *prompt, t_garbage *garbage);
 
 // ft_strsep.c 
 char		*ft_strsep(char **p_str, const char *delim);
-
-// args.c
-void		get_args(t_prompt *prompt, char *input, t_garbage *garbage);
-void		parse_args(t_prompt *prompt, char **args, t_garbage *garbage);
-void		delete_redirection(char **args);
-char		**alloc_tab_args(char const *s, char c, t_garbage *garbage);
-char		*get_word_arg(char const *s, char c, int i, t_garbage *garbage);
-char		**ft_split_args(t_prompt *prompt, char *s, char c,
-				t_garbage *garbage);
-int			get_arg_nb(t_arg *lst);
-void		printf_args(char **tab, char *prompt);
-
-// tab_utils.c
-void		delete_element_at_index(char **args, int i);
-char		**insert_tab_at_index(char **t1, char **t2, 
-				int index, t_garbage *garbage);
-
-// separate_cmd.c
-void		separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
-int			get_separator_pos(char *input, char *sep);
-int			is_char_quoted(char *str, int pos);
-int			get_nearer_separator_pos(char *input);
-
-// wildcard.c
-void		check_for_wildcard(t_prompt *prompt, char **args,
-				int index, t_garbage *garbage);
-char		**get_files_in_dir(char *path, t_garbage *garbage);
-void		delete_unwanted_files(char **files, char *pattern, 
-				t_garbage *garbage);
-int			respect_pattern(char *str, char *pattern, char **keys);
 
 // env.c
 int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
@@ -149,29 +81,6 @@ int			get_substr_pos(char *str, char *sub_str);
 // insert_at_index.c
 char		*insert_at_index(char *str, char *to_insert,
 				int index, t_garbage *garbage);
-
-// direction.c
-void		check_redirection(char *input, t_prompt *prompt,
-				t_garbage *garbage);
-void		set_output_append(char *input, t_prompt *prompt,
-				t_garbage *garbage);
-void		reset_stdio_fd(t_prompt *prompt);
-
-// output.c
-void		set_output(char *input, t_prompt *prompt, t_garbage *garbage);
-void		multiple_output(char *input, t_prompt *prompt, t_garbage *garbage);
-
-// input.c
-void		set_input(char *input, t_prompt *prompt, t_garbage *garbage);
-void		multiple_input(char *input_prompt, t_prompt *prompt,
-				t_garbage *garbage);
-
-// heredoc.c
-void		heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
-int			create_heredoc_fd(t_prompt *prompt, int pipes[2]);
-void		write_heredoc(t_prompt *p, char **heredoc_name,
-				t_garbage *garbage, int use_env_var);
-char		*get_cut_section(char *input, t_garbage *garbage);
 
 // SRCS/EXEC //
 void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);
