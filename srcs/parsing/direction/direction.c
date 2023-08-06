@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 22:25:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:38:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		}
 		else 
 			break ;
-		printf("found separator %c at %d\n", input[pos], pos);
+	//	printf("found separator %c at %d\n", input[pos], pos);
 		input += pos + 1;
 		pos = -1;
 	}

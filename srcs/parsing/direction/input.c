@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 22:34:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:35:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,5 @@ void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
 	get_args(new_prompt, dup_input_prompt, garbage);
 	check_redirection(dup_input_prompt, new_prompt, garbage);
 	ft_add_prompt(&prompt, new_prompt);
-	replace_str(&input_prompt, 
-	get_input(dup_input_prompt, garbage), "", garbage);
+	replace_str(&input_prompt, input, "", garbage);
 }

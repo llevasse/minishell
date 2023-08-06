@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/06 18:27:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:38:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
 	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
-	printf("Cmd : |%s|\n", argv[i]);
+//	printf("Cmd : |%s|\n", argv[i]);
 	while (prompt->args[i])
 	{
 		argv[i + 1] = prompt->args[i];
-		printf("Args : |%s|\n", argv[i + 1]);
+//		printf("Args : |%s|\n", argv[i + 1]);
 		i++;
 	}
 	argv[i + 1] = NULL;
