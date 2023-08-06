@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:26:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:24:49 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../headers/minishell.h"
 
 ///	@brief Delete element in tab at index.
 /// @param **tab Pointer to tab,

@@ -1,7 +1,7 @@
 #---COMMON_VAR-----------------------------------
 NAME		=	minishell
 CC			=	cc
-FLAGS		=	-Wall -Werror -Wextra -fsanitize=address
+FLAGS		=	-Wall -Werror -Wextra -fsanitize=address -g3
 RM			=	rm -rf
 RED			=	\033[0;31m
 GREEN		=	\033[0;32m
@@ -46,7 +46,7 @@ HEADER		=	headers/minishell.h
 #---RULES----------------------------------------
 all:			norm lib $(NAME)
 
-$(NAME):		$(OBJS) lib norm Makefile $(HEADER)/minishell.h
+$(NAME):		$(OBJS) lib norm Makefile $(HEADER)
 				@$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 

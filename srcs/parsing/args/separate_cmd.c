@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 20:17:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:25:11 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../../headers/minishell.h"
 
 /// @brief Check for separation of cmd and add it to prompt->next_cmd.
 /// @param *prompt Pointer to prompt struct,

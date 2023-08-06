@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/03 19:11:55 by mwubneh           #+#    #+#             */
+/*   Updated: 2023/08/03 19:29:32 by mwubneh          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
@@ -24,9 +36,9 @@ void	ft_export(t_prompt *prompt)
 		if (!temp->key)
 			return ;
 		if (temp)
+		{
 			printf("Je vais assigne la key \"%s\" au content \"%s\"\n",
 				temp->key, temp->content);
-		{
 			setenv(temp->key, temp->content, 1);
 		}
 		else

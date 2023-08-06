@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:28:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:04:05 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ void		write_heredoc(t_prompt *p, char **heredoc_name,
 char		*get_cut_section(char *input, t_garbage *garbage);
 
 // SRCS/EXEC //
-void		false_exec(char *path, t_prompt *prompt, t_garbage *garbage);
+void		exec(char *path, t_prompt *prompt, t_garbage *garbage);
 char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
 

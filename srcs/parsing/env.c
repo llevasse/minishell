@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 13:29:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 15:03:38 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
 	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
 	if (dir_entry && !ft_strcmp(prompt->cmd, dir_entry->d_name))
-		return (false_exec(path, prompt, garbage), closedir(current_dir), 1);
+		return (exec(path, prompt, garbage), closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
 }

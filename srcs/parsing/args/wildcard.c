@@ -6,11 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:23:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/03 19:25:34 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../../../headers/minishell.h"
 
 void	check_for_wildcard(t_prompt *prompt, char **args,
 			int index, t_garbage *garbage)

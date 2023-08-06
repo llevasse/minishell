@@ -6,45 +6,89 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/07/30 16:52:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/04 20:30:32 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-#include <stdio.h>
 
 extern char	**environ;
 
-void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage) {
+void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2]);
+void	last_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2]);
+
+void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
+{
+	int	tmp_fd[2];
+
+	tmp_fd[0] = dup(STDOUT_FILENO);
+	tmp_fd[1] = dup(STDIN_FILENO);
+	while (prompt->next_cmd)
+	{
+		false_exec(path, prompt, garbage, tmp_fd);
+		prompt = prompt->next_cmd;
+	}
+	last_exec(path, prompt, garbage, tmp_fd);
+	dup2(tmp_fd[0], STDOUT_FILENO);
+	dup2(tmp_fd[1], STDOUT_FILENO);
+}
+void	last_exec(char *path, t_prompt*prompt, t_garbage *garbage, int tmp_fd[2])
+{
 	pid_t	pid;
 	int		pipe_fd[2];
-	int 	tmp_fd;
 	char	**argv;
 
 	if (pipe(pipe_fd) == -1)
-		write(1, "pipe fail\n", 10);
-	tmp_fd = dup(0);
+		return ((void)write(2, "pipe error\n", 11), exit(-1));
 	pid = fork();
 	if (pid == -1)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
-	else if (pid == 0)
+	if (pid == 0)
 	{
+		dup2(tmp_fd[1], STDIN_FILENO);
+		close(pipe_fd[0]);
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
-		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 	}
 	else
 	{
 		while (waitpid(-1, NULL, WUNTRACED) != -1)
 			;
-		dup2(tmp_fd, 0);
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-
 	}
-	close(tmp_fd);
+}
+
+void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2])
+{
+	pid_t	pid;
+	int		pipe_fd[2];
+	char	**argv;
+
+
+	if (pipe(pipe_fd) == -1)
+		return ((void)write(2, "pipe error\n", 11), exit(-1));
+	pid = fork();
+	if (pid == -1)
+		return ((void)write(2, "fork error\n", 11), exit(-1));
+	if (pid == 0)
+	{
+		dup2(pipe_fd[0], tmp_fd[0]);
+		close(pipe_fd[0]);
+		argv = pass_args_exec(path, prompt, garbage);
+		if (access(argv[0], X_OK == -1))
+			return ((void) write(2, "Error, no builtin found\n", 25));
+		execve(argv[0], argv, environ);
+		close(pipe_fd[1]);
+	}
+	else
+	{
+		while (waitpid(-1, NULL, WUNTRACED) != -1)
+			;
+		dup2(pipe_fd[1], tmp_fd[1]);
+		close(pipe_fd[1]);
+	}
 }
 
 /// @brief Get number of element in **tab.
@@ -90,7 +134,6 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
 	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
-//	printf("Cmd : |%s|\n", argv[i]);
 	while (prompt->args[i])
 	{
 		argv[i + 1] = prompt->args[i];

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 23:05:38 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/03 19:18:56 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	pass_specifier(char specifier, va_list args, char **str, int i)
 	return (i);
 }
 
-int	predict_full_str_len(char *str, va_list args)
+static int	predict_full_str_len(char *str, va_list args)
 {
 	int		i;
 	va_list	args_cp;
