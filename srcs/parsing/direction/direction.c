@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 21:57:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 18:27:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,27 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	int	pos;
 
 	pos = -1;
-	if (get_separator_pos(input, "<") != -1 && \
-		pos <= get_separator_pos(input, "<"))
-		pos = get_separator_pos(input, "<");
-	if (get_separator_pos(input, ">") != -1 && \
-		pos <= get_separator_pos(input, ">"))
-		pos = get_separator_pos(input, ">");
-	if (pos != -1)
+	while (get_separator_pos(input, "<") != -1 || \
+			get_separator_pos(input, ">") != -1)
 	{
-		if (input[pos] == '>')
-			set_output(input + pos, prompt, garbage);
-		if (input[pos] == '<')
-			set_input(input + pos, prompt, garbage);
+		if (get_separator_pos(input, "<") != -1 && \
+			pos <= get_separator_pos(input, "<"))
+			pos = get_separator_pos(input, "<");
+		if (get_separator_pos(input, ">") != -1 && \
+			pos <= get_separator_pos(input, ">"))
+			pos = get_separator_pos(input, ">");
+		if (pos != -1)
+		{
+			if (input[pos] == '>')
+				set_output(input + pos, prompt, garbage);
+			if (input[pos] == '<')
+				set_input(input + pos, prompt, garbage);
+		}
+		else 
+			break ;
+		printf("found separator %c at %d\n", input[pos], pos);
+		input += pos + 1;
+		pos = -1;
 	}
 }
 

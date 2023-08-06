@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/05 17:33:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 22:20:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 		i++;
 	if (!input[i])
 		return ((void)printf("Parsing error around <\n"));
+	if (get_char_pos(input + i, '<') != -1)
+		multiple_input(input, prompt, garbage);
 	input += i;
 	while (get_char_pos(input, '$') != -1)
 		check_is_env_var(&input, garbage);
@@ -95,6 +97,5 @@ void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
 	check_redirection(dup_input_prompt, new_prompt, garbage);
 	check_cmd(new_prompt, garbage);
 	replace_str(&input_prompt, 
-		get_input(dup_input_prompt, garbage), "", garbage);
-	parse_args(NULL, prompt->args, NULL);
+	get_input(dup_input_prompt, garbage), "", garbage);
 }
