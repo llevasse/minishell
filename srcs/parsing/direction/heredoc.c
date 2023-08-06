@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 09:58:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/06 10:05:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,9 +159,7 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	}
 	free(text);
 	text = NULL;
-//	close(0);
-//	close(1);
 	dup2(pipes[0], STDIN_FILENO);
-//	close(pipes[1]);
-//	close(pipes[0]);
+	close(pipes[1]);
+	close(pipes[0]);
 }
