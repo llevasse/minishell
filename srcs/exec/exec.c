@@ -125,7 +125,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		prompt->args[0] = "";
+		prompt->args[0] = NULL;
 		if (!ft_strcmp(prompt->cmd, "ls"))
 			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
