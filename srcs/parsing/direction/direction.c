@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 22:09:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:44:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		pos = -1;
 	}
 	if (prompt->heredoc_fd[0] != -1)
+	{
+		close(prompt->heredoc_fd[1]);	// ALWAYS CLOSE PIPE WRITE END BEFORE DUP2
 		dup2(prompt->heredoc_fd[0], STDIN_FILENO);
+	}
 	delete_redirection(prompt->args);
 }
 
@@ -128,6 +131,11 @@ void	reset_stdio_fd(t_prompt *prompt)
 	if (prompt->write_fd == -1)
 		return ;
 	close(prompt->write_fd);
+	if (prompt->heredoc_fd[0] != -1)
+	{
+		close(prompt->heredoc_fd[0]);
+		prompt->heredoc_fd[0] = -1;
+	}
 	if (prompt->old_stdout != -1)
 	{	
 		dup2(prompt->old_stdout, 1);
@@ -139,11 +147,5 @@ void	reset_stdio_fd(t_prompt *prompt)
 		dup2(prompt->old_stdin, 0);
 		close(prompt->old_stdin);
 		prompt->old_stdin = -1;
-	}
-	if (prompt->heredoc_fd[0] != -1)
-	{
-		close(prompt->heredoc_fd[1]);
-		close(prompt->heredoc_fd[0]);
-		prompt->heredoc_fd[0] = -1;
 	}
 }

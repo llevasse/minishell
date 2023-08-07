@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 22:05:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:44:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*eof_name;
 	int		i;
 
-	printf("cc je suis heredoc |%s|\n", input);
 	i = get_char_pos(input, '<');
 	while (input[i] == '<' || ft_isspace(input[i]))
 		i++;
@@ -69,12 +68,14 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 int	create_heredoc_fd(t_prompt *prompt)
 {
 	if (prompt->heredoc_fd[0] == -1)
+	{
 		pipe(prompt->heredoc_fd);
+		prompt->write_fd = prompt->heredoc_fd[1];
+	}
 	if (prompt->old_stdin == -1)
 		prompt->old_stdin = dup(0);
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
-	prompt->write_fd = prompt->heredoc_fd[1];
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening heredoc\n");
