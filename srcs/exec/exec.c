@@ -57,7 +57,6 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd)
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
-		dup2(tmp_fd, STDIN_FILENO);
 		execve(argv[0], argv, environ);
 	}
 	else
