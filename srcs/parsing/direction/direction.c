@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 22:44:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:12:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,17 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int		pos;
 	char	*cut_section;
+	char	*input_dup;
 
+	input_dup = ft_strdup(input);
+	ft_add_garbage(0, &garbage, input_dup);
 	pos = -1;
-	while (get_separator_pos(input, "<") != -1 || \
-			get_separator_pos(input, ">") != -1)
+	while (get_separator_pos(input, "<") != -1)
 	{
-		if (get_separator_pos(input, "<") != -1 && \
-			pos <= get_separator_pos(input, "<"))
-			pos = get_separator_pos(input, "<");
-		if (get_separator_pos(input, ">") != -1 && \
-			pos <= get_separator_pos(input, ">"))
-			pos = get_separator_pos(input, ">");
-		if (pos != -1)
+		if (get_separator_pos(input, "<") != -1)
 		{
-			if (input[pos] == '>')
-				set_output(input + pos, prompt, garbage);
-			if (input[pos] == '<')
-				set_input(input + pos, prompt, garbage);
+			pos = get_separator_pos(input, "<");
+			set_input(input + pos, prompt, garbage);
 		}
 		else 
 			break ;
@@ -46,6 +40,11 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		cut_section = get_cut_section(input + pos, garbage);
 		input += pos + ft_strlen(cut_section);
 		pos = -1;
+	}
+	if (get_separator_pos(input, ">") != -1)
+	{
+		pos = get_separator_pos(input, "<");
+		set_output(input + pos, prompt, garbage);
 	}
 	if (prompt->heredoc_fd[0] != -1)
 	{
