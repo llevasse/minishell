@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 10:05:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:51:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,14 @@
 void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	char	*eof_name;
-	char	*cut_section;
 	int		i;
-	int		j;
 
+	printf("cc je suis heredoc |%s|\n", input);
 	i = get_char_pos(input, '<');
-	j = i;
 	while (input[i] == '<' || ft_isspace(input[i]))
 		i++;
 	eof_name = ft_strdup(input + i);
 	ft_add_garbage(0, &garbage, eof_name);
-	cut_section = get_cut_section(input + j, garbage);
 	i = 0;
 	while (ft_isspace(eof_name[i]))
 		i++;
@@ -47,47 +44,6 @@ void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
 		eof_name = ft_strsep(&eof_name, " ");
 		write_heredoc(prompt, &eof_name, garbage, 1);
 	}
-}
-
-/// @brief Get section in input calling the heredoc.
-/// @param *input Prompt input,
-/// @param *garbage Pointer to garbage collector.
-/// @return Return heredoc call as str.
-char	*get_cut_section(char *input, t_garbage *garbage)
-{
-	char	*str;
-	char	*name;
-	char	quote[2];
-	int		i;
-
-	i = 0;
-	str = ft_strdup(input);
-	name = NULL;
-	ft_add_garbage(0, &garbage, str);
-	while (str[i] && (str[i] == '<' || ft_isspace(str[i])))
-		i++;
-	if (str[i] == '"' || str[i] == 39)
-	{
-		quote[0] = str[i];
-		quote[1] = 0;
-		name = ft_strjoin(get_quoted_str(str + i, str[i], 0, garbage), quote);
-		ft_add_garbage(0, &garbage, name);
-		name = ft_strjoin(quote, name);
-		ft_add_garbage(0, &garbage, name);
-	}
-	else
-	{
-		while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
-			i++;
-	}
-	if (str[i] != 0)
-		str[i] = 0;
-	if (!str[i] && name)
-	{
-		str = ft_strjoin(str, name);
-		ft_add_garbage(0, &garbage, str);
-	}
-	return (str);
 }
 
 char	*replace_space_in_name(char *str, t_garbage *garbage)
@@ -159,7 +115,7 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	}
 	free(text);
 	text = NULL;
-	dup2(pipes[0], STDIN_FILENO);
+	dup2(pipes[1], STDIN_FILENO);
 	close(pipes[1]);
 	close(pipes[0]);
 }
