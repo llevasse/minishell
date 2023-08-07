@@ -31,7 +31,6 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 			false_exec(path, prompt, garbage, tmp_fd);
 			prompt = prompt->next_cmd;
 		}
-		last_exec(path, prompt, garbage, tmp_fd);
 	}
 	else
 		last_exec(path, prompt, garbage, tmp_fd);
