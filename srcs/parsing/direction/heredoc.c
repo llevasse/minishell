@@ -6,13 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 16:58:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:45:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//TODO replace heredoc file with fd :0
 
 /// @brief Handle heredoc in prompt.
 /// Create invisible file, write heredoc content in it, and pass it to command.
@@ -68,13 +66,13 @@ char	*replace_space_in_name(char *str, t_garbage *garbage)
 /// @param **heredoc_name Pointer to string of heredoc name,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return fd of heredoc.
-int	create_heredoc_fd(t_prompt *prompt, int pipes[2])
+int	create_heredoc_fd(t_prompt *prompt)
 {
-	pipe(pipes);
+	if (prompt->heredoc_fd[0] == -1)
+		pipe(prompt->heredoc_fd);
 	prompt->old_stdin = dup(0);
 	prompt->old_stdout = dup(1);
-	prompt->write_fd = pipes[1];
-	printf("Current write_fd %d\n", prompt->write_fd);
+	prompt->write_fd = prompt->heredoc_fd[1];
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening heredoc\n");
@@ -93,12 +91,11 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	char	*text;
 	char	*prompt;
 	char	*delimiter;
-	int		pipes[2];
 
 	*heredoc_name =	replace_space_in_name(*heredoc_name, garbage);
 	delimiter = ft_strdup(*heredoc_name);
 	ft_add_garbage(0, &garbage, delimiter);
-	if (create_heredoc_fd(p, pipes) == -1)
+	if (create_heredoc_fd(p) == -1)
 		return ;
 	prompt = ft_strjoin(delimiter, " >");
 	ft_add_garbage(0, &garbage, prompt);
@@ -115,7 +112,5 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	}
 	free(text);
 	text = NULL;
-	dup2(pipes[0], STDIN_FILENO);
-	close(pipes[1]);
-	close(pipes[0]);
+	dup2(p->heredoc_fd[0], STDIN_FILENO);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:07:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:43:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->args = NULL;
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
+	prompt->heredoc_fd[0] = -1;
 	len = ft_strlen(input);
 	prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))

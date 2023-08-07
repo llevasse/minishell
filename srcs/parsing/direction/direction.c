@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 16:55:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:34:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		cut_section = get_cut_section(input + pos, garbage);
 		input += pos + ft_strlen(cut_section);
 		pos = -1;
+	}
+	if (prompt->heredoc_fd[0] != -1)
+	{
+		close(prompt->heredoc_fd[1]);
+		close(prompt->heredoc_fd[0]);
 	}
 	delete_redirection(prompt->args);
 }

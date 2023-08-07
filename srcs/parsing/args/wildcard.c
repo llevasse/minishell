@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:23:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:38:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_for_wildcard(t_prompt *prompt, char **args,
 	char	**new_args;
 
 	if (!args[index])
-		return ((void)(prompt->args = args));
+		return ;
 	if (get_char_pos(args[index], 42) == -1)
 		check_for_wildcard(prompt, args, index + 1, garbage);
 	else

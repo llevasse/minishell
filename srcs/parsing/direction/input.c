@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:06:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:45:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 	int			i;
 	char		*name;
 
-	printf("cc je suis input |%s|\n", input);
 	i = get_char_pos(input, '<');
 	if (input[i + 1] == '<')
 		return (heredoc(input, prompt, garbage));

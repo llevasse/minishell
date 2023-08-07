@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 16:34:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:13:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_prompt
 	int					write_fd;
 	int					old_stdout;
 	int					old_stdin;
+	int					heredoc_fd[2];
 	char				*cmd;
 	char				**args;
 	t_export			*export_args;

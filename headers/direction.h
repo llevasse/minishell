@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 16:33:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:19:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	multiple_input(char *input_prompt, t_prompt *prompt,
 void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
 char	*get_cut_section(char *input, t_garbage *garbage);
 char	*replace_space_in_name(char *str, t_garbage *garbage);
-int		create_heredoc_fd(t_prompt *prompt, int pipes[2]);
+int		create_heredoc_fd(t_prompt *prompt);
 void	write_heredoc(t_prompt *p, char **heredoc_name,
 			t_garbage *garbage, int use_env_var);
 
