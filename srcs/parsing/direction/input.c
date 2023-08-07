@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 16:43:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:06:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
 	new_prompt->args = NULL;
 	new_prompt->export_args = NULL;
 	new_prompt->cmd = prompt->cmd;
+	new_prompt->next_cmd = NULL;
 	get_args(new_prompt, dup_input_prompt, garbage);
 	check_redirection(dup_input_prompt, new_prompt, garbage);
 	ft_add_prompt(&prompt, new_prompt);
