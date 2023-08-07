@@ -6,9 +6,12 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:13:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:56:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef STRUCTS_H
+# define STRUCTS_H
 
 typedef struct s_minishell
 {
@@ -52,3 +55,5 @@ typedef struct s_garbage
 	void				*address;
 	struct s_garbage	*next;
 }	t_garbage;
+
+#endif

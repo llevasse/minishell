@@ -6,10 +6,12 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/06 16:27:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:54:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef ARGS_H
+# define ARGS_H
 
 // srcs/parsing/args/wildcard.c:
 void	check_for_wildcard(t_prompt *prompt, char **args, int index,
@@ -40,3 +42,5 @@ void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage);
 int		get_nearer_separator_pos(char *input);
 int		is_char_quoted(char *str, int pos);
 int		get_separator_pos(char *input, char *sep);
+
+#endif

@@ -6,9 +6,12 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:19:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:55:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef DIRECTION_H
+# define DIRECTION_H
 
 // srcs/parsing/direction/input.c:
 void	set_input(char *input, t_prompt *prompt, t_garbage *garbage);
@@ -33,3 +36,5 @@ void	multiple_output(char *input, t_prompt *prompt, t_garbage *garbage);
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage);
 void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage);
 void	reset_stdio_fd(t_prompt *prompt);
+
+#endif
