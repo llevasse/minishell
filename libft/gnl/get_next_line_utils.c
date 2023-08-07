@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 10:58:13 by llevasse          #+#    #+#             */
-/*   Updated: 2023/05/26 12:48:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:31:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_nl(const char *str)
 	return (0);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	char	*joined;
 	int		i;
@@ -44,18 +44,6 @@ char	*ft_strjoin(char *s1, char *s2)
 		joined[j++] = s2[i++];
 	joined[j] = '\0';
 	return (free(s1), joined);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	unsigned int	i;
-
-	i = 0;
-	if (!s1 || !s2)
-		return (0);
-	while (s1[i] == s2[i] && (s1[i] || s2[i]))
-		i++;
-	return (s1[i] - s2[i]);
 }
 
 void	fill_char(char *dst, char *src, int till_nl)

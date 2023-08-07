@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:45:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 23:38:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int			i;
 	char		*name;
+	int			fd;
 
 	i = get_char_pos(input, '<');
 	if (input[i + 1] == '<')
@@ -36,15 +37,26 @@ void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
 	while (get_char_pos(input, '$') != -1)
 		check_is_env_var(&input, garbage);
 	name = ft_strsep(&input, " ");
-	prompt->write_fd = open(name, O_RDONLY);
-	if (prompt->write_fd == -1)
-	{
-		prompt->cmd = NULL;
-		printf("Error in opening file\n");
+	if (create_heredoc_fd(prompt) == -1)
 		return ;
+	fd = open(name, O_RDONLY);
+	if (fd == -1)
+		return ((void)(printf("Error in opening file\n"), prompt->cmd = NULL));
+	write_file_to_fd(fd, prompt->heredoc_fd[1], garbage);
+}
+
+void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage)
+{
+	char	*str;
+
+	str = get_next_line(fd_to_read);
+	while (str)
+	{	
+		ft_add_garbage(0, &garbage, str);
+		ft_putstr_fd(str, fd_to_write);
+		str = get_next_line(fd_to_read);
 	}
-	prompt->old_stdin = dup(0);
-	dup2(prompt->write_fd, STDIN_FILENO);
+	close(fd_to_read);
 }
 
 /// @brief Get outin redirection args ("< {file_name}")
