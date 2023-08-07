@@ -134,7 +134,10 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	ft_add_garbage(0, &garbage, argv);
 	cmd_path = ft_strjoin(path, "/");
 	ft_add_garbage(0, &garbage, cmd_path);
-	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
+	if (ft_strcmp(prompt->cmd, "clear"))
+		argv[0] = ft_strjoin(cmd_path, prompt->cmd);
+	else
+		argv[0] = NULL;
 	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
 	while (prompt->args[i])
