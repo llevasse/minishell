@@ -14,53 +14,31 @@
 
 extern char	**environ;
 
-void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2]);
-void	last_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2]);
+void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd);
+void	last_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd);
 
+//pipe_fd[0] - read
+//pipe_fd[1] - write
 void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 {
-	int	tmp_fd[2];
+	int	tmp_fd;
 
-	tmp_fd[0] = dup(STDOUT_FILENO);
-	tmp_fd[1] = dup(STDIN_FILENO);
-	while (prompt->next_cmd)
+	tmp_fd = dup(STDIN_FILENO);
+	if (prompt->next_cmd)
 	{
-		false_exec(path, prompt, garbage, tmp_fd);
-		prompt = prompt->next_cmd;
-	}
-	last_exec(path, prompt, garbage, tmp_fd);
-	dup2(tmp_fd[0], STDOUT_FILENO);
-	dup2(tmp_fd[1], STDOUT_FILENO);
-}
-void	last_exec(char *path, t_prompt*prompt, t_garbage *garbage, int tmp_fd[2])
-{
-	pid_t	pid;
-	int		pipe_fd[2];
-	char	**argv;
-
-	if (pipe(pipe_fd) == -1)
-		return ((void)write(2, "pipe error\n", 11), exit(-1));
-	pid = fork();
-	if (pid == -1)
-		return ((void)write(2, "fork error\n", 11), exit(-1));
-	if (pid == 0)
-	{
-		dup2(tmp_fd[1], STDIN_FILENO);
-		close(pipe_fd[0]);
-		argv = pass_args_exec(path, prompt, garbage);
-		if (access(argv[0], X_OK == -1))
-			return ((void) write(2, "Error, no builtin found\n", 25));
-		execve(argv[0], argv, environ);
-		close(pipe_fd[1]);
+		while (prompt->next_cmd)
+		{
+			false_exec(path, prompt, garbage, tmp_fd);
+			prompt = prompt->next_cmd;
+		}
+		last_exec(path, prompt, garbage, tmp_fd);
 	}
 	else
-	{
-		while (waitpid(-1, NULL, WUNTRACED) != -1)
-			;
-	}
+		last_exec(path, prompt, garbage, tmp_fd);
+	close(tmp_fd);
 }
 
-void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2])
+void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
@@ -74,22 +52,49 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd[2])
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	if (pid == 0)
 	{
-		dup2(pipe_fd[0], tmp_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
 		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+		argv = pass_args_exec(path, prompt, garbage);
+		if (access(argv[0], X_OK == -1))
+			return ((void) write(2, "Error, no builtin found\n", 25));
+		dup2(tmp_fd, STDIN_FILENO);
+		execve(argv[0], argv, environ);
+	}
+	else
+	{
+		close(pipe_fd[1]);
+		close(tmp_fd);
+		tmp_fd = pipe_fd[0];
+	}
+}
+
+//pipe_fd[0] - read
+//pipe_fd[1] - write
+void	last_exec(char *path, t_prompt*prompt, t_garbage *garbage, int tmp_fd)
+{
+	pid_t	pid;
+	char	**argv;
+
+	pid = fork();
+	if (pid == -1)
+		return ((void)write(2, "fork error\n", 11), exit(-1));
+	if (pid == 0)
+	{
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
-		close(pipe_fd[1]);
 	}
 	else
 	{
+		close(tmp_fd);
 		while (waitpid(-1, NULL, WUNTRACED) != -1)
 			;
-		dup2(pipe_fd[1], tmp_fd[1]);
-		close(pipe_fd[1]);
+		tmp_fd = dup(STDIN_FILENO);
 	}
 }
+
 
 /// @brief Get number of element in **tab.
 /// @param **tab Pointer to pointers of char.
