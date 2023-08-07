@@ -125,7 +125,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		prompt->args[0] = "-";
+		prompt->args[0] = "";
 		if (!ft_strcmp(prompt->cmd, "ls"))
 			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
@@ -134,13 +134,8 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	ft_add_garbage(0, &garbage, argv);
 	cmd_path = ft_strjoin(path, "/");
 	ft_add_garbage(0, &garbage, cmd_path);
-	if (ft_strcmp(prompt->cmd, "clear"))
-	{
-		argv[0] = ft_strjoin(cmd_path, prompt->cmd);
-		ft_add_garbage(0, &garbage, argv[0]);
-	}
-	else
-		argv[0] = NULL;
+	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
+	ft_add_garbage(0, &garbage, argv[0]);
 	i = 0;
 	while (prompt->args[i])
 	{
