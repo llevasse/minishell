@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:45:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 22:05:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,10 @@ int	create_heredoc_fd(t_prompt *prompt)
 {
 	if (prompt->heredoc_fd[0] == -1)
 		pipe(prompt->heredoc_fd);
-	prompt->old_stdin = dup(0);
-	prompt->old_stdout = dup(1);
+	if (prompt->old_stdin == -1)
+		prompt->old_stdin = dup(0);
+	if (prompt->old_stdout == -1)
+		prompt->old_stdout = dup(1);
 	prompt->write_fd = prompt->heredoc_fd[1];
 	if (prompt->write_fd == -1)
 	{
@@ -112,5 +114,4 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	}
 	free(text);
 	text = NULL;
-	dup2(p->heredoc_fd[0], STDIN_FILENO);
 }
