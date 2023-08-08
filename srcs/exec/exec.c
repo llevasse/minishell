@@ -60,6 +60,7 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	return (argv);
 }
 
+
 void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 {
 	int tmp_fd;
@@ -94,12 +95,10 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 				close(fd[0]);
 				close(fd[1]);
 				if (get_execute(args, tmp_fd, environ))
-					return ;
+					break ;
 			}
 			else
 			{
-				//while (waitpid(-1, NULL, WUNTRACED) != -1)
-				//	;
 				close(fd[1]);
 				close(tmp_fd);
 				tmp_fd = fd[0];
@@ -127,7 +126,6 @@ static int get_execute(char **args, int tmp_fd, char **envp)
 {
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
-//	printf("%s", args[0]);
 	execve(args[0], args, envp);
 	return (ft_putstr_error("error : cannot execute ", args[0]));
 }
