@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 09:33:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:01:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,27 @@ void	set_input(t_prompt *prompt, t_garbage *garbage)
 {
 	char		*name;
 	int			fd;
-	
+	int			i;
+
+	i = 0;
+	while (prompt->args[i])
+	{
+		if (!ft_strcmp(prompt->args[i], "<") && \
+				ft_strcmp(prompt->args[i], "<<"))
+			break;
+		i++;
+	}
+	if (prompt->args[i] == NULL)
+		return ;
 	name = get_last_input(prompt->args);
 	if (!name)
 		return ((void)printf("Parsing error around <\n"));
+	if (prompt->heredoc_fd[0] != -1)
+	{
+		close(prompt->heredoc_fd[0]);
+		close(prompt->heredoc_fd[1]);
+		prompt->heredoc_fd[0] = -1;
+	}
 	if (create_heredoc_fd(prompt) == -1)
 		return ;
 	fd = open(name, O_RDONLY);
@@ -54,13 +71,15 @@ char	*get_last_input(char **args)
 	int	j;
 
 	i = 0;
-	j = 0;
+	j = -1;
 	while (args[i])
 	{
 		if (!ft_strcmp("<", args[i]))
 			j = i;
 		i++;
 	}
+	if (j == -1)
+		return (NULL);
 	return (args[j + 1]);
 }
 
@@ -86,4 +105,3 @@ char	*get_input(char *input_prompt, t_garbage *garbage)
 	ft_strlcpy(input, input_prompt + i, j + 1);
 	return (input);
 }
-
