@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 09:02:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 09:21:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,6 @@ void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage)
 /// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
-	if (prompt->write_fd == -1)
-		return ;
-	close(prompt->write_fd);
 	if (prompt->heredoc_fd[0] != -1)
 	{
 		close(prompt->heredoc_fd[0]);
@@ -141,4 +138,6 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->old_stdin);
 		prompt->old_stdin = -1;
 	}
+	if (prompt->write_fd != -1)
+		close(prompt->write_fd);
 }
