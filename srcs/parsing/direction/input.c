@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 11:01:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 18:53:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	set_input(t_prompt *prompt, t_garbage *garbage)
 		return ;
 	name = get_last_input(prompt->args);
 	if (!name)
-		return ((void)printf("Parsing error around <\n"));
+		return ((void)(prompt->cmd = 0));
 	if (prompt->heredoc_fd[0] != -1)
 	{
 		close(prompt->heredoc_fd[0]);
@@ -47,7 +47,7 @@ void	set_input(t_prompt *prompt, t_garbage *garbage)
 		return ;
 	fd = open(name, O_RDONLY);
 	if (fd == -1)
-		return ((void)(printf("Error in opening file\n"), prompt->cmd = NULL));
+		return ((void)(printf("Error in opening file\n"), prompt->cmd = 0));
 	write_file_to_fd(fd, prompt->heredoc_fd[1], garbage);
 }
 
@@ -69,17 +69,28 @@ char	*get_last_input(char **args)
 {
 	int	i;
 	int	j;
+	int	fd;
 
 	i = 0;
 	j = -1;
 	while (args[i])
 	{
 		if (!ft_strcmp("<", args[i]))
+		{
+			if (args[i + 1])
+			{
+				fd = open(args[i + 1], O_RDONLY);
+				if (fd != -1)
+					close(fd);
+				else
+					return ((void)(printf("%s: No such file or directory\n", args[i + 1])), NULL);
+			}
 			j = i;
+		}
 		i++;
 	}
 	if (j == -1)
-		return (NULL);
+		return ((void)(printf("Parsing error around <\n")), NULL);
 	return (args[j + 1]);
 }
 
