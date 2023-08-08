@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/29 21:43:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:11:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
 	prompt->old_stdout = dup(1);
 	close(1);
 	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	dup2(prompt->write_fd, 1);
 	if (prompt->write_fd == -1)
 	{
 		printf("Error in opening file, set redirection to error output\n");

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 10:56:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 11:12:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,9 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->heredoc_fd[0]);
 		prompt->heredoc_fd[0] = -1;
 	}
+	if (prompt->write_fd != -1)
+		close(prompt->write_fd);
+	prompt->write_fd = -1;
 	if (prompt->old_stdout != -1)
 	{	
 		dup2(prompt->old_stdout, 1);
@@ -140,6 +143,4 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->old_stdin);
 		prompt->old_stdin = -1;
 	}
-	if (prompt->write_fd != -1)
-		close(prompt->write_fd);
-}
+	}
