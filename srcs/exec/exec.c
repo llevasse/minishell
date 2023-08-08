@@ -12,140 +12,115 @@
 
 #include "../../headers/minishell.h"
 
-extern char	**environ;
-
-void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd);
-void	last_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd);
-
-//pipe_fd[0] - read
-//pipe_fd[1] - write
-void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
-{
-	int	tmp_fd;
-
-	tmp_fd = dup(STDIN_FILENO);
-	if (prompt->next_cmd)
-	{
-		while (prompt->next_cmd)
-		{
-			false_exec(path, prompt, garbage, tmp_fd);
-			prompt = prompt->next_cmd;
-		}
-	}
-	else
-		last_exec(path, prompt, garbage, tmp_fd);
-	close(tmp_fd);
-}
-
-void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd)
-{
-	pid_t	pid;
-	int		pipe_fd[2];
-	char	**argv;
+extern char **environ;
 
 
-	if (pipe(pipe_fd) == -1)
-		return ((void)write(2, "pipe error\n", 11), exit(-1));
-	pid = fork();
-	if (pid == -1)
-		return ((void)write(2, "fork error\n", 11), exit(-1));
-	if (pid == 0)
-	{
-		dup2(pipe_fd[1], STDOUT_FILENO);//stdout devient la sortie du pipe
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-		argv = pass_args_exec(path, prompt, garbage);
-		dup2(tmp_fd, STDIN_FILENO); //stdin prend les val
-		close(tmp_fd);
-		if (access(argv[0], X_OK == -1))
-			return ((void) write(2, "Error, no builtin found\n", 25));
-		execve(argv[0], argv, environ);
-	}
-	else
-	{
-		close(pipe_fd[1]);
-		close(tmp_fd);
-		tmp_fd = pipe_fd[0];
-	}
-}
+static int get_execute(char **argv, int tmp_fd, char **envp);
 
-//pipe_fd[0] - read
-//pipe_fd[1] - write
-void	last_exec(char *path, t_prompt*prompt, t_garbage *garbage, int tmp_fd)
-{
-	pid_t	pid;
-	char	**argv;
-
-	pid = fork();
-	if (pid == -1)
-		return ((void)write(2, "fork error\n", 11), exit(-1));
-	if (pid == 0)
-	{
-		argv = pass_args_exec(path, prompt, garbage);
-		dup2(tmp_fd, STDIN_FILENO);
-		close(tmp_fd);
-		if (access(argv[0], X_OK == -1))
-			return ((void) write(2, "Error, no builtin found\n", 25));
-		execve(argv[0], argv, environ);
-	}
-	else
-	{
-		close(tmp_fd);
-		while (waitpid(-1, NULL, WUNTRACED) != -1)
-			;
-		tmp_fd = dup(STDIN_FILENO);
-	}
-}
-
-
-/// @brief Get number of element in **tab.
-/// @param **tab Pointer to pointers of char.
-/// @return Return number of element in tab.
 int	get_tab_size(char **tab)
 {
 	int	i;
 
 	i = 0;
+	if (!tab || !*tab )
+		return (0);
 	while (tab[i])
 		i++;
 	return (i);
 }
 
-// command like cat or grep passed without argument
-// will not work if '-' is not added as argument.
-// where command like ls will need PWD.
-/// @brief Get arguments to pass to execve.
-/// @param *path String of path to executable,
-/// @param *prompt Pointer to prompt struct,
-/// @param *garbage Pointer to garbage struct.
-/// @return Return arguments to pass in execve.
-char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
+char **get_exec_args(char **args, char *path, t_prompt *prompt, t_garbage *garbage)
 {
-	char	**argv;
-	char	*cmd_path;
-	int		i;
+	int i;
 
+	args = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
+	ft_add_garbage(0, &garbage, args);
+//	args[0]= malloc(sizeof(char) * (ft_strlen(prompt->cmd) + 1));
+	args[0] = ft_strjoin(ft_strjoin(path, "/"), prompt->cmd);
+	printf("%s\n", args[0]);
 	if (!prompt->args)
+		args[1] = NULL;
+	else
 	{
-		prompt->args = malloc(sizeof(char *) * 2);
-		ft_add_garbage(0, &garbage, prompt->args);
-		prompt->args[0] = NULL;
-		if (!ft_strcmp(prompt->cmd, "ls"))
-			prompt->args[0] = getenv("PWD");
-		prompt->args[1] = NULL;
+		args[0] = ft_joinf(prompt->cmd);
+		ft_add_garbage(0, &garbage, args[0]);
+		i = 0;
+		while (prompt->args[i])
+		{
+			args[i + 1] = prompt->args[i];
+			i++;
+		}
+		args[i + 1] = NULL;
 	}
-	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
-	ft_add_garbage(0, &garbage, argv);
-	cmd_path = ft_strjoin(path, "/");
-	ft_add_garbage(0, &garbage, cmd_path);
-	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
-	ft_add_garbage(0, &garbage, argv[0]);
-	i = 0;
-	while (prompt->args[i])
+	return (args);
+}
+
+void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
+{
+	int tmp_fd;
+	int fd[2];
+	char **args = NULL;
+
+	tmp_fd = dup(STDIN_FILENO);
+	args = get_exec_args(args, path, prompt, garbage);
+	while(prompt->cmd)
 	{
-		argv[i + 1] = prompt->args[i];
-		i++;
+		if (!prompt->next_cmd)
+		{
+			if (fork() == 0)
+			{
+				if (get_execute(args, tmp_fd, environ))
+					break ;
+			}
+			else
+			{
+				close(tmp_fd);
+				while (waitpid(-1, NULL, WUNTRACED) != -1)
+					;
+				tmp_fd = dup(STDIN_FILENO);
+			}
+		}
+		else if (prompt->next_cmd)
+		{
+			pipe (fd);
+			if (fork() == 0)
+			{
+				dup2(fd[1], STDOUT_FILENO);
+				close(fd[0]);
+				close(fd[1]);
+				if (get_execute(args, tmp_fd, environ))
+					return ;
+			}
+			else
+			{
+				close(fd[1]);
+				close(tmp_fd);
+				tmp_fd = fd[0];
+			}
+		}
+		if (prompt->next_cmd)
+			prompt = prompt->next_cmd;
+		else
+			break ;
 	}
-	argv[i + 1] = NULL;
-	return (argv);
+}
+
+static int ft_putstr_error(char *str, char *arg)
+{
+	while (str && *str)
+		write(2, str++, 1);
+	if (arg)
+		while (*arg)
+			write(2, arg++, 1);
+	write(2, "\n", 1);
+	return (1);
+}
+
+static int get_execute(char **args, int tmp_fd, char **envp)
+{
+	dup2(tmp_fd, STDIN_FILENO);
+	close(tmp_fd);
+//	printf("%s", args[0]);
+	execve(args[0], args, envp);
+	return (ft_putstr_error("error : cannot execute ", args[0]));
 }

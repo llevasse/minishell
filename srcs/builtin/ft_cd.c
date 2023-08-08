@@ -27,7 +27,6 @@ void	ft_cd(t_prompt *prompt)
 		cd_with_args(prompt, new_path, cwd);
 }
 
-
 /// @brief Replace doubles quotes with it's content
 /// @param *prompt Pointer prompt struct,
 /// @param *new_path Pointer to str,
@@ -49,8 +48,8 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 	{
 		if (chdir(prompt->args[0]) == 0)
 			setenv("PWD", prompt->args[0], 1);
-//		else
-//			printf("Error :(\n");
+		else
+			printf("Error :(\n");
 	}
 }
 
