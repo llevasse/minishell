@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 17:04:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 22:42:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define DIRECTION_H
 
 // srcs/parsing/direction/input.c:
-void	set_input(t_prompt *prompt, t_garbage *garbage);
+void	set_input(char *name, t_prompt *prompt, t_garbage *garbage);
 char	*get_last_input(char **args);
 char	*get_input(char *input_prompt, t_garbage *garbage);
 void	multiple_input(char *input_prompt, t_prompt *prompt,
@@ -22,11 +22,11 @@ void	multiple_input(char *input_prompt, t_prompt *prompt,
 void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage);
 
 	// srcs/parsing/direction/heredoc.c:
-void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage);
+void	heredoc(char *eof_name, t_prompt *prompt, t_garbage *garbage);
 char	*get_cut_section(char *input, t_garbage *garbage);
 char	*replace_space_in_name(char *str, t_garbage *garbage);
 int		create_heredoc_fd(t_prompt *prompt);
-void	write_heredoc(t_prompt *p, char **heredoc_name,
+void	write_heredoc(t_prompt *p, char *heredoc_name,
 			t_garbage *garbage, int use_env_var);
 
 // srcs/parsing/direction/output.c:

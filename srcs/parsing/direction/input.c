@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 19:12:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 22:49:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 /// @param *input Prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	set_input(t_prompt *prompt, t_garbage *garbage)
+void	set_input(char *name, t_prompt *prompt, t_garbage *garbage)
 {
 	int			fd;
 
-	if (!get_last_input(prompt->args))
+	if (!name)
 		return ((void)(prompt->cmd = 0));
 	if (prompt->heredoc_fd[0] != -1)
 	{
@@ -30,9 +30,9 @@ void	set_input(t_prompt *prompt, t_garbage *garbage)
 	}
 	if (create_heredoc_fd(prompt) == -1)
 		return ;
-	fd = open(get_last_input(prompt->args), O_RDONLY);
+	fd = open(name, O_RDONLY);
 	if (fd == -1)
-		return ((void)(printf("Error in opening file\n"), prompt->cmd = 0));
+		return ((void)(printf("%s: No such file or directory\n", name)));
 	write_file_to_fd(fd, prompt->heredoc_fd[1], garbage);
 }
 
@@ -52,38 +52,4 @@ void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage)
 		str = get_next_line(fd_to_read);
 	}
 	close(fd_to_read);
-}
-
-/// @brief Get name of the last file passed in an input redirection.
-/// @param **args Array of strings containing
-/// each element of shell input separated.
-/// @return Return name of file to read from or null if none are found 
-/// (or an error occured).
-char	*get_last_input(char **args)
-{
-	int	i;
-	int	j;
-	int	fd;
-
-	i = 0;
-	j = -1;
-	while (args[i])
-	{
-		if (!ft_strcmp("<", args[i]))
-		{
-			if (args[i + 1])
-			{
-				fd = open(args[i + 1], O_RDONLY);
-				if (fd != -1)
-					close(fd);
-				else
-					return ((void)(printf("%s: No such file or directory\n", args[i + 1])), NULL);
-			}
-			j = i;
-		}
-		i++;
-	}
-	if (j == -1)
-		return ((void)(printf("Parsing error around <\n")), NULL);
-	return (args[j + 1]);
 }

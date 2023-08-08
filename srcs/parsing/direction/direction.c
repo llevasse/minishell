@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 19:24:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 22:45:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,17 @@
 /// @param *garbage Pointer to garbage collector.
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
-	int		pos;
-	char	*dup_input;
-	char	*cut_section;
+	int		i;
 
-	dup_input = ft_strdup(input);
-	ft_add_garbage(0, &garbage, dup_input);
-	pos = -1;
-	while (get_separator_pos(dup_input, "<<") != -1)
+	i = 0;
+	while (prompt->args[i])
 	{
-		pos = get_separator_pos(dup_input, "<<");
-		heredoc(dup_input + pos, prompt, garbage);
-		cut_section = get_cut_section(dup_input + pos, garbage);
-		dup_input += pos + ft_strlen(cut_section);
-		pos = -1;
+		if (!ft_strcmp(prompt->args[i], "<") && ft_strcmp(prompt->args[i], "<<"))
+			set_input(prompt->args[i + 1], prompt, garbage);
+		else if (!ft_strcmp(prompt->args[i], "<<"))
+			heredoc(prompt->args[i + 1], prompt, garbage);
+		i++;
 	}
-	if (get_separator_pos(input, "<") != -1)
-		set_input(prompt, garbage);
 	if (get_separator_pos(input, ">") != -1)
 		set_output(prompt);
 	if (prompt->heredoc_fd[0] != -1)

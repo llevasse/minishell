@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 19:21:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 22:48:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,48 +17,20 @@
 /// @param *input Prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	heredoc(char *input, t_prompt *prompt, t_garbage *garbage)
+void	heredoc(char *eof_name, t_prompt *prompt, t_garbage *garbage)
 {
-	char	*eof_name;
-	int		i;
-
-	i = get_char_pos(input, '<');
-	while (input[i] == '<' || ft_isspace(input[i]))
-		i++;
-	eof_name = ft_strdup(input + i);
-	ft_add_garbage(0, &garbage, eof_name);
-	i = 0;
-	while (ft_isspace(eof_name[i]))
-		i++;
-	eof_name += i;
-	if (*eof_name == '"' || *eof_name == 39)
+	if (prompt->heredoc_fd[0] != -1)
 	{
-		eof_name = get_quoted_str(eof_name, *eof_name, 1, garbage);
-		write_heredoc(prompt, &eof_name, garbage, 0);
+		close(prompt->heredoc_fd[0]);
+		close(prompt->heredoc_fd[1]);
+		prompt->heredoc_fd[0] = -1;
 	}
-	else
-	{
-		eof_name = ft_strsep(&eof_name, " ");
-		write_heredoc(prompt, &eof_name, garbage, 1);
-	}
-}
-
-char	*replace_space_in_name(char *str, t_garbage *garbage)
-{
-	int		i;
-
-	i = 0;
-	while (str[i] && !ft_isspace(str[i]))
-	{
-		i++;
-		if (str[i] && ft_isspace(str[i]) && str[i - 1] == '\\')
-			i++;
-	}
-	if (!str[i])
-		return (str);
-	str = insert_at_index(str, "\\", i, garbage);
-	str = replace_space_in_name(str, garbage);
-	return (str);
+//	if (*eof_name == '"' || *eof_name == 39)
+//	{
+//		eof_name = get_quoted_str(eof_name, *eof_name, 1, garbage);
+//		write_heredoc(prompt, &eof_name, garbage, 0);
+//	}
+	write_heredoc(prompt, eof_name, garbage, 1);
 }
 
 /// @brief Create heredoc file and get its fd.
@@ -86,15 +58,14 @@ int	create_heredoc_fd(t_prompt *prompt)
 /// @param **heredoc_name Pointer to string of heredoc name,
 /// @param *garbage Pointer to garbage collector,
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
-void	write_heredoc(t_prompt *p, char **heredoc_name,
+void	write_heredoc(t_prompt *p, char *heredoc_name,
 						t_garbage *garbage, int use_env_var)
 {
 	char	*text;
 	char	*prompt;
 	char	*delimiter;
 
-	*heredoc_name = replace_space_in_name(*heredoc_name, garbage);
-	delimiter = ft_strdup(*heredoc_name);
+	delimiter = ft_strdup(heredoc_name);
 	ft_add_garbage(0, &garbage, delimiter);
 	if (create_heredoc_fd(p) == -1)
 		return ;
