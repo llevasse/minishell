@@ -51,10 +51,12 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int tmp_fd)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	if (pid == 0)
 	{
-		dup2(pipe_fd[1], STDOUT_FILENO);
+		dup2(pipe_fd[1], STDOUT_FILENO);//stdout devient la sortie du pipe
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);
 		argv = pass_args_exec(path, prompt, garbage);
+		dup2(tmp_fd, STDIN_FILENO); //stdin prend les val
+		close(tmp_fd);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
@@ -80,6 +82,8 @@ void	last_exec(char *path, t_prompt*prompt, t_garbage *garbage, int tmp_fd)
 	if (pid == 0)
 	{
 		argv = pass_args_exec(path, prompt, garbage);
+		dup2(tmp_fd, STDIN_FILENO);
+		close(tmp_fd);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));
 		execve(argv[0], argv, environ);
