@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 19:09:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:03:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_output(t_prompt *prompt)
 
 	i = get_last_output_index(prompt->args);
 	if (i == -1)
-		return ;
+		return ((void)(errno = 2, prompt->cmd = 0));
 	if (!prompt->args[i])
 		return ((void)printf("Parsing error around >\n"));
 	if (prompt->old_stdout == -1)
@@ -70,6 +70,12 @@ int	get_last_output_index(char **args)
 				if (fd != -1)
 					close(fd);
 			}
+			else
+			{
+				errno = 2;
+				return ((void)(printf("Syntax error near >\n")), -1);
+			}
+
 			j = i - 1;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 22:45:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:04:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	if (prompt->heredoc_fd[0] != -1)
 	{
 		close(prompt->heredoc_fd[1]);
-		dup2(prompt->heredoc_fd[0], STDIN_FILENO);
+		if (prompt->cmd)
+			dup2(prompt->heredoc_fd[0], STDIN_FILENO);
 	}
 	delete_redirection(prompt->args);
 }
