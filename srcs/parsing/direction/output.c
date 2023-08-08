@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 17:06:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:09:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	set_output(t_prompt *prompt)
 		return ((void)printf("Parsing error around >\n"));
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
-	if (!ft_strcmp(prompt->args[i - 1],">>"))
+	if (!ft_strcmp(prompt->args[i - 1], ">>"))
 		fd = open(prompt->args[i], O_RDWR | O_APPEND | O_CREAT, 0666);
 	else
 		fd = open(prompt->args[i], O_RDWR | O_TRUNC | O_CREAT, 0666);
@@ -43,6 +43,12 @@ void	set_output(t_prompt *prompt)
 	}
 }
 
+/// @brief Get index of file name to write into in an array of strings.
+/// @param **args Array of strings containing
+/// each element of shell input separated.
+/// @return Return Index of where the name of file to write in
+/// or -1 if none are found 
+/// (or an error occured).
 int	get_last_output_index(char **args)
 {
 	int	i;
@@ -53,20 +59,19 @@ int	get_last_output_index(char **args)
 	j = -1;
 	while (args[i])
 	{
-		if (!ft_strcmp(">", args[i]) || !ft_strcmp(">>", args[i]))
+		if (!ft_strcmp(">", args[i++]) || !ft_strcmp(">>", args[i - 1]))
 		{
-			if (args[i + 1])
+			if (args[i])
 			{
 				if (!ft_strcmp(">>", args[i]))
-					fd = open(args[i + 1], O_RDWR | O_APPEND | O_CREAT, 0666);
+					fd = open(args[i], O_RDWR | O_APPEND | O_CREAT, 0666);
 				else
-					fd = open(args[i + 1], O_RDWR | O_TRUNC | O_CREAT, 0666);
+					fd = open(args[i], O_RDWR | O_TRUNC | O_CREAT, 0666);
 				if (fd != -1)
 					close(fd);
 			}
-			j = i;
+			j = i - 1;
 		}
-		i++;
 	}
 	if (j == -1)
 		return (-1);

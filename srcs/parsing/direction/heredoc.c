@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 23:37:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:21:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	write_heredoc(t_prompt *p, char **heredoc_name,
 	char	*prompt;
 	char	*delimiter;
 
-	*heredoc_name =	replace_space_in_name(*heredoc_name, garbage);
+	*heredoc_name = replace_space_in_name(*heredoc_name, garbage);
 	delimiter = ft_strdup(*heredoc_name);
 	ft_add_garbage(0, &garbage, delimiter);
 	if (create_heredoc_fd(p) == -1)

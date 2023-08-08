@@ -6,13 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 17:05:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 19:24:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//TODO pipes
+//TODO heredoc if passed after input redirection
 
 /// @brief Check and apply redirection in input.
 /// @param *input String of the prompt input,
@@ -41,11 +41,12 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		set_output(prompt);
 	if (prompt->heredoc_fd[0] != -1)
 	{
-		close(prompt->heredoc_fd[1]);	// ALWAYS CLOSE PIPE WRITE END BEFORE DUP2
+		close(prompt->heredoc_fd[1]);
 		dup2(prompt->heredoc_fd[0], STDIN_FILENO);
 	}
 	delete_redirection(prompt->args);
 }
+// ALWAYS CLOSE PIPE WRITE END BEFORE DUP2
 
 /// @brief Get section in input calling the heredoc.
 /// @param *input Prompt input,
@@ -55,7 +56,6 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
 	char	*name;
-	char	quote[2];
 	int		i;
 
 	i = 0;
@@ -66,11 +66,8 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 		i++;
 	if (str[i] == '"' || str[i] == 39)
 	{
-		quote[0] = str[i];
-		quote[1] = 0;
-		name = ft_strjoin(get_quoted_str(str + i, str[i], 0, garbage), quote);
-		ft_add_garbage(0, &garbage, name);
-		name = ft_strjoin(quote, name);
+		name = ft_joinf("%c%s%c", str[i],
+				get_quoted_str(str + i, str[i], 0, garbage), str[i]);
 		ft_add_garbage(0, &garbage, name);
 	}
 	else
@@ -78,13 +75,10 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 		while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
 			i++;
 	}
-	if (str[i] != 0)
-		str[i] = 0;
-	if (!str[i] && name)
-	{
-		str = ft_strjoin(str, name);
-		ft_add_garbage(0, &garbage, str);
-	}
+	if (!name)
+		return (str);
+	str = ft_strjoin(str, name);
+	ft_add_garbage(0, &garbage, str);
 	return (str);
 }
 
@@ -112,4 +106,4 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->old_stdin);
 		prompt->old_stdin = -1;
 	}
-	}
+}
