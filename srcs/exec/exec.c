@@ -39,7 +39,10 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		prompt->args[0] = "-";
+		if (!ft_strcmp(prompt->cmd, "clear"))
+			prompt->args[0] = NULL;
+		else
+			prompt->args[0] = "-";
 		if (!ft_strcmp(prompt->cmd, "ls"))
 			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
