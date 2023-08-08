@@ -29,30 +29,35 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
-char **get_exec_args(char **args, char *path, t_prompt *prompt, t_garbage *garbage)
+char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 {
-	int i;
+	char	**argv;
+	char	*cmd_path;
+	int		i;
 
-	args = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
-	ft_add_garbage(0, &garbage, args);
-//	args[0]= malloc(sizeof(char) * (ft_strlen(prompt->cmd) + 1));
-	args[0] = ft_strjoin(ft_strjoin(path, "/"), prompt->cmd);
-	printf("%s\n", args[0]);
 	if (!prompt->args)
-		args[1] = NULL;
-	else
 	{
-		args[0] = ft_joinf(prompt->cmd);
-		ft_add_garbage(0, &garbage, args[0]);
-		i = 0;
-		while (prompt->args[i])
-		{
-			args[i + 1] = prompt->args[i];
-			i++;
-		}
-		args[i + 1] = NULL;
+		prompt->args = malloc(sizeof(char *) * 2);
+		ft_add_garbage(0, &garbage, prompt->args);
+		prompt->args[0] = "-";
+		if (!ft_strcmp(prompt->cmd, "ls"))
+			prompt->args[0] = getenv("PWD");
+		prompt->args[1] = NULL;
 	}
-	return (args);
+	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
+	ft_add_garbage(0, &garbage, argv);
+	cmd_path = ft_strjoin(path, "/");
+	ft_add_garbage(0, &garbage, cmd_path);
+	argv[0] = ft_strjoin(cmd_path, prompt->cmd);
+	ft_add_garbage(0, &garbage, argv[0]);
+	i = 0;
+	while (prompt->args[i])
+	{
+		argv[i + 1] = prompt->args[i];
+		i++;
+	}
+	argv[i + 1] = NULL;
+	return (argv);
 }
 
 void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
@@ -62,7 +67,7 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	char **args = NULL;
 
 	tmp_fd = dup(STDIN_FILENO);
-	args = get_exec_args(args, path, prompt, garbage);
+	args = get_exec_args( path, prompt, garbage);
 	while(prompt->cmd)
 	{
 		if (!prompt->next_cmd)
@@ -93,6 +98,8 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 			}
 			else
 			{
+				//while (waitpid(-1, NULL, WUNTRACED) != -1)
+				//	;
 				close(fd[1]);
 				close(tmp_fd);
 				tmp_fd = fd[0];
