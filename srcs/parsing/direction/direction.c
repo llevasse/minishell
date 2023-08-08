@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 23:12:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 09:02:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,15 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	pos = -1;
 	while (get_separator_pos(input, "<") != -1)
 	{
-		if (get_separator_pos(input, "<") != -1)
-		{
-			pos = get_separator_pos(input, "<");
-			set_input(input + pos, prompt, garbage);
-		}
-		else 
-			break ;
-	//	printf("found separator %c at %d\n", input[pos], pos);
+		pos = get_separator_pos(input, "<");
+		set_input(input + pos, prompt, garbage);
 		cut_section = get_cut_section(input + pos, garbage);
 		input += pos + ft_strlen(cut_section);
 		pos = -1;
 	}
 	if (get_separator_pos(input, ">") != -1)
 	{
-		pos = get_separator_pos(input, "<");
+		pos = get_separator_pos(input, ">");
 		set_output(input + pos, prompt, garbage);
 	}
 	if (prompt->heredoc_fd[0] != -1)
