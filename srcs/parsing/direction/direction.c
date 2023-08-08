@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 09:21:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 09:32:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,10 @@
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int		pos;
-	char	*cut_section;
-	char	*input_dup;
 
-	input_dup = ft_strdup(input);
-	ft_add_garbage(0, &garbage, input_dup);
 	pos = -1;
-	while (get_separator_pos(input, "<") != -1)
-	{
-		pos = get_separator_pos(input, "<");
-		set_input(input + pos, prompt, garbage);
-		cut_section = get_cut_section(input + pos, garbage);
-		input += pos + ft_strlen(cut_section);
-		pos = -1;
-	}
+	if (get_separator_pos(input, "<") != -1)
+		set_input(prompt, garbage);
 	if (get_separator_pos(input, ">") != -1)
 	{
 		pos = get_separator_pos(input, ">");

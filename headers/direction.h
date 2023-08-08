@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 09:09:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 09:32:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define DIRECTION_H
 
 // srcs/parsing/direction/input.c:
-void	set_input(char *input, t_prompt *prompt, t_garbage *garbage);
+void	set_input(t_prompt *prompt, t_garbage *garbage);
+char	*get_last_input(char **args);
 char	*get_input(char *input_prompt, t_garbage *garbage);
 void	multiple_input(char *input_prompt, t_prompt *prompt,
 			t_garbage *garbage);

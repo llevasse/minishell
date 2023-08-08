@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 09:08:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 09:33:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,14 @@
 /// @param *input Prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	set_input(char *input, t_prompt *prompt, t_garbage *garbage)
+void	set_input(t_prompt *prompt, t_garbage *garbage)
 {
-	int			i;
 	char		*name;
 	int			fd;
-
-	i = get_char_pos(input, '<');
-	if (input[i + 1] == '<')
-		return (heredoc(input, prompt, garbage));
-	while (input[i] && (input[i] == '<' || isspace(input[i])))
-		i++;
-	if (!input[i])
+	
+	name = get_last_input(prompt->args);
+	if (!name)
 		return ((void)printf("Parsing error around <\n"));
-	if (get_char_pos(input + i, '<') != -1)
-		multiple_input(input, prompt, garbage);
-	input += i;
-	while (get_char_pos(input, '$') != -1)
-		check_is_env_var(&input, garbage);
-	name = ft_strsep(&input, " ");
 	if (create_heredoc_fd(prompt) == -1)
 		return ;
 	fd = open(name, O_RDONLY);
@@ -57,6 +46,22 @@ void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage)
 		str = get_next_line(fd_to_read);
 	}
 	close(fd_to_read);
+}
+
+char	*get_last_input(char **args)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (!ft_strcmp("<", args[i]))
+			j = i;
+		i++;
+	}
+	return (args[j + 1]);
 }
 
 /// @brief Get outin redirection args ("< {file_name}")
@@ -82,32 +87,3 @@ char	*get_input(char *input_prompt, t_garbage *garbage)
 	return (input);
 }
 
-/// @brief Handle multiple output in prompt.
-/// Rerun check_cmd with one output redirection removed, 
-/// recursivly, until all output have been filled.
-/// @param *input Prompt input,
-/// @param *prompt Pointer to prompt struct,
-/// @param *garbage Pointer to garbage collector.
-void	multiple_input(char *input_prompt, t_prompt *prompt, t_garbage *garbage)
-{
-	char		*input;
-	char		*dup_input_prompt;	
-	t_prompt	*new_prompt;
-
-	new_prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(0, &garbage, new_prompt);
-	input = get_input(input_prompt, garbage);
-	dup_input_prompt = ft_strdup(input_prompt);
-	replace_str(&dup_input_prompt, input, "", garbage);
-	new_prompt->write_fd = -1;
-	new_prompt->d_quotes = prompt->d_quotes;
-	new_prompt->quotes = prompt->d_quotes;
-	new_prompt->args = NULL;
-	new_prompt->export_args = NULL;
-	new_prompt->cmd = prompt->cmd;
-	new_prompt->next_cmd = NULL;
-	get_args(new_prompt, dup_input_prompt, garbage);
-	check_redirection(dup_input_prompt, new_prompt, garbage);
-	ft_add_prompt(&prompt, new_prompt);
-	replace_str(&input_prompt, input, "", garbage);
-}
