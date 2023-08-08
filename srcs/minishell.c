@@ -62,7 +62,7 @@ int	main(void)
 		return (1);
 	while (42)
 	{
-		s = readline("minishell >>");
+		s = readline("minishell ::");
 		add_history(s);
 		parse(s, garbage);
 		free_garbage(garbage);
