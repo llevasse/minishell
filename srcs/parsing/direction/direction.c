@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 23:04:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/08 23:56:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	}
 	delete_redirection(prompt->args);
 }
-// ALWAYS CLOSE PIPE WRITE END BEFORE DUP2
+// ALWAYS CLOSE PIPE WRITE-END BEFORE DUP2
 
 /// @brief Get section in input calling the heredoc.
 /// @param *input Prompt input,

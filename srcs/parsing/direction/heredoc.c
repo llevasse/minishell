@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 22:48:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:04:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,5 @@ void	write_heredoc(t_prompt *p, char *heredoc_name,
 		if (use_env_var)
 			check_is_env_var(&text, garbage);
 		ft_putendl_fd(text, p->heredoc_fd[1]);
-		free(text);
-		text = NULL;
 	}
-	free(text);
-	text = NULL;
 }
