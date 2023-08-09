@@ -6,15 +6,15 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/09 15:24:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:28:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /// @brief Handle heredoc in prompt.
-/// Create invisible file, write heredoc content in it, and pass it to command.
 /// @param *input Prompt input,
+/// @param *eof_name What was parsed as heredoc 'name' (delimiter'),
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
 void	heredoc(char *input, char *eof_name, t_prompt *prompt, t_garbage *garbage)
@@ -37,10 +37,9 @@ void	heredoc(char *input, char *eof_name, t_prompt *prompt, t_garbage *garbage)
 	write_heredoc(prompt, eof_name, garbage, use_env_var);
 }
 
-/// @brief Create heredoc file and get its fd.
-/// @param **heredoc_name Pointer to string of heredoc name,
-/// @param *garbage Pointer to garbage collector.
-/// @return Return fd of heredoc.
+/// @brief Create heredoc pipe.
+/// @param *prompt Pointer to prompt structure.
+/// @return Return 0 if no problem occurs or -1.
 int	create_heredoc_fd(t_prompt *prompt)
 {
 	if (prompt->heredoc_fd[0] == -1)
@@ -58,8 +57,9 @@ int	create_heredoc_fd(t_prompt *prompt)
 	return (0);
 }
 
-/// @brief Write readline input in heredoc file.
-/// @param **heredoc_name Pointer to string of heredoc name,
+/// @brief Write readline input in heredoc pipe.
+/// @param *p Pointer to prompt structure,
+/// @param *heredoc_name String of heredoc name,
 /// @param *garbage Pointer to garbage collector,
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
 void	write_heredoc(t_prompt *p, char *heredoc_name,

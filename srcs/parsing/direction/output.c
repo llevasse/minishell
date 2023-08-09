@@ -6,18 +6,14 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 23:03:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:38:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /// @brief Handle output redirection in prompt.
-/// Close stdout fd and assign to output file fd 1, 
-/// So that execve will write into it.
-/// @param *input Prompt input,
 /// @param *prompt Pointer to prompt struct,
-/// @param *garbage Pointer to garbage collector.
 void	set_output(t_prompt *prompt)
 {
 	int			i;
@@ -43,6 +39,22 @@ void	set_output(t_prompt *prompt)
 	}
 }
 
+/// @brief Open and close file to verify it's existence and/or create it.
+/// @param **args Array of strings containing
+/// each element of shell input separated,
+/// @param index Index of element to open.
+void	tini_tiny_open(char **args, int index)
+{
+	int	fd;
+
+	if (!ft_strcmp(">>", args[index - 1]))
+		fd = open(args[index], O_RDWR | O_APPEND | O_CREAT, 0666);
+	else
+		fd = open(args[index], O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (fd != -1)
+		close(fd);
+}
+
 /// @brief Get index of file name to write into in an array of strings.
 /// @param **args Array of strings containing
 /// each element of shell input separated.
@@ -53,7 +65,6 @@ int	get_last_output_index(char **args)
 {
 	int	i;
 	int	j;
-	int	fd;
 
 	i = 0;
 	j = -1;
@@ -62,20 +73,12 @@ int	get_last_output_index(char **args)
 		if (!ft_strcmp(">", args[i++]) || !ft_strcmp(">>", args[i - 1]))
 		{
 			if (args[i])
-			{
-				if (!ft_strcmp(">>", args[i]))
-					fd = open(args[i], O_RDWR | O_APPEND | O_CREAT, 0666);
-				else
-					fd = open(args[i], O_RDWR | O_TRUNC | O_CREAT, 0666);
-				if (fd != -1)
-					close(fd);
-			}
+				tini_tiny_open(args, i);
 			else
 			{
 				errno = 2;
 				return ((void)(printf("Syntax error near >\n")), -1);
 			}
-
 			j = i - 1;
 		}
 	}

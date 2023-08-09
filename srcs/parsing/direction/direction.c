@@ -6,13 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/09 15:21:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:32:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//TODO heredoc if passed after input redirection
 
 /// @brief Check and apply redirection in input.
 /// @param *input String of the prompt input,
@@ -46,10 +44,11 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 }
 // ALWAYS CLOSE PIPE WRITE-END BEFORE DUP2
 
-/// @brief Get section in input calling the heredoc.
+/// @brief Get a duplicate of the nearest section from the begining of
+/// *input calling a redirection.
 /// @param *input Prompt input,
 /// @param *garbage Pointer to garbage collector.
-/// @return Return heredoc call as str.
+/// @return Return the redirection call as str.
 char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
@@ -66,7 +65,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 	return (str);
 }
 
-/// @brief Reset fd 1 to stdout.
+/// @brief Reset STDIN and STDOUT to their original fds and close heredoc_fd.
 /// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
