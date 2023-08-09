@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 23:56:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/09 15:21:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 {
 	int		i;
+	char	*cut_section;
 
 	i = 0;
 	while (prompt->args[i])
@@ -28,11 +29,13 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		if (!ft_strcmp(prompt->args[i], "<") && ft_strcmp(prompt->args[i], "<<"))
 			set_input(prompt->args[i + 1], prompt, garbage);
 		else if (!ft_strcmp(prompt->args[i], "<<"))
-			heredoc(prompt->args[i + 1], prompt, garbage);
+			heredoc(input, prompt->args[i + 1], prompt, garbage);
+		else if (!ft_strcmp(prompt->args[i], ">"))
+			set_output(prompt);
 		i++;
+		cut_section = get_cut_section(input, garbage);
+		input += ft_strlen(cut_section);
 	}
-	if (get_separator_pos(input, ">") != -1)
-		set_output(prompt);
 	if (prompt->heredoc_fd[0] != -1)
 	{
 		close(prompt->heredoc_fd[1]);
@@ -50,30 +53,16 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 char	*get_cut_section(char *input, t_garbage *garbage)
 {
 	char	*str;
-	char	*name;
 	int		i;
 
 	i = 0;
 	str = ft_strdup(input);
-	name = NULL;
 	ft_add_garbage(0, &garbage, str);
 	while (str[i] && (ft_is_in_str("<>|", str[i]) || ft_isspace(str[i])))
 		i++;
-	if (str[i] == '"' || str[i] == 39)
-	{
-		name = ft_joinf("%c%s%c", str[i],
-				get_quoted_str(str + i, str[i], 0, garbage), str[i]);
-		ft_add_garbage(0, &garbage, name);
-	}
-	else
-	{
-		while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
-			i++;
-	}
-	if (!name)
-		return (str);
-	str = ft_strjoin(str, name);
-	ft_add_garbage(0, &garbage, str);
+	while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
+		i++;
+	str[i] = '\0';
 	return (str);
 }
 
