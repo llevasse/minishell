@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/10 11:36:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:49:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		return ;
 	else
 		false_exec(get_pwd(garbage), prompt, garbage);
+	if (errno == 127)
+		g_minishell.error_value = 127;
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
