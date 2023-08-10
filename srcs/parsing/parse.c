@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/10 11:49:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:33:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,11 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 /// @param *cmd Pointer to t_prompt;
 void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 {
-	if (!prompt)
-		return ;
-	if (prompt->cmd[0] == '\0')
+	if (!ft_strcmp(prompt->cmd, ""))
+	{
 		prompt->cmd = "''";
+		return ((void)(print_unknown_cmd(prompt), errno = 127));
+	}
 	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->d_quotes && !prompt->quotes && \
@@ -97,7 +98,10 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->next_cmd = NULL;
 	prompt->heredoc_fd[0] = -1;
 	len = ft_strlen(input);
-	prompt->cmd = ft_strsep(&input, " ");
+	if (input[0] == '"' || input[0] == 39)
+		prompt->cmd = get_quoted_str(input, input[0], 1, garbage);	
+	else
+		prompt->cmd = ft_strsep(&input, " ");
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);

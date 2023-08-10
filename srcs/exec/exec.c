@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/10 11:54:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:26:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,7 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	if (pid == -1)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	else if (pid == 0)
-	{
 		execve(argv[0], argv, environ);
-	}
 	else
 		wait(NULL);
 }
@@ -40,7 +38,7 @@ void	print_unknown_cmd(t_prompt *prompt)
 	i = 0;
 	printf("%s unknown command with argument(s) ", prompt->cmd);
 	while (prompt->args && prompt->args[i])
-		printf("%s ", prompt->args[i++]);
+		printf("\"%s\" ", prompt->args[i++]);
 	printf("\n");
 }
 /// @brief Get number of element in **tab.
