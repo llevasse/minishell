@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 17:43:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:36:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 /// @param *cmd Pointer to t_prompt;
 void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 {
-	int	i;
-
 	if (!prompt)
 		return ;
-	i = 0;
+	if (prompt->cmd[0] == '\0')
+		prompt->cmd = "''";
 	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->d_quotes && !prompt->quotes && \
@@ -72,12 +71,8 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt, garbage))
 		return ;
-	if (prompt->cmd[0] == '\0')
-		prompt->cmd = "''";
-	printf("%s unknown command with argument(s) ", prompt->cmd);
-	while (prompt->args && prompt->args[i])
-		printf("%s ", prompt->args[i++]);
-	printf("\n");
+	else
+		false_exec(get_pwd(garbage), prompt, garbage);
 }
 
 /// @brief Allocate memory and assign values to t_prompt.

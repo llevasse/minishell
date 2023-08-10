@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/06 22:38:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/10 11:38:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,24 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
-			return ((void) write(2, "Error, no builtin found\n", 25));
+			return (print_unknown_cmd(prompt));
 		execve(argv[0], argv, environ);
 	}
 	else
 		wait(NULL);
 }
 
+void	print_unknown_cmd(t_prompt *prompt)
+{
+	int	i;
+
+	i = 0;
+	printf("%s unknown command with argument(s) ", prompt->cmd);
+	while (prompt->args && prompt->args[i])
+		printf("%s ", prompt->args[i++]);
+	printf("\n");
+	exit(127);
+}
 /// @brief Get number of element in **tab.
 /// @param **tab Pointer to pointers of char.
 /// @return Return number of element in tab.
