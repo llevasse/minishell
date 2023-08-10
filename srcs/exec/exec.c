@@ -15,7 +15,7 @@
 extern char **environ;
 
 
-static int get_execute(char **argv, int tmp_fd, char **envp);
+static int get_execute(char **argv, char **envp);
 
 int	get_tab_size(char **tab)
 {
@@ -39,12 +39,6 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		if (!ft_strcmp(prompt->cmd, "clear"))
-			prompt->args[0] = NULL;
-		else
-			prompt->args[0] = "-";
-		if (!ft_strcmp(prompt->cmd, "ls"))
-			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
 	}
 	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));
@@ -63,14 +57,11 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	return (argv);
 }
 
-
 void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 {
-	int tmp_fd;
 	int fd[2];
 	char **args = NULL;
 
-	tmp_fd = dup(STDIN_FILENO);
 	args = get_exec_args( path, prompt, garbage);
 	while(prompt->cmd)
 	{
@@ -78,33 +69,31 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 		{
 			if (fork() == 0)
 			{
-				if (get_execute(args, tmp_fd, environ))
+				if (get_execute(args, environ))
 					break ;
 			}
 			else
 			{
-				close(tmp_fd);
 				while (waitpid(-1, NULL, WUNTRACED) != -1)
 					;
-				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
 		else if (prompt->next_cmd)
 		{
+			//pipe_fd[0] - read
+			//pipe_fd[1] - write
 			pipe (fd);
 			if (fork() == 0)
 			{
-				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
-				close(fd[1]);
-				if (get_execute(args, tmp_fd, environ))
+				dup2(fd[1], STDOUT_FILENO);
+				if (get_execute(args, environ))
 					break ;
 			}
 			else
 			{
 				close(fd[1]);
-				close(tmp_fd);
-				tmp_fd = fd[0];
+				dup2(fd[0], STDIN_FILENO);
 			}
 		}
 		if (prompt->next_cmd)
@@ -125,10 +114,8 @@ static int ft_putstr_error(char *str, char *arg)
 	return (1);
 }
 
-static int get_execute(char **args, int tmp_fd, char **envp)
+static int get_execute(char **args, char **envp)
 {
-	dup2(tmp_fd, STDIN_FILENO);
-	close(tmp_fd);
 	execve(args[0], args, envp);
 	return (ft_putstr_error("error : cannot execute ", args[0]));
 }

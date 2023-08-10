@@ -57,8 +57,7 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int *tmp_fd)
 	}
 }
 
-//pipe_fd[0] - read
-//pipe_fd[1] - write
+
 void	last_exec(char *path, t_prompt*prompt, t_garbage *garbage, int *tmp_fd)
 {
 	pid_t	pid;
