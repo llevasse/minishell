@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/09 15:32:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:32:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	i = 0;
 	while (prompt->args[i])
 	{
-		if (!ft_strcmp(prompt->args[i], "<") && ft_strcmp(prompt->args[i], "<<"))
+		if (!ft_strcmp(prompt->args[i], "<") && \
+				ft_strcmp(prompt->args[i], "<<"))
 			set_input(prompt->args[i + 1], prompt, garbage);
 		else if (!ft_strcmp(prompt->args[i], "<<"))
 			heredoc(input, prompt->args[i + 1], prompt, garbage);

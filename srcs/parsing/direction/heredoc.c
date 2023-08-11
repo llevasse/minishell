@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 15:05:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:30:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 /// @param *eof_name What was parsed as heredoc 'name' (delimiter'),
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	heredoc(char *input, char *eof_name, t_prompt *prompt, t_garbage *garbage)
+void	heredoc(char *input, char *eof_name, t_prompt *prompt,
+			t_garbage *garbage)
 {
 	int	pos;
 	int	use_env_var;

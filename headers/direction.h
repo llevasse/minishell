@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/09 15:10:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:29:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	multiple_input(char *input_prompt, t_prompt *prompt,
 void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage);
 
 	// srcs/parsing/direction/heredoc.c:
-void	heredoc(char *input, char *eof_name, t_prompt *prompt, t_garbage *garbage);
+void	heredoc(char *input, char *eof_name, t_prompt *prompt,
+			t_garbage *garbage);
 char	*get_cut_section(char *input, t_garbage *garbage);
 char	*replace_space_in_name(char *str, t_garbage *garbage);
 int		create_heredoc_fd(t_prompt *prompt);
