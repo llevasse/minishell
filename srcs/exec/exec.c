@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/10 12:26:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 17:25:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	if (pid == -1)
 		return ((void)write(2, "fork error\n", 11), exit(-1));
 	else if (pid == 0)
+	{
 		execve(argv[0], argv, environ);
+		exit(errno);
+	}
 	else
 		wait(NULL);
 }
@@ -52,7 +55,6 @@ int	get_tab_size(char **tab)
 	while (tab[i])
 		i++;
 	return (i);
-	errno = 127;
 }
 
 // command like cat or grep passed without argument
@@ -73,7 +75,7 @@ char	**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
-		prompt->args[0] = "-";
+		prompt->args[0] = NULL;
 		if (!ft_strcmp(prompt->cmd, "ls"))
 			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
