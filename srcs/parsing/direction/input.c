@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/08 22:58:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:05:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	set_input(char *name, t_prompt *prompt, t_garbage *garbage)
 	if (!name)
 	{
 		errno = 2;
-		return ((void)(printf("Syntax error near <\n"), prompt->cmd = 0));
+		return ((void)(printf(ERR_PARSE_INPUT), prompt->cmd = 0));
 	}
 	if (prompt->heredoc_fd[0] != -1)
 	{
@@ -35,7 +35,7 @@ void	set_input(char *name, t_prompt *prompt, t_garbage *garbage)
 		return ;
 	fd = open(name, O_RDONLY);
 	if (fd == -1)
-		return ((void)(printf("%s: No such file or directory\n", name)));
+		return ((void)(printf(NO_FILE, name)));
 	write_file_to_fd(fd, prompt->heredoc_fd[1], garbage);
 }
 

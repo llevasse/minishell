@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 10:24:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:54:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_garbage(t_garbage	*garbage)
 		garbage->next = NULL;
 		if (garbage->address)
 		{
-//			printf("Freeing %p with content %s to garbage\n", garbage->address, 				(char *)garbage->address);
+//			printf(FREE_GARBAGE, garbage->address, (char *)garbage->address);
 			free(garbage->address);
 			garbage->address = NULL;
 		}
@@ -37,8 +37,7 @@ t_garbage	*ft_new_garbage(int log, void *address, t_garbage *garbage)
 	if (!new)
 		return (ft_exit(garbage, NULL), NULL);
 	if (log)
-		printf("Adding %p with content %s to garbage\n", address, 
-			(char *)address);
+		printf(ADD_GARBAGE, address, (char *)address);
 	new->address = address;
 	new->next = NULL;
 	return (new);

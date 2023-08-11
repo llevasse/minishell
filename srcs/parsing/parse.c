@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/10 19:55:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:13:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	parse(char *input, t_garbage *garbage)
 	prompt = init_prompt(input, garbage);
 	if (!prompt->cmd)
 		return ;
-//	printf_args(prompt->args, "Post init :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
 	if (prompt->next_cmd)
@@ -86,7 +85,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->d_quotes = 1;
 		if (get_char_occurance(*input, '"') % 2 != 0)
-			no_end_quote(input, '"', "dquote>", garbage);
+			no_end_quote(input, '"', W_DQUOTE, garbage);
 		cmd = get_quoted_str(*input, '"', 1, garbage);
 		(*input) += 2 + get_char_pos((*input) + 1, '"');
 	}
@@ -94,7 +93,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->quotes = 1;
 		if (get_char_occurance(*input, 39) % 2 != 0)
-			no_end_quote(input, 39, "quote>", garbage);
+			no_end_quote(input, 39, W_QUOTE, garbage);
 		cmd = get_quoted_str(*input, 39, 0, garbage);
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}

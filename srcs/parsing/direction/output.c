@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/09 15:38:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:04:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,17 @@ void	set_output(t_prompt *prompt)
 	if (i == -1)
 		return ((void)(errno = 2, prompt->cmd = 0));
 	if (!prompt->args[i])
-		return ((void)printf("Parsing error around >\n"));
+		return ((void)printf(ERR_PARSE_OUTPUT));
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
 	if (!ft_strcmp(prompt->args[i - 1], ">>"))
 		fd = open(prompt->args[i], O_RDWR | O_APPEND | O_CREAT, 0666);
 	else
 		fd = open(prompt->args[i], O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (prompt->write_fd == -1)
+		printf(ERR_OPEN_F);
 	prompt->write_fd = fd;
 	dup2(prompt->write_fd, 1);
-	if (prompt->write_fd == -1)
-	{
-		printf("Error in opening file, set redirection to error output\n");
-		dup2(prompt->old_stdout, STDOUT_FILENO);
-	}
 }
 
 /// @brief Open and close file to verify it's existence and/or create it.
@@ -77,7 +74,7 @@ int	get_last_output_index(char **args)
 			else
 			{
 				errno = 2;
-				return ((void)(printf("Syntax error near >\n")), -1);
+				return ((void)(printf(ERR_PARSE_OUTPUT)), -1);
 			}
 			j = i - 1;
 		}

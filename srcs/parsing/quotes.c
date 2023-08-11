@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 22:12:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 15:10:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	int		i;
 
 	prompt->d_quotes = 1;
-	no_end_quote(str, '"', "dquote>", garbage);
+	no_end_quote(str, '"', W_DQUOTE, garbage);
 	i = get_char_pos(*str, '"');
 	in_quotes = get_quoted_str(*str, '"', 1, garbage);
 	if (!in_quotes)
@@ -124,7 +124,7 @@ void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	int		i;
 
 	prompt->quotes = 1;
-	no_end_quote(str, (char)39, "quote>", garbage);
+	no_end_quote(str, (char)39, W_QUOTE, garbage);
 	i = get_char_pos(*str, (char)39);
 	original_quote = ft_strdup(*str + i);
 	ft_add_garbage(0, &garbage, original_quote);
