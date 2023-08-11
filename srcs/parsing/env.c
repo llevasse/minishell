@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 15:03:38 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/11 19:57:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,24 @@
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
+char	*check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*path;
+	char	*temp;
 	int		has_exec;
 
 	has_exec = 0;
 	path = ft_strdup(getenv("PATH"));
 	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
+	{
+		temp = ft_strsep(&path, ":");
 		has_exec = check_present_in_path(prompt,
-				ft_strsep(&path, ":"), garbage);
-	return (has_exec);
+				temp, garbage);
+	}
+	if (has_exec)
+		return (temp);
+	return (NULL);
 }
 
 /// @brief Check if prompt is a command present in path.
@@ -42,7 +48,7 @@ int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
 	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
 	if (dir_entry && !ft_strcmp(prompt->cmd, dir_entry->d_name))
-		return (exec(path, prompt, garbage), closedir(current_dir), 1);
+		return (closedir(current_dir), 1);
 	closedir(current_dir);
 	return (0);
 }

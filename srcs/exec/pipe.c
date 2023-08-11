@@ -1,8 +1,8 @@
-1 : save entrée standard.
-2 : pipe/fork/dup2(fd[1] , 1)
-3 : close pipe() ans child
-4 : execute puis dup2(stdin_fileno, fd[0])
-5 : close(tmp_fd) puis execve.
+//1 : save entrée standard.
+//2 : pipe/fork/dup2(fd[1] , 1)
+//3 : close pipe() ans child
+//4 : execute puis dup2(stdin_fileno, fd[0])
+//5 : close(tmp_fd) puis execve.
 
 extern char	**environ;
 
@@ -42,8 +42,8 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage, int *tmp_fd)
 		return (write(2, "fork error\n", 11), exit(-1));
 	if (pid == 0)
 	{
-		dup2(pipe_fd[0], STDIN_FILENO); //la sortie du pipe devient stdout
 		close(pipe_fd[1]);
+		dup2(pipe_fd[0], STDIN_FILENO); //la sortie du pipe devient stdout
 		argv = pass_args_exec(path, prompt, garbage);
 		if (access(argv[0], X_OK == -1))
 			return ((void) write(2, "Error, no builtin found\n", 25));

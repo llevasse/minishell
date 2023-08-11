@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/04 20:30:32 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/11 19:51:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,23 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	return (argv);
 }
 
-void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
+void	exec(t_prompt *prompt, t_garbage *garbage)
 {
-	int fd[2];
 	char **args = NULL;
-
-	args = get_exec_args( path, prompt, garbage);
 	while(prompt->cmd)
 	{
+		args = get_exec_args(prompt, garbage);
 		if (!prompt->next_cmd)
 		{
 			if (fork() == 0)
 			{
+				reset_stdio_fd(prompt);
 				if (get_execute(args, environ))
 					break ;
 			}
 			else
 			{
+				reset_stdio_fd(prompt);
 				while (waitpid(-1, NULL, WUNTRACED) != -1)
 					;
 			}
@@ -82,18 +82,20 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 		{
 			//pipe_fd[0] - read
 			//pipe_fd[1] - write
-			pipe (fd);
 			if (fork() == 0)
 			{
-				close(fd[0]);
-				dup2(fd[1], STDOUT_FILENO);
+				dup2(prompt->heredoc_fd[1], STDOUT_FILENO);
 				if (get_execute(args, environ))
 					break ;
 			}
 			else
 			{
-				close(fd[1]);
-				dup2(fd[0], STDIN_FILENO);
+				dup2(prompt->heredoc_fd[1], STDOUT_FILENO);
+				while (waitpid(-1, NULL, WUNTRACED) != -1)
+					;
+				close(prompt->heredoc_fd[1]);
+				dup2(prompt->heredoc_fd[0], prompt->next_cmd->heredoc_fd[1]);
+				dup2(prompt->next_cmd->heredoc_fd[1], STDIN_FILENO);
 			}
 		}
 		if (prompt->next_cmd)

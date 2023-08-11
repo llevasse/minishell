@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/03 14:49:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 19:59:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	parse(char *input, t_garbage *garbage)
 	prompt = init_prompt(input, garbage);
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
-	if (prompt->next_cmd)
-		check_cmd(prompt->next_cmd, garbage);
+//	if (prompt->next_cmd)
+//		check_cmd(prompt->next_cmd, garbage);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -77,7 +77,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	if (!prompt->quotes && check_is_env_var(&prompt->cmd, garbage))
 		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt, garbage))
-		return ;
+		return (exec(check_cmd_in_env(prompt, garbage), prompt, garbage));
 	if (prompt->cmd[0] == '\0')
 		prompt->cmd = "''";
 	printf("%s unknown command with argument(s) ", prompt->cmd);
@@ -97,8 +97,9 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, prompt);
 	prompt->write_fd = -1;
-	prompt->old_stdout = -1;
-	prompt->old_stdin = -1;
+	prompt->old_stdout = dup(1);
+	prompt->old_stdin = dup(0);
+	pipe(prompt->heredoc_fd);
 	prompt->d_quotes = 0;
 	prompt->quotes = 0;
 	prompt->args = NULL;

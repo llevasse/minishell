@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 15:04:05 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/11 19:58:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_prompt
 	int					write_fd;
 	int					old_stdout;
 	int					old_stdin;
+	int					heredoc_fd[2];
 	char				*cmd;
 	char				**args;
 	t_export			*export_args;
@@ -109,7 +110,7 @@ void		delete_unwanted_files(char **files, char *pattern,
 int			respect_pattern(char *str, char *pattern, char **keys);
 
 // env.c
-int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
+char		*check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
 int			check_present_in_path(t_prompt *prompt, char *path,
 				t_garbage *garbage);
 int			check_is_env_var(char **str, t_garbage *garbage);
