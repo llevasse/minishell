@@ -6,13 +6,14 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/11 17:25:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 17:41:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern char	**environ;
+extern t_minishell *g_minishell;
 
 void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 {
@@ -28,7 +29,8 @@ void	false_exec(char *path, t_prompt *prompt, t_garbage *garbage)
 	else if (pid == 0)
 	{
 		execve(argv[0], argv, environ);
-		exit(errno);
+		errno = 1; //if cmd is gcc and no argument is passed, errno is not set accordigly :(
+		exit(1);
 	}
 	else
 		wait(NULL);
