@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 21:36:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:05:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,39 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
 	parse_args(prompt, prompt->args, garbage);
 	input += i;
+}
+
+char	**get_full_args(t_prompt *prompt, t_garbage *garbage)
+{
+	int			nb;
+	int			i;
+	char		**new;
+	t_prompt	*temp;
+
+	nb = 0;
+	temp = prompt;
+	while (temp)
+	{
+		nb += get_tab_size(temp->args) + 2;
+		temp = temp->next_cmd;
+	}
+	temp = prompt;
+	i = 0;
+	new = malloc(nb * sizeof(char**));
+	ft_add_garbage(0, &garbage, new);
+	while (temp)
+	{
+		nb = 0;
+		new[i++] = temp->cmd;
+		while (temp->args && temp->args[nb])
+			new[i++] = temp->args[nb++];
+		if (temp->next_cmd)
+			new[i++] = "|";
+		else 
+			break ;
+		temp = temp->next_cmd;
+	}
+	return (new[i] = NULL, new);
 }
 
 void	delete_redirection(char **args)

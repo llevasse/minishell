@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/07 22:54:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:58:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	**get_files_in_dir(char *path, t_garbage *garbage);
 
 // srcs/parsing/args/args.c:
 void	get_args(t_prompt *prompt, char *input, t_garbage *garbage);
+char	**get_full_args(t_prompt *prompt, t_garbage *garbage);
 void	delete_redirection(char **args);
 void	printf_args(char **tab, char *prompt);
 void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 15:13:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:59:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	parse(char *input, t_garbage *garbage)
 	prompt = init_prompt(input, garbage);
 	if (!prompt->cmd)
 		return ;
+	prompt->full_args = get_full_args(prompt, garbage);
+	printf_args(prompt->full_args, "Full args :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
 	if (prompt->next_cmd)

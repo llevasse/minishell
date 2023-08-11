@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/11 17:41:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:51:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	get_tab_size(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab && tab[i])
 		i++;
 	return (i);
 }
