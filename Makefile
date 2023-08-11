@@ -6,7 +6,7 @@ RM		=	rm -rf
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m
 YELLOW		=	\033[0;33m
-NC		=	\033[0m
+NC			=	\033[0m
 #---LIBFT_VAR-------------------------------------
 LIBFT_PATH	=	libft/
 LIBFT_NAME	=	libft.a
@@ -42,14 +42,14 @@ SRC		=	srcs/minishell.c \
 
 OBJS_DIR	=	.OBJS/
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
-HEADER		=	headers
+HEADER		=	headers/
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS) lib norm Makefile $(HEADER)/minishell.h
+$(NAME):		$(OBJS) lib Makefile $(HEADER)/minishell.h
 				@$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
-$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib Makefile $(HEADER)/minishell.h
+$(OBJS_DIR)%.o:	%.c | lib norm Makefile $(HEADER)/minishell.h
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 $(OBJS_DIR):
