@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/10 11:35:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:42:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "structs.h"
 # include "args.h"
 # include "direction.h"
+# include "messages.h"
 
 // SRCS/PARSE //
 
