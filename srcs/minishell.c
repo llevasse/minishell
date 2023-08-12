@@ -29,7 +29,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 	{
 		write(1, CTRL_C, 3);
 		rl_on_new_line();
-		rl_replace_line("", 0);
+		//rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	(void)info;

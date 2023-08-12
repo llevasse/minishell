@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
-
+#include<string.h>
 extern char	**environ;
 extern t_minishell *g_minishell;
 
@@ -29,35 +29,39 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
 
 	i = 0;
 	tmp_fd = dup(STDIN_FILENO);
-	while (prompt->full_args[i] && prompt->full_args[i + 1])
+	while (prompt->full_args[i])
 	{
-		prompt->full_args = &prompt->full_args[i + 1];
-		i = 0;
-		while (prompt->full_args[i] && ft_strcmp(prompt->full_args[i], ";") && ft_strcmp(prompt->full_args[i], "|"))
+		if (i != 0)
+			prompt->full_args = &prompt->full_args[i + 1];
+		while (prompt->full_args[i] && strcmp(prompt->full_args[i], ";") && strcmp(prompt->full_args[i], "|"))
 			i++;
-		if (ft_strcmp(prompt->full_args[0], "cd") == 0) {
-			if (i != 2)
-				ft_putstr_error("error : cd : bad arguments", NULL);
-			else if (chdir(prompt->full_args[1]) != 0)
-				ft_putstr_error("error : cd : cannot change directory to ", prompt->full_args[1]);
-		} else if (i != 0 && (prompt->full_args[i] == NULL || !ft_strcmp(prompt->full_args[i], ";"))) {
-			if (fork() == 0) {
-				if (ft_execute(prompt->full_args, i, tmp_fd, prompt->full_args))
-					return;
-			} else {
+		if (i != 0 && (prompt->full_args[i] == NULL || !strcmp(prompt->full_args[i], ";")))
+		{
+			if (fork() == 0)
+			{
+				if (ft_execute(prompt->full_args, i, tmp_fd, environ))
+					break;
+			}
+			else
+			{
 				close(tmp_fd);
 				while (waitpid(-1, NULL, WUNTRACED) != -1);
 				tmp_fd = dup(STDIN_FILENO);
 			}
-		} else if (i != 0 && !ft_strcmp(prompt->full_args[i], "|")) {
+		}
+		else if (i != 0 && !strcmp(prompt->full_args[i], "|"))
+		{
 			pipe(fd);
-			if (fork() == 0) {
+			if (fork() == 0)
+			{
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
 				if (ft_execute(prompt->full_args, i, tmp_fd, environ))
-					return ;
-			} else {
+					break ;
+			}
+			else
+			{
 				close(fd[1]);
 				close(tmp_fd);
 				tmp_fd = fd[0];
