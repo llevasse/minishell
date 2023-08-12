@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 16:30:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 19:03:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ void	printf_args(char **tab, char *prompt)
 	printf("%s", prompt);
 	while (tab && tab[i])
 		printf(" %s", tab[i++]);
+	printf(" %s", tab[i]);
 	printf("\n");
 }
 

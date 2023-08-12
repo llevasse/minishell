@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/12 18:37:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 19:09:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,13 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	tmp_fd = dup(STDIN_FILENO);
 	while (prompt->full_args[i])
 	{
-		if (i != 0)
-			prompt->full_args = &prompt->full_args[i + 1];
-		while (prompt->full_args[i] && strcmp(prompt->full_args[i], ";") && strcmp(prompt->full_args[i], "|"))
+		if (i != 0 && prompt->full_args[i + 1])
+		{
+			prompt->full_args += i + 1;
+			i = 0;
+		}
+		while (prompt->full_args[i] && \
+				strcmp(prompt->full_args[i], ";") && strcmp(prompt->full_args[i], "|"))
 			i++;
 		if (i != 0 && (prompt->full_args[i] == NULL || !strcmp(prompt->full_args[i], ";")))
 		{
