@@ -19,7 +19,8 @@ static int ft_putstr_error(char *str, char *arg);
 static int ft_execute(char **args, int i, int tmp_fd, char **envp);
 static char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage);
 
-void	exec(char *path, t_prompt *prompt, t_garbage *garbage) {
+void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
+{
 	int i;
 	int fd[2];
 	int tmp_fd;
@@ -31,12 +32,12 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage) {
 		i = 0;
 		while (prompt->full_args[i] && ft_strcmp(prompt->full_args[i], ";") && ft_strcmp(prompt->full_args[i], "|"))
 			i++;
-		if (strcmp(prompt->full_args[0], "cd") == 0) {
+		if (ft_strcmp(prompt->full_args[0], "cd") == 0) {
 			if (i != 2)
 				ft_putstr_error("error : cd : bad arguments", NULL);
 			else if (chdir(prompt->full_args[1]) != 0)
 				ft_putstr_error("error : cd : cannot change directory to ", prompt->full_args[1]);
-		} else if (i != 0 && (prompt->full_args[i] == NULL || !strcmp(prompt->full_args[i], ";"))) {
+		} else if (i != 0 && (prompt->full_args[i] == NULL || !ft_strcmp(prompt->full_args[i], ";"))) {
 			if (fork() == 0) {
 				if (ft_execute(prompt->full_args, i, tmp_fd, prompt->full_args))
 					return;
@@ -45,7 +46,7 @@ void	exec(char *path, t_prompt *prompt, t_garbage *garbage) {
 				while (waitpid(-1, NULL, WUNTRACED) != -1);
 				tmp_fd = dup(STDIN_FILENO);
 			}
-		} else if (i != 0 && !strcmp(prompt->full_args[i], "|")) {
+		} else if (i != 0 && !ft_strcmp(prompt->full_args[i], "|")) {
 			pipe(fd);
 			if (fork() == 0) {
 				dup2(fd[1], STDOUT_FILENO);
