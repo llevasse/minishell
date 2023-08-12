@@ -47,7 +47,7 @@ HEADER		=	headers/
 all:			norm lib $(NAME)
 
 $(NAME):		$(OBJS_DIR)	$(OBJS) lib Makefile $(HEADER)/minishell.h
-				@$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
+				@$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) $(LIBFT) -lreadline  -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
 $(OBJS_DIR)%.o:	%.c | lib norm Makefile $(HEADER)/minishell.h

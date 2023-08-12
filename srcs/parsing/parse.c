@@ -66,8 +66,8 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	if (!prompt->d_quotes && !prompt->quotes && \
 			check_quotes(prompt, &prompt->cmd, garbage))
 		return (check_cmd(prompt, garbage));
-//	if (!prompt->quotes && check_is_env_var(&prompt->cmd, garbage))
-//		return (check_cmd(prompt, garbage));
+	if (!prompt->quotes && check_is_env_var(&prompt->cmd, garbage))
+		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt, garbage))
 		return ;
 	else

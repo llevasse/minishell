@@ -62,18 +62,18 @@ LIST_FILES		=	list/ft_lstadd_back.c \
 					list/ft_lstdelone.c \
 					list/ft_lstadd_front.c
 INT_FILES		=	ft_atoi.c
-PRINTF_FILES	=	ft_printf/flags/print_precision.c \
-					ft_printf/flags/print_field_width.c \
-					ft_printf/flags/print_space.c \
-					ft_printf/flags/get_details.c \
-					ft_printf/flags/print_padding.c \
-					ft_printf/flags/print_plus.c \
-					ft_printf/flags/field_width_utils.c \
-					ft_printf/flags/predict.c \
-					ft_printf/flags/priorities.c \
-					ft_printf/flags/print_minus.c \
-					ft_printf/flags/print_pound.c
-PRINTF_FILES	=	ft_printf/ft_printf_utils.c \
+PRINTF_FILES	=	ft_printf/print_precision.c \
+					ft_printf/print_field_width.c \
+					ft_printf/print_space.c \
+					ft_printf/get_details.c \
+					ft_printf/print_padding.c \
+					ft_printf/print_plus.c \
+					ft_printf/field_width_utils.c \
+					ft_printf/predict.c \
+					ft_printf/priorities.c \
+					ft_printf/print_minus.c \
+					ft_printf/print_pound.c \
+					ft_printf/ft_printf_utils.c \
 					ft_printf/ft_printf.c
 
 JOINF_FILES		=	ft_joinf/ft_joinf_utils.c \
@@ -120,7 +120,6 @@ $(OBJS_DIR):
 				mkdir -p $(OBJS_DIR)boolean
 				mkdir -p $(OBJS_DIR)ft_joinf
 				mkdir -p $(OBJS_DIR)ft_printf
-				mkdir -p $(OBJS_DIR)ft_printf/flags
 				mkdir -p $(OBJS_DIR)gnl
 				mkdir -p $(OBJS_DIR)list
 				mkdir -p $(OBJS_DIR)memory
