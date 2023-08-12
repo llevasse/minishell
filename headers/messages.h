@@ -6,12 +6,12 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 17:29:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 16:41:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MESSAGES_H
-# define MESSAGES_S
+# define MESSAGES_H
 
 # define CTRL_C "^C"
 # define EXIT "exit\n"
