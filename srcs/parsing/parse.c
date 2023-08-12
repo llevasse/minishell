@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 17:00:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:37:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	if (!prompt->d_quotes && !prompt->quotes && \
 			check_quotes(prompt, &prompt->cmd, garbage))
 		return (check_cmd(prompt, garbage));
-	if (get_cmd_path(prompt, garbage))
-		return (exec(get_cmd_path(prompt, garbage), prompt, garbage));
-	else
-		exec(get_pwd(garbage), prompt, garbage);
+	exec(prompt, garbage);
 	if (errno == 127)
 		g_minishell.error_value = 127;
 }
@@ -100,6 +97,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 	else
 		cmd = ft_strsep(input, " ");
 	prompt->cmd = cmd;
+	prompt->cmd = get_cmd_w_path(prompt, garbage);
 }
 
 /// @brief Allocate memory and assign values to t_prompt.

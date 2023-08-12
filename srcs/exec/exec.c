@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/11 21:51:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:37:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,11 @@ static int ft_putstr_error(char *str, char *arg);
 static int ft_execute(char **args, int i, int tmp_fd, char **envp);
 //static char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage);
 
-void	exec(char *path, t_prompt *prompt, t_garbage *garbage)
+void	exec(t_prompt *prompt, t_garbage *garbage)
 {
 	int i;
 	int fd[2];
 	int tmp_fd;
-	(void)path;
 	(void)garbage;
 
 	i = 0;

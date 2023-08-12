@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 16:42:42 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/10 19:03:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:40:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	predict_len(const char *str, va_list args)
 		return (0);
 	base = NULL;
 	base = va_arg(args_cp, char *);
-	printf("%c : arg is |%s|",*str,  base);
 	if (base)
 		return (ft_strlen(base));
 	return (6);

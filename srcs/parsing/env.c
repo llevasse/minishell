@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 17:01:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 18:38:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern struct s_minishell	g_minishell;
 /// @brief Get path of cmd in env.
 /// @return If the path of cmd is found it will be returned,
 /// else NULL is returned.
-char	*get_cmd_path(t_prompt *prompt, t_garbage *garbage)
+char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*path;
 	char	*temp;
@@ -31,9 +31,14 @@ char	*get_cmd_path(t_prompt *prompt, t_garbage *garbage)
 		temp = ft_strsep(&path, ":");
 		has_exec = check_present_in_path(prompt, temp);
 }
-	if (!has_exec)
-		temp = NULL;
-	return (temp);
+	if (!has_exec && prompt->cmd[0] != '.')
+		return (prompt->cmd);
+	else if (!has_exec && prompt->cmd[0] == '.')
+		path = ft_joinf("%s/%s", get_pwd(garbage), prompt->cmd);
+	else
+		path = ft_joinf("%s/%s", temp, prompt->cmd);
+	ft_add_garbage(0, &garbage, path);
+	return (path);
 }
 
 /// @brief Check if prompt is a command present in path.
