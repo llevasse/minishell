@@ -42,6 +42,7 @@ int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;
+	(void)garbage;
 
 	current_dir = opendir(path);
 	if (!current_dir)
