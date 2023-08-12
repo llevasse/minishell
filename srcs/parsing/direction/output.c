@@ -6,95 +6,80 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 19:27:46 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/11 15:04:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../headers/minishell.h"
 
 /// @brief Handle output redirection in prompt.
-/// Close stdout fd and assign to output file fd 1, 
-/// So that execve will write into it.
-/// @param *input Prompt input,
 /// @param *prompt Pointer to prompt struct,
-/// @param *garbage Pointer to garbage collector.
-void	set_output(char *input, t_prompt *prompt, t_garbage *garbage)
+void	set_output(t_prompt *prompt)
 {
 	int			i;
-	char		*name;
+	int			fd;
 
-	i = get_char_pos(input, '>');
-	if (input[i + 1] == '>')
-		return (set_output_append(input, prompt, garbage));
-	i++;
-	while (input[i] && ft_isspace(input[i]))
-		i++;
-	if (!input[i])
-		return ((void)printf("Parsing error around >\n"));
-	if (get_char_pos(input + i, '>') != -1)
-		multiple_output(input, prompt, garbage);
-	input += i;
-	while (get_char_pos(input, '$') != -1)
-		check_is_env_var(&input, garbage);
-	name = ft_strsep(&input, " ");
-	prompt->old_stdout = dup(1);
-	close(1);
-	prompt->write_fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	i = get_last_output_index(prompt->args);
+	if (i == -1)
+		return ((void)(errno = 2, prompt->cmd = 0));
+	if (!prompt->args[i])
+		return ((void)printf(ERR_PARSE_OUTPUT));
+	if (prompt->old_stdout == -1)
+		prompt->old_stdout = dup(1);
+	if (!ft_strcmp(prompt->args[i - 1], ">>"))
+		fd = open(prompt->args[i], O_RDWR | O_APPEND | O_CREAT, 0666);
+	else
+		fd = open(prompt->args[i], O_RDWR | O_TRUNC | O_CREAT, 0666);
 	if (prompt->write_fd == -1)
+		printf(ERR_OPEN_F);
+	prompt->write_fd = fd;
+	dup2(prompt->write_fd, 1);
+}
+
+/// @brief Open and close file to verify it's existence and/or create it.
+/// @param **args Array of strings containing
+/// each element of shell input separated,
+/// @param index Index of element to open.
+void	tini_tiny_open(char **args, int index)
+{
+	int	fd;
+
+	if (!ft_strcmp(">>", args[index - 1]))
+		fd = open(args[index], O_RDWR | O_APPEND | O_CREAT, 0666);
+	else
+		fd = open(args[index], O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (fd != -1)
+		close(fd);
+}
+
+/// @brief Get index of file name to write into in an array of strings.
+/// @param **args Array of strings containing
+/// each element of shell input separated.
+/// @return Return Index of where the name of file to write in
+/// or -1 if none are found 
+/// (or an error occured).
+int	get_last_output_index(char **args)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = -1;
+	while (args[i])
 	{
-		printf("Error in opening file, set redirection to error output\n");
-		dup2(prompt->old_stdout, STDOUT_FILENO);
+		if (!ft_strcmp(">", args[i++]) || !ft_strcmp(">>", args[i - 1]))
+		{
+			if (args[i])
+				tini_tiny_open(args, i);
+			else
+			{
+				errno = 2;
+				return ((void)(printf(ERR_PARSE_OUTPUT)), -1);
+			}
+			j = i - 1;
+		}
 	}
-}
-
-/// @brief Get output redirection args ("> {file_name}")
-/// @param *input Prompt input,
-/// @param *garbage Pointer to garbage collector.
-/// @return Return a string in the format "> {file_name}"
-char	*get_output(char *input, t_garbage *garbage)
-{
-	char	*output;
-	int		i;
-	int		j;
-
-	i = get_char_pos(input, '>');
-	j = 0;
-	while (input[i + j] && (input[i + j] == '>' || ft_isspace(input[i + j])))
-		j++;
-	while (input[i + j] && !ft_isspace(input[i + j]))
-		j++;
-	output = malloc((j + 1) * sizeof(char));
-	ft_add_garbage(0, &garbage, output);
-	ft_strlcpy(output, input + i, j + 1);
-	return (output);
-}
-
-/// @brief Handle multiple output in prompt.
-/// Rerun check_cmd with one output redirection removed, 
-/// recursivly, until all output have been filled.
-/// @param *input Prompt input,
-/// @param *prompt Pointer to prompt struct,
-/// @param *garbage Pointer to garbage collector.
-void	multiple_output(char *input, t_prompt *prompt, t_garbage *garbage)
-{
-	char		*output;
-	char		*dup_input;	
-	t_prompt	*new_prompt;
-
-	new_prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(0, &garbage, new_prompt);
-	output = get_output(input, garbage);
-	dup_input = ft_strdup(input);
-	replace_str(&dup_input, output, "", garbage);
-	new_prompt->write_fd = -1;
-	new_prompt->d_quotes = prompt->d_quotes;
-	new_prompt->quotes = prompt->d_quotes;
-	new_prompt->args = NULL;
-	new_prompt->export_args = NULL;
-	new_prompt->cmd = prompt->cmd;
-	get_args(new_prompt, dup_input, garbage);
-	check_redirection(dup_input, new_prompt, garbage);
-	check_cmd(new_prompt, garbage);
-	replace_str(&input, get_output(dup_input, garbage), "", garbage);
-	parse_args(NULL, prompt->args, NULL);
+	if (j == -1)
+		return (-1);
+	return (j + 1);
 }

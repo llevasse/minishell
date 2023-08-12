@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 19:22:07 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/11 14:49:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,24 @@ void	handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "^C\n", 3);
+		write(1, CTRL_C, 3);
 		rl_on_new_line();
-	//	rl_replace_line("minishell >>", 1);
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	(void)info;
 	(void)context;
+}
+
+char *get_mini_prompt(t_garbage *garbage)
+{
+	char	*prompt;
+	
+	prompt = ft_joinf(PROMPT, g_minishell.error_value);
+	if (!prompt)
+		return (MEM_ERR_PROMPT);
+	ft_add_garbage(0, &garbage, prompt);
+	return (prompt);
 }
 
 int	main(void)
@@ -62,7 +73,13 @@ int	main(void)
 		return (1);
 	while (42)
 	{
-		s = readline("minishell >>");
+		g_minishell.error_value = errno;
+		s = readline(get_mini_prompt(garbage));
+		if (s == NULL)
+		{
+			printf(EXIT);
+			ft_exit(garbage, NULL);
+		}
 		add_history(s);
 		parse(s, garbage);
 		free_garbage(garbage);

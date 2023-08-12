@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:26:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 22:05:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,69 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		return (get_export_args(prompt, input, garbage));
 	separate_cmd(prompt, input, garbage);
 	prompt->args = ft_split_args(prompt, input, ' ', garbage);
-	if (!prompt->args)
-		return (ft_exit(garbage));
 	parse_args(prompt, prompt->args, garbage);
 	input += i;
 }
 
-void	delete_redirection(int i, char **args)
+char	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 {
-	if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
-	(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
-	(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+	int			nb;
+	int			i;
+	char		**new;
+	t_prompt	*temp;
+
+	nb = 0;
+	temp = prompt;
+	while (temp)
 	{
-		delete_element_at_index(args, i);
-		delete_element_at_index(args, i);
+		nb += get_tab_size(temp->args) + 2;
+		temp = temp->next_cmd;
 	}
-	else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
-	!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-		delete_element_at_index(args, i);
+	temp = prompt;
+	i = 0;
+	new = malloc(nb * sizeof(char**));
+	ft_add_garbage(0, &garbage, new);
+	while (temp)
+	{
+		nb = 0;
+		new[i++] = temp->cmd;
+		while (temp->args && temp->args[nb])
+			new[i++] = temp->args[nb++];
+		if (temp->next_cmd)
+			new[i++] = "|";
+		else 
+			break ;
+		temp = temp->next_cmd;
+	}
+	return (new[i] = NULL, new);
+}
+
+void	delete_redirection(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+	{
+		if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
+		(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
+		(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
+		(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+		{
+			if (args[i + 1])
+			{
+				delete_element_at_index(args, i);
+				delete_element_at_index(args, i);
+			}
+			else
+				delete_element_at_index(args, i);
+		}
+		else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
+		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+			delete_element_at_index(args, i);
+		else
+			i++;
+	}
 }
 
 void	printf_args(char **tab, char *prompt)
@@ -51,7 +95,7 @@ void	printf_args(char **tab, char *prompt)
 
 	i = 0;
 	printf("%s", prompt);
-	while (tab[i])
+	while (tab && tab[i])
 		printf(" %s", tab[i++]);
 	printf("\n");
 }
@@ -66,7 +110,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	int	i;
 
 	i = 0;
-	check_for_wildcard(prompt, args, 0, garbage);
+	check_for_wildcard(prompt, args, i, garbage);
 	while (args[i])
 	{
 		if (args[i] && args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
@@ -82,8 +126,6 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 			if (!prompt->quotes)
 				check_is_env_var(&args[i], garbage);
 		}
-		else if (args[i])
-			delete_redirection(i, args);
 		i++;
 	}
 }

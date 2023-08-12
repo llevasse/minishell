@@ -6,25 +6,41 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/11 19:51:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 21:51:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 
-extern char **environ;
+extern char	**environ;
+extern t_minishell *g_minishell;
 
 
-static int get_execute(char **argv, char **envp);
+	argv = pass_args_exec(path, prompt, garbage);
+	if (access(argv[0], X_OK) == -1)
+		return (print_unknown_cmd(prompt), (void)(errno = 127));
+	pid = fork();
+	if (pid == -1)
+		return ((void)write(2, "fork error\n", 11), exit(-1));
+	else if (pid == 0)
+	{
+		execve(argv[0], argv, environ);
+		errno = 1; //if cmd is gcc and no argument is passed, errno is not set accordigly :(
+		exit(1);
+	}
+	else
+		wait(NULL);
+}
 
+/// @brief Get number of element in **tab.
+/// @param **tab Pointer to pointers of char.
+/// @return Return number of element in tab.
 int	get_tab_size(char **tab)
 {
 	int	i;
 
 	i = 0;
-	if (!tab || !*tab )
-		return (0);
-	while (tab[i])
+	while (tab && tab[i])
 		i++;
 	return (i);
 }
@@ -39,6 +55,9 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	{
 		prompt->args = malloc(sizeof(char *) * 2);
 		ft_add_garbage(0, &garbage, prompt->args);
+		prompt->args[0] = NULL;
+		if (!ft_strcmp(prompt->cmd, "ls"))
+			prompt->args[0] = getenv("PWD");
 		prompt->args[1] = NULL;
 	}
 	argv = malloc(sizeof(char *) * (get_tab_size(prompt->args) + 2));

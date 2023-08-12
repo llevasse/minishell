@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/01 15:57:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/11 14:59:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 	else
 		check_is_env_var(&key, garbage);
 	if (key[0] == '\0')
-		return ((void)printf("Bad assignment\n"), NULL);
+		return ((void)printf(BAD_ASS), NULL);
 	if (get_char_pos(key, '$') != -1)
-		return ((void)printf("Invalid key : %s\n", key), NULL);
+		return ((void)printf(BAD_KEY, key), NULL);
 	return (key);
 }
 
@@ -76,18 +76,19 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 	check_is_env_var(&content, garbage);
 	if (**input == '"')
 	{
-		no_end_quote(input, '"', "dquote>", garbage);
+		prompt->d_quotes = 1;
+		no_end_quote(input, '"', W_DQUOTE, garbage);
 		content = get_quoted_str(*input, '"', 1, garbage);
 	}
 	else if (**input == 39) 
 	{
-		no_end_quote(input, 39, "quote>", garbage);
+		prompt->quotes = 1;
+		no_end_quote(input, 39, W_QUOTE, garbage);
 		content = get_quoted_str(*input, 39, 0, garbage);
 	}
 	else
 		content = ft_strdup(ft_strsep(input, " "));
 	ft_add_garbage(0, &garbage, content);
-	(void)prompt;
 	return (content);
 }
 
@@ -106,7 +107,7 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	{
 		equal_pos = get_char_pos(input, '=');
 		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
-			return ((void)printf("Bad assignment\n"));
+			return ((void)printf(BAD_ASS));
 		key = get_key(prompt, &input, garbage);
 		content = get_content(prompt, &input, garbage);
 		ft_add_export(&prompt->export_args, key, content, garbage);

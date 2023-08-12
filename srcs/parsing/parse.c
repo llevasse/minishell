@@ -3,22 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 14:50:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/11 19:59:12 by llevasse         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 23:48:41 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/11 21:59:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +20,17 @@ void	parse(char *input, t_garbage *garbage)
 	t_prompt	*prompt;
 
 	if (!input)
-		ft_exit(garbage);
+		return ;
 	if (!*input)
 		return ;
 	prompt = init_prompt(input, garbage);
+	if (!prompt->cmd)
+		return ;
+	prompt->full_args = get_full_args(prompt, garbage);
+	printf_args(prompt->full_args, "Full args :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
-//	if (prompt->next_cmd)
-//		check_cmd(prompt->next_cmd, garbage);
+		reset_stdio_fd(prompt->next_cmd);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -50,7 +42,7 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 	if (!ft_strcmp(prompt->cmd, "env"))
 		return (ft_env(), 1);
 	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(garbage), 1);
+		return (ft_exit(garbage, prompt->args), 1);
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (ft_export(prompt), 1);
 	if (!ft_strcmp(prompt->cmd, "pwd"))
@@ -64,26 +56,49 @@ int	check_builtin(t_prompt *prompt, t_garbage *garbage)
 /// @param *cmd Pointer to t_prompt;
 void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 {
-	int	i;
-
-	if (!prompt)
-		return ;
-	i = 0;
+	if (!ft_strcmp(prompt->cmd, ""))
+	{
+		prompt->cmd = "''";
+		return ((void)(print_unknown_cmd(prompt), errno = 127));
+	}
 	if (check_builtin(prompt, garbage))
 		return ;
 	if (!prompt->d_quotes && !prompt->quotes && \
 			check_quotes(prompt, &prompt->cmd, garbage))
 		return (check_cmd(prompt, garbage));
-	if (!prompt->quotes && check_is_env_var(&prompt->cmd, garbage))
-		return (check_cmd(prompt, garbage));
+//	if (!prompt->quotes && check_is_env_var(&prompt->cmd, garbage))
+//		return (check_cmd(prompt, garbage));
 	if (check_cmd_in_env(prompt, garbage))
-		return (exec(check_cmd_in_env(prompt, garbage), prompt, garbage));
-	if (prompt->cmd[0] == '\0')
-		prompt->cmd = "''";
-	printf("%s unknown command with argument(s) ", prompt->cmd);
-	while (prompt->args && prompt->args[i])
-		printf("%s ", prompt->args[i++]);
-	printf("\n");
+		return ;
+	else
+		false_exec(get_pwd(garbage), prompt, garbage);
+	if (errno == 127)
+		g_minishell.error_value = 127;
+}
+
+void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
+{
+	char	*cmd;
+
+	if ((*input)[0] == '"')
+	{
+		prompt->d_quotes = 1;
+		if (get_char_occurance(*input, '"') % 2 != 0)
+			no_end_quote(input, '"', W_DQUOTE, garbage);
+		cmd = get_quoted_str(*input, '"', 1, garbage);
+		(*input) += 2 + get_char_pos((*input) + 1, '"');
+	}
+	else if ((*input)[0] == 39)
+	{
+		prompt->quotes = 1;
+		if (get_char_occurance(*input, 39) % 2 != 0)
+			no_end_quote(input, 39, W_QUOTE, garbage);
+		cmd = get_quoted_str(*input, 39, 0, garbage);
+		(*input) += 2 + get_char_pos((*input) + 1, 39);
+	}
+	else
+		cmd = ft_strsep(input, " ");
+	prompt->cmd = cmd;
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
@@ -105,8 +120,9 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->args = NULL;
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
+	prompt->heredoc_fd[0] = -1;
 	len = ft_strlen(input);
-	prompt->cmd = ft_strsep(&input, " ");
+	get_cmd(&input, prompt, garbage);
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
@@ -119,7 +135,7 @@ void	ft_add_prompt(t_prompt **lst, t_prompt *new)
 	t_prompt	*temp;
 
 	if (!new)
-		return (ft_exit(g_minishell.garbage));
+		return (ft_exit(g_minishell.garbage, NULL));
 	if (*lst)
 	{
 		temp = *lst;

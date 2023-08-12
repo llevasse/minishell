@@ -42,15 +42,15 @@ SRC		=	srcs/minishell.c \
 
 OBJS_DIR	=	.OBJS/
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
-HEADER		=	headers/minishell.h
+HEADER		=	headers/
 #---RULES----------------------------------------
 all:			norm lib $(NAME)
 
-$(NAME):		$(OBJS) lib norm Makefile $(HEADER)
+$(NAME):		$(OBJS_DIR)	$(OBJS) lib Makefile $(HEADER)/minishell.h
 				@$(CC) $(FLAGS) -g -I $(HEADER) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
-$(OBJS_DIR)%.o:	%.c | $(OBJS_DIR) lib Makefile $(HEADER)/minishell.h
+$(OBJS_DIR)%.o:	%.c | lib norm Makefile $(HEADER)/minishell.h
 				$(CC) $(FLAGS) -g -I $(HEADER) -c $< -o $@
 
 lib:			$(LIBFT_PATH)

@@ -6,11 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 19:57:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/07 17:43:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
+
+extern struct s_minishell	g_minishell; 
 
 /// @brief Check if cmd in a command present in env.
 /// @return If cmd is found return 1 else 0.
@@ -84,6 +86,12 @@ int	check_is_env_var(char **str, t_garbage *garbage)
 
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
+	if ((*str)[get_char_pos(*str, '$') + 1] == '?')
+	{
+		var = ft_itoa(g_minishell.error_value);
+		ft_add_garbage(0, &garbage, var);
+		replace_str(str, "$?", var, garbage);
+	}
 	while (get_char_pos(*str, '$') >= 0)
 	{
 		var = get_env_var_name(*str, garbage);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 15:07:27 by levasse           #+#    #+#             */
-/*   Updated: 2023/07/26 22:51:05 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/10 18:48:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	predict_len(const char *str, va_list args)
 	if (*str != 's')
 		return (0);
 	base = va_arg(args, char *);
+	if (*base == 0)
+		return (0);
 	if (base)
 		return (ft_strlen(base));
 	return (6);

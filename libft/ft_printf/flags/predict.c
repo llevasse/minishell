@@ -6,11 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 16:42:42 by llevasse          #+#    #+#             */
-/*   Updated: 2023/05/25 16:07:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/10 19:03:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../ft_printf.h"
+
+#include <stdio.h>
 
 int	predict_len(const char *str, va_list args)
 {
@@ -28,12 +30,14 @@ int	predict_len(const char *str, va_list args)
 	if (*str == 'u')
 		return (get_unsigned_len(va_arg(args_cp, unsigned int)));
 	if (*str == 'x' || *str == 'X')
-		return (get_size_base(va_arg(args_cp, int), base));
+		return (get_size_base(va_arg(args_cp, int), "0123456789abcdef"));
 	if (*str == 'p')
 		return (get_size_base_u(va_arg(args_cp, unsigned long long), base));
 	if (*str != 's')
 		return (0);
+	base = NULL;
 	base = va_arg(args_cp, char *);
+	printf("%c : arg is |%s|",*str,  base);
 	if (base)
 		return (ft_strlen(base));
 	return (6);
