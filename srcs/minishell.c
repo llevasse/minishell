@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 14:49:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 22:26:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,11 @@ int	main(void)
 	sa.sa_sigaction = &handler;
 	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
 		return (1);
+	g_minishell.error_value = 0;
 	while (42)
 	{
-		g_minishell.error_value = errno;
+		if (g_minishell.error_value == 0)
+			g_minishell.error_value = errno;
 		s = readline(get_mini_prompt(garbage));
 		if (s == NULL)
 		{

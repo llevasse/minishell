@@ -6,14 +6,14 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/12 22:11:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 22:39:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../headers/minishell.h"
 #include<string.h>
 extern char	**environ;
-extern t_minishell *g_minishell;
+extern t_minishell g_minishell;
 
 static int ft_putstr_error(char *str, char *arg);
 static int ft_execute(char **args, int i, int tmp_fd, char **envp);
@@ -25,6 +25,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	int fd[2];
 	int tmp_fd;
 	int	pid;
+	int	value;
 	(void)garbage;
 
 	i = 0;
@@ -50,7 +51,9 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			else
 			{
 				close(tmp_fd);
-				waitpid(pid, &errno, WUNTRACED);
+				waitpid(pid, &value, WUNTRACED);
+				if (WIFEXITED(value))
+					errno = WEXITSTATUS(value);
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
