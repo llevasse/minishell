@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 22:05:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 16:30:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,30 @@ char	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 		temp = temp->next_cmd;
 	}
 	return (new[i] = NULL, new);
+}
+
+void	print_unknown_cmd(t_prompt *prompt)
+{
+	int	i;
+
+	i = 0;
+	printf("%s unknown command with argument(s) ", prompt->cmd);
+	while (prompt->args && prompt->args[i])
+		printf("\"%s\" ", prompt->args[i++]);
+	printf("\n");
+}
+
+/// @brief Get number of element in **tab.
+/// @param **tab Pointer to pointers of char.
+/// @return Return number of element in tab.
+int	get_tab_size(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab && tab[i])
+		i++;
+	return (i);
 }
 
 void	delete_redirection(char **args)

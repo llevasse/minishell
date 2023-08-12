@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 21:59:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 16:30:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	parse(char *input, t_garbage *garbage)
 	printf_args(prompt->full_args, "Full args :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
-	if (prompt->next_cmd)
-	{
-		check_cmd(prompt->next_cmd, garbage);
-		reset_stdio_fd(prompt->next_cmd);
-	}
+//	if (prompt->next_cmd)
+//	{
+//		check_cmd(prompt->next_cmd, garbage);
+//		reset_stdio_fd(prompt->next_cmd);
+//	}
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -74,7 +74,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	if (check_cmd_in_env(prompt, garbage))
 		return ;
 	else
-		false_exec(get_pwd(garbage), prompt, garbage);
+		exec(get_pwd(garbage), prompt, garbage);
 	if (errno == 127)
 		g_minishell.error_value = 127;
 }
