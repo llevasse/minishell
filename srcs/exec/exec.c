@@ -15,37 +15,78 @@
 extern char	**environ;
 extern t_minishell *g_minishell;
 
+static int ft_putstr_error(char *str, char *arg);
+static int ft_execute(char **args, int i, int tmp_fd, char **envp);
+static char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage);
 
-	argv = pass_args_exec(path, prompt, garbage);
-	if (access(argv[0], X_OK) == -1)
-		return (print_unknown_cmd(prompt), (void)(errno = 127));
-	pid = fork();
-	if (pid == -1)
-		return ((void)write(2, "fork error\n", 11), exit(-1));
-	else if (pid == 0)
-	{
-		execve(argv[0], argv, environ);
-		errno = 1; //if cmd is gcc and no argument is passed, errno is not set accordigly :(
-		exit(1);
-	}
-	else
-		wait(NULL);
-}
-
-/// @brief Get number of element in **tab.
-/// @param **tab Pointer to pointers of char.
-/// @return Return number of element in tab.
-int	get_tab_size(char **tab)
-{
-	int	i;
+void	exec(char *path, t_prompt *prompt, t_garbage *garbage) {
+	int i;
+	int fd[2];
+	int tmp_fd;
 
 	i = 0;
-	while (tab && tab[i])
-		i++;
-	return (i);
+	tmp_fd = dup(STDIN_FILENO);
+	while (prompt->full_args[i] && prompt->full_args[i + 1]) {
+		prompt->full_args = &prompt->full_args[i + 1];
+		i = 0;
+		while (prompt->full_args[i] && ft_strcmp(prompt->full_args[i], ";") && ft_strcmp(prompt->full_args[i], "|"))
+			i++;
+		if (strcmp(prompt->full_args[0], "cd") == 0) {
+			if (i != 2)
+				ft_putstr_error("error : cd : bad arguments", NULL);
+			else if (chdir(prompt->full_args[1]) != 0)
+				ft_putstr_error("error : cd : cannot change directory to ", prompt->full_args[1]);
+		} else if (i != 0 && (prompt->full_args[i] == NULL || !strcmp(prompt->full_args[i], ";"))) {
+			if (fork() == 0) {
+				if (ft_execute(prompt->full_args, i, tmp_fd, prompt->full_args))
+					return;
+			} else {
+				close(tmp_fd);
+				while (waitpid(-1, NULL, WUNTRACED) != -1);
+				tmp_fd = dup(STDIN_FILENO);
+			}
+		} else if (i != 0 && !strcmp(prompt->full_args[i], "|")) {
+			pipe(fd);
+			if (fork() == 0) {
+				dup2(fd[1], STDOUT_FILENO);
+				close(fd[0]);
+				close(fd[1]);
+				if (ft_execute(prompt->full_args, i, tmp_fd, environ))
+					return ;
+			} else {
+				close(fd[1]);
+				close(tmp_fd);
+				tmp_fd = fd[0];
+			}
+		}
+	}
+	close(tmp_fd);
+	return;
 }
 
-char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
+static int ft_putstr_error(char *str, char *arg)
+{
+	while (str && *str)
+		write(2, str++, 1);
+	if (arg)
+		while (*arg)
+			write(2, arg++, 1);
+	write(2, "\n", 1);
+	return (1);
+}
+
+static int ft_execute(char **args, int i, int tmp_fd, char **envp)
+{
+	args[i] = NULL;
+	dup2(tmp_fd, STDIN_FILENO);
+	close(tmp_fd);
+	execve(args[0], args, envp);
+	return (ft_putstr_error("error : cannot execute ", args[0]));
+}
+
+
+
+static char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 {
 	char	**argv;
 	char	*cmd_path;
@@ -74,69 +115,4 @@ char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 	}
 	argv[i + 1] = NULL;
 	return (argv);
-}
-
-void	exec(t_prompt *prompt, t_garbage *garbage)
-{
-	char **args = NULL;
-	while(prompt->cmd)
-	{
-		args = get_exec_args(prompt, garbage);
-		if (!prompt->next_cmd)
-		{
-			if (fork() == 0)
-			{
-				reset_stdio_fd(prompt);
-				if (get_execute(args, environ))
-					break ;
-			}
-			else
-			{
-				reset_stdio_fd(prompt);
-				while (waitpid(-1, NULL, WUNTRACED) != -1)
-					;
-			}
-		}
-		else if (prompt->next_cmd)
-		{
-			//pipe_fd[0] - read
-			//pipe_fd[1] - write
-			if (fork() == 0)
-			{
-				dup2(prompt->heredoc_fd[1], STDOUT_FILENO);
-				if (get_execute(args, environ))
-					break ;
-			}
-			else
-			{
-				dup2(prompt->heredoc_fd[1], STDOUT_FILENO);
-				while (waitpid(-1, NULL, WUNTRACED) != -1)
-					;
-				close(prompt->heredoc_fd[1]);
-				dup2(prompt->heredoc_fd[0], prompt->next_cmd->heredoc_fd[1]);
-				dup2(prompt->next_cmd->heredoc_fd[1], STDIN_FILENO);
-			}
-		}
-		if (prompt->next_cmd)
-			prompt = prompt->next_cmd;
-		else
-			break ;
-	}
-}
-
-static int ft_putstr_error(char *str, char *arg)
-{
-	while (str && *str)
-		write(2, str++, 1);
-	if (arg)
-		while (*arg)
-			write(2, arg++, 1);
-	write(2, "\n", 1);
-	return (1);
-}
-
-static int get_execute(char **args, char **envp)
-{
-	execve(args[0], args, envp);
-	return (ft_putstr_error("error : cannot execute ", args[0]));
 }

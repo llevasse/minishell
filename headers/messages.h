@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef MESSAGES_H
-# define MESSAGES_S
+# define MESSAGES_H
 
 # define CTRL_C "^C"
 # define EXIT "exit\n"

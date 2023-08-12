@@ -72,9 +72,10 @@ PRINTF_FILES	=	ft_printf/flags/print_precision.c \
 					ft_printf/flags/predict.c \
 					ft_printf/flags/priorities.c \
 					ft_printf/flags/print_minus.c \
-					ft_printf/flags/print_pound.c \
-					ft_printf/ft_printf_utils.c \
+					ft_printf/flags/print_pound.c
+PRINTF_FILES	=	ft_printf/ft_printf_utils.c \
 					ft_printf/ft_printf.c
+
 JOINF_FILES		=	ft_joinf/ft_joinf_utils.c \
 					ft_joinf/ft_joinf.c
 
@@ -107,24 +108,24 @@ all:			$(NAME)
 
 $(NAME):		$(OBJS) $(HEADER)
 				ar rcs $(NAME) $(OBJS)
-				@echo "$(GREEN)Libft compiled :D$(NC)"
-				@norminette $(FILES)libft.h | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
+				echo "$(GREEN)Libft compiled :D$(NC)"
+				norminette $(FILES)libft.h | awk '$$NF!="OK!" {print "$(RED)" $$0 "$(NC)"}'
 
 
 $(OBJS_DIR)%.o:	%.c Makefile | $(OBJS_DIR)
-				@$(CC) $(FLAGS) -c $< -o $@
+				$(CC) $(FLAGS) -c $< -o $@
 
 $(OBJS_DIR):
-				@mkdir -p $(OBJS_DIR)
-				@mkdir -p $(OBJS_DIR)boolean
-				@mkdir -p $(OBJS_DIR)ft_joinf
-				@mkdir -p $(OBJS_DIR)ft_printf
-				@mkdir -p $(OBJS_DIR)ft_printf/flags
-				@mkdir -p $(OBJS_DIR)gnl
-				@mkdir -p $(OBJS_DIR)list
-				@mkdir -p $(OBJS_DIR)memory
-				@mkdir -p $(OBJS_DIR)print
-				@mkdir -p $(OBJS_DIR)str
+				mkdir -p $(OBJS_DIR)
+				mkdir -p $(OBJS_DIR)boolean
+				mkdir -p $(OBJS_DIR)ft_joinf
+				mkdir -p $(OBJS_DIR)ft_printf
+				mkdir -p $(OBJS_DIR)ft_printf/flags
+				mkdir -p $(OBJS_DIR)gnl
+				mkdir -p $(OBJS_DIR)list
+				mkdir -p $(OBJS_DIR)memory
+				mkdir -p $(OBJS_DIR)print
+				mkdir -p $(OBJS_DIR)str
 
 clean:
 				rm -rf $(OBJS_DIR)$(OBJS)
