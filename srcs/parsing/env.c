@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 16:28:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 17:01:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,31 @@
 
 extern struct s_minishell	g_minishell; 
 
-/// @brief Check if cmd in a command present in env.
-/// @return If cmd is found return 1 else 0.
-int	check_cmd_in_env(t_prompt *prompt, t_garbage *garbage)
+/// @brief Get path of cmd in env.
+/// @return If the path of cmd is found it will be returned,
+/// else NULL is returned.
+char	*get_cmd_path(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*path;
+	char	*temp;
 	int		has_exec;
 
 	has_exec = 0;
 	path = ft_strdup(getenv("PATH"));
 	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
-		has_exec = check_present_in_path(prompt, 
-				ft_strsep(&path, ":"), garbage);
-	return (has_exec);
+	{
+		temp = ft_strsep(&path, ":");
+		has_exec = check_present_in_path(prompt, temp);
+}
+	if (!has_exec)
+		temp = NULL;
+	return (temp);
 }
 
 /// @brief Check if prompt is a command present in path.
 /// @return If cmd is found return 1 else 0.
-int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
+int	check_present_in_path(t_prompt *prompt, char *path)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;
@@ -44,7 +50,7 @@ int	check_present_in_path(t_prompt *prompt, char *path, t_garbage *garbage)
 	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);
 	if (dir_entry && !ft_strcmp(prompt->cmd, dir_entry->d_name))
-		return (exec(path, prompt, garbage), closedir(current_dir), 1);
+		return (1);
 	closedir(current_dir);
 	return (0);
 }

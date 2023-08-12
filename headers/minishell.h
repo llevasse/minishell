@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 16:29:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 16:59:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ int			check_builtin(t_prompt *prompt, t_garbage *garbage);
 char		*ft_strsep(char **p_str, const char *delim);
 
 // env.c
-int			check_cmd_in_env(t_prompt *prompt, t_garbage *garbage);
-int			check_present_in_path(t_prompt *prompt, char *path,
-				t_garbage *garbage);
+char		*get_cmd_path(t_prompt *prompt, t_garbage *garbage);
+int			check_present_in_path(t_prompt *prompt, char *path);
 int			check_is_env_var(char **str, t_garbage *garbage);
 char		*get_env_var_name(char *str, t_garbage *garbage);
 
