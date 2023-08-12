@@ -71,7 +71,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 	if (check_cmd_in_env(prompt, garbage))
 		return ;
 	else
-		false_exec(get_pwd(garbage), prompt, garbage);
+		exec(get_pwd(garbage), prompt, garbage);
 	if (errno == 127)
 		g_minishell.error_value = 127;
 }
