@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/12 19:09:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/12 22:11:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	int i;
 	int fd[2];
 	int tmp_fd;
+	int	pid;
 	(void)garbage;
 
 	i = 0;
@@ -40,7 +41,8 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			i++;
 		if (i != 0 && (prompt->full_args[i] == NULL || !strcmp(prompt->full_args[i], ";")))
 		{
-			if (fork() == 0)
+			pid = fork();
+			if (pid == 0)
 			{
 				if (ft_execute(prompt->full_args, i, tmp_fd, environ))
 					break;
@@ -48,7 +50,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			else
 			{
 				close(tmp_fd);
-				while (waitpid(-1, NULL, WUNTRACED) != -1);
+				waitpid(pid, &errno, WUNTRACED);
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
