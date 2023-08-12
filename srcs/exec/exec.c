@@ -88,6 +88,16 @@ static int ft_execute(char **args, int i, int tmp_fd, char **envp)
 	return (ft_putstr_error("error : cannot execute ", args[0]));
 }
 
+int	get_tab_size(char **tab)
+{
+	int i;
+
+	i = 0;
+	while(tab[i])
+		i++;
+	return (i);
+}
+
 //static char	**get_exec_args(char *path, t_prompt *prompt, t_garbage *garbage)
 //{
 //	char	**argv;
