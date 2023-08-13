@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/13 14:13:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/13 14:25:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,23 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	check_builtin(t_prompt *prompt, t_garbage *garbage)
+void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, "cd"))
-		return (ft_cd(prompt), 1);
+		return (ft_cd(prompt));
 	if (!ft_strcmp(prompt->cmd, "echo"))
-		return (ft_echo(prompt), 1);
+		return (ft_echo(prompt));
 	if (!ft_strcmp(prompt->cmd, "env"))
-		return (ft_env(), 1);
+		return (ft_env());
 	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(garbage, prompt->args), 1);
+		return (ft_exit(garbage, prompt->args));
 	if (!ft_strcmp(prompt->cmd, "export"))
-		return (ft_export(prompt), 1);
+		return (ft_export(prompt));
 	if (!ft_strcmp(prompt->cmd, "pwd"))
-		return (ft_pwd(), 1);
+		return (ft_pwd());
 	if (!ft_strcmp(prompt->cmd, "unset"))
-		return (ft_unset(prompt), 1);
-	return (0);
+		return (ft_unset(prompt));
+	exit(errno);
 }
 
 /// @brief Check if t_prompt is a builtin of a command in PATH
@@ -84,11 +84,6 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		prompt->cmd = "''";
 		return ((void)(print_unknown_cmd(prompt), errno = 127));
 	}
-	if (check_builtin(prompt, garbage))
-		return ;
-	if (!prompt->d_quotes && !prompt->quotes && \
-			check_quotes(prompt, &prompt->cmd, garbage))
-		return (check_cmd(prompt, garbage));
 	exec(prompt, garbage);
 	if (errno == 127)
 		g_minishell.error_value = 127;
