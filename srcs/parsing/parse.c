@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/13 11:28:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/13 14:13:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,31 @@ void	parse(char *input, t_garbage *garbage)
 	printf_args(prompt->full_args, "Full args :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
+	prompt = NULL;
 //	if (prompt->next_cmd)
 //	{
 //		check_cmd(prompt->next_cmd, garbage);
 //		reset_stdio_fd(prompt->next_cmd);
 //	}
+}
+
+int	is_builtin(char *cmd)
+{
+	if (!ft_strcmp(cmd, "cd"))
+		return (1);
+	if (!ft_strcmp(cmd, "echo"))
+		return (1);
+	if (!ft_strcmp(cmd, "env"))
+		return (1);
+	if (!ft_strcmp(cmd, "exit"))
+		return (1);
+	if (!ft_strcmp(cmd, "export"))
+		return (1);
+	if (!ft_strcmp(cmd, "pwd"))
+		return (1);
+	if (!ft_strcmp(cmd, "unset"))
+		return (1);
+	return (0);
 }
 
 int	check_builtin(t_prompt *prompt, t_garbage *garbage)
@@ -97,7 +117,8 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 	else
 		cmd = ft_strsep(input, " ");
 	prompt->cmd = cmd;
-	prompt->cmd = get_cmd_w_path(prompt, garbage);
+	if (!is_builtin(cmd))
+		prompt->cmd = get_cmd_w_path(prompt, garbage);
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
