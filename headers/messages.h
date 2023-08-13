@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 16:41:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:01:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define CTRL_C "^C"
 # define EXIT "exit\n"
-# define PROMPT "\n(%d)minishell >>"
+# define PROMPT "(%d)minishell >>"
 # define MEM_ERR_PROMPT "(12)minishell >>"
 # define FREE_GARBAGE "Freeing %p with content %s in garbage"
 # define ADD_GARBAGE "Adding %p with content %s to garbage"
