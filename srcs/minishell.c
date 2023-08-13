@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 22:26:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:35:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	main(void)
 	rc = tcsetattr(0, 0, &termios_new );
 	if (rc) {perror("tcsetattr"); exit(1); }
 	garbage = NULL;
-	garbage = ft_new_garbage(0, NULL, garbage);
+	garbage = ft_new_garbage(0, NULL);
 	g_minishell.garbage = garbage;
 	sigemptyset(&(sa.sa_mask));
 	sa.sa_flags = SA_SIGINFO;
@@ -86,6 +86,6 @@ int	main(void)
 		parse(s, garbage);
 		free_garbage(garbage);
 		garbage = NULL;
-		garbage = ft_new_garbage(0, NULL, garbage);
+		garbage = ft_new_garbage(0, NULL);
 	}
 }

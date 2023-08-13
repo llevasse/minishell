@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 18:37:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:34:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int			get_char_occurance(char *str, char c);
 
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
-t_garbage	*ft_new_garbage(int log, void *address, t_garbage *garbage);
+t_garbage	*ft_new_garbage(int log, void *address);
 void		ft_add_garbage(int log, t_garbage **lst, void *address);
 
 // export.c

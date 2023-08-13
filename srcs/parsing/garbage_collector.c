@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 14:54:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/13 11:33:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	free_garbage(t_garbage	*garbage)
 	}
 }
 
-t_garbage	*ft_new_garbage(int log, void *address, t_garbage *garbage)
+t_garbage	*ft_new_garbage(int log, void *address)
 {
 	t_garbage	*new;
 
 	new = malloc(sizeof(struct s_garbage));
 	if (!new)
-		return (ft_exit(garbage, NULL), NULL);
+		return ((void)(errno = 12), NULL);
 	if (log)
 		printf(ADD_GARBAGE, address, (char *)address);
 	new->address = address;
@@ -49,8 +49,10 @@ void	ft_add_garbage(int log, t_garbage **lst, void *address)
 	t_garbage	*new;
 
 	if (!address)
-		return (ft_exit(*lst, NULL));
-	new = ft_new_garbage(log, address, *lst);
+		return ((void)(errno = 12));
+	new = ft_new_garbage(log, address);
+	if (!new)
+		return ;
 	if (*lst)
 	{
 		temp = *lst;
