@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/13 11:35:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 09:02:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 	{
 		write(1, CTRL_C, 3);
 		rl_on_new_line();
-		//rl_replace_line("", 0);
+	//	rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	(void)info;
@@ -47,22 +47,40 @@ char *get_mini_prompt(t_garbage *garbage)
 	return (prompt);
 }
 
+void	set_termios(struct termios *termios)
+{
+	int	rc;
+
+	rc = tcgetattr(0, &termios_save );
+	if (rc)
+   	{
+		perror("tcgetattr");
+		exit(1);
+	}
+	rc = atexit(reset_the_terminal);
+	if (rc) 
+	{
+		perror("atexit");
+		exit(1);
+	}
+	*termios = termios_save;
+	termios->c_lflag &= ~ECHOCTL;
+	rc = tcsetattr(0, 0, termios);
+	if (rc)
+	{
+		perror("tcsetattr");
+		exit(1);
+	}
+}
+
 int	main(void)
 {
 	struct sigaction	sa;
 	char				*s;
 	t_garbage			*garbage;
-	int					 rc;
 	struct termios		termios_new;
 
-	rc = tcgetattr(0, &termios_save );
-	if (rc) {perror("tcgetattr"); exit(1); }
-	rc = atexit(reset_the_terminal);
-	if (rc) {perror("atexit"); exit(1); }
-	termios_new = termios_save;
-	termios_new.c_lflag &= ~ECHOCTL;
-	rc = tcsetattr(0, 0, &termios_new );
-	if (rc) {perror("tcsetattr"); exit(1); }
+	set_termios(&termios_new);
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL);
 	g_minishell.garbage = garbage;
