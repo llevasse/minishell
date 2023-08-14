@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 10:33:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:23:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	ft_exit(t_garbage *garbage, char **args)
 	if (is_only_digit(args[0]) && args[1])
 	{
 		errno = 1;
-		return ((void)printf("minishell : too many argumentsi\n"));
+		return ((void)printf("minishell : exit : too many arguments\n"));
 	}
 	if (!is_only_digit(args[0]))
 	{
-		printf("minishell : too many argumentsi\n");
+		printf("minishell : exit : numeric argument required\n");
 		exit(2);
 	}
 	exit((unsigned char)ft_atoi(args[0]));
