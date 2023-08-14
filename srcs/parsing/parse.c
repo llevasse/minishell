@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/13 14:25:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 18:20:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,14 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 		return (ft_echo(prompt));
 	if (!ft_strcmp(prompt->cmd, "env"))
 		return (ft_env());
-	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(garbage, prompt->args));
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (ft_export(prompt));
 	if (!ft_strcmp(prompt->cmd, "pwd"))
 		return (ft_pwd());
 	if (!ft_strcmp(prompt->cmd, "unset"))
 		return (ft_unset(prompt));
+	if (!ft_strcmp(prompt->cmd, "exit"))
+		return (ft_exit(garbage, prompt->args));
 	exit(errno);
 }
 
@@ -84,6 +84,8 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		prompt->cmd = "''";
 		return ((void)(print_unknown_cmd(prompt), errno = 127));
 	}
+	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)
+		return (ft_exit(garbage, prompt->args));
 	exec(prompt, garbage);
 	if (errno == 127)
 		g_minishell.error_value = 127;
