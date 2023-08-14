@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 19:03:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 23:01:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,9 @@ char	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 
 void	print_unknown_cmd(t_prompt *prompt)
 {
-	int	i;
-
-	i = 0;
-	printf("%s unknown command with argument(s) ", prompt->cmd);
-	while (prompt->args && prompt->args[i])
-		printf("\"%s\" ", prompt->args[i++]);
-	printf("\n");
+	if (prompt->cmd[0] == 0)
+		prompt->cmd = "''";
+	printf(ERR_404, prompt->cmd);
 }
 
 /// @brief Get number of element in **tab.

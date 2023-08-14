@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 22:41:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 23:02:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse(char *input, t_garbage *garbage)
 		return ;
 	prompt->full_args = get_full_args(prompt, garbage);
 	printf_args(prompt->full_args, "Full args :");
-	check_cmd(prompt, garbage);
+//	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
 	prompt = NULL;
 //	if (prompt->next_cmd)
@@ -93,14 +93,12 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 
 void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 {
-	char	*cmd;
-
 	if ((*input)[0] == '"')
 	{
 		prompt->d_quotes = 1;
 		if (get_char_occurance(*input, '"') % 2 != 0)
 			no_end_quote(input, '"', W_DQUOTE, garbage);
-		cmd = get_quoted_str(*input, '"', 1, garbage);
+		prompt->cmd = get_quoted_str(*input, '"', 1, garbage);
 		(*input) += 2 + get_char_pos((*input) + 1, '"');
 	}
 	else if ((*input)[0] == 39)
@@ -108,16 +106,17 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 		prompt->quotes = 1;
 		if (get_char_occurance(*input, 39) % 2 != 0)
 			no_end_quote(input, 39, W_QUOTE, garbage);
-		cmd = get_quoted_str(*input, 39, 0, garbage);
+		prompt->cmd = get_quoted_str(*input, 39, 0, garbage);
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}
 	else
 	{
-		cmd = ft_strsep(input, " ");
-		check_is_env_var(&cmd, garbage);
+		prompt->cmd = ft_strsep(input, " ");
+		check_is_env_var(&prompt->cmd, garbage);
 	}
-	prompt->cmd = cmd;
-	if (!is_builtin(cmd))
+	if (prompt->cmd[0] == 0)
+		return ;
+	if (!is_builtin(prompt->cmd))
 		prompt->cmd = get_cmd_w_path(prompt, garbage);
 }
 

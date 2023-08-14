@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 22:28:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 23:01:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 		has_exec = check_present_in_path(prompt, temp);
 	}
 	if (!has_exec && prompt->cmd[0] != '.')
-		return ((void)printf("%s: command not found\n", prompt->cmd), NULL);
+		return ((void)printf(ERR_404, prompt->cmd), NULL);
 	else if (!has_exec && prompt->cmd[0] == '.')
 		path = ft_joinf("%s/%s", get_pwd(garbage), prompt->cmd);
 	else
