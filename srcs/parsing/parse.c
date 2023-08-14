@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 18:28:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:05:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->args = NULL;
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
+	prompt->prev_cmd = NULL;
 	prompt->heredoc_fd[0] = -1;
 	len = ft_strlen(input);
 	get_cmd(&input, prompt, garbage);
@@ -158,6 +159,7 @@ void	ft_add_prompt(t_prompt **lst, t_prompt *new)
 		while (temp->next_cmd != NULL)
 			temp = temp->next_cmd;
 		temp->next_cmd = new;
+		new->prev_cmd = temp;
 		return ;
 	}
 	*lst = new;
