@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 18:38:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:28:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 	{
 		temp = ft_strsep(&path, ":");
 		has_exec = check_present_in_path(prompt, temp);
-}
+	}
 	if (!has_exec && prompt->cmd[0] != '.')
-		return (prompt->cmd);
+		return ((void)printf("%s: command not found\n", prompt->cmd), NULL);
 	else if (!has_exec && prompt->cmd[0] == '.')
 		path = ft_joinf("%s/%s", get_pwd(garbage), prompt->cmd);
 	else
@@ -84,7 +84,7 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
-/// and replace env variable int *str with his content.
+/// and replace env variable in *str with his content.
 int	check_is_env_var(char **str, t_garbage *garbage)
 {
 	char	*var;

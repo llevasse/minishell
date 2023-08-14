@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 22:05:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/14 22:41:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	parse(char *input, t_garbage *garbage)
 	if (!prompt->cmd || errno == 12)
 		return ;
 	prompt->full_args = get_full_args(prompt, garbage);
-//	printf_args(prompt->full_args, "Full args :");
+	printf_args(prompt->full_args, "Full args :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
 	prompt = NULL;
@@ -112,7 +112,10 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}
 	else
+	{
 		cmd = ft_strsep(input, " ");
+		check_is_env_var(&cmd, garbage);
+	}
 	prompt->cmd = cmd;
 	if (!is_builtin(cmd))
 		prompt->cmd = get_cmd_w_path(prompt, garbage);
@@ -140,6 +143,8 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->heredoc_fd[0] = -1;
 	len = ft_strlen(input);
 	get_cmd(&input, prompt, garbage);
+	if (!prompt->cmd && errno != 12)
+		return ((void)(errno = 127), prompt);
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
