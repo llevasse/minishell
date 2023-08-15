@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 15:32:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:22:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->write_fd);
 	prompt->write_fd = -1;
 	if (prompt->old_stdout != -1)
-	{	
+	{
 		dup2(prompt->old_stdout, 1);
 		close(prompt->old_stdout);
 		prompt->old_stdout = -1;

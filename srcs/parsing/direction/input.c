@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 15:05:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:21:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage)
 
 	str = get_next_line(fd_to_read);
 	while (str)
-	{	
+	{
 		ft_add_garbage(0, &garbage, str);
 		ft_putstr_fd(str, fd_to_write);
 		str = get_next_line(fd_to_read);
