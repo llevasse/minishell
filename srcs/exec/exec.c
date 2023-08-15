@@ -16,7 +16,7 @@ extern char			**environ;
 extern t_minishell	g_minishell;
 
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage);
-static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage);
+static int	get_exec_pipe(t_prompt *prompt, int i, int value, t_garbage *garbage);
 static int	ft_putstr_error(char *str, char *arg);
 static int	ft_execute(char **args, int i, int tmp_fd, char **envp);
 
@@ -43,7 +43,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 				!ft_strcmp(prompt->full_args[i], ";")))
 			get_exec(prompt, i, value, garbage);
 		else if (i != 0 && !ft_strcmp(prompt->full_args[i], "|"))
-			get_exec_pipe (prompt, i, garbage);
+			get_exec_pipe (prompt, i, value, garbage);
 	}
 	close(prompt->tmp_fd);
 }
@@ -72,10 +72,11 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 	return (0);
 }
 
-static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
+static int	get_exec_pipe(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
 	pipe(prompt->exec_fd);
-	if (fork() == 0)
+	prompt->exec_pid= fork();
+	if (prompt->exec_pid == 0)
 	{
 		dup2(prompt->exec_fd[1], STDOUT_FILENO);
 		close(prompt->exec_fd[0]);
@@ -89,6 +90,9 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 	{
 		close(prompt->exec_fd[1]);
 		close(prompt->tmp_fd);
+		waitpid(prompt->exec_pid, &value, WUNTRACED);
+		if (WIFEXITED(value))
+			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = prompt->exec_fd[0];
 	}
 	return (0);
