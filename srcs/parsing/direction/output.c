@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 22:38:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 23:25:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	set_output(t_prompt *prompt)
 	else
 		fd = open(prompt->args[i], O_RDWR | O_TRUNC | O_CREAT, 0666);
 	if (prompt->write_fd == -1)
-		printf(ERR_OPEN_F);
+		return ;
 	prompt->write_fd = fd;
 	dup2(prompt->write_fd, 1);
 }
@@ -69,15 +69,12 @@ int	get_last_output_index(char **args)
 	j = -1;
 	while (args[i])
 	{
-		if (!ft_strcmp(">", args[i++]) || !ft_strcmp(">>", args[i - 1]))
+		if (!ft_strcmp(">", args[i]) || !ft_strcmp(">>", args[i++]))
 		{
 			if (args[i])
 				tini_tiny_open(args, i);
 			else
-			{
-				errno = 2;
-				return ((void)(printf(ERR_PARSE_OUTPUT)), -1);
-			}
+				return ((void)(errno = 2), -1);
 			j = i - 1;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 23:01:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 22:41:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define W_QUOTE "quote>"
 # define ERR_PARSE_OUTPUT "Parsing error around >"
 # define ERR_PARSE_INPUT "Parsing error around >"
-# define ERR_OPEN_F "Error in opening file"
+# define ERR_OPEN_F "Error in opening file\n"
 # define NO_FILE "%s : No such file or directory"
 # define PIPE_ERR "Error in opening pipes"
 # define ERR_404 "%s: command not found\n"
