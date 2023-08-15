@@ -14,7 +14,7 @@
 
 extern struct s_minishell	g_minishell;
 
-void	parse(char *input, t_garbage *garbage)
+void	parse(char *input, t_garbage *garbage, char **environ)
 {
 	t_prompt	*prompt;
 
@@ -25,6 +25,7 @@ void	parse(char *input, t_garbage *garbage)
 	prompt = init_prompt(input, garbage);
 	if (!prompt->cmd || errno == 12)
 		return ;
+	prompt->environ = environ;
 	prompt->full_args = get_full_args(prompt, garbage);
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
@@ -37,7 +38,7 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, ""))
 	{
-		printf(ERR_404, "''");
+		ft_printf(ERR_404, "''");
 		return ((void)(errno = 127));
 	}
 	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)

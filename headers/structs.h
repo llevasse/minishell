@@ -48,6 +48,7 @@ typedef struct s_prompt
 	int 				tmp_fd;
 	int 				exec_pid;
 	char				*cmd;
+	char				**environ;
 	char				**args;
 	char				**full_args;
 	t_export			*export_args;

@@ -73,6 +73,21 @@ void	set_termios(struct termios *termios)
 		exit(1);
 	}
 }
+char	**get_base_env(void)
+{
+	char **environ;
+
+	environ = malloc(sizeof(char *) * 6);
+	if (!environ)
+		return (NULL);
+	environ[0] = "PATH";
+	environ[1] = "TERM=xterm-256color";
+	environ[2] = "PWD=/Users/alphom/Documents/42/Learner/minishell";
+	environ[3] = "SHLVL=1";
+	environ[4] = "_=/usr/bin/env";
+	environ[5] = NULL;
+	return (environ);
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -83,7 +98,11 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	if (!envp)
+	{
+		envp = get_base_env();
+		exit (errno);
+	}
 	set_termios(&termios_new);
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL);
@@ -105,7 +124,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_exit(garbage, NULL);
 		}
 		add_history(s);
-		parse(s, garbage);
+		parse(s, garbage, envp);
 		free_garbage(garbage);
 		garbage = NULL;
 		garbage = ft_new_garbage(0, NULL);

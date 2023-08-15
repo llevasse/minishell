@@ -38,7 +38,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	else if (!ft_strcmp(prompt->full_args[0], "echo"))
 		ft_echo(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "env"))
-		ft_env();
+		ft_env(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "export"))
 		ft_export(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "pwd"))

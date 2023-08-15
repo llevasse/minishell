@@ -32,7 +32,7 @@
 // SRCS/PARSE //
 
 // parse.c
-void		parse(char *input, t_garbage *garbage);
+void		parse(char *input, t_garbage *garbage, char **environ);
 t_prompt	*init_prompt(char *input, t_garbage *garbage);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 void		check_cmd(t_prompt *prompt, t_garbage *garbage);
@@ -91,7 +91,7 @@ void		print_unknown_cmd(t_prompt *prompt);
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
 void		ft_echo(t_prompt *prompt);
-void		ft_env(void);
+void		ft_env(t_prompt *prompt);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage, char **args);
 void		ft_pwd(void);

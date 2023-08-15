@@ -12,13 +12,11 @@
 
 #include "minishell.h"
 
-extern char	**environ;
-
-void	ft_env(void)
+void	ft_env(t_prompt *prompt)
 {
 	int	i;
 
 	i = -1;
-	while (environ[++i])
-		ft_printf("%s\n", environ[i]);
+	while (prompt->environ[++i])
+		ft_printf("%s\n", prompt->environ[i]);
 }
