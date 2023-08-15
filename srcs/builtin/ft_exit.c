@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern struct s_minishell g_minishell;
+extern struct s_minishell	g_minishell;
 
 int	is_only_digit(char *s)
 {
@@ -36,7 +36,7 @@ void	ft_exit(t_garbage *garbage, char **args)
 	if (is_only_digit(args[0]) && args[1])
 	{
 		errno = 1;
-		return ((void)printf("minishell : exit : too many arguments\n"));
+		return ((void)ft_printf("minishell : exit : too many arguments\n"));
 	}
 	if (!is_only_digit(args[0]))
 	{

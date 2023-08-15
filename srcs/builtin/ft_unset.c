@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern char **environ;
+extern char	**environ;
 
 static int	unset_env(char *arg, size_t size);
 

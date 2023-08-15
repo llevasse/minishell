@@ -60,7 +60,7 @@ void	ft_cd(t_prompt *prompt)
 		if (chdir(new_path) == 0)
 			setenv("PWD", new_path, 1);
 		else
-			printf("echec\n");
+			ft_printf("echec\n");
 	}
 	else if (prompt->args[0][0] == '/')
 	{
@@ -79,4 +79,3 @@ void	ft_cd(t_prompt *prompt)
 			ft_printf("wrong directory\n");
 	}
 }
-
