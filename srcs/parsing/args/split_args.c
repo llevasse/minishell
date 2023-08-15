@@ -6,11 +6,32 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/13 11:29:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:06:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	skip_arg(char *s, char c, int *i)
+{
+	int	j;
+
+	j = 0;
+	if (s[*i] == 39)
+		*i += get_char_pos(s + *i, 39);
+	else if (s[*i] == '"')
+		*i += get_char_pos(s + *i, '"');
+	else
+	{
+		while (s[*i] && s[*i] != c && s[*i] != 39 && s[*i] != '"')
+		{
+			if (s[*i] == '>' || s[*i] == '<')
+				j++;
+			(*i)++;
+		}
+	}
+	return (j);
+}
 
 /// @brief Allocate enough memory for tab based on numbers of elements in *s.
 /// @param *s String containing every element args before split,
@@ -27,19 +48,15 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		while (s[i] == c && s[i] != '\0')
-			i++;
+		i = skip_char(s, c, i);
 		if (!s[i])
 			break ;
 		if (s[i] && (s[i] != c || s[i] == 39 || s[i] == '"'))
-			j++;
-		i++;
-		while (s[i] && s[i] != c && s[i] != 39 && s[i] != '"')
 		{
-			if (s[i] == '>' || s[i] == '<')
-				j++;
-			i++;
+			j++;
+			j += skip_arg((char *)s, c, &i);
 		}
+		i++;
 	}
 	res = malloc((j + 1) * sizeof(char *));
 	ft_add_garbage(0, &garbage, res);
@@ -79,6 +96,30 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	return (res);
 }
 
+char	*get_split_quote(t_prompt *prompt, char *s, int *i, t_garbage *garbage)
+{
+	char	*new;
+
+	new = NULL;
+	if (s[*i] == '"')
+	{
+		prompt->d_quotes = 1;
+		if (get_char_occurance(s, '"') % 2 != 0)
+			no_end_quote(&s, '"', W_DQUOTE, garbage);
+		new = get_quoted_str(s + (*i)++, '"', 1, garbage);
+		*i += get_char_pos(s + *i, '"') + 1;
+	}
+	else if (s[*i] == 39)
+	{
+		prompt->quotes = 1;
+		if (get_char_occurance(s, 39) % 2 != 0)
+			no_end_quote(&s, 39, W_QUOTE, garbage);
+		new = get_quoted_str(s + (*i)++, 39, 0, garbage);
+		*i += get_char_pos(s + *i, 39) + 1;
+	}
+	return (new);
+}
+
 /// @brief Split a string by each c char,
 /// but also take account of quotes and other bash specific args.
 /// @param *prompt Pointer to prompt struct,
@@ -99,31 +140,15 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
-		if (s[i] == '"')
-		{
-			prompt->d_quotes = 1;
-			if (get_char_occurance(s, '"') % 2 != 0)
-				no_end_quote(&s, '"', W_DQUOTE, garbage);
-			res[index_word] = get_quoted_str(s + i++, '"', 1, garbage);
-			i += get_char_pos(s + i, '"') + 1;
-		}
-		else if (s[i] == 39)
-		{
-			prompt->quotes = 1;
-			if (get_char_occurance(s, 39) % 2 != 0)
-				no_end_quote(&s, 39, W_QUOTE, garbage);
-			res[index_word] = get_quoted_str(s + i++, 39, 0, garbage);
-			i += get_char_pos(s + i, 39) + 1;
-		}
+		if (s[i] == '"' || s[i] == 39)
+			res[index_word] = get_split_quote(prompt, s, &i, garbage);
 		else
 		{
 			res[index_word] = get_word_arg(s, c, i, garbage);
-			while (s[i] != c && s[i] != '\0')
-				i++;
+			i += ft_strlen(res[index_word]);
 		}
-		i = skip_char(s, c, i);
 		index_word++;
+		i = skip_char(s, c, i);
 	}
-	res[index_word] = NULL;
-	return (res);
+	return ((void)(res[index_word] = NULL), res);
 }
