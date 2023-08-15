@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 14:28:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/05/25 16:07:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:19:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	skip_minus(const char **str)
 {
 	if (**str == '-')
-	{	
+	{
 		while (**str == '-')
 			(*str)++;
 		(*str)--;
