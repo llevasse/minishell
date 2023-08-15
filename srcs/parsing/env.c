@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 12:28:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 18:14:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 	int		has_exec;
 
 	has_exec = 0;
+	if (!getenv("PATH"))
+		return ((void)printf(ERR_404, prompt->cmd), NULL);
 	path = ft_strdup(getenv("PATH"));
 	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
