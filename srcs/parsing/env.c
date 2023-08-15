@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 23:01:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:28:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,13 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 int	check_present_in_path(t_prompt *prompt, char *path)
 {
 	DIR				*current_dir;
+	int				entry_errno;
 	struct dirent	*dir_entry;
 
+	entry_errno = errno;
 	current_dir = opendir(path);
 	if (!current_dir)
-		return (0);
+		return ((void)(errno = entry_errno), 0);
 	dir_entry = readdir(current_dir);
 	while (dir_entry && ft_strcmp(prompt->cmd, dir_entry->d_name))
 		dir_entry = readdir(current_dir);

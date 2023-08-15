@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/15 12:04:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:29:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			pipe(fd);
 			if (fork() == 0)
 			{
-//				printf_args(prompt->full_args, "cc1 :");
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
