@@ -6,11 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 15:04:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 22:38:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// if file to output from does not exist programm breaks
 
 /// @brief Handle output redirection in prompt.
 /// @param *prompt Pointer to prompt struct,
