@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 10:47:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:41:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,19 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, "cd"))
-		return (ft_cd(prompt));
-	if (!ft_strcmp(prompt->cmd, "echo"))
-		return (ft_echo(prompt));
-	if (!ft_strcmp(prompt->cmd, "env"))
-		return (ft_env());
-	if (!ft_strcmp(prompt->cmd, "export"))
-		return (ft_export(prompt));
-	if (!ft_strcmp(prompt->cmd, "pwd"))
-		return (ft_pwd());
-	if (!ft_strcmp(prompt->cmd, "unset"))
-		return (ft_unset(prompt));
-	if (!ft_strcmp(prompt->cmd, "exit"))
-		return (ft_exit(garbage, prompt->args));
+		ft_cd(prompt);
+	else if (!ft_strcmp(prompt->cmd, "echo"))
+		ft_echo(prompt);
+	else if (!ft_strcmp(prompt->cmd, "env"))
+		ft_env();
+	else if (!ft_strcmp(prompt->cmd, "export"))
+		ft_export(prompt);
+	else if (!ft_strcmp(prompt->cmd, "pwd"))
+		ft_pwd();
+	else if (!ft_strcmp(prompt->cmd, "unset"))
+		ft_unset(prompt);
+	else if (!ft_strcmp(prompt->cmd, "exit"))
+		ft_exit(garbage, prompt->args);
 	exit(errno);
 }
 

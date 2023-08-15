@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/14 22:07:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:37:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			pid = fork();
 			if (pid == 0)
 			{
+				printf_args(prompt->full_args, "cc : ");
 				if (prompt->full_args[0][0] != '/')
-				{
 					exec_builtin(prompt, garbage);
-					exit(errno);
-				}
 				else if(ft_execute(prompt->full_args, i, tmp_fd, environ))
 					break;
 			}
@@ -69,14 +67,12 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			pipe(fd);
 			if (fork() == 0)
 			{
+				printf_args(prompt->full_args, "cc : ");
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
 				if (prompt->full_args[0][0] != '/')
-				{
 					exec_builtin(prompt, garbage);
-					exit(errno);
-				}
 				else if(ft_execute(prompt->full_args, i, tmp_fd, environ))
 					break;
 			}
@@ -105,6 +101,7 @@ static int ft_putstr_error(char *str, char *arg)
 
 static int ft_execute(char **args, int i, int tmp_fd, char **envp)
 {
+	printf_args(args, "Exec : ");
 	args[i] = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
