@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/15 11:37:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 12:04:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	{
 		if (i != 0 && prompt->full_args[i + 1])
 		{
-			prompt->full_args += i + 1;
+			prompt->full_args = &prompt->full_args[i + 1];
 			i = 0;
 		}
 		while (prompt->full_args[i] && \
@@ -47,8 +47,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			pid = fork();
 			if (pid == 0)
 			{
-				printf_args(prompt->full_args, "cc : ");
-				if (prompt->full_args[0][0] != '/')
+				if (is_builtin(prompt->full_args[0]))
 					exec_builtin(prompt, garbage);
 				else if(ft_execute(prompt->full_args, i, tmp_fd, environ))
 					break;
@@ -67,11 +66,11 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			pipe(fd);
 			if (fork() == 0)
 			{
-				printf_args(prompt->full_args, "cc : ");
+//				printf_args(prompt->full_args, "cc1 :");
 				dup2(fd[1], STDOUT_FILENO);
 				close(fd[0]);
 				close(fd[1]);
-				if (prompt->full_args[0][0] != '/')
+				if (is_builtin(prompt->full_args[0]))
 					exec_builtin(prompt, garbage);
 				else if(ft_execute(prompt->full_args, i, tmp_fd, environ))
 					break;
