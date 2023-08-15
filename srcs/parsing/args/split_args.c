@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 16:06:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:22:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	skip_arg(char *s, char c, int *i)
 	{
 		while (s[*i] && s[*i] != c && s[*i] != 39 && s[*i] != '"')
 		{
+			if (s[*i] == '|')
+				return (j);
 			if (s[*i] == '>' || s[*i] == '<')
 				j++;
 			(*i)++;
@@ -55,7 +57,11 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 		{
 			j++;
 			j += skip_arg((char *)s, c, &i);
+			if (s[i] == '|')
+				break ;
 		}
+		if (!s[i])
+			break ;
 		i++;
 	}
 	res = malloc((j + 1) * sizeof(char *));
@@ -82,7 +88,8 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	if (s[i + 1] == '>' || s[i + 1] == '<')
 		len_word++;
 	while (s[i + len_word] != c && s[i + len_word] != '\0' && \
-		s[i + len_word] != '>' && s[i + len_word] != '<')
+		s[i + len_word] != '>' && s[i + len_word] != '<' && \
+		s[i + len_word] != '|')
 		len_word++;
 	res = malloc((len_word + 1) * sizeof(char));
 	ft_add_garbage(0, &garbage, res);
