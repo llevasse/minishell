@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 09:02:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 11:11:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ int	main(void)
 	g_minishell.error_value = 0;
 	while (42)
 	{
-		if (g_minishell.error_value == 0)
-			g_minishell.error_value = errno;
+		g_minishell.error_value = errno;
+		errno = 0;
 		s = readline(get_mini_prompt(garbage));
 		if (s == NULL)
 		{
