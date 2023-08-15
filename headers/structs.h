@@ -44,6 +44,9 @@ typedef struct s_prompt
 	int					old_stdout;
 	int					old_stdin;
 	int					heredoc_fd[2];
+	int 				exec_fd[2];
+	int 				tmp_fd;
+	int 				exec_pid;
 	char				*cmd;
 	char				**args;
 	char				**full_args;

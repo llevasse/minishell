@@ -74,13 +74,16 @@ void	set_termios(struct termios *termios)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
 	char				*s;
 	t_garbage			*garbage;
 	struct termios		termios_new;
 
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	set_termios(&termios_new);
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL);
