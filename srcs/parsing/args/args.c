@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 23:01:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:34:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 	}
 	temp = prompt;
 	i = 0;
-	new = malloc(nb * sizeof(char**));
+	new = malloc(nb * sizeof(char **));
 	ft_add_garbage(0, &garbage, new);
 	while (temp)
 	{
@@ -61,13 +61,6 @@ char	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 	return (new[i] = NULL, new);
 }
 
-void	print_unknown_cmd(t_prompt *prompt)
-{
-	if (prompt->cmd[0] == 0)
-		prompt->cmd = "''";
-	printf(ERR_404, prompt->cmd);
-}
-
 /// @brief Get number of element in **tab.
 /// @param **tab Pointer to pointers of char.
 /// @return Return number of element in tab.
@@ -79,34 +72,6 @@ int	get_tab_size(char **tab)
 	while (tab && tab[i])
 		i++;
 	return (i);
-}
-
-void	delete_redirection(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
-		(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
-		(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
-		(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
-		{
-			if (args[i + 1])
-			{
-				delete_element_at_index(args, i);
-				delete_element_at_index(args, i);
-			}
-			else
-				delete_element_at_index(args, i);
-		}
-		else if (!ft_strncmp(args[i], "<<", 2) || !ft_strncmp(args[i], "<", 1) || \
-		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-			delete_element_at_index(args, i);
-		else
-			i++;
-	}
 }
 
 void	printf_args(char **tab, char *prompt)

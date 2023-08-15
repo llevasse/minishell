@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/13 14:22:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:26:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void		parse(char *input, t_garbage *garbage);
 t_prompt	*init_prompt(char *input, t_garbage *garbage);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 void		check_cmd(t_prompt *prompt, t_garbage *garbage);
-int			is_builtin(char *cmd);
 
 // ft_strsep.c 
 char		*ft_strsep(char **p_str, const char *delim);
@@ -87,9 +86,10 @@ void		exec(t_prompt *prompt, t_garbage *garbage);
 char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
 void		print_unknown_cmd(t_prompt *prompt);
-void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
 
 // SRCS/BUILTIN //
+int			is_builtin(char *cmd);
+void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
 void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 void		ft_unset(t_prompt *prompt);

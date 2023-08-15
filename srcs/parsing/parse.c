@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 12:12:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:34:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,53 +26,9 @@ void	parse(char *input, t_garbage *garbage)
 	if (!prompt->cmd || errno == 12)
 		return ;
 	prompt->full_args = get_full_args(prompt, garbage);
-//	printf_args(prompt->full_args, "Full args :");
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
 	prompt = NULL;
-//	if (prompt->next_cmd)
-//	{
-//		check_cmd(prompt->next_cmd, garbage);
-//		reset_stdio_fd(prompt->next_cmd);
-//	}
-}
-
-int	is_builtin(char *cmd)
-{
-	if (!ft_strcmp(cmd, "cd"))
-		return (1);
-	if (!ft_strcmp(cmd, "echo"))
-		return (1);
-	if (!ft_strcmp(cmd, "env"))
-		return (1);
-	if (!ft_strcmp(cmd, "exit"))
-		return (1);
-	if (!ft_strcmp(cmd, "export"))
-		return (1);
-	if (!ft_strcmp(cmd, "pwd"))
-		return (1);
-	if (!ft_strcmp(cmd, "unset"))
-		return (1);
-	return (0);
-}
-
-void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
-{
-	if (!ft_strcmp(prompt->full_args[0], "cd"))
-		ft_cd(prompt);
-	else if (!ft_strcmp(prompt->full_args[0], "echo"))
-		ft_echo(prompt);
-	else if (!ft_strcmp(prompt->full_args[0], "env"))
-		ft_env();
-	else if (!ft_strcmp(prompt->full_args[0], "export"))
-		ft_export(prompt);
-	else if (!ft_strcmp(prompt->full_args[0], "pwd"))
-		ft_pwd();
-	else if (!ft_strcmp(prompt->full_args[0], "unset"))
-		ft_unset(prompt);
-	else if (!ft_strcmp(prompt->full_args[0], "exit"))
-		ft_exit(garbage, prompt->args);
-	exit(errno);
 }
 
 /// @brief Check if t_prompt is a builtin of a command in PATH
@@ -81,8 +37,8 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->cmd, ""))
 	{
-		prompt->cmd = "''";
-		return ((void)(print_unknown_cmd(prompt), errno = 127));
+		printf(ERR_404, "''");
+		return ((void)(errno = 127));
 	}
 	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)
 		return (ft_exit(garbage, prompt->args));

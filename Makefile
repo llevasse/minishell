@@ -32,6 +32,7 @@ SRC			=	srcs/minishell.c \
 				srcs/parsing/export.c \
 				srcs/parsing/insert_at_index.c \
 				srcs/exec/exec.c \
+				srcs/builtin/builtin.c \
 				srcs/builtin/ft_echo.c \
 				srcs/builtin/ft_env.c \
 				srcs/builtin/ft_unset.c \
