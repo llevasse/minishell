@@ -6,13 +6,28 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 14:16:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:57:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern struct s_minishell	g_minishell; 
+
+char	*ft_getenv(char **env, char *search, t_garbage *garbage)
+{
+	int		i;
+	char	*search_e;
+
+	i = 0;
+	search_e = ft_joinf("%s=", search);
+	ft_add_garbage(0, &garbage, search_e);
+	while (ft_strncmp(search_e, env[i], ft_strlen(search_e)))
+		i++;
+	if (!env[i])
+		return (getenv(search));
+	return (env[i]);
+}
 
 /// @brief Get path of cmd in env.
 /// @return If the path of cmd is found it will be returned,
@@ -24,9 +39,9 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 	int		has_exec;
 
 	has_exec = 0;
-	if (!getenv("PATH"))
+	if (!ft_getenv(prompt->environ, "PATH", garbage))
 		return ((void)printf(ERR_404, prompt->cmd), NULL);
-	path = ft_strdup(getenv("PATH"));
+	path = ft_strdup(ft_getenv(prompt->environ, "PATH", garbage));
 	ft_add_garbage(0, &garbage, path);
 	while (*path && !has_exec)
 	{

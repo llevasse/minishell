@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 14:34:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:26:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 		return ;
 	if (!*input)
 		return ;
-	prompt = init_prompt(input, garbage);
+	prompt = init_prompt(input, garbage, environ);
 	if (!prompt->cmd || errno == 12)
 		return ;
-	prompt->environ = environ;
 	prompt->full_args = get_full_args(prompt, garbage);
 	check_cmd(prompt, garbage);
 	reset_stdio_fd(prompt);
@@ -80,7 +79,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 /// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt	*init_prompt(char *input, t_garbage *garbage)
+t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
 {
 	t_prompt	*prompt;
 	size_t		len;
@@ -97,6 +96,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage)
 	prompt->next_cmd = NULL;
 	prompt->prev_cmd = NULL;
 	prompt->heredoc_fd[0] = -1;
+	prompt->environ = env;
 	len = ft_strlen(input);
 	get_cmd(&input, prompt, garbage);
 	if (!prompt->cmd && errno != 12)

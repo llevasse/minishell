@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 15:11:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:58:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!envp)
 			exit (errno);
 	}
-	printf_args(envp, "envp :");
 	set_termios(&termios_new);
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL);

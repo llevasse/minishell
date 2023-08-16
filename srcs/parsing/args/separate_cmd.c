@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/30 20:17:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:54:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage)
 	if (!input[pos])
 		return ;
 	input += pos;
-	ft_add_prompt(&prompt, init_prompt(input, garbage));
+	ft_add_prompt(&prompt, init_prompt(input, garbage, prompt->environ));
 }
 
 /// @brief Search for the closest cmd separator in *input.
