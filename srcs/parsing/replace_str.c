@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/09 23:32:26 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/04 10:23:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:18:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_pre_substr(char *str, char *substr, t_garbage *garbage)
 		return ("");
 	str[substr_pos] = 0;
 	pre_substr = ft_strdup(str);
-	ft_add_garbage(0, &garbage, pre_substr);
+	ft_add_garbage(1, &garbage, pre_substr);
 	str[substr_pos] = *substr;
 	return (pre_substr);
 }

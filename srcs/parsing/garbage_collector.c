@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 18:10:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:17:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_garbage(t_garbage	*garbage)
 		garbage->next = NULL;
 		if (garbage->address)
 		{
-//			printf(FREE_GARBAGE, garbage->address, (char *)garbage->address);
+			printf(FREE_GARBAGE, garbage->address, (char *)garbage->address);
 			free(garbage->address);
 			garbage->address = NULL;
 		}
