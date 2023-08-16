@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 13:34:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:11:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ char	**get_base_env(void)
 	if (!environ)
 		return (NULL);
 	environ[0] = "PATH=/nfs/homes/llevasse/bin:/usr/local/sbin:\
-	/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:\
-	/usr/local/games:/snap/bin";
+/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:\
+/usr/local/games:/snap/bin";
 	environ[1] = "TERM=xterm-256color";
 	environ[2] = "PWD=/Users/alphom/Documents/42/Learner/minishell";
 	environ[3] = "SHLVL=1";
@@ -106,6 +106,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!envp)
 			exit (errno);
 	}
+	printf_args(envp, "envp :");
 	set_termios(&termios_new);
 	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL);
