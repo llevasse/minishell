@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 18:05:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 20:55:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,9 @@ void	update_shlvl(char **env, t_garbage *garbage)
 	if (!env[i])
 		return ;
 	new_lvl = ft_itoa(lvl);
-	ft_add_garbage(1, &garbage, new_lvl);
-	printf("New lvl %s\n", new_lvl);
+	ft_add_garbage(0, &garbage, new_lvl);
 	env[i] = ft_joinf("SHLVL=%s", new_lvl);
-	ft_add_garbage(1, &garbage, env[i]);
+	ft_add_garbage(0, &garbage, env[i]);
 }
 
 int	main(int argc, char **argv, char **envp)
