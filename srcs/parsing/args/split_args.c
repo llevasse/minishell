@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:00:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 22:40:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	return (res);
 }
 
-char	*get_split_quote(t_prompt *prompt, char *s, int *i, t_garbage *garbage)
+char	*get_split_quote(t_prompt *prompt, char *s, int *i, int index_word)
 {
 	char	*new;
 
@@ -112,15 +112,18 @@ char	*get_split_quote(t_prompt *prompt, char *s, int *i, t_garbage *garbage)
 	{
 		prompt->d_quotes = 1;
 		if (get_char_occurance(s, '"') % 2 != 0)
-			no_end_quote(&s, '"', W_DQUOTE, garbage);
-		new = get_quoted_str(s + (*i)++, '"', 1, prompt);
+			no_end_quote(&s, '"', W_DQUOTE, prompt->garbage);
+		if (index_word >= 0 && !ft_strcmp(prompt->args[index_word], "<<"))
+			new = get_quoted_str(s + (*i)++, '"', 0, prompt);
+		else
+			new = get_quoted_str(s + (*i)++, '"', 1, prompt);
 		*i += get_char_pos(s + *i, '"') + 1;
 	}
 	else if (s[*i] == 39)
 	{
 		prompt->quotes = 1;
 		if (get_char_occurance(s, 39) % 2 != 0)
-			no_end_quote(&s, 39, W_QUOTE, garbage);
+			no_end_quote(&s, 39, W_QUOTE, prompt->garbage);
 		new = get_quoted_str(s + (*i)++, 39, 0, prompt);
 		*i += get_char_pos(s + *i, 39) + 1;
 	}
@@ -148,14 +151,17 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	while (s[i] != '\0')
 	{
 		if (s[i] == '"' || s[i] == 39)
-			res[index_word] = get_split_quote(prompt, s, &i, garbage);
+			res[index_word] = get_split_quote(prompt, s, &i, index_word - 1);
 		else
 		{
 			res[index_word] = get_word_arg(s, c, i, garbage);
+			check_is_env_var(prompt, &res[index_word], garbage);
 			i += ft_strlen(res[index_word]);
 		}
 		index_word++;
+		res[index_word] = NULL;
+		prompt->args = res;
 		i = skip_char(s, c, i);
 	}
-	return ((void)(res[index_word] = NULL), res);
+	return (res);
 }

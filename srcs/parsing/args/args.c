@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:00:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 22:40:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,6 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 			args[i] = ft_joinf("%s %s", args[i], args[i + 1]);
 			ft_add_garbage(0, &garbage, args[i]);
 			delete_element_at_index(args, i + 1);
-		}
-		if (prompt && garbage)
-		{
-			if (!prompt->d_quotes && !prompt->quotes)
-				check_quotes(prompt, &args[i], garbage);
-			if (!prompt->quotes)
-				check_is_env_var(prompt, &args[i], garbage);
 		}
 		i++;
 	}
