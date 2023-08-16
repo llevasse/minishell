@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:24:48 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 14:25:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:33:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern struct s_minishell	g_minishell;
 
 int	is_builtin(char *cmd)
 {
@@ -47,5 +49,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 		ft_unset(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "exit"))
 		ft_exit(garbage, prompt->args);
+	free_garbage(garbage);
+	free_garbage(g_minishell.at_exit_garbage);
 	exit(errno);
 }
