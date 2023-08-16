@@ -15,7 +15,6 @@ LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 SRC			=	srcs/minishell.c \
 				srcs/parsing/ft_strsep.c \
 				srcs/parsing/parse.c \
-				srcs/parsing/prompt.c \
 				srcs/parsing/env.c \
 				srcs/parsing/chars.c \
 				srcs/parsing/replace_str.c \
@@ -26,13 +25,14 @@ SRC			=	srcs/minishell.c \
 				srcs/parsing/args/split_args.c \
 				srcs/parsing/args/separate_cmd.c \
 				srcs/parsing/args/wildcard.c \
-				srcs/parsing/garbage_collector.c \
 				srcs/direction/direction.c \
 				srcs/direction/output.c \
 				srcs/direction/input.c \
 				srcs/direction/heredoc.c \
 				srcs/parsing/export.c \
 				srcs/parsing/insert_at_index.c \
+				srcs/struct/prompt.c \
+				srcs/struct/garbage_collector.c \
 				srcs/exec/exec.c \
 				srcs/builtin/builtin.c \
 				srcs/builtin/ft_echo.c \
@@ -67,6 +67,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs/parsing/args
 				@mkdir -p $(OBJS_DIR)srcs/direction
 				@mkdir -p $(OBJS_DIR)srcs/builtin
+				@mkdir -p $(OBJS_DIR)srcs/struct
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
 all:			$(NAME)
