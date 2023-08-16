@@ -15,6 +15,7 @@ LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 SRC			=	srcs/minishell.c \
 				srcs/parsing/ft_strsep.c \
 				srcs/parsing/parse.c \
+				srcs/parsing/prompt.c \
 				srcs/parsing/env.c \
 				srcs/parsing/chars.c \
 				srcs/parsing/replace_str.c \

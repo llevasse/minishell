@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 16:49:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:53:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,55 +74,4 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 		return ;
 	if (!is_builtin(prompt->cmd))
 		prompt->cmd = get_cmd_w_path(prompt, garbage);
-}
-
-/// @brief Allocate memory and assign values to t_prompt.
-/// @param *input Inputed string to get command from.
-/// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
-{
-	t_prompt	*prompt;
-	size_t		len;
-
-	prompt = malloc(sizeof(struct s_prompt));
-	ft_add_garbage(0, &garbage, prompt);
-	prompt->write_fd = -1;
-	prompt->old_stdout = -1;
-	prompt->old_stdin = -1;
-	prompt->d_quotes = 0;
-	prompt->quotes = 0;
-	prompt->args = NULL;
-	prompt->export_args = NULL;
-	prompt->next_cmd = NULL;
-	prompt->prev_cmd = NULL;
-	prompt->heredoc_fd[0] = -1;
-	prompt->environ = env;
-	prompt->garbage = garbage;
-	len = ft_strlen(input);
-	get_cmd(&input, prompt, garbage);
-	if (!prompt->cmd && errno != 12)
-		return ((void)(errno = 127), prompt);
-	if (!*input || len == ft_strlen(prompt->cmd))
-		return (prompt);
-	get_args(prompt, input, garbage);
-	check_redirection(input, prompt, garbage);
-	return (prompt);
-}
-
-void	ft_add_prompt(t_prompt **lst, t_prompt *new)
-{
-	t_prompt	*temp;
-
-	if (!new)
-		return (ft_exit(g_minishell.garbage, NULL));
-	if (*lst)
-	{
-		temp = *lst;
-		while (temp->next_cmd != NULL)
-			temp = temp->next_cmd;
-		temp->next_cmd = new;
-		new->prev_cmd = temp;
-		return ;
-	}
-	*lst = new;
 }

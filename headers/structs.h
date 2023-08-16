@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 18:01:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:47:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_prompt
 	int					old_stdout;
 	int					old_stdin;
 	int					heredoc_fd[2];
-	int 				exec_fd[2];
-	int 				tmp_fd;
-	int 				exec_pid;
+	int					exec_fd[2];
+	int					tmp_fd;
+	int					exec_pid;
 	char				*cmd;
 	char				**environ;
 	char				**args;

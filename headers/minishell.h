@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 18:03:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:56:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void		parse(char *input, t_garbage *garbage, char **environ);
 t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 void		check_cmd(t_prompt *prompt, t_garbage *garbage);
+void		get_cmd(char **input, t_prompt *prompt, t_garbage *garbage);
 
 // ft_strsep.c 
 char		*ft_strsep(char **p_str, const char *delim);

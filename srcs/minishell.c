@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 21:23:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 21:46:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ struct termios		termios_save;
 
 void	reset_the_terminal(void)
 {
-	tcsetattr(0, 0, &termios_save );
+	tcsetattr(0, 0, &termios_save);
 }
 
 void	handler(int sig, siginfo_t *info, void *context)
@@ -37,10 +37,10 @@ void	handler(int sig, siginfo_t *info, void *context)
 	(void)context;
 }
 
-char *get_mini_prompt(t_garbage *garbage)
+char	*get_mini_prompt(t_garbage *garbage)
 {
 	char	*prompt;
-	
+
 	prompt = ft_joinf(PROMPT, g_minishell.error_value);
 	if (!prompt)
 		return (MEM_ERR_PROMPT);
@@ -52,9 +52,9 @@ void	set_termios(struct termios *termios)
 {
 	int	rc;
 
-	rc = tcgetattr(0, &termios_save );
+	rc = tcgetattr(0, &termios_save);
 	if (rc)
-   	{
+	{
 		perror("tcgetattr");
 		exit(1);
 	}
@@ -73,6 +73,7 @@ void	set_termios(struct termios *termios)
 		exit(1);
 	}
 }
+
 char	**get_base_env(void)
 {
 	char **environ;
