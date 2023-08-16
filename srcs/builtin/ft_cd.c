@@ -11,71 +11,54 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*get_new_path(char **directory, char *new_path, size_t i)
-{
-	while (directory[++i])
-	{
-		if (!ft_strcmp(directory[i + 1], "."))
-		{
-			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
-			if (!directory[i + 1])
-				break ;
-			i++;
-		}
-		else if (!ft_strcmp(directory[i + 1], ".."))
-		{
-			if (!directory[i + 1])
-				break ;
-			i += 1;
-		}
-		else
-			new_path = ft_strjoin(ft_strjoin(new_path, "/"), directory[i]);
-	}
-	return (new_path);
-}
-
-char	*ft_clear_path(char *path)
-{
-	char	*new_path;
-	char	**directory;
-
-	directory = ft_split(path, '/');
-	free(path);
-	new_path = malloc(sizeof(char) * 1);
-	if (!new_path)
-		return (exit(-1), NULL);
-	new_path[0] = '\0';
-	new_path = get_new_path(directory, new_path, -1);
-	return (new_path);
-}
+static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX]);
+static void	cd_without_args(char *new_path);
 
 void	ft_cd(t_prompt *prompt)
 {
 	char	*new_path;
+	char	cwd[PATH_MAX];
 
+	new_path = NULL;
 	if (!prompt->args)
-	{
-		new_path = getenv("HOME");
-		if (chdir(new_path) == 0)
-			setenv("PWD", new_path, 1);
-		else
-			ft_printf("echec\n");
-	}
-	else if (prompt->args[0][0] == '/')
-	{
-		if (chdir(prompt->args[0]) == 0)
-			setenv("PWD", prompt->args[0], 1);
-		else
-			printf("Error :(\n");
-	}
+		cd_without_args(new_path);
 	else if (prompt->args)
+		cd_with_args(prompt, new_path, cwd);
+}
+
+
+/// @brief Replace doubles quotes with it's content
+/// @param *prompt Pointer prompt struct,
+/// @param *new_path Pointer to str,
+/// @param *garbage Pointer to garbage struct.
+static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
+{
+	if (!ft_strncmp(new_path, prompt->args[0], ft_strlen(new_path)))
+		new_path = ft_strjoin(
+				ft_strjoin(getenv("PWD"), "/"), prompt->args[0]);
+	else
+		new_path = ft_strjoin("", prompt->args[0]);
+	if (chdir(new_path) == 0)
 	{
-		new_path = ft_strjoin(ft_strjoin(getenv("PWD"), "/"), prompt->args[0]);
-		new_path = ft_clear_path(new_path);
-		if (chdir(new_path) == 0)
-			setenv("PWD", new_path, 1);
-		else
-			ft_printf("wrong directory\n");
+		free(new_path);
+		getcwd(cwd, PATH_MAX);
+		setenv("PWD", cwd, 1);
 	}
+	else
+	{
+		free(new_path);
+		ft_printf("wrong directory\n");
+	}
+}
+
+static void	cd_without_args(char *new_path)
+{
+	new_path = ft_strjoin("/Users/", getenv("USER"));
+	if (chdir(new_path) == 0)
+	{
+		setenv("PWD", new_path, 1);
+		free(new_path);
+	}
+	else
+		printf("Failure\n");
 }
