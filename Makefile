@@ -26,10 +26,10 @@ SRC			=	srcs/minishell.c \
 				srcs/parsing/args/separate_cmd.c \
 				srcs/parsing/args/wildcard.c \
 				srcs/parsing/garbage_collector.c \
-				srcs/parsing/direction/direction.c \
-				srcs/parsing/direction/output.c \
-				srcs/parsing/direction/input.c \
-				srcs/parsing/direction/heredoc.c \
+				srcs/direction/direction.c \
+				srcs/direction/output.c \
+				srcs/direction/input.c \
+				srcs/direction/heredoc.c \
 				srcs/parsing/export.c \
 				srcs/parsing/insert_at_index.c \
 				srcs/exec/exec.c \
@@ -64,7 +64,7 @@ $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)srcs
 				@mkdir -p $(OBJS_DIR)srcs/parsing
 				@mkdir -p $(OBJS_DIR)srcs/parsing/args
-				@mkdir -p $(OBJS_DIR)srcs/parsing/direction
+				@mkdir -p $(OBJS_DIR)srcs/direction
 				@mkdir -p $(OBJS_DIR)srcs/builtin
 				@mkdir -p $(OBJS_DIR)srcs/exec
 
