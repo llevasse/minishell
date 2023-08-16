@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 22:37:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:34:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	main(int argc, char **argv, char **envp)
 	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
 		return (1);
 	g_minishell.error_value = 0;
+	printf(STARTUP);
 	while (42)
 	{
 		g_minishell.error_value = errno;
