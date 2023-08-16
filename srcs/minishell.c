@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:08:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:05:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ void	update_shlvl(char **env, t_garbage *garbage)
 	if (!env[i])
 		return ;
 	new_lvl = ft_itoa(lvl);
-	ft_add_garbage(0, &garbage, new_lvl);
+	ft_add_garbage(1, &garbage, new_lvl);
 	printf("New lvl %s\n", new_lvl);
 	env[i] = ft_joinf("SHLVL=%s", new_lvl);
-	ft_add_garbage(0, &garbage, env[i]);
+	ft_add_garbage(1, &garbage, env[i]);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -116,6 +116,7 @@ int	main(int argc, char **argv, char **envp)
 	struct sigaction	sa;
 	char				*s;
 	t_garbage			*garbage;
+	t_garbage			*garbage_at_exit;
 	struct termios		termios_new;
 
 	(void)argc;
@@ -127,8 +128,8 @@ int	main(int argc, char **argv, char **envp)
 			exit (errno);
 	}
 	set_termios(&termios_new);
-	garbage = NULL;
 	garbage = ft_new_garbage(0, NULL);
+	garbage_at_exit = ft_new_garbage(0, NULL);
 	g_minishell.garbage = garbage;
 	sigemptyset(&(sa.sa_mask));
 	sa.sa_flags = SA_SIGINFO;
@@ -137,7 +138,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	g_minishell.error_value = 0;
 	printf(STARTUP);
-	update_shlvl(envp, garbage);
+	update_shlvl(envp, garbage_at_exit);
 	while (42)
 	{
 		g_minishell.error_value = errno;

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/14 18:23:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:04:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_exit(t_garbage *garbage, char **args)
 	if (!args)
 	{
 		free_garbage(garbage);
+		free_garbage(g_minishell.at_exit_garbage);
 		exit(g_minishell.error_value);
 	}
 	if (is_only_digit(args[0]) && args[1])
