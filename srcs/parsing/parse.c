@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 22:07:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 22:09:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 		return ;
 	while(ft_isspace(*input))
 		input++;
+	if (!*input)
+		return ;
 	prompt = init_prompt(input, garbage, environ);
 	if (!prompt->cmd || errno == 12)
 		return ;
