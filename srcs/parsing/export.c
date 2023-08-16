@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 14:59:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:02:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key, garbage);
 	else
-		check_is_env_var(&key, garbage);
+		check_is_env_var(prompt, &key, garbage);
 	if (key[0] == '\0')
 		return ((void)printf(BAD_ASS), NULL);
 	if (get_char_pos(key, '$') != -1)
@@ -73,18 +73,18 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*content;
 
-	check_is_env_var(&content, garbage);
+	check_is_env_var(prompt, &content, garbage);
 	if (**input == '"')
 	{
 		prompt->d_quotes = 1;
 		no_end_quote(input, '"', W_DQUOTE, garbage);
-		content = get_quoted_str(*input, '"', 1, garbage);
+		content = get_quoted_str(*input, '"', 1, prompt);
 	}
 	else if (**input == 39) 
 	{
 		prompt->quotes = 1;
 		no_end_quote(input, 39, W_QUOTE, garbage);
-		content = get_quoted_str(*input, 39, 0, garbage);
+		content = get_quoted_str(*input, 39, 0, prompt);
 	}
 	else
 		content = ft_strdup(ft_strsep(input, " "));

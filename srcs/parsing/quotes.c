@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 15:38:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:59:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 /// @param quote Character used as quote.
 /// @param env_var 1 if checking for env var, and 0 if not 
 /// @return Content of quoted str or NULL if error.
-char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
+char	*get_quoted_str(char *str, char quote, int env_var, t_prompt *prompt)
 {
 	int		i;
 	int		j;
@@ -74,7 +74,7 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	else
 		j = i - j;
 	new_str = malloc((j + 1) * sizeof(char));
-	ft_add_garbage(0, &garbage, new_str);
+	ft_add_garbage(0, &prompt->garbage, new_str);
 	j = 0;
 	i++;
 	while (str[i + j] && str[i + j] != quote)
@@ -84,7 +84,7 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_garbage *garbage)
 	}
 	new_str[j] = 0;
 	if (env_var)
-		check_is_env_var(&new_str, garbage);
+		check_is_env_var(prompt, &new_str, prompt->garbage);
 	return (new_str);
 }
 
@@ -101,7 +101,7 @@ void	pass_double_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	prompt->d_quotes = 1;
 	no_end_quote(str, '"', W_DQUOTE, garbage);
 	i = get_char_pos(*str, '"');
-	in_quotes = get_quoted_str(*str, '"', 1, garbage);
+	in_quotes = get_quoted_str(*str, '"', 1, prompt);
 	if (!in_quotes)
 		return ;
 	*str[i] = 0;
@@ -129,6 +129,6 @@ void	pass_single_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 	original_quote = ft_strdup(*str + i);
 	ft_add_garbage(0, &garbage, original_quote);
 	original_quote[get_char_pos(original_quote + 1, 39) + 2] = '\0';
-	in_quotes = get_quoted_str(*str, (char)39, 0, garbage);
+	in_quotes = get_quoted_str(*str, (char)39, 0, prompt);
 	replace_str(str, original_quote, in_quotes, garbage);
 }

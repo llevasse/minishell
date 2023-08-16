@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 15:58:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 17:08:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,30 @@ char	**get_base_env(void)
 /usr/local/games:/snap/bin";
 	environ[1] = "TERM=xterm-256color";
 	environ[2] = "PWD=/Users/alphom/Documents/42/Learner/minishell";
-	environ[3] = "SHLVL=1";
+	environ[3] = "SHLVL=-1";
 	environ[4] = "_=/usr/bin/env";
 	environ[5] = NULL;
 	return (environ);
+}
+
+void	update_shlvl(char **env, t_garbage *garbage)
+{
+	int		lvl;
+	char	*new_lvl;
+	int		i;
+
+	lvl = ft_atoi(ft_getenv(env, "SHLVL", garbage));
+	lvl++;
+	i = 0;
+	while (env[i] && ft_strncmp("SHLVL=", env[i], 6))
+		i++;
+	if (!env[i])
+		return ;
+	new_lvl = ft_itoa(lvl);
+	ft_add_garbage(0, &garbage, new_lvl);
+	printf("New lvl %s\n", new_lvl);
+	env[i] = ft_joinf("SHLVL=%s", new_lvl);
+	ft_add_garbage(0, &garbage, env[i]);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -117,6 +137,7 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	g_minishell.error_value = 0;
 	printf(STARTUP);
+	update_shlvl(envp, garbage);
 	while (42)
 	{
 		g_minishell.error_value = errno;

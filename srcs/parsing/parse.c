@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 15:26:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:49:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 		prompt->d_quotes = 1;
 		if (get_char_occurance(*input, '"') % 2 != 0)
 			no_end_quote(input, '"', W_DQUOTE, garbage);
-		prompt->cmd = get_quoted_str(*input, '"', 1, garbage);
+		prompt->cmd = get_quoted_str(*input, '"', 1, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, '"');
 	}
 	else if ((*input)[0] == 39)
@@ -62,13 +62,13 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 		prompt->quotes = 1;
 		if (get_char_occurance(*input, 39) % 2 != 0)
 			no_end_quote(input, 39, W_QUOTE, garbage);
-		prompt->cmd = get_quoted_str(*input, 39, 0, garbage);
+		prompt->cmd = get_quoted_str(*input, 39, 0, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}
 	else
 	{
 		prompt->cmd = ft_strsep(input, " ");
-		check_is_env_var(&prompt->cmd, garbage);
+		check_is_env_var(prompt, &prompt->cmd, garbage);
 	}
 	if (prompt->cmd[0] == 0)
 		return ;
@@ -97,6 +97,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
 	prompt->prev_cmd = NULL;
 	prompt->heredoc_fd[0] = -1;
 	prompt->environ = env;
+	prompt->garbage = garbage;
 	len = ft_strlen(input);
 	get_cmd(&input, prompt, garbage);
 	if (!prompt->cmd && errno != 12)

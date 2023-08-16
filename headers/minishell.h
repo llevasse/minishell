@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 15:25:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:47:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ void		check_cmd(t_prompt *prompt, t_garbage *garbage);
 char		*ft_strsep(char **p_str, const char *delim);
 
 // env.c
+char		*ft_getenv(char **env, char *search, t_garbage *garbage);
 char		*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage);
 int			check_present_in_path(t_prompt *prompt, char *path);
-int			check_is_env_var(char **str, t_garbage *garbage);
+int			check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage);
 char		*get_env_var_name(char *str, t_garbage *garbage);
 
 // chars.c
@@ -70,7 +71,7 @@ void		pass_double_quotes(t_prompt *prompt, char **str,
 void		pass_single_quotes(t_prompt *prompt, char **str,
 				t_garbage *garbage);
 char		*get_quoted_str(char *str, char quote, int env_var,
-				t_garbage *garbage);
+				t_prompt *prompt);
 
 // replace_str.c
 void		replace_str(char **str, char *old_substr, char *new_substr,

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 15:57:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/16 16:45:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 {
 	int		i;
 	char	*search_e;
+	char	*res;
 
 	i = 0;
 	search_e = ft_joinf("%s=", search);
@@ -26,7 +27,8 @@ char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 		i++;
 	if (!env[i])
 		return (getenv(search));
-	return (env[i]);
+	res = env[i];
+	return (res + ft_strlen(search_e));
 }
 
 /// @brief Get path of cmd in env.
@@ -104,7 +106,7 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
 /// and replace env variable in *str with his content.
-int	check_is_env_var(char **str, t_garbage *garbage)
+int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 {
 	char	*var;
 
@@ -119,7 +121,8 @@ int	check_is_env_var(char **str, t_garbage *garbage)
 	while (get_char_pos(*str, '$') >= 0)
 	{
 		var = get_env_var_name(*str, garbage);
-		replace_str(str, var, getenv(var + 1), garbage);
+		replace_str(str, var, ft_getenv(prompt->environ, var + 1, garbage), 
+			garbage);
 	}
 	return (1);
 }
