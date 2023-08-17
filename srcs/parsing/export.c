@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 14:07:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:01:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,12 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	char	*content;
 
 	prompt->export_args = NULL;
+	if (get_char_pos(input, '=') == -1)
+	{
+		key = ft_strdup(input);
+		ft_add_garbage(0, &garbage, key);
+		ft_add_export(&prompt->export_args, ft_strsep(&input, " "), 0, garbage);
+	}
 	while (get_char_pos(input, '=') != -1)
 	{
 		equal_pos = get_char_pos(input, '=');
