@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 20:48:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:55:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,30 @@ char	**merge_tabs(char **tab1, char **tab2)
 		new[nb++] = tab2[i++];
 	return (new[nb] = NULL, new);
 }
+
+void	delete_duplicate_export(char *key)
+{
+	int	i;
+
+	i = 0;
+	while (g_minishell.env[i] && ft_strncmp(key, g_minishell.env[i], ft_strlen(key)))
+		i++;
+	if (g_minishell.env[i])
+		delete_element_at_index(g_minishell.env, i);
+}
+
 void	ft_export(t_prompt *prompt)
 {
-	char	*exports;
+	char		*exports;
+	t_export	*exp;
+	int			i;
 
+	i = 0;
 	if (prompt->export_args)
 	{
-		exports = ft_joinf("%s=%s", prompt->export_args->key,
-					prompt->export_args->content);
+		exp = prompt->export_args;
+		exports = ft_joinf("%s=%s", exp->key, exp->content);
+		delete_duplicate_export(exp->key);
 		g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else
