@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 17:57:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:46:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 {
 	char	*var;
+
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
 	if ((*str)[get_char_pos(*str, '$') + 1] == '?')

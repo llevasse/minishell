@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 20:11:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:45:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	**insert_at_end(char *s, char **tab, t_garbage *garbage)
 	new[i] = s;
 	new[i + 1] = NULL;
 	return (new);
-
 }
 
 char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage)
