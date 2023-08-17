@@ -6,43 +6,47 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/17 17:52:11 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/17 20:13:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern char	**environ;
+extern struct s_minishell	g_minishell;
 
-static int	unset_env(char *arg, size_t size);
+void	add_oldpwd(void)
+{
+	char	path[PATH_MAX];
+	char	*s;
+
+	ft_bzero(path, PATH_MAX);
+	s = ft_joinf("OLDPWD=%s", getcwd(path, PATH_MAX));
+	ft_add_garbage(0, &g_minishell.at_exit_garbage, s);
+	insert_at_end(s, g_minishell.env, g_minishell.garbage);
+}
 
 void	ft_unset(t_prompt *prompt)
 {
-	char	path[PATH_MAX];
+	char	*s;
+	int		i;
 
-	ft_bzero(path, PATH_MAX);
 	if (!prompt->args)
 		return ;
-	if (!ft_strcmp(prompt->args[0], "PWD"))
-		setenv("OLDPWD", getcwd(path, PATH_MAX), 1);
-	if (prompt->args[0])
-		if (!unset_env(prompt->args[0], ft_strlen(prompt->args[0])))
-			return ;
-}
-
-//Setting the line with Key = ARGS to "".
-static int	unset_env(char *arg, size_t size)
-{
-	ssize_t	i;
-
-	i = -1;
-	while (environ[++i])
+	while (prompt->args[0])
 	{
-		if (!ft_strncmp(environ[i], arg, size))
+		s = prompt->args[0];
+		i = 0;
+		while (g_minishell.env[i])
 		{
-			environ[i] = "";
-			return (1);
+			if (!ft_strcmp(s, "PWD"))
+				add_oldpwd();
+			if (!ft_strncmp(s, g_minishell.env[i], ft_strlen(s)))
+			{
+				delete_element_at_index(g_minishell.env, i);
+				delete_element_at_index(prompt->args, 0);
+				break ;
+			}
+			i++;
 		}
 	}
-	return (0);
 }

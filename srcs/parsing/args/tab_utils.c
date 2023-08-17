@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/03 15:26:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:11:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,50 @@ void	delete_element_at_index(char **tab, int index)
 		tab[index] = tab[index + 1];
 		index++;
 	}
+}
+
+char	**insert_at_end(char *s, char **tab, t_garbage *garbage)
+{
+	char	**new;
+	int		i;
+
+	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
+	ft_add_garbage(0, &garbage, new);
+	i = 0;
+	while (tab[i])
+	{
+		new[i] = tab[i];
+		new[i++ + 1] = NULL;
+	}
+	new[i] = s;
+	new[i + 1] = NULL;
+	return (new);
+
+}
+
+char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage)
+{
+	char	**new;
+	int		i;
+	int		j;
+
+	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
+	ft_add_garbage(0, &garbage, new);
+	i = 0;
+	j = 0;
+	while (tab[i] && i < index)
+	{
+		new[i] = tab[i];
+		new[i++ + 1] = NULL;
+	}
+	new[i] = s;
+	new[i++ + 1] = NULL;
+	while (tab[i])
+	{
+		new[i] = tab[i - 1];
+		new[i++ + 1] = NULL;
+	}
+	return (new);
 }
 
 char	**insert_tab_at_index(char **t1, char **t2,
