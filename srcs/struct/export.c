@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 13:48:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:16:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,30 @@ void	ft_add_export(t_export **lst, char *key, char *content,
 		return ;
 	}
 	*lst = new;
+}
+
+int	export_list_size(t_export *export)
+{
+	if (export)
+		return (export_list_size(export->next) + 1);
+	return (0);
+}
+
+char	**convert_to_tab(t_export *export, t_garbage *garbage)
+{
+	char		**tab;
+	t_export	*temp;
+	int			i;
+
+	tab = malloc(sizeof(char *) * (export_list_size(export) + 1));
+	ft_add_garbage(0, &garbage, tab);
+	i = 0;
+	temp = export;
+	while (temp)
+	{
+		tab[i++] = ft_joinf("%s=%s", temp->key, temp->content);
+		temp = temp->next;
+	}
+	tab[i] = NULL;
+	return (tab);
 }
