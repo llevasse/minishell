@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 20:55:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 21:33:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,29 @@
 
 extern struct s_minishell	g_minishell;
 
-void	print_env(char **env)
+void	print_export(char **env)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	**print;
 
 	i = 0;
 	if (!env)
 		return ;
 	while (env[i])
-		printf("%s\n", env[i++]);
-}
-
-char	**merge_tabs(char **tab1, char **tab2)
-{
-	int			nb;
-	int			i;
-	char		**new;
-
-	nb = get_tab_size(tab1) + get_tab_size(tab2) + 1;
-	new = malloc(nb * sizeof(char *));
-	ft_add_garbage(0, &g_minishell.at_exit_garbage, new);
-	i = 0;
-	nb = 0;
-	while (tab1[i])
-		new[nb++] = tab1[i++];
-	i = 0;
-	while (tab2[i])
-		new[nb++] = tab2[i++];
-	return (new[nb] = NULL, new);
+	{
+		j = 0;
+		print = ft_split(env[i++], '=');
+		ft_add_garbage(0, &g_minishell.garbage, print);
+		printf("declare -x %s=\"",print[j++]);
+		while(print[j])
+		{
+			printf("%s", print[j++]);
+			if (print[j])
+				printf("=");
+		}
+		printf("\"\n");
+	}
 }
 
 void	delete_duplicate_export(char *key)
@@ -70,6 +65,6 @@ void	ft_export(t_prompt *prompt)
 		g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else
-		print_env(g_minishell.env);
+		print_export(g_minishell.env);
 }
 
