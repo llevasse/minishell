@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 20:13:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 20:19:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	add_oldpwd(void)
 	ft_bzero(path, PATH_MAX);
 	s = ft_joinf("OLDPWD=%s", getcwd(path, PATH_MAX));
 	ft_add_garbage(0, &g_minishell.at_exit_garbage, s);
-	insert_at_end(s, g_minishell.env, g_minishell.garbage);
+	g_minishell.env = insert_at_end(s, g_minishell.env, g_minishell.garbage);
 }
 
 void	ft_unset(t_prompt *prompt)
@@ -40,13 +40,14 @@ void	ft_unset(t_prompt *prompt)
 		{
 			if (!ft_strcmp(s, "PWD"))
 				add_oldpwd();
+//			printf("Checking %s is equal to %s\n", s, g_minishell.env[i]);
 			if (!ft_strncmp(s, g_minishell.env[i], ft_strlen(s)))
 			{
 				delete_element_at_index(g_minishell.env, i);
-				delete_element_at_index(prompt->args, 0);
 				break ;
 			}
 			i++;
 		}
+		delete_element_at_index(prompt->args, 0);
 	}
 }
