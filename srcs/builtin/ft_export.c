@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 22:36:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:43:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,23 @@ void	print_export(char **env)
 	char	**print;
 
 	i = 0;
-	if (!env)
-		return ;
 	while (env[i])
 	{
 		j = 0;
 		print = ft_split(env[i++], '=');
 		ft_add_garbage(0, &g_minishell.garbage, print);
+		ft_add_garbage(0, &g_minishell.garbage, print[j]);
 		if (!print[j + 1])
-			printf("declare -x %s",print[j]);
-		else
-			printf("declare -x %s=\"",print[j]);
-		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-		while(print[j])
+			return ((void)printf("declare -x %s\n", print[j]));
+		printf("declare -x %s=\"", print[j++]);
+		while (print[j])
 		{
 			printf("%s", print[j]);
 			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
 			if (print[j])
 				printf("=");
 		}
-		if (j > 1)
-			printf("\"");
-		printf("\n");
+		printf("\"\n");
 	}
 }
 
@@ -51,7 +46,8 @@ void	delete_duplicate_export(char *key)
 	int	i;
 
 	i = 0;
-	while (g_minishell.env[i] && ft_strncmp(key, g_minishell.env[i], ft_strlen(key)))
+	while (g_minishell.env[i] && \
+			ft_strncmp(key, g_minishell.env[i], ft_strlen(key)))
 		i++;
 	if (g_minishell.env[i])
 		delete_element_at_index(g_minishell.env, i);
@@ -70,9 +66,9 @@ void	ft_export(t_prompt *prompt)
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
 		ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
 		delete_duplicate_export(exp->key);
-		g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
+		g_minishell.env = insert_at_end(exports, 
+				g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else
 		print_export(g_minishell.env);
 }
-
