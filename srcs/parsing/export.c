@@ -6,41 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:02:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 13:52:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_export	*ft_new_export(char *key, char *content, t_garbage *garbage)
-{
-	t_export	*new;
-
-	new = malloc(sizeof(struct s_export));
-	ft_add_garbage(0, &garbage, new);
-	new->key = key;
-	new->content = content;
-	new->next = NULL;
-	return (new);
-}
-
-void	ft_add_export(t_export **lst, char *key, char *content, 
-			t_garbage *garbage)
-{
-	t_export	*temp;
-	t_export	*new;
-
-	new = ft_new_export(key, content, garbage);
-	if (*lst)
-	{
-		temp = *lst;
-		while (temp->next != NULL)
-			temp = temp->next;
-		temp->next = new;
-		return ;
-	}
-	*lst = new;
-}
 
 /// @brief get element before '=' when export is called.
 /// @param *prompt pointer to prompt struct,
@@ -73,7 +43,7 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 {
 	char	*content;
 
-	check_is_env_var(prompt, &content, garbage);
+//	check_is_env_var(prompt, &content, garbage);
 	if (**input == '"')
 	{
 		prompt->d_quotes = 1;
