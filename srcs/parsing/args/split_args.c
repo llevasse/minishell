@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 22:40:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:56:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,8 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 		else
 		{
 			res[index_word] = get_word_arg(s, c, i, garbage);
-			check_is_env_var(prompt, &res[index_word], garbage);
 			i += ft_strlen(res[index_word]);
+			check_is_env_var(prompt, &res[index_word], garbage);
 		}
 		index_word++;
 		res[index_word] = NULL;

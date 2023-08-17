@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 16:45:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:57:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 	i = 0;
 	search_e = ft_joinf("%s=", search);
 	ft_add_garbage(0, &garbage, search_e);
-	while (ft_strncmp(search_e, env[i], ft_strlen(search_e)))
+	while (env[i] && ft_strncmp(search_e, env[i], ft_strlen(search_e)))
 		i++;
 	if (!env[i])
-		return (getenv(search));
+		return ("");
 	res = env[i];
 	return (res + ft_strlen(search_e));
 }
@@ -109,7 +109,6 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 {
 	char	*var;
-
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
 	if ((*str)[get_char_pos(*str, '$') + 1] == '?')
