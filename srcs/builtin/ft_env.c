@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 15:44:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 21:43:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@ void	ft_env(void)
 	int	i;
 
 	i = -1;
-	while (g_minishell.env[++i])
-		ft_printf("%s\n", g_minishell.env[i]);
+	while (g_minishell.entry_env[++i])
+		ft_printf("%s\n", g_minishell.entry_env[i]);
 }
