@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:24:48 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 21:33:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:50:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	else if (!ft_strcmp(prompt->full_args[0], "echo"))
 		ft_echo(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "env"))
-		ft_env(prompt);
+		ft_env();
 	else if (!ft_strcmp(prompt->full_args[0], "export"))
 		ft_export(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "pwd"))
@@ -52,4 +52,10 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	free_garbage(garbage);
 	free_garbage(g_minishell.at_exit_garbage);
 	exit(errno);
+}
+
+void	exec_builtin_main_thread(t_prompt *prompt)
+{
+	if (!ft_strcmp(prompt->full_args[0], "export"))
+		ft_export(prompt);
 }

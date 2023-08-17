@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 15:34:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:54:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,5 @@ int	main(int argc, char **argv, char **envp)
 		free_garbage(garbage);
 		garbage = NULL;
 		garbage = ft_new_garbage(0, NULL);
-		printf_args(g_minishell.env, "Env :");
 	}
 }

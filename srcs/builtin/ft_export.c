@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 15:39:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:54:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	ft_export(t_prompt *prompt)
 	if (prompt->export_args)
 	{
 		exports = convert_to_tab(prompt->export_args);
-		printf_args(exports, "Assign :");
 		g_minishell.env = merge_tabs(g_minishell.env, exports);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 15:35:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:50:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,9 @@ void		print_unknown_cmd(t_prompt *prompt);
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
+void		exec_builtin_main_thread(t_prompt *prompt);
 void		ft_echo(t_prompt *prompt);
-void		ft_env(t_prompt *prompt);
+void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage, char **args);
 void		ft_pwd(void);
