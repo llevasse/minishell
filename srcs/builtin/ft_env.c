@@ -6,17 +6,19 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/11 12:03:05 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/17 15:44:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_prompt *prompt)
+extern struct s_minishell	g_minishell;
+
+void	ft_env(void)
 {
 	int	i;
 
 	i = -1;
-	while (prompt->environ[++i])
-		ft_printf("%s\n", prompt->environ[i]);
+	while (g_minishell.env[++i])
+		ft_printf("%s\n", g_minishell.env[i]);
 }

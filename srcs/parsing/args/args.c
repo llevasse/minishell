@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 22:40:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:45:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ void	printf_args(char **tab, char *prompt)
 	int	i;
 
 	i = 0;
-	printf("%s", prompt);
+	printf("%s\n", prompt);
 	while (tab && tab[i])
-		printf(" %s", tab[i++]);
-	printf(" %s", tab[i]);
-	printf("\n");
+		printf("%s\n", tab[i++]);
+	printf("%s\n", tab[i]);
 }
 
 /// @brief Parse each quoted args and env variable,

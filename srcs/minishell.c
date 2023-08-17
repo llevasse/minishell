@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 10:25:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:54:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int	main(int argc, char **argv, char **envp)
 	g_minishell.error_value = 0;
 	printf(STARTUP);
 	update_shlvl(envp, garbage_at_exit);
+	g_minishell.env = envp;
 	while (42)
 	{
 		g_minishell.error_value = errno;
@@ -148,7 +149,7 @@ int	main(int argc, char **argv, char **envp)
 		if (s == NULL)
 			ft_exit(garbage, NULL);
 		add_history(s);
-		parse(s, garbage, envp);
+		parse(s, garbage, g_minishell.env);
 		free_garbage(garbage);
 		garbage = NULL;
 		garbage = ft_new_garbage(0, NULL);

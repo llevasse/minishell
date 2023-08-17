@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 21:56:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:50:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ void		ft_add_garbage(int log, t_garbage **lst, void *address);
 t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
 void		ft_add_export(t_export **lst, char *key, char *content,
 				t_garbage *garbage);
+int			export_list_size(t_export *export);
 void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
+char		**convert_to_tab(t_export *export);
 
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
@@ -92,8 +94,9 @@ void		print_unknown_cmd(t_prompt *prompt);
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
+void		exec_builtin_main_thread(t_prompt *prompt);
 void		ft_echo(t_prompt *prompt);
-void		ft_env(t_prompt *prompt);
+void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage, char **args);
 void		ft_pwd(void);

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 13:52:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:07:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 		content = get_quoted_str(*input, 39, 0, prompt);
 	}
 	else
+	{
 		content = ft_strdup(ft_strsep(input, " "));
+		check_is_env_var(prompt, &content, garbage);
+	}
 	ft_add_garbage(0, &garbage, content);
 	return (content);
 }
