@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 21:42:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:33:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ int	main(int argc, char **argv, char **envp)
 	set_termios(&termios_new);
 	garbage = ft_new_garbage(0, NULL);
 	garbage_at_exit = ft_new_garbage(0, NULL);
-	g_minishell.garbage = garbage;
 	g_minishell.at_exit_garbage = garbage_at_exit;
 	sigemptyset(&(sa.sa_mask));
 	sa.sa_flags = SA_SIGINFO;
@@ -144,6 +143,7 @@ int	main(int argc, char **argv, char **envp)
 	g_minishell.env = envp;
 	while (42)
 	{
+		g_minishell.garbage = garbage;
 		g_minishell.error_value = errno;
 		errno = 0;
 		s = readline(get_mini_prompt(garbage));
@@ -152,7 +152,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(s);
 		parse(s, garbage, g_minishell.env);
 		free_garbage(garbage);
-		garbage = NULL;
 		garbage = ft_new_garbage(0, NULL);
+		garbage->next = NULL;
 	}
 }

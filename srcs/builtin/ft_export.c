@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 22:10:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:23:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,19 @@ void	print_export(char **env)
 		j = 0;
 		print = ft_split(env[i++], '=');
 		ft_add_garbage(0, &g_minishell.garbage, print);
-		while(print[j])
-			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-		j = 0;
 		if (!print[j + 1])
-			printf("declare -x %s",print[j++]);
+			printf("declare -x %s",print[j]);
 		else
-			printf("declare -x %s=\"",print[j++]);
+			printf("declare -x %s=\"",print[j]);
+		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
 		while(print[j])
 		{
-			printf("%s", print[j++]);
+			printf("%s", print[j]);
+			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
 			if (print[j])
 				printf("=");
 		}
+		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
 		if (j > 1)
 			printf("\"");
 		printf("\n");
