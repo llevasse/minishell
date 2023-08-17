@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 21:46:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:25:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,7 @@ int	main(int argc, char **argv, char **envp)
 		errno = 0;
 		s = readline(get_mini_prompt(garbage));
 		if (s == NULL)
-		{
-			printf(EXIT);
 			ft_exit(garbage, NULL);
-		}
 		add_history(s);
 		parse(s, garbage, envp);
 		free_garbage(garbage);
