@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	ft_is_cd_args(char *args);
+static int	ft_is_cd_args(char *args);
 static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX]);
 static void	cd_without_args(char *new_path);
 
@@ -28,13 +28,14 @@ void	ft_cd(t_prompt *prompt)
 		cd_with_args(prompt, new_path, cwd);
 }
 
-int	ft_is_cd_args(char *args)
+static int	ft_is_cd_args(char *args)
 {
 	if (!ft_strcmp(args, "|") || !ft_strcmp(args, ";") || !args)
 		return (0);
 	else
 		return (1);
 }
+
 /// @brief Replace doubles quotes with it's content
 /// @param *prompt Pointer prompt struct,
 /// @param *new_path Pointer to str,

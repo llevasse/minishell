@@ -17,14 +17,14 @@
 /// @param *to_insert String to insert in *str,
 /// @param index Index of where in *str to insert *to_insert.
 /// @return Return duplicate of *str containing *to_insert.
-char	*insert_at_index(char *str, char *to_insert, 
+char	*insert_at_index(char *str, char *to_insert,
 			int index, t_garbage *garbage)
 {
 	char	*new_str;
 	int		i;
 	int		j;
 
-	new_str = malloc((ft_strlen(str) + ft_strlen(to_insert) + 1) 
+	new_str = malloc((ft_strlen(str) + ft_strlen(to_insert) + 1) \
 			* sizeof(char));
 	ft_add_garbage(0, &garbage, new_str);
 	i = 0;

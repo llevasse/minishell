@@ -24,7 +24,7 @@ void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage)
 	if (pos == -1)
 		return ;
 	input[pos++] = 0;
-	while (input[pos] && 
+	while (input[pos] && \
 		(ft_is_in_str("|&;", input[pos]) || ft_isspace(input[pos])))
 		pos++;
 	if (!input[pos])

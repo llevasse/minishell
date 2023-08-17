@@ -58,7 +58,7 @@ int	respect_pattern(char *str, char *pattern, char **keys)
 	last_key = keys[get_tab_size(keys) - 1];
 	if (pattern[ft_strlen(pattern)] != 42)
 	{
-		if (ft_strncmp(str + (ft_strlen(str) - 
+		if (ft_strncmp(str + (ft_strlen(str) - \
 					ft_strlen(last_key)), last_key, ft_strlen(last_key) + 1))
 			return (0);
 	}

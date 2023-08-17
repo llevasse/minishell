@@ -24,7 +24,7 @@ t_export	*ft_new_export(char *key, char *content, t_garbage *garbage)
 	return (new);
 }
 
-void	ft_add_export(t_export **lst, char *key, char *content, 
+void	ft_add_export(t_export **lst, char *key, char *content,
 			t_garbage *garbage)
 {
 	t_export	*temp;

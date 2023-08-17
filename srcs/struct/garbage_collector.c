@@ -20,7 +20,6 @@ void	free_garbage(t_garbage	*garbage)
 		garbage->next = NULL;
 		if (garbage->address)
 		{
-	//		printf(FREE_GARBAGE, garbage->address, (char *)garbage->address);
 			free(garbage->address);
 			garbage->address = NULL;
 		}

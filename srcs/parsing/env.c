@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-extern struct s_minishell	g_minishell; 
+extern struct s_minishell	g_minishell;
 
 char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 {
@@ -121,7 +121,7 @@ int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 	while (get_char_pos(*str, '$') >= 0)
 	{
 		var = get_env_var_name(*str, garbage);
-		replace_str(str, var, ft_getenv(prompt->environ, var + 1, garbage), 
+		replace_str(str, var, ft_getenv(prompt->environ, var + 1, garbage),
 			garbage);
 	}
 	return (1);

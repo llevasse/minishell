@@ -20,7 +20,7 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 
 	if (!input || !*input)
 		return ;
-	while(ft_isspace(*input))
+	while (ft_isspace(*input))
 		input++;
 	if (!*input)
 		return ;
