@@ -6,13 +6,24 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 16:02:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:01:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern struct s_minishell	g_minishell;
+
+void	print_env(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		return ;
+	while (env[i])
+		printf("%s\n", env[i++]);
+}
 
 char	**merge_tabs(char **tab1, char **tab2)
 {
@@ -42,6 +53,6 @@ void	ft_export(t_prompt *prompt)
 		g_minishell.env = merge_tabs(g_minishell.env, exports);
 	}
 	else
-		printf_args(prompt->environ,"");
+		print_env(g_minishell.env);
 }
 
