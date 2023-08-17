@@ -20,13 +20,13 @@ void	ft_export(t_prompt *prompt)
 	temp = prompt->export_args;
 	while (temp)
 	{
-		if (!temp->key)
-			return ;
-		if (temp)
-			printf("Je vais assigne la key \"%s\" au content \"%s\"\n",
-				temp->key, temp->content);
-		else
-			printf("Je vais imprimer une liste des exports\n");
-		temp = temp->next;
+	if (!temp->key)
+		return ;
+	if (temp)
+		setenv(temp->key, temp->content, 1);
+	else
+		printf("Je vais imprimer une liste des exports\n");
+	temp = temp->next;
 	}
 }
+
