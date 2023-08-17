@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 22:35:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 13:57:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	char	*cut_section;
 
 	i = 0;
-	while (prompt->args[i])
+	while (prompt->args && prompt->args[i])
 	{
 		if (!ft_strcmp(prompt->args[i], "<") && \
 				ft_strcmp(prompt->args[i], "<<"))
@@ -97,7 +97,7 @@ void	delete_redirection(char **args)
 	int	i;
 
 	i = 0;
-	while (args[i])
+	while (args && args[i])
 	{
 		if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
 		(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
