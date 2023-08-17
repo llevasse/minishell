@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 14:16:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:37:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern struct s_minishell	g_minishell;
 
 t_export	*ft_new_export(char *key, char *content, t_garbage *garbage)
 {
@@ -49,19 +51,20 @@ int	export_list_size(t_export *export)
 	return (0);
 }
 
-char	**convert_to_tab(t_export *export, t_garbage *garbage)
+char	**convert_to_tab(t_export *export)
 {
 	char		**tab;
 	t_export	*temp;
 	int			i;
 
 	tab = malloc(sizeof(char *) * (export_list_size(export) + 1));
-	ft_add_garbage(0, &garbage, tab);
+	ft_add_garbage(0, &(g_minishell.at_exit_garbage), tab);
 	i = 0;
 	temp = export;
 	while (temp)
 	{
-		tab[i++] = ft_joinf("%s=%s", temp->key, temp->content);
+		tab[i] = ft_joinf("%s=%s", temp->key, temp->content);
+		ft_add_garbage(0, &(g_minishell.at_exit_garbage), tab[i++]);
 		temp = temp->next;
 	}
 	tab[i] = NULL;

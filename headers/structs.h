@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 21:47:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:38:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 typedef struct s_minishell
 {
 	unsigned char		error_value;
-	void				*garbage;
-	void				*at_exit_garbage;
+	char				**env;
+	struct s_garbage	*garbage;
+	struct s_garbage	*at_exit_garbage;
 	pid_t				current_pid;
 }	t_minishell;
 
