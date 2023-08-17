@@ -49,7 +49,7 @@ int	pass_specifier(char specifier, va_list args, char **str, int i)
 
 	if (specifier == 'c')
 	{
-		(*str)[i] = (char)va_arg(args, int); 
+		(*str)[i] = (char)va_arg(args, int);
 		return (i + 1);
 	}
 	if (specifier == 's')
