@@ -46,12 +46,10 @@ char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage)
 {
 	char	**new;
 	int		i;
-	int		j;
 
 	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
 	ft_add_garbage(0, &garbage, new);
 	i = 0;
-	j = 0;
 	while (tab[i] && i < index)
 	{
 		new[i] = tab[i];

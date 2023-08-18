@@ -29,13 +29,13 @@ void	print_export(char **env)
 		ft_add_garbage(0, &g_minishell.garbage, print[j]);
 		if (!print[j + 1])
 			return ((void)printf("declare -x %s\n", print[j]));
-		printf("declare -x %s=\"", print[j++]);
+		ft_printf("declare -x %s=\"", print[j++]);
 		while (print[j])
 		{
-			printf("%s", print[j]);
+			ft_printf("%s", print[j]);
 			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
 			if (print[j])
-				printf("=");
+				ft_printf("=");
 		}
 		printf("\"\n");
 	}
@@ -57,9 +57,7 @@ void	ft_export(t_prompt *prompt)
 {
 	char		*exports;
 	t_export	*exp;
-	int			i;
 
-	i = 0;
 	if (prompt->export_args)
 	{
 		exp = prompt->export_args;

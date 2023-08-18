@@ -60,4 +60,6 @@ void	exec_builtin_main_thread(t_prompt *prompt)
 		ft_export(prompt);
 	if (!ft_strcmp(prompt->full_args[0], "unset") && prompt->args)
 		ft_unset(prompt);
+	if (!ft_strcmp(prompt->full_args[0], "cd"))
+		ft_cd(prompt);
 }
