@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 12:43:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:30:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_export(t_prompt *prompt)
 	int			i;
 
 	i = 0;
+	sort_tab_alpha(g_minishell.env);
 	if (prompt->export_args)
 	{
 		exp = prompt->export_args;
