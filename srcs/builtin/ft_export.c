@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 10:42:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:34:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,21 @@ void	ft_export(t_prompt *prompt)
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
 		ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
 		delete_duplicate_export(exp->key);
-		g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
+		if (ft_strcmp(exports, g_minishell.env[1]) < 0)
+			return ((void)(g_minishell.env = insert_s_at_index(exports, g_minishell.env, i, g_minishell.at_exit_garbage)));
+		while (g_minishell.env[i] && g_minishell.env[i + 1])
+		{
+			if (ft_strcmp(exports, g_minishell.env[i]) > 0 && \
+				ft_strcmp(exports, g_minishell.env[i + 1]) < 0)
+			{
+				g_minishell.env = insert_s_at_index(exports, g_minishell.env, i, g_minishell.at_exit_garbage);
+				break ;
+			}
+			i++;
+		}
+		if (!g_minishell.env[i + 1])
+			g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else
 		print_export(g_minishell.env);
 }
-
