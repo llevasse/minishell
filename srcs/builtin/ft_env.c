@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:21:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:29:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	ft_env(void)
 				if (print[j])
 					printf("=");
 			}
-			printf("\n");
+			if (print[1])
+				printf("\n");
 		}
 		else
 			i++;

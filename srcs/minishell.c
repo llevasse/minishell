@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:23:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:28:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,13 @@ char	**get_base_env(void)
 	char **environ;
 	char	path[PATH_MAX];
 
-	environ = malloc(sizeof(char *) * 3);
+	environ = malloc(sizeof(char *) * 4);
 	if (!environ)
 		return (NULL);
 	environ[0] = ft_joinf("PWD=%s", getcwd(path, PATH_MAX));
 	environ[1] = "SHLVL=0";
-	environ[2] = NULL;
+	environ[2] = "OLDPWD";
+	environ[3] = NULL;
 	return (environ);
 }
 
