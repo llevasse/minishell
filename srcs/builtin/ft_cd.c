@@ -23,16 +23,10 @@ void	ft_cd(t_prompt *prompt)
 {
 	char	*new_path;
 	char	cwd[PATH_MAX];
-	int		i;
 
 	new_path = get_current_dir(prompt->environ);
-	i = -1;
-	while (g_minishell.env[++i])
-	{
-		if (!ft_strncmp(g_minishell.env[i], "PWD=", 4))
-			delete_duplicate_export("PWD");
-	}
-	insert_at_end(ft_joinf("%s%s", "PWD=", new_path),g_minishell.env,
+	delete_duplicate_export("PWD");
+	insert_at_end(new_path,g_minishell.env,
 				  g_minishell.at_exit_garbage);
 	if (!ft_is_cd_args(prompt->full_args[1]))
 		cd_without_args(new_path);

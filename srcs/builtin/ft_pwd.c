@@ -18,21 +18,13 @@ static char	*get_current_dir(char **environ);
 
 void	ft_pwd(t_prompt *prompt)
 {
-	int	i;
-
 	char	*new_path;
 	new_path = get_current_dir(prompt->environ);
 	ft_printf("%s\n", new_path);
-	insert_at_end(ft_joinf("%s%s", "PWD=", new_path),g_minishell.env,
-				  g_minishell.at_exit_garbage);
-	i = -1;
-	while (g_minishell.env[++i])
-	{
-		if (!ft_strncmp(g_minishell.env[i], "PWD=", 4))
-			delete_duplicate_export("PWD");
-	}
-	insert_at_end(new_path,g_minishell.env,
-					g_minishell.at_exit_garbage);
+	ft_add_garbage(0, &g_minishell.at_exit_garbage, new_path);
+	delete_duplicate_export("PWD");
+	g_minishell.env = insert_at_end(new_path,
+									g_minishell.env, g_minishell.at_exit_garbage);
 }
 
 static char	*get_current_dir(char **environ)
