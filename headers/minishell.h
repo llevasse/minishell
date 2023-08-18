@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 10:05:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 21:30:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int			export_list_size(t_export *export);
 void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 char		**convert_to_tab(t_export *export);
 
+void	sort_tab_alpha(char **tab);
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
 void		no_end_quote(char **str, char quote, char *to_print,

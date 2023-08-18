@@ -35,6 +35,7 @@ SRC			=	srcs/minishell.c \
 				srcs/struct/export.c \
 				srcs/struct/garbage_collector.c \
 				srcs/exec/exec.c \
+				srcs/sort_export.c \
 				srcs/builtin/builtin.c \
 				srcs/builtin/ft_echo.c \
 				srcs/builtin/ft_env.c \
