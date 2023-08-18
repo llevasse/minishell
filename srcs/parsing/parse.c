@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 22:09:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:10:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ extern struct s_minishell	g_minishell;
 void	parse(char *input, t_garbage *garbage, char **environ)
 {
 	t_prompt	*prompt;
+	char		*exports;
 
 	if (!input || !*input)
 		return ;
@@ -29,6 +30,10 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 		return ;
 	prompt->full_args = get_full_args(prompt, garbage);
 	check_cmd(prompt, garbage);
+	exports = ft_joinf("_=%s", prompt->full_args[get_tab_size(prompt->full_args) - 1]);
+	ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
+	delete_duplicate_export("_");
+	g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
 	reset_stdio_fd(prompt);
 	prompt = NULL;
 }
