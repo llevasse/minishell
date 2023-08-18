@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 20:10:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 12:42:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage);
 void	delete_element_at_index(char **tab, int index);
 char	**insert_at_end(char *s, char **tab, t_garbage *garbage);
 char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage);
+char	**insert_alpha(char *s, char **tab, t_garbage *garbage);
 char	**insert_tab_at_index(char **t1, char **t2, int index,
 			t_garbage *garbage);
 
