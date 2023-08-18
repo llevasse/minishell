@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 22:43:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 10:47:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ void	print_export(char **env)
 	i = 0;
 	while (env[i])
 	{
+		while (!ft_strncmp("_=", env[i], 2))
+			i++;
+		if (!env[i])
+			break ;
 		j = 0;
 		print = ft_split(env[i++], '=');
 		ft_add_garbage(0, &g_minishell.garbage, print);
