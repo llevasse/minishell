@@ -98,7 +98,7 @@ void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage, char **args);
-void		ft_pwd(void);
+void		ft_pwd(t_prompt *prompt);
 char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);
 void		delete_duplicate_export(char *key);
