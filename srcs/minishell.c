@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 11:37:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:46:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ void	set_termios(struct termios *termios)
 char	**get_base_env(void)
 {
 	char **environ;
+	char	path[PATH_MAX];
 
 	environ = malloc(sizeof(char *) * 4);
 	if (!environ)
 		return (NULL);
-	environ[0] = "PWD=/Users/alphom/Documents/42/Learner/minishell";
+	environ[0] = ft_joinf("PWD=%s", getcwd(path, PATH_MAX));
 	environ[1] = "SHLVL=0";
 	environ[2] = "_=/usr/bin/env";
 	environ[3] = NULL;
@@ -117,12 +118,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	if (!envp || !envp[0])
-	{
-		envp = get_base_env();
-		if (!envp)
-			exit (errno);
-	}
+
 	set_termios(&termios_new);
 	garbage = ft_new_garbage(0, NULL);
 	garbage_at_exit = ft_new_garbage(0, NULL);
@@ -133,6 +129,13 @@ int	main(int argc, char **argv, char **envp)
 	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
 		return (1);
 	g_minishell.error_value = 0;
+	if (!envp || !envp[0])
+	{
+		envp = get_base_env();
+		if (!envp || !envp[0])
+			exit (errno);
+		ft_add_garbage(0, &g_minishell.at_exit_garbage, envp[0]);
+	}
 	printf(STARTUP);
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
