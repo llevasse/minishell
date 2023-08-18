@@ -64,7 +64,7 @@ void	ft_export(t_prompt *prompt)
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
 		ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
 		delete_duplicate_export(exp->key);
-		g_minishell.env = insert_at_end(exports, 
+		g_minishell.env = insert_at_end(exports,
 				g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else

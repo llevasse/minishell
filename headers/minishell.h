@@ -23,7 +23,6 @@
 # include <dirent.h>
 # include <termios.h>
 # include <errno.h>
-
 # include "structs.h"
 # include "args.h"
 # include "direction.h"

@@ -59,7 +59,7 @@ void	set_termios(struct termios *termios)
 		exit(1);
 	}
 	rc = atexit(reset_the_terminal);
-	if (rc) 
+	if (rc)
 	{
 		perror("atexit");
 		exit(1);
@@ -76,7 +76,7 @@ void	set_termios(struct termios *termios)
 
 char	**get_base_env(void)
 {
-	char **environ;
+	char	**environ;
 
 	environ = malloc(sizeof(char *) * 6);
 	if (!environ)
