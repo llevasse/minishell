@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 11:46:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:23:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,12 @@ char	**get_base_env(void)
 	char **environ;
 	char	path[PATH_MAX];
 
-	environ = malloc(sizeof(char *) * 4);
+	environ = malloc(sizeof(char *) * 3);
 	if (!environ)
 		return (NULL);
 	environ[0] = ft_joinf("PWD=%s", getcwd(path, PATH_MAX));
 	environ[1] = "SHLVL=0";
-	environ[2] = "_=/usr/bin/env";
-	environ[3] = NULL;
+	environ[2] = NULL;
 	return (environ);
 }
 
@@ -139,7 +138,6 @@ int	main(int argc, char **argv, char **envp)
 	printf(STARTUP);
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
-	envp = insert_s_at_index("OLDPWD", envp, 0, garbage_at_exit);
 	g_minishell.env = envp;
 	while (42)
 	{

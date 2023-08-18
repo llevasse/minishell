@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 21:43:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:21:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,35 @@ extern struct s_minishell	g_minishell;
 
 void	ft_env(void)
 {
-	int	i;
+	char	**print;
+	int		i;
+	int		j;
 
-	i = -1;
-	while (g_minishell.entry_env[++i])
-		ft_printf("%s\n", g_minishell.entry_env[i]);
+	i = 0;
+	while (g_minishell.env[i])
+	{
+		if (ft_strncmp("_=", g_minishell.env[i], 2))
+		{
+			j = 0;
+			print = ft_split(g_minishell.env[i++], '=');
+			ft_add_garbage(0, &g_minishell.garbage, print);
+			if (print[1])
+				printf("%s=",print[j]);
+			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+			while(print[j])
+			{
+				printf("%s", print[j]);
+				ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+				if (print[j])
+					printf("=");
+			}
+			printf("\n");
+		}
+		else
+			i++;
+	}
+
+//	while (g_minishell.env[++i])
+//		ft_printf("%s\n", g_minishell.env[i]);
+	ft_printf("_=/usr/bin/env\n");
 }

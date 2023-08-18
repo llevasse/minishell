@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 21:30:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:24:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,29 @@ void	print_export(char **env)
 		return ;
 	while (env[i])
 	{
-		while (!ft_strncmp("_=", env[i], 2))
-			i++;
-		if (!env[i])
-			break ;
-		j = 0;
-		print = ft_split(env[i++], '=');
-		ft_add_garbage(0, &g_minishell.garbage, print);
-		if (!print[j + 1])
-			printf("declare -x %s",print[j]);
-		else
-			printf("declare -x %s=\"",print[j]);
-		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-		while(print[j])
+		if (ft_strncmp("_=", env[i], 2))
 		{
-			printf("%s", print[j]);
+			j = 0;
+			print = ft_split(env[i++], '=');
+			ft_add_garbage(0, &g_minishell.garbage, print);
+			if (!print[j + 1])
+				printf("declare -x %s",print[j]);
+			else
+				printf("declare -x %s=\"",print[j]);
 			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-			if (print[j])
-				printf("=");
+			while(print[j])
+			{
+				printf("%s", print[j]);
+				ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+				if (print[j])
+					printf("=");
+			}
+			if (j > 1)
+				printf("\"");
+			printf("\n");
 		}
-		if (j > 1)
-			printf("\"");
-		printf("\n");
+		else
+			i++;
 	}
 }
 
@@ -72,6 +73,8 @@ void	ft_export(t_prompt *prompt)
 	if (prompt->export_args)
 	{
 		exp = prompt->export_args;
+		if (!ft_strncmp(exp->key, "_=", 2))
+			return ;
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
 		ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
 		delete_duplicate_export(exp->key);
