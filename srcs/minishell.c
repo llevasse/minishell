@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 22:33:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 11:37:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,13 @@ char	**get_base_env(void)
 {
 	char **environ;
 
-	environ = malloc(sizeof(char *) * 6);
+	environ = malloc(sizeof(char *) * 4);
 	if (!environ)
 		return (NULL);
-	environ[0] = "PATH=/nfs/homes/llevasse/bin:/usr/local/sbin:\
-/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:\
-/usr/local/games:/snap/bin";
-	environ[1] = "TERM=xterm-256color";
-	environ[2] = "PWD=/Users/alphom/Documents/42/Learner/minishell";
-	environ[3] = "SHLVL=-1";
-	environ[4] = "_=/usr/bin/env";
-	environ[5] = NULL;
+	environ[0] = "PWD=/Users/alphom/Documents/42/Learner/minishell";
+	environ[1] = "SHLVL=0";
+	environ[2] = "_=/usr/bin/env";
+	environ[3] = NULL;
 	return (environ);
 }
 
@@ -140,6 +136,7 @@ int	main(int argc, char **argv, char **envp)
 	printf(STARTUP);
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
+	envp = insert_s_at_index("OLDPWD", envp, 0, garbage_at_exit);
 	g_minishell.env = envp;
 	while (42)
 	{
