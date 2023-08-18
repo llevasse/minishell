@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:38:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:24:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,30 @@ void	print_export(char **env)
 	char	**print;
 
 	i = 0;
+	if (!env)
+		return ;
 	while (env[i])
 	{
 		if (ft_strncmp("_=", env[i], 2))
 		{
-			ft_printf("%s", print[j]);
+			j = 0;
+			print = ft_split(env[i++], '=');
+			ft_add_garbage(0, &g_minishell.garbage, print);
+			if (!print[j + 1])
+				printf("declare -x %s",print[j]);
+			else
+				printf("declare -x %s=\"",print[j]);
 			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-			if (print[j])
-				ft_printf("=");
+			while(print[j])
+			{
+				printf("%s", print[j]);
+				ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+				if (print[j])
+					printf("=");
+			}
+			if (j > 1)
+				printf("\"");
+			printf("\n");
 		}
 		else
 			i++;
@@ -40,8 +56,7 @@ void	delete_duplicate_export(char *key)
 	int	i;
 
 	i = 0;
-	while (g_minishell.env[i] && \
-			ft_strncmp(key, g_minishell.env[i], ft_strlen(key)))
+	while (g_minishell.env[i] && ft_strncmp(key, g_minishell.env[i], ft_strlen(key)))
 		i++;
 	if (g_minishell.env[i])
 		delete_element_at_index(g_minishell.env, i);
@@ -51,6 +66,7 @@ void	ft_export(t_prompt *prompt)
 {
 	char		*exports;
 	t_export	*exp;
+	int			i;
 
 	i = 0;
 	sort_tab_alpha(g_minishell.env);
