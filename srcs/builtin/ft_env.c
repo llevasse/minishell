@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:29:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:30:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,5 @@ void	ft_env(void)
 		else
 			i++;
 	}
-
-//	while (g_minishell.env[++i])
-//		ft_printf("%s\n", g_minishell.env[i]);
 	ft_printf("_=/usr/bin/env\n");
 }
