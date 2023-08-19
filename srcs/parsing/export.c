@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 00:00:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 00:06:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,11 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		key = ft_strdup(input);
 		ft_add_garbage(0, &garbage, key);
 		if (!must_be_valid(key))
-			return ((void)(prompt->cmd = 0, printf(BAD_KEY, key)));
+		{
+			write(2, BAD_ID, ft_strlen(BAD_ID));
+			errno = 1;
+			return ((void)(prompt->cmd = 0));
+		}
 		ft_add_export(&prompt->export_args, ft_strsep(&input, " "), 0, garbage);
 	}
 	while (get_char_pos(input, '=') != -1)
