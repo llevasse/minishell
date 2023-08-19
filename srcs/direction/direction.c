@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 13:57:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 23:14:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 			set_input(prompt->args[i + 1], prompt, garbage);
 		else if (!ft_strcmp(prompt->args[i], "<<"))
 			heredoc(input, prompt->args[i + 1], prompt, garbage);
-		else if (!ft_strncmp(prompt->args[i], ">", 1))
+		else if (!ft_strncmp(prompt->args[i], ">", 1) && \
+			ft_strlen(prompt->args[i]) < 3)
 			set_output(prompt);
 		i++;
 		cut_section = get_cut_section(input, garbage);
@@ -112,10 +113,10 @@ void	delete_redirection(char **args)
 			else
 				delete_element_at_index(args, i);
 		}
-		else if (!ft_strncmp(args[i], "<<", 2) || \
-		!ft_strncmp(args[i], "<", 1) || \
-		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-			delete_element_at_index(args, i);
+//		else if (!ft_strncmp(args[i], "<<", 2) || \
+//		!ft_strncmp(args[i], "<", 1) || \
+//		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
+//			delete_element_at_index(args, i);
 		else
 			i++;
 	}
