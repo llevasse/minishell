@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:39:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:13:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ int	main(int argc, char **argv, char **envp)
 	set_termios(&termios_new);
 	garbage = ft_new_garbage(0, NULL);
 	garbage_at_exit = ft_new_garbage(0, NULL);
-	g_minishell.at_exit_garbage = garbage_at_exit;
 	sigemptyset(&(sa.sa_mask));
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handler;
@@ -140,6 +139,7 @@ int	main(int argc, char **argv, char **envp)
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
 	g_minishell.env = envp;
+	g_minishell.at_exit_garbage = garbage_at_exit;
 	while (42)
 	{
 		g_minishell.garbage = garbage;

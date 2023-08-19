@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:24:48 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 09:50:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:33:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	is_builtin(char *cmd)
 
 void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
+	close(prompt->tmp_fd);
 	if (!ft_strcmp(prompt->full_args[0], "cd"))
 		ft_cd(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "echo"))
