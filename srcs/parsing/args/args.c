@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 09:35:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 09:58:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	int		i;
 
 	i = 0;
+	prompt->args = NULL;
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt, input, garbage));
 	separate_cmd(prompt, input, garbage);
@@ -62,6 +63,8 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	int	i;
 
 	i = 0;
+	if (!args)
+		return ;
 	check_for_wildcard(prompt, args, i, garbage);
 	while (args[i])
 	{

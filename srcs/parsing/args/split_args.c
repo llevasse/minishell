@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 17:56:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 10:06:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	int		i;
 	int		index_word;
 
-	if (!s)
+	if (!s || !s[0])
 		return (NULL);
 	index_word = 0;
 	res = alloc_tab_args(s, c, garbage);
