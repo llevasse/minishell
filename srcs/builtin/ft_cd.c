@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 11:47:25 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 12:11:04 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 	if (chdir(new_path) == 0)
 	{
 		free(new_path);
+		setenv("OLDPWD", cwd, 1);
 		getcwd(cwd, PATH_MAX);
 		setenv("PWD", cwd, 1);
 	}

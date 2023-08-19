@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/19 11:55:19 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 12:20:03 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ int	is_builtin(char *cmd)
 
 void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
+	char	*current_pwd;
+
+	current_pwd = get_pwd(garbage);
 	close(prompt->tmp_fd);
 	if (!ft_strcmp(prompt->full_args[0], "cd"))
 		ft_cd(prompt, garbage);
@@ -67,12 +70,23 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	exit(errno);
 }
 
-void	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
+int	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->full_args[0], "export") && prompt->export_args)
+	{
 		ft_export(prompt);
+		return (1);
+	}
 	if (!ft_strcmp(prompt->full_args[0], "unset") && prompt->args)
+	{
 		ft_unset(prompt);
+		return (1);
+	}
 	if (!ft_strcmp(prompt->full_args[0], "cd"))
+	{
 		ft_cd(prompt, garbage);
+		return (1);
+	}
+	else
+		return (0);
 }
