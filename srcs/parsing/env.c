@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 22:21:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 23:30:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,22 +115,23 @@ int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 	i = 0;
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
-	if ((*str)[get_char_pos(*str, '$') + 1] == '?')
-	{
-		var = ft_itoa(g_minishell.error_value);
-		ft_add_garbage(0, &garbage, var);
-		replace_str(str, "$?", var, garbage);
-	}
-	while (i < (int)ft_strlen(*str) && get_char_pos((*str) + i, '$') >= 0)
+	while (i >= 0 && i < (int)ft_strlen(*str) && \
+		get_char_pos((*str) + i, '$') >= 0)
 	{
 		var = get_env_var_name((*str) + i, garbage);
 		if (var[0] == '$' && var[1] == 0)
 			i++;
+		else if (!ft_strcmp("$?", var))
+		{
+			var = ft_itoa(g_minishell.error_value);
+			ft_add_garbage(0, &garbage, var);
+			replace_str(str, "$?", var, garbage);
+		}
 		else
 		{
 			env_var = ft_getenv(prompt->environ, var + 1, garbage);
 			replace_str(str, var, env_var, garbage);
-			i = get_char_pos(*str, '$') + ft_strlen(env_var);
+			i = get_char_pos(*str, '$');
 		}
 	}
 	return (1);
