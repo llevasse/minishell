@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 09:31:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 09:35:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 		if (args[i] && args[i][0] != 0 &&
 			args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
 		{
+			args[i][ft_strlen(args[i]) - 1] = 0;
 			args[i] = ft_joinf("%s %s", args[i], args[i + 1]);
 			ft_add_garbage(0, &garbage, args[i]);
 			delete_element_at_index(args, i + 1);
