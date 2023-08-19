@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 21:30:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:46:30 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int			export_list_size(t_export *export);
 void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 char		**convert_to_tab(t_export *export);
 
-void	sort_tab_alpha(char **tab);
+void		sort_tab_alpha(char **tab);
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str, t_garbage *garbage);
 void		no_end_quote(char **str, char quote, char *to_print,
@@ -94,15 +94,15 @@ void		print_unknown_cmd(t_prompt *prompt);
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
-void		exec_builtin_main_thread(t_prompt *prompt);
+void		exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage);
 void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage, char **args);
-void		ft_pwd(t_prompt *prompt);
+void		ft_pwd(t_prompt *prompt, t_garbage *garbage);
 char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);
 void		delete_duplicate_export(char *key);
-void		ft_cd(t_prompt *prompt);
+void		ft_cd(t_prompt *prompt, t_garbage *garbage);
 
 #endif
