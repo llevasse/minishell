@@ -44,7 +44,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	else if (!ft_strcmp(prompt->full_args[0], "export"))
 		ft_export(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "pwd"))
-		ft_pwd();
+		ft_pwd(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "unset"))
 		ft_unset(prompt);
 //	else if (!ft_strcmp(prompt->full_args[0], "exit"))
@@ -60,4 +60,6 @@ void	exec_builtin_main_thread(t_prompt *prompt)
 		ft_export(prompt);
 	if (!ft_strcmp(prompt->full_args[0], "unset") && prompt->args)
 		ft_unset(prompt);
+	if (!ft_strcmp(prompt->full_args[0], "cd"))
+		ft_cd(prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:52:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 10:57:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,16 @@ char	**insert_at_end(char *s, char **tab, t_garbage *garbage)
 	new[i] = s;
 	new[i + 1] = NULL;
 	return (new);
-
 }
 
 char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage)
 {
 	char	**new;
 	int		i;
-	int		j;
 
 	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
 	ft_add_garbage(0, &garbage, new);
 	i = 0;
-	j = 0;
 	while (tab[i] && i < index)
 	{
 		new[i] = tab[i];

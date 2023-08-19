@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:28:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/18 22:39:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	set_termios(struct termios *termios)
 		exit(1);
 	}
 	rc = atexit(reset_the_terminal);
-	if (rc) 
+	if (rc)
 	{
 		perror("atexit");
 		exit(1);

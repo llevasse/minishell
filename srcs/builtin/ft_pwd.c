@@ -10,13 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../headers/minishell.h"
+#include "minishell.h"
 
-extern char	**environ;
+extern struct s_minishell	g_minishell;
 
-void	ft_pwd(void)
+static char	*get_current_dir(char **environ);
+
+void	ft_pwd(t_prompt *prompt)
 {
-	ft_printf("%s\n", getenv("PWD"));
+	char	*new_path;
+	new_path = get_current_dir(prompt->environ);
+	ft_printf("%s\n", new_path);
+	ft_add_garbage(0, &g_minishell.at_exit_garbage, new_path);
+	delete_duplicate_export("PWD");
+	g_minishell.env = insert_at_end(new_path,
+									g_minishell.env, g_minishell.at_exit_garbage);
+}
+
+static char	*get_current_dir(char **environ)
+{
+	int	i;
+
+	i = -1;
+	while (environ[++i] && ft_strncmp(environ[i], "PWD=", 4))
+		;
+	return (&environ[i][4]);
 }
 
 char	*get_pwd(t_garbage *garbage)

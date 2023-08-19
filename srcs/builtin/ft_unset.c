@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 20:19:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/17 22:44:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ void	ft_unset(t_prompt *prompt)
 		i = 0;
 		while (g_minishell.env[i])
 		{
-			if (!ft_strcmp(s, "PWD"))
-				add_oldpwd();
-//			printf("Checking %s is equal to %s\n", s, g_minishell.env[i]);
 			if (!ft_strncmp(s, g_minishell.env[i], ft_strlen(s)))
 			{
 				delete_element_at_index(g_minishell.env, i);
