@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 16:59:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:21:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,23 @@ int	check_quotes(t_prompt *prompt, char **str, t_garbage *garbage)
 void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 {
 	char	*new_str;
+	int		is_null;
+	char	end[2];
 
+	is_null = 0;
+	end[0] = quote;
+	end[1] = 0;
 	while (get_char_occurance(*str, quote) % 2 != 0)
 	{
 		new_str = readline(to_print);
 		*str = ft_strjoin(*str, "\n");
 		ft_add_garbage(0, &garbage, *str);
-		if (*new_str != '\0')
+		if (new_str && *new_str != '\0')
 			*str = ft_strjoin(*str, new_str);
-		free(new_str);
+		else if (!new_str)
+			*str = ft_strjoin(*str, end);
+		if (!is_null)
+			free(new_str);
 		new_str = NULL;
 		ft_add_garbage(0, &garbage, *str);
 	}
