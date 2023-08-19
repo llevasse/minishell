@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 20:51:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:46:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 struct s_minishell	g_minishell;
 
-struct termios		termios_save;
 
-void	reset_the_terminal(void)
+void	reset_termios()
 {
-	tcsetattr(0, 0, &termios_save);
+    struct termios term_settings;
+
+    tcgetattr(STDIN_FILENO, &term_settings);
+    term_settings.c_lflag |= (ICANON);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
 void	handler(int sig, siginfo_t *info, void *context)
@@ -29,7 +32,6 @@ void	handler(int sig, siginfo_t *info, void *context)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		exit(1);
 	}
 	(void)info;
 	(void)context;
@@ -46,30 +48,16 @@ char	*get_mini_prompt(t_garbage *garbage)
 	return (prompt);
 }
 
-void	set_termios(struct termios *termios)
+void	set_termios()
 {
-	int	rc;
+    struct termios term_setting;
 
-	rc = tcgetattr(0, &termios_save);
-	if (rc)
-	{
-		perror("tcgetattr");
-		exit(1);
-	}
-	rc = atexit(reset_the_terminal);
-	if (rc)
-	{
-		perror("atexit");
-		exit(1);
-	}
-	*termios = termios_save;
-	termios->c_lflag &= ~ECHOCTL;
-	rc = tcsetattr(0, 0, termios);
-	if (rc)
-	{
-		perror("tcsetattr");
-		exit(1);
-	}
+    tcgetattr(STDIN_FILENO, &term_setting);
+    term_setting.c_lflag&= ~(ICANON);
+
+    term_setting.c_cc[VMIN] = 1;
+    term_setting.c_cc[VTIME] = 0;
+    tcsetattr(STDIN_FILENO, TCSANOW, &term_setting);
 }
 
 char	**get_base_env(void)
@@ -112,11 +100,10 @@ int	main(int argc, char **argv, char **envp)
 	char				*s;
 	t_garbage			*garbage;
 	t_garbage			*garbage_at_exit;
-	struct termios		termios_new;
 
 	(void)argc;
 	(void)argv;
-	set_termios(&termios_new);
+	set_termios();
 	garbage = ft_new_garbage(0, NULL);
 	garbage_at_exit = ft_new_garbage(0, NULL);
 	sigemptyset(&(sa.sa_mask));
@@ -132,7 +119,7 @@ int	main(int argc, char **argv, char **envp)
 			exit (errno);
 		ft_add_garbage(0, &g_minishell.at_exit_garbage, envp[0]);
 	}
-	//printf(STARTUP);
+//	printf(STARTUP);
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
 	g_minishell.env = envp;

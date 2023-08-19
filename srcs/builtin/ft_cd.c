@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:56:08 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 13:58:11 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 					"/"), prompt->args[0]);
 	else if (!strncmp(prompt->full_args[1], "~/", 2))
 	{
-		new_path = ft_joinf("%s/%s", ft_getenv(g_minishell.env, "HOME", garbage), &prompt->full_args[1][3]);
+		new_path = ft_joinf("%s/%s", ft_getenv(g_minishell.env,
+					"HOME", garbage), &prompt->full_args[1][3]);
 		printf("%s\n", prompt->full_args[1]);
 	}
 	else

@@ -21,7 +21,7 @@
 \\_\\\\\"\\_\\  \\ \\_\\  \\/\\_____\\  \\ \\_\\ \\_\\  \\ \\_____\\  \\ \
 \\_____\\  \\ \\_____\\ \n  \\/_/  \\/_/   \\/_/   \\/_/ \\/_/   \\/_/   \
 \\/_____/   \\/_/\\/_/   \\/_____/   \\/_____/   \\/_____/ \n"
-# define CTRL_C "^C"
+# define CTRL_C "^C\n"
 # define EXIT "exit\n"
 # define PROMPT "(%d)minishell >>"
 # define MEM_ERR_PROMPT "(12)minishell >>"
