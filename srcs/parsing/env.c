@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 23:30:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 23:32:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 		var = get_env_var_name((*str) + i, garbage);
 		if (var[0] == '$' && var[1] == 0)
 			i++;
-		else if (!ft_strcmp("$?", var))
+		else if (!ft_strncmp("$?", var, 2))
 		{
 			var = ft_itoa(g_minishell.error_value);
 			ft_add_garbage(0, &garbage, var);
