@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:06:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:42:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,29 +103,31 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 	return (res);
 }
 
-char	*get_split_quote(t_prompt *prompt, char *s, int *i, int index_word)
+char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 {
 	char	*new;
 
 	new = NULL;
-	if (s[*i] == '"')
+	if (*s[*i] == '"')
 	{
 		prompt->d_quotes = 1;
-		if (get_char_occurance(s, '"') % 2 != 0)
-			no_end_quote(&s, '"', W_DQUOTE, prompt->garbage);
+		if (get_char_occurance(*s, '"') % 2 != 0)
+			no_end_quote(s, '"', W_DQUOTE, prompt->garbage);
+		if ((*s)[0] == 0)
+			return ((void)(prompt->cmd = NULL), NULL);
 		if (index_word >= 0 && !ft_strcmp(prompt->args[index_word], "<<"))
-			new = get_quoted_str(s + (*i)++, '"', 0, prompt);
+			new = get_quoted_str(*s + (*i)++, '"', 0, prompt);
 		else
-			new = get_quoted_str(s + (*i)++, '"', 1, prompt);
-		*i += get_char_pos(s + *i, '"') + 1;
+			new = get_quoted_str(*s + (*i)++, '"', 1, prompt);
+		*i += get_char_pos(*s + *i, '"') + 1;
 	}
-	else if (s[*i] == 39)
+	else if (*s[*i] == 39)
 	{
 		prompt->quotes = 1;
-		if (get_char_occurance(s, 39) % 2 != 0)
-			no_end_quote(&s, 39, W_QUOTE, prompt->garbage);
-		new = get_quoted_str(s + (*i)++, 39, 0, prompt);
-		*i += get_char_pos(s + *i, 39) + 1;
+		if (get_char_occurance(*s, 39) % 2 != 0)
+			no_end_quote(s, 39, W_QUOTE, prompt->garbage);
+		new = get_quoted_str(*s + (*i)++, 39, 0, prompt);
+		*i += get_char_pos(*s + *i, 39) + 1;
 	}
 	return (new);
 }
@@ -151,7 +153,17 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	while (s[i] != '\0')
 	{
 		if (s[i] == '"' || s[i] == 39)
-			res[index_word] = get_split_quote(prompt, s, &i, index_word - 1);
+		{
+			res[index_word] = get_split_quote(prompt, &s, &i, index_word - 1);
+			if (!prompt->cmd)
+				return ((void)(errno = 2), NULL);
+			if (i - (ft_strlen(res[index_word]) + 2) >= 0 && index_word > 0)
+			{
+				res[index_word - 1] = ft_strjoin(res[index_word - 1], res[index_word]);
+				ft_add_garbage(0, &garbage, res[index_word - 1]);
+				res[index_word--] = NULL;
+			}
+		}
 		else
 		{
 			res[index_word] = get_word_arg(s, c, i, garbage);

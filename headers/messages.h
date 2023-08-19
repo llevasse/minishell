@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:16:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:46:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,6 @@
 # define NO_FILE "%s : No such file or directory"
 # define PIPE_ERR "Error in opening pipes"
 # define ERR_404 "%s: command not found\n"
+# define UNEXPEC_EOF "unexpected EOF while looking for matching `%c'\n\
+syntax error: unexpected end of file\n"
 #endif

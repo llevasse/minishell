@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 16:59:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:45:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ void	no_end_quote(char **str, char quote, char *to_print, t_garbage *garbage)
 	while (get_char_occurance(*str, quote) % 2 != 0)
 	{
 		new_str = readline(to_print);
+		if (!new_str)
+			return ((void)((*str)[0] = 0, printf(UNEXPEC_EOF, quote)));
 		*str = ft_strjoin(*str, "\n");
 		ft_add_garbage(0, &garbage, *str);
-		if (*new_str != '\0')
+		if (new_str && *new_str != '\0')
 			*str = ft_strjoin(*str, new_str);
 		free(new_str);
 		new_str = NULL;
