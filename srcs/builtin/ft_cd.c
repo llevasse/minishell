@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/15 18:19:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:36:24 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ void	ft_cd(t_prompt *prompt)
 	char	cwd[PATH_MAX];
 
 	new_path = get_current_dir(prompt->environ);
-	delete_duplicate_export("PWD");
-	insert_at_end(new_path,g_minishell.env,
-				  g_minishell.at_exit_garbage);
 	if (!ft_is_cd_args(prompt->full_args[1]))
 		cd_without_args(new_path);
 	else

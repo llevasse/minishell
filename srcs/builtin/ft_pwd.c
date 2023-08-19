@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 11:18:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:39:34 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,26 @@
 
 extern struct s_minishell	g_minishell;
 
-static char	*get_current_dir(char **environ);
+//static char	*get_current_dir(char **environ);
 
-void	ft_pwd(t_prompt *prompt)
+void	ft_pwd(t_prompt *prompt, t_garbage *garbage)
 {
+	(void)prompt;
 	char	*new_path;
-	new_path = get_current_dir(prompt->environ);
+
+	new_path = get_pwd(garbage);
 	ft_printf("%s\n", new_path);
-//	ft_add_garbage(1, &g_minishell.at_exit_garbage, new_path);
-	delete_duplicate_export("PWD");
-	g_minishell.env = insert_at_end(new_path,
-									g_minishell.env, g_minishell.at_exit_garbage);
 }
 
-static char	*get_current_dir(char **environ)
-{
-	int	i;
-
-	i = -1;
-	while (environ[++i] && ft_strncmp(environ[i], "PWD=", 4))
-		;
-	return (&environ[i][4]);
-}
+//static char	*get_current_dir(char **environ)
+//{
+//	int	i;
+//
+//	i = -1;
+//	while (environ[++i] && ft_strncmp(environ[i], "PWD=", 4))
+//		;
+//	return (&environ[i][4]);
+//}
 
 char	*get_pwd(t_garbage *garbage)
 {
