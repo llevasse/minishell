@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 09:55:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 10:39:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	get_nb_of_files(char *path)
 		i++;
 		dir_entry = readdir(current_dir);
 	}
+	closedir(current_dir);
 	return (i - 2);
 }
 
