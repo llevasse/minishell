@@ -18,22 +18,12 @@ extern struct s_minishell	g_minishell;
 
 void	ft_pwd(t_prompt *prompt, t_garbage *garbage)
 {
-	(void)prompt;
 	char	*new_path;
 
+	(void)prompt;
 	new_path = get_pwd(garbage);
 	ft_printf("%s\n", new_path);
 }
-
-//static char	*get_current_dir(char **environ)
-//{
-//	int	i;
-//
-//	i = -1;
-//	while (environ[++i] && ft_strncmp(environ[i], "PWD=", 4))
-//		;
-//	return (&environ[i][4]);
-//}
 
 char	*get_pwd(t_garbage *garbage)
 {

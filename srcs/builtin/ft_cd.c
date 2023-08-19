@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 11:36:24 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 11:47:25 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,32 @@
 
 extern struct s_minishell	g_minishell;
 
-static char	*get_current_dir(char **environ);
+//static char	*get_current_dir(char **environ);
 static int	ft_is_cd_args(char *args);
 static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX]);
 static void	cd_without_args(char *new_path);
 
-void	ft_cd(t_prompt *prompt)
+void	ft_cd(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*new_path;
 	char	cwd[PATH_MAX];
 
-	new_path = get_current_dir(prompt->environ);
+	new_path = get_pwd(garbage);
 	if (!ft_is_cd_args(prompt->full_args[1]))
 		cd_without_args(new_path);
 	else
 		cd_with_args(prompt, new_path, cwd);
 }
 
-static char	*get_current_dir(char **environ)
-{
-	int	i;
-
-	i = -1;
-	while (environ[++i] && ft_strncmp(environ[i], "PWD=", 4))
-		;
-	return (&environ[i][4]);
-}
+//static char	*get_current_dir(char **environ)
+//{
+//	int	i;
+//
+//	i = -1;
+//	while (environ[++i] && ft_strncmp(environ[i], "PWD=", 4))
+//		;
+//	return (&environ[i][4]);
+//}
 
 static int	ft_is_cd_args(char *args)
 {

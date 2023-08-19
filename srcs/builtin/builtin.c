@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:24:48 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 11:39:09 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 11:45:54 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	close(prompt->tmp_fd);
 	if (!ft_strcmp(prompt->full_args[0], "cd"))
-		ft_cd(prompt);
+		ft_cd(prompt, garbage);
 	else if (!ft_strcmp(prompt->full_args[0], "echo"))
 		ft_echo(prompt);
 	else if (!ft_strcmp(prompt->full_args[0], "env"))
@@ -55,12 +55,12 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	exit(errno);
 }
 
-void	exec_builtin_main_thread(t_prompt *prompt)
+void	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->full_args[0], "export") && prompt->export_args)
 		ft_export(prompt);
 	if (!ft_strcmp(prompt->full_args[0], "unset") && prompt->args)
 		ft_unset(prompt);
 	if (!ft_strcmp(prompt->full_args[0], "cd"))
-		ft_cd(prompt);
+		ft_cd(prompt, garbage);
 }
