@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 14:46:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 23:57:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define MEM_ERR_PROMPT "(12)minishell >>"
 # define FREE_GARBAGE "Freeing %p with content %s in garbage\n"
 # define ADD_GARBAGE "Adding %p with content %s to garbage\n"
-# define BAD_ASS "Bad assignment"
-# define BAD_KEY "Invalid key : %s"
+# define BAD_ASS "Bad assignment\n"
+# define BAD_KEY "Invalid key : %s\n"
 # define W_DQUOTE "dquote>"
 # define W_QUOTE "quote>"
 # define ERR_PARSE_OUTPUT "Parsing error around >"

@@ -6,11 +6,25 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:11:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 23:56:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	must_be_valid(char *s1)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i])
+	{
+		if (!ft_isalpha(s1[i]) && s1[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 /// @brief get element before '=' when export is called.
 /// @param *prompt pointer to prompt struct,
@@ -29,7 +43,7 @@ char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 		check_is_env_var(prompt, &key, garbage);
 	if (key[0] == '\0')
 		return ((void)printf(BAD_ASS), NULL);
-	if (get_char_pos(key, '$') != -1)
+	if (!must_be_valid(key))
 		return ((void)printf(BAD_KEY, key), NULL);
 	return (key);
 }
@@ -79,6 +93,9 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	{
 		key = ft_strdup(input);
 		ft_add_garbage(0, &garbage, key);
+		if (!must_be_valid(key))
+			return ((void)printf(BAD_KEY, key));
+		prompt->cmd = 0;
 		ft_add_export(&prompt->export_args, ft_strsep(&input, " "), 0, garbage);
 	}
 	while (get_char_pos(input, '=') != -1)
