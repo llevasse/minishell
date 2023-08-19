@@ -6,13 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 11:13:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:32:24 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// pipe limit is around 1000
 
 struct s_minishell	g_minishell;
 
@@ -29,7 +27,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 	{
 		write(1, CTRL_C, 3);
 		rl_on_new_line();
-	//	rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_redisplay();
 		exit(1);
 	}
@@ -76,7 +74,7 @@ void	set_termios(struct termios *termios)
 
 char	**get_base_env(void)
 {
-	char **environ;
+	char	**environ;
 	char	path[PATH_MAX];
 
 	environ = malloc(sizeof(char *) * 4);
@@ -118,7 +116,6 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-
 	set_termios(&termios_new);
 	garbage = ft_new_garbage(0, NULL);
 	garbage_at_exit = ft_new_garbage(0, NULL);

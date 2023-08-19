@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:57:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:31:07 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**insert_alpha(char *s, char **tab, t_garbage *garbage)
 	while (tab[i] && tab[i + 1])
 	{
 		if (ft_strcmp(s, tab[i]) > 0 && ft_strcmp(s, tab[i + 1]) < 0)
-			return(insert_s_at_index(s, tab, i, garbage));
+			return (insert_s_at_index(s, tab, i, garbage));
 		i++;
 	}
 	return (insert_at_end(s, tab, garbage));

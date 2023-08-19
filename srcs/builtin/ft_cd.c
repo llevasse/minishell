@@ -6,14 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:17:31 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 13:24:18 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern struct s_minishell	g_minishell;
-
 
 static int	ft_is_cd_args(char *args);
 static void	cd_with_args(t_prompt *prompt, char *new_path,
@@ -76,7 +75,8 @@ static void	cd_without_args(char *new_path, t_garbage *garbage)
 	{
 		sort_tab_alpha(g_minishell.env);
 		delete_duplicate_export("PWD");
-		g_minishell.env = insert_alpha(ft_joinf("PWD=%s", new_path), g_minishell.env , g_minishell.at_exit_garbage);
+		g_minishell.env = insert_alpha(ft_joinf("PWD=%s", new_path),
+				g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else
 		ft_printf("cd Failure\n");

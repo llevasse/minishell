@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 10:10:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:28:57 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 		return ;
 	prompt->full_args = get_full_args(prompt, garbage);
 	check_cmd(prompt, garbage);
-	exports = ft_joinf("_=%s", prompt->full_args[get_tab_size(prompt->full_args) - 1]);
+	exports = ft_joinf("_=%s",
+			prompt->full_args[get_tab_size(prompt->full_args) - 1]);
 	ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
 	delete_duplicate_export("_");
-	g_minishell.env = insert_at_end(exports, g_minishell.env, g_minishell.at_exit_garbage);
+	g_minishell.env = insert_at_end(exports,
+			g_minishell.env, g_minishell.at_exit_garbage);
 	reset_stdio_fd(prompt);
 	prompt = NULL;
 }

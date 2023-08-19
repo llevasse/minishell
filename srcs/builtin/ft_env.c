@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 22:30:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:32:59 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	ft_env(void)
 			print = ft_split(g_minishell.env[i++], '=');
 			ft_add_garbage(0, &g_minishell.garbage, print);
 			if (print[1])
-				printf("%s=",print[j]);
+				printf("%s=", print[j]);
 			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-			while(print[j])
+			while (print[j])
 			{
 				printf("%s", print[j]);
 				ft_add_garbage(0, &g_minishell.garbage, print[j++]);
