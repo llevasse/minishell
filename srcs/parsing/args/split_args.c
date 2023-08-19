@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 14:27:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:35:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
-		printf("|%s|\n", s + i);
 		if (s[i] == '"' || s[i] == 39)
 		{
 			res[index_word] = get_split_quote(prompt, &s, &i, index_word - 1);
