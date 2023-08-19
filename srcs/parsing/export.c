@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 00:19:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 00:21:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,11 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	{
 		equal_pos = get_char_pos(input, '=');
 		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
-			return ((void)printf(BAD_ASS));
+		{
+			write(2, BAD_ID, ft_strlen(BAD_ID));
+			errno = 1;
+			return ((void)(prompt->cmd = 0));
+		}
 		key = get_key(prompt, &input, garbage);
 		content = get_content(prompt, &input, garbage);
 		ft_add_export(&prompt->export_args, key, content, garbage);
