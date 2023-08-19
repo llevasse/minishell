@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:06:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:15:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,15 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	while (s[i] != '\0')
 	{
 		if (s[i] == '"' || s[i] == 39)
+		{
 			res[index_word] = get_split_quote(prompt, s, &i, index_word - 1);
+			if (i - (ft_strlen(res[index_word]) + 2) >= 0 && index_word > 0)
+			{
+				res[index_word - 1] = ft_strjoin(res[index_word - 1], res[index_word]);
+				ft_add_garbage(0, &garbage, res[index_word - 1]);
+				res[index_word--] = NULL;
+			}
+		}
 		else
 		{
 			res[index_word] = get_word_arg(s, c, i, garbage);
