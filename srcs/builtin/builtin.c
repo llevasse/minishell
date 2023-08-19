@@ -6,7 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:24:48 by llevasse          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/08/19 11:45:54 by mwubneh          ###   ########.fr       */
+=======
+/*   Updated: 2023/08/19 11:48:44 by llevasse         ###   ########.fr       */
+>>>>>>> f79352ab31dcfccd46b6402cd55081d5594dee2d
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +54,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 		ft_unset(prompt);
 //	else if (!ft_strcmp(prompt->full_args[0], "exit"))
 //		ft_exit(garbage, prompt->args);
+	close(1);
 	free_garbage(garbage);
 	free_garbage(g_minishell.at_exit_garbage);
 	exit(errno);
