@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 00:06:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 00:19:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ char	*get_key(t_prompt *prompt, char **input, t_garbage *garbage)
 	if (key[0] == '\0')
 		return ((void)printf(BAD_ASS), NULL);
 	if (!must_be_valid(key))
-		return ((void)printf(BAD_KEY, key), NULL);
+	{
+		write(2, BAD_ID, ft_strlen(BAD_ID));
+		return ((void)(errno = 1), NULL);
+	}
 	return (key);
 }
 
@@ -89,9 +92,11 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 	char	*content;
 
 	prompt->export_args = NULL;
-	if (get_char_pos(input, '=') == -1)
+	while (get_char_pos(input, '=') == -1)
 	{
-		key = ft_strdup(input);
+		key = ft_strdup(ft_strsep(&input, " "));
+		if (key[0] == 0)
+			return ;
 		ft_add_garbage(0, &garbage, key);
 		if (!must_be_valid(key))
 		{
@@ -99,7 +104,7 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 			errno = 1;
 			return ((void)(prompt->cmd = 0));
 		}
-		ft_add_export(&prompt->export_args, ft_strsep(&input, " "), 0, garbage);
+		ft_add_export(&prompt->export_args, NULL, 0, garbage);
 	}
 	while (get_char_pos(input, '=') != -1)
 	{
