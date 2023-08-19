@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 12:46:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 10:52:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ char	**insert_tab_at_index(char **t1, char **t2,
 
 	new = malloc((get_tab_size(t1) + get_tab_size(t2) + 1) * sizeof(char *));
 	ft_add_garbage(0, &garbage, new);
+	if (!new)
+		return (t1);
 	i = 0;
 	j = 0;
 	while (t1[i] && i < index)

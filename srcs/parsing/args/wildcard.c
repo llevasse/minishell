@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:41:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 10:48:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	check_for_wildcard(t_prompt *prompt, char **args,
 	{
 		pwd = get_pwd(garbage);
 		new_args = get_files_in_dir(pwd, garbage);
+		if (!new_args)
+			return ;
 		delete_unwanted_files(new_args, args[index], garbage);
 		if (new_args[0])
 			delete_element_at_index(args, index);
@@ -116,7 +118,10 @@ char	**get_files_in_dir(char *path, t_garbage *garbage)
 	char			**files;
 	int				i;
 
-	files = malloc(sizeof(char *) * (get_nb_of_files(path) + 1));
+	i = get_nb_of_files(path);
+	if (i == 0)
+		return (NULL);
+	files = malloc(sizeof(char *) * (i + 1));
 	ft_add_garbage(0, &garbage, files);
 	current_dir = opendir(path);
 	if (!current_dir)
