@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 14:42:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 21:41:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 		len_word++;
 	if (s[i + 1] == '>' || s[i + 1] == '<')
 		len_word++;
-	while (s[i + len_word] != c && s[i + len_word] != '\0' && \
-		s[i + len_word] != '>' && s[i + len_word] != '<' && \
-		s[i + len_word] != '|')
+	while (s[i + len_word] && s[i + len_word] != c && \
+		!ft_is_in_str("<>|'\"", s[i + len_word]))
 		len_word++;
 	res = malloc((len_word + 1) * sizeof(char));
 	ft_add_garbage(0, &garbage, res);
@@ -108,7 +107,7 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	char	*new;
 
 	new = NULL;
-	if (*s[*i] == '"')
+	if ((*s)[*i] == '"')
 	{
 		prompt->d_quotes = 1;
 		if (get_char_occurance(*s, '"') % 2 != 0)
@@ -121,13 +120,13 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 			new = get_quoted_str(*s + (*i)++, '"', 1, prompt);
 		*i += get_char_pos(*s + *i, '"') + 1;
 	}
-	else if (*s[*i] == 39)
+	else if ((*s)[*i] == 39)
 	{
 		prompt->quotes = 1;
 		if (get_char_occurance(*s, 39) % 2 != 0)
 			no_end_quote(s, 39, W_QUOTE, prompt->garbage);
-		new = get_quoted_str(*s + (*i)++, 39, 0, prompt);
-		*i += get_char_pos(*s + *i, 39) + 1;
+		new = get_quoted_str(*s + *i, 39, 0, prompt);
+		*i += get_char_pos(*s + *i + 1, 39) + 2;
 	}
 	return (new);
 }
@@ -157,18 +156,19 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 			res[index_word] = get_split_quote(prompt, &s, &i, index_word - 1);
 			if (!prompt->cmd)
 				return ((void)(errno = 2), NULL);
-			if (i - (ft_strlen(res[index_word]) + 2) >= 0 && index_word > 0)
-			{
-				res[index_word - 1] = ft_strjoin(res[index_word - 1], res[index_word]);
-				ft_add_garbage(0, &garbage, res[index_word - 1]);
-				res[index_word--] = NULL;
-			}
 		}
 		else
 		{
 			res[index_word] = get_word_arg(s, c, i, garbage);
 			i += ft_strlen(res[index_word]);
 			check_is_env_var(prompt, &res[index_word], garbage);
+		}
+		if (i - (ft_strlen(res[index_word]) + 1) >= 0 && index_word > 0 &&
+			s[i - (ft_strlen(res[index_word]) + 1)] != c)
+		{
+			res[index_word - 1] = ft_strjoin(res[index_word - 1], res[index_word]);
+			ft_add_garbage(0, &garbage, res[index_word - 1]);
+			res[index_word--] = NULL;
 		}
 		index_word++;
 		res[index_word] = NULL;
