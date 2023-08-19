@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/18 10:47:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:21:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,14 @@ int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 	while (i < (int)ft_strlen(*str) && get_char_pos((*str) + i, '$') >= 0)
 	{
 		var = get_env_var_name((*str) + i, garbage);
-		env_var = ft_getenv(prompt->environ, var + 1, garbage);
-		replace_str(str, var, env_var, garbage);
-		i = get_char_pos(*str, '$') + ft_strlen(env_var);
+		if (var[0] == '$' && var[1] == 0)
+			i++;
+		else
+		{
+			env_var = ft_getenv(prompt->environ, var + 1, garbage);
+			replace_str(str, var, env_var, garbage);
+			i = get_char_pos(*str, '$') + ft_strlen(env_var);
+		}
 	}
 	return (1);
 }

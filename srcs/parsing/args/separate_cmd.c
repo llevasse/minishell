@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:04:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 22:14:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,6 @@ int	get_nearer_separator_pos(char *input)
 	if (get_separator_pos(input, "|") != -1 && \
 		pos <= get_separator_pos(input, "|"))
 		pos = get_separator_pos(input, "|");
-	if (get_separator_pos(input, "||") != -1 && \
-		pos <= get_separator_pos(input, "||"))
-		pos = get_separator_pos(input, "||");
-	if (get_separator_pos(input, "&&") != -1 && \
-		pos <= get_separator_pos(input, "&&"))
-		pos = get_separator_pos(input, "&&");
-	if (get_separator_pos(input, ";") != -1 && \
-		pos <= get_separator_pos(input, ";"))
-		pos = get_separator_pos(input, ";");
 	return (pos);
 }
 
@@ -78,16 +69,18 @@ int	is_char_quoted(char *str, int pos)
 int	get_separator_pos(char *input, char *sep)
 {
 	int	pos;
+	int	safe;
 
 	pos = -1;
 	if (get_substr_pos(input, sep) != -1)
 	{
 		pos = get_substr_pos(input, sep);
-		while (is_char_quoted(input, pos + ft_strlen(sep)))
+		while (is_char_quoted(input, pos))
 		{
-			pos += get_substr_pos(input + pos + ft_strlen(sep), sep);
-			if (pos == -1)
-				break ;
+			safe = get_substr_pos(input + pos + ft_strlen(sep), sep);
+			if (safe == -1)
+				return (-1);
+			pos += safe + 1;
 		}
 	}
 	return (pos);
