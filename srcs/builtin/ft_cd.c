@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:24:18 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/19 13:56:08 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,15 @@ static int	ft_is_cd_args(char *args)
 static void	cd_with_args(t_prompt *prompt, char *new_path,
 							char cwd[PATH_MAX], t_garbage *garbage)
 {
-	if (!ft_strncmp(new_path, prompt->args[0], ft_strlen(new_path)))
+	if (!ft_strncmp(new_path, prompt->full_args[1], ft_strlen(new_path)))
 		new_path = ft_strjoin(
 				ft_strjoin(ft_getenv(g_minishell.env, "PWD", garbage),
 					"/"), prompt->args[0]);
+	else if (!strncmp(prompt->full_args[1], "~/", 2))
+	{
+		new_path = ft_joinf("%s/%s", ft_getenv(g_minishell.env, "HOME", garbage), &prompt->full_args[1][3]);
+		printf("%s\n", prompt->full_args[1]);
+	}
 	else
 		new_path = ft_strjoin("", prompt->args[0]);
 	if (chdir(new_path) == 0)
