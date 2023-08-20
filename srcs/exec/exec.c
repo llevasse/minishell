@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/20 20:50:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:06:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ static int	ft_putstr_error(char *str, char *arg)
 static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 {
 	char	**c_args;
+
 	args[i] = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);

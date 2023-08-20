@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:50:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:06:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**to_char_array(t_arg **args, t_garbage *garbage)
 	i = -1;
 	while (args[++i])
 		new[i] = args[i]->s;
-	args[i] = 0;
+	new[i] = 0;
 	return (new);
 }
 
