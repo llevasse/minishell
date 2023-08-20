@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 15:32:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:56:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_only_digit(char *s)
 	return (1);
 }
 
-void	ft_exit(t_garbage *garbage, char **args)
+void	ft_exit(t_garbage *garbage, t_arg **args)
 {
 	if (!args)
 	{
@@ -41,12 +41,12 @@ void	ft_exit(t_garbage *garbage, char **args)
 		printf(EXIT);
 		exit(g_minishell.error_value);
 	}
-	if (is_only_digit(args[0]) && args[1])
+	if (is_only_digit(args[0]->s) && args[1])
 	{
 		errno = 1;
 		write(2, TMA, ft_strlen(TMA));;
 	}
-	if (!is_only_digit(args[0]))
+	if (!is_only_digit(args[0]->s))
 	{
 		free_garbage(garbage);
 		free_garbage(g_minishell.at_exit_garbage);
@@ -55,5 +55,5 @@ void	ft_exit(t_garbage *garbage, char **args)
 		exit(2);
 	}
 	printf(EXIT);
-	exit((unsigned char)ft_atoi(args[0]));
+	exit((unsigned char)ft_atoi(args[0]->s));
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 14:07:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:57:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_cd(t_prompt *prompt, t_garbage *garbage)
 
 	new_path = get_pwd(garbage);
 	replace_env("OLDPWD", new_path);
-	if (!ft_is_cd_args(prompt->full_args[1]))
+	if (!ft_is_cd_args(prompt->full_args[1]->s))
 		cd_without_args(new_path, garbage);
 	else
 		cd_with_args(prompt, new_path, cwd, garbage);
@@ -49,20 +49,20 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 {
 	if (prompt->args[1])
 		write(2, TMA, ft_strlen(TMA));;
-	if (!ft_strncmp(new_path, prompt->full_args[1], ft_strlen(new_path)))
+	if (!ft_strncmp(new_path, prompt->full_args[1]->s, ft_strlen(new_path)))
 		return ;
 //	new_path = ft_strjoin(
 //				ft_strjoin(ft_getenv(g_minishell.env, "PWD", garbage),
 //					"/"), prompt->args[0]);
 // why ? 
-	else if (!strncmp(prompt->full_args[1], "~/", 2))
+	else if (!strncmp(prompt->full_args[1]->s, "~/", 2))
 	{
 		new_path = ft_joinf("%s/%s", ft_getenv(g_minishell.env,
-					"HOME", garbage), &prompt->full_args[1][3]);
-		printf("%s\n", prompt->full_args[1]);
+					"HOME", garbage), &prompt->full_args[1]->s[3]);
+		printf("%s\n", prompt->full_args[1]->s);
 	}
 	else
-		new_path = ft_strjoin("", prompt->args[0]);
+		new_path = ft_strjoin("", prompt->args[0]->s);
 	if (chdir(new_path) == 0)
 	{
 		free(new_path);

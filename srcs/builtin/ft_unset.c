@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 22:44:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:55:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,14 @@ void	ft_unset(t_prompt *prompt)
 {
 	char	*s;
 	int		i;
+	int		j;
 
 	if (!prompt->args)
 		return ;
-	while (prompt->args[0])
+	j = 0;
+	while (prompt->args[j])
 	{
-		s = prompt->args[0];
+		s = prompt->args[j]->s;
 		i = 0;
 		while (g_minishell.env[i])
 		{
@@ -45,6 +47,6 @@ void	ft_unset(t_prompt *prompt)
 			}
 			i++;
 		}
-		delete_element_at_index(prompt->args, 0);
+		j++;
 	}
 }

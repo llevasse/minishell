@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:18:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:50:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@ t_arg	*init_arg(t_garbage *garbage)
 	arg->quote = 0;
 	arg->s = 0;
 	return (arg);
+}
+
+char	**to_char_array(t_arg **args, t_garbage *garbage)
+{
+	char	**new;
+	int		i;
+
+	new = malloc((get_arg_size(args) + 1) * sizeof(char *));
+	ft_add_garbage(0, &garbage, new);
+	i = -1;
+	while (args[++i])
+		new[i] = args[i]->s;
+	args[i] = 0;
+	return (new);
 }
 
 /// @brief Get number of element in **tab.
