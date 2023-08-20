@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 15:18:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:32:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int	is_only_digit(char *s)
 	int	i;
 
 	i = 0;
+	while (ft_isspace(*s) == 1)
+		s++;
 	if (s[0] == '+' || s[0] == '-')
 		i++;
 	while (s[i] && ft_isdigit(s[i]))
 		i++;
-	if (!s[i])
+	if (s[0] == '-' && ft_atoi_ullong(s) - 1 <= 9223372036854775807)
 		return (1);
-	if (s[i] == '-' && ft_atoi_ullong(s) <= 9223372036854775807)
-		return (1);
-	if (ft_atoi_ullong(s) > 9223372036854775807 || ft_strlen(s) > 19)
+	if (s[i] || ft_atoi_ullong(s) > 9223372036854775807 || ft_strlen(s) > 19)
 		return (0);
 	return (1);
 }
