@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 10:47:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:13:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	is_only_digit(char *s)
 	int	i;
 
 	i = 0;
+	if (s[0] == '+' || s[0] == '-')
+		i++;
 	while (s[i] && ft_isdigit(s[i]))
 		i++;
 	if (s[i] || ft_atoi_ullong(s) > 9223372036854775807 || \
