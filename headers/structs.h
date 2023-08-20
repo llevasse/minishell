@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 21:42:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:03:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ typedef struct s_arg
 
 typedef struct s_prompt
 {
-	int					d_quotes;
-	int					quotes;
 	int					write_fd;
 	int					old_stdout;
 	int					old_stdin;

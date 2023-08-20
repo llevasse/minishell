@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 00:21:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:05:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,11 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 
 	if (**input == '"')
 	{
-		prompt->d_quotes = 1;
 		no_end_quote(input, '"', W_DQUOTE, garbage);
 		content = get_quoted_str(*input, '"', 1, prompt);
 	}
 	else if (**input == 39)
 	{
-		prompt->quotes = 1;
 		no_end_quote(input, 39, W_QUOTE, garbage);
 		content = get_quoted_str(*input, 39, 0, prompt);
 	}
