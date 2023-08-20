@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/19 12:15:54 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/20 21:06:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage);
 static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 				t_garbage *garbage);
 static int	ft_putstr_error(char *str, char *arg);
-static int	ft_execute(char **args, int i, int tmp_fd, char **envp);
+static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp);
 
 void	exec(t_prompt *prompt, t_garbage *garbage)
 {
@@ -36,13 +36,13 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			i = 0;
 		}
 		while (prompt->full_args[i] && \
-				ft_strcmp(prompt->full_args[i], ";") && \
-					ft_strcmp(prompt->full_args[i], "|"))
+				ft_strcmp(prompt->full_args[i]->s, ";") && \
+					ft_strcmp(prompt->full_args[i]->s, "|"))
 			i++;
 		if (i != 0 && (prompt->full_args[i] == NULL || \
-				!ft_strcmp(prompt->full_args[i], ";")))
+				!ft_strcmp(prompt->full_args[i]->s, ";")))
 			get_exec(prompt, i, value, garbage);
-		else if (i != 0 && !ft_strcmp(prompt->full_args[i], "|"))
+		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
 			get_exec_pipe (prompt, i, value, garbage);
 	}
 	close(prompt->tmp_fd);
@@ -58,7 +58,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
-		if (is_builtin(prompt->full_args[0]))
+		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
 				prompt->environ))
@@ -86,7 +86,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		dup2(prompt->exec_fd[1], STDOUT_FILENO);
 		close(prompt->exec_fd[0]);
 		close(prompt->exec_fd[1]);
-		if (is_builtin(prompt->full_args[0]))
+		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
 				prompt->environ))
@@ -115,11 +115,14 @@ static int	ft_putstr_error(char *str, char *arg)
 	return (1);
 }
 
-static int	ft_execute(char **args, int i, int tmp_fd, char **envp)
+static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 {
+	char	**c_args;
+
 	args[i] = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
-	execve(args[0], args, envp);
-	return (ft_putstr_error("error : cannot execute ", args[0]));
+	c_args = to_char_array(args, g_minishell.garbage);
+	execve(c_args[0], c_args, envp);
+	return (ft_putstr_error("error : cannot execute ", c_args[0]));
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:31:07 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/20 20:03:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,15 @@
 /// @param **tab Pointer to tab,
 /// @param index Index of element to delete
 void	delete_element_at_index(char **tab, int index)
+{
+	while (tab[index])
+	{
+		tab[index] = tab[index + 1];
+		index++;
+	}
+}
+
+void	delete_arg_at_index(t_arg **tab, int index)
 {
 	while (tab[index])
 	{
@@ -81,14 +90,14 @@ char	**insert_alpha(char *s, char **tab, t_garbage *garbage)
 	return (insert_at_end(s, tab, garbage));
 }
 
-char	**insert_tab_at_index(char **t1, char **t2,
+t_arg	**insert_tab_at_index(t_arg **t1, t_arg **t2,
 			int index, t_garbage *garbage)
 {
-	char	**new;
+	t_arg	**new;
 	int		i;
 	int		j;
 
-	new = malloc((get_tab_size(t1) + get_tab_size(t2) + 1) * sizeof(char *));
+	new = malloc((get_arg_size(t1) + get_arg_size(t2) + 1) * sizeof(t_arg *));
 	ft_add_garbage(0, &garbage, new);
 	if (!new)
 		return (t1);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:28:57 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/20 20:23:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 	prompt->full_args = get_full_args(prompt, garbage);
 	check_cmd(prompt, garbage);
 	exports = ft_joinf("_=%s",
-			prompt->full_args[get_tab_size(prompt->full_args) - 1]);
+			prompt->full_args[get_arg_size(prompt->full_args) - 1]);
 	ft_add_garbage(0, &g_minishell.at_exit_garbage, exports);
 	delete_duplicate_export("_");
 	g_minishell.env = insert_at_end(exports,
@@ -60,7 +60,6 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 {
 	if ((*input)[0] == '"')
 	{
-		prompt->d_quotes = 1;
 		if (get_char_occurance(*input, '"') % 2 != 0)
 			no_end_quote(input, '"', W_DQUOTE, garbage);
 		prompt->cmd = get_quoted_str(*input, '"', 1, prompt);
@@ -68,7 +67,6 @@ void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
 	}
 	else if ((*input)[0] == 39)
 	{
-		prompt->quotes = 1;
 		if (get_char_occurance(*input, 39) % 2 != 0)
 			no_end_quote(input, 39, W_QUOTE, garbage);
 		prompt->cmd = get_quoted_str(*input, 39, 0, prompt);

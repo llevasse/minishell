@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 23:00:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:58:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	skip_arg(char *s, char c, int *i)
 /// @param c Char separating every element in *s,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return allocated pointer of char *.
-char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
+t_arg	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 {
 	int		i;
 	int		j;
-	char	**res;
+	t_arg	**res;
 
 	j = 0;
 	i = 0;
@@ -64,7 +64,7 @@ char	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 			break ;
 		i++;
 	}
-	res = malloc((j + 1) * sizeof(char *));
+	res = malloc((j + 1) * sizeof(struct s_arg *));
 	ft_add_garbage(0, &garbage, res);
 	return (res);
 }
@@ -109,12 +109,11 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	new = NULL;
 	if ((*s)[*i] == '"')
 	{
-		prompt->d_quotes = 1;
 		if (get_char_occurance(*s, '"') % 2 != 0)
 			no_end_quote(s, '"', W_DQUOTE, prompt->garbage);
 		if ((*s)[0] == 0)
 			return ((void)(prompt->cmd = NULL), NULL);
-		if (index_word >= 0 && !ft_strcmp(prompt->args[index_word], "<<"))
+		if (index_word >= 0 && !ft_strcmp(prompt->args[index_word]->s, "<<"))
 			new = get_quoted_str(*s + (*i)++, '"', 0, prompt);
 		else
 			new = get_quoted_str(*s + (*i)++, '"', 1, prompt);
@@ -122,7 +121,6 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	}
 	else if ((*s)[*i] == 39)
 	{
-		prompt->quotes = 1;
 		if (get_char_occurance(*s, 39) % 2 != 0)
 			no_end_quote(s, 39, W_QUOTE, prompt->garbage);
 		new = get_quoted_str(*s + *i, 39, 0, prompt);
@@ -138,9 +136,9 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 /// @param c Char separating every element in *s,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return a tab containing every separated element.
-char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
+t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
-	char	**res;
+	t_arg	**res;
 	int		i;
 	int		index_word;
 
@@ -151,24 +149,35 @@ char	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
+		res[index_word] = init_arg(garbage);
 		if (s[i] == '"' || s[i] == 39)
 		{
-			res[index_word] = get_split_quote(prompt, &s, &i, index_word - 1);
+			res[index_word]->quote = s[i];
+			res[index_word]->s = get_split_quote(prompt, &s, &i, index_word - 1);
 			if (!prompt->cmd)
 				return ((void)(errno = 2), NULL);
+			if (i - (ft_strlen(res[index_word]->s) + 3) >= 0 && index_word > 0 &&
+				s[i - (ft_strlen(res[index_word]->s) + 3)] != c)
+			{
+				res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
+										res[index_word]->s);
+				ft_add_garbage(0, &garbage, res[index_word - 1]->s);
+				res[index_word--] = NULL;
+			}
 		}
 		else
 		{
-			res[index_word] = get_word_arg(s, c, i, garbage);
-			i += ft_strlen(res[index_word]);
-			check_is_env_var(prompt, &res[index_word], garbage);
-		}
-		if (i - (ft_strlen(res[index_word]) + 1) >= 0 && index_word > 0 &&
-			s[i - (ft_strlen(res[index_word]) + 1)] != c)
-		{
-			res[index_word - 1] = ft_strjoin(res[index_word - 1], res[index_word]);
-			ft_add_garbage(0, &garbage, res[index_word - 1]);
-			res[index_word--] = NULL;
+			res[index_word]->s = get_word_arg(s, c, i, garbage);
+			i += ft_strlen(res[index_word]->s);
+			check_is_env_var(prompt, &res[index_word]->s, garbage);
+			if (i - (ft_strlen(res[index_word]->s) + 1) >= 0 && index_word > 0 &&
+				s[i - (ft_strlen(res[index_word]->s) + 1)] != c)
+			{
+				res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
+										res[index_word]->s);
+				ft_add_garbage(0, &garbage, res[index_word - 1]->s);
+				res[index_word--] = NULL;
+			}
 		}
 		index_word++;
 		res[index_word] = NULL;

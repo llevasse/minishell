@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/19 13:27:40 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/20 20:52:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 
 	current_pwd = get_pwd(garbage);
 	close(prompt->tmp_fd);
-	if (!ft_strcmp(prompt->full_args[0], "cd"))
+	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
 		ft_cd(prompt, garbage);
-	else if (!ft_strcmp(prompt->full_args[0], "echo"))
+	else if (!ft_strcmp(prompt->full_args[0]->s, "echo"))
 		ft_echo(prompt);
-	else if (!ft_strcmp(prompt->full_args[0], "env"))
+	else if (!ft_strcmp(prompt->full_args[0]->s, "env"))
 		ft_env();
-	else if (!ft_strcmp(prompt->full_args[0], "export"))
+	else if (!ft_strcmp(prompt->full_args[0]->s, "export"))
 		ft_export(prompt);
-	else if (!ft_strcmp(prompt->full_args[0], "pwd"))
+	else if (!ft_strcmp(prompt->full_args[0]->s, "pwd"))
 		ft_pwd(prompt, garbage);
-	else if (!ft_strcmp(prompt->full_args[0], "unset"))
+	else if (!ft_strcmp(prompt->full_args[0]->s, "unset"))
 		ft_unset(prompt);
 	close(1);
 	free_garbage(garbage);
@@ -70,17 +70,17 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 
 int	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
 {
-	if (!ft_strcmp(prompt->full_args[0], "export") && prompt->export_args)
+	if (!ft_strcmp(prompt->full_args[0]->s, "export") && prompt->export_args)
 	{
 		ft_export(prompt);
 		return (1);
 	}
-	if (!ft_strcmp(prompt->full_args[0], "unset") && prompt->args)
+	if (!ft_strcmp(prompt->full_args[0]->s, "unset") && prompt->args)
 	{
 		ft_unset(prompt);
 		return (1);
 	}
-	if (!ft_strcmp(prompt->full_args[0], "cd"))
+	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
 	{
 		ft_cd(prompt, garbage);
 		return (1);

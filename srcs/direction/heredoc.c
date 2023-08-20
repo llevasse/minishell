@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:01:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:22:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	create_heredoc_fd(t_prompt *prompt)
 	{
 		if (pipe(prompt->heredoc_fd) == -1)
 		{
-			printf(PIPE_ERR);
+			write(2, PIPE_ERR, ft_strlen(PIPE_ERR));
 			return (-1);
 		}
 	}
