@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 13:56:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:07:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static int	ft_is_cd_args(char *args)
 static void	cd_with_args(t_prompt *prompt, char *new_path,
 							char cwd[PATH_MAX], t_garbage *garbage)
 {
+	if (prompt->args[1])
+		write(2, TMA, ft_strlen(TMA));;
 	if (!ft_strncmp(new_path, prompt->full_args[1], ft_strlen(new_path)))
 		return ;
 //	new_path = ft_strjoin(
@@ -61,7 +63,6 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 	}
 	else
 		new_path = ft_strjoin("", prompt->args[0]);
-	printf("New path : |%s|\n", new_path);
 	if (chdir(new_path) == 0)
 	{
 		free(new_path);
@@ -70,7 +71,7 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 	else
 	{
 		free(new_path);
-		ft_printf("wrong directory\n");
+		write(2, NO_FILE_E, ft_strlen(NO_FILE_E));;
 	}
 }
 
