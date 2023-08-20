@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:12:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 16:50:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,13 @@ int	pass_specifier(char specifier, va_list args, char **str, int i)
 int	predict_full_str_len(char *str, va_list args)
 {
 	int		i;
-	va_list	args_cp;
 
 	i = 0;
-	va_copy(args_cp, args);
 	while (*str)
 	{
 		if (*str == '%' && ft_is_in_str("%%csdiuxXp", *(str + 1)))
 		{
-			i += predict_len(str + 1, args_cp);
+			i += predict_len(str + 1, args);
 			str += 2;
 		}
 		else
