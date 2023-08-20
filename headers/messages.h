@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 14:07:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 14:16:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@
 # define UNEXPEC_EOF "unexpected EOF while looking for matching `%c'\n\
 syntax error: unexpected end of file\n"
 # define TMA "Too mane arguments\n"
+# define NOT_NUM_ARG "numeric argument required\n"
 #endif

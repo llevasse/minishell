@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 06:58:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/17 10:40:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 15:07:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ unsigned long long	ft_atoi_ullong(const char *str)
 	while (ft_isspace(str[i]) == 1)
 		i++;
 	if (str[i] == '-')
-		return (ft_atoi_ullong(str + i));
+		return (ft_atoi_ullong(str + i + 1));
 	if (str[i] == '+')
 		i++;
 	if (str[i] >= '0' && str[i] <= '9')
