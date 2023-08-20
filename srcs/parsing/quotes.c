@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 16:54:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/19 14:45:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,16 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_prompt *prompt)
 		j -= i;
 	else
 		j = i - j;
-	new_str = malloc((j + 3) * sizeof(char));
+	new_str = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(0, &prompt->garbage, new_str);
-	new_str[0] = quote;
 	j = 0;
 	i++;
 	while (str[i + j] && str[i + j] != quote)
 	{
-		new_str[j + 1] = str[i + j];
+		new_str[j] = str[i + j];
 		j++;
 	}
-	new_str[j + 1] = quote;
-	new_str[j + 2] = 0;
-	ft_add_garbage(0, &prompt->garbage, new_str);
+	new_str[j] = 0;
 	if (env_var)
 		check_is_env_var(prompt, &new_str, prompt->garbage);
 	return (new_str);
