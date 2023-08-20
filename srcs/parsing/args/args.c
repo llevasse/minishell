@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 23:06:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:50:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,15 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
-void	printf_args(char **tab, char *prompt)
+void	printf_args(t_arg **tab, char *prompt)
 {
 	int	i;
 
 	i = 0;
 	printf("%s\n", prompt);
-	while (tab && tab[i])
-		printf("%s\n", tab[i++]);
-	printf("%s\n", tab[i]);
+	while (tab && tab[i] && tab[i]->s)
+		printf("%s\n", tab[i++]->s);
+	printf("%s\n", tab[i]->s);
 }
 
 /// @brief Parse each quoted args and env variable,
@@ -58,7 +58,7 @@ void	printf_args(char **tab, char *prompt)
 /// @param *prompt Pointer to prompt struct,
 /// @param **args Pointer to args,
 /// @param *garbage Pointer to garbage collector.
-void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
+void	parse_args(t_prompt *prompt, t_arg **args, t_garbage *garbage)
 {
 	int	i;
 
@@ -68,13 +68,13 @@ void	parse_args(t_prompt *prompt, char **args, t_garbage *garbage)
 	check_for_wildcard(prompt, args, i, garbage);
 	while (args[i])
 	{
-		if (args[i] && args[i][0] != 0 &&
-			args[i][ft_strlen(args[i]) - 1] == '\\' && args[i + 1])
+		if (args[i] && args[i]->s[0] != 0 &&
+			args[i]->s[ft_strlen(args[i]->s) - 1] == '\\' && args[i + 1])
 		{
-			args[i][ft_strlen(args[i]) - 1] = 0;
-			args[i] = ft_joinf("%s %s", args[i], args[i + 1]);
-			ft_add_garbage(0, &garbage, args[i]);
-			delete_element_at_index(args, i + 1);
+			args[i]->s[ft_strlen(args[i]->s) - 1] = 0;
+			args[i]->s = ft_joinf("%s %s", args[i]->s, args[i + 1]->s);
+			ft_add_garbage(0, &garbage, args[i]->s);
+			delete_arg_at_index(args, i + 1);
 		}
 		i++;
 	}

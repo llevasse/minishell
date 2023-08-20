@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/11 15:29:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:16:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	write_heredoc(t_prompt *p, char *heredoc_name,
 
 // srcs/parsing/direction/output.c:
 void	set_output(t_prompt *prompt);
-int		get_last_output_index(char **args);
+int		get_last_output_index(t_arg **args);
 
 // srcs/parsing/direction/direction.c:
 void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage);

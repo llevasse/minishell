@@ -6,21 +6,21 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 10:48:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:07:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
-void	check_for_wildcard(t_prompt *prompt, char **args,
+void	check_for_wildcard(t_prompt *prompt, t_arg **args,
 			int index, t_garbage *garbage)
 {
 	char	*pwd;
-	char	**new_args;
+	t_arg	**new_args;
 
 	if (!args || !args[index])
 		return ((void)(prompt->args = args));
-	if (get_char_pos(args[index], 42) == -1)
+	if (get_char_pos(args[index]->s, 42) == -1)
 		check_for_wildcard(prompt, args, index + 1, garbage);
 	else
 	{
@@ -28,12 +28,12 @@ void	check_for_wildcard(t_prompt *prompt, char **args,
 		new_args = get_files_in_dir(pwd, garbage);
 		if (!new_args)
 			return ;
-		delete_unwanted_files(new_args, args[index], garbage);
+		delete_unwanted_files(new_args, args[index]->s, garbage);
 		if (new_args[0])
-			delete_element_at_index(args, index);
+			delete_arg_at_index(args, index);
 		args = insert_tab_at_index(args, new_args, index, garbage);
 		index++;
-		while (args[index] && get_char_pos(args[index], 42) == -1)
+		while (args[index] && get_char_pos(args[index]->s, 42) == -1)
 			index++;
 		check_for_wildcard(prompt, args, index, garbage);
 	}
@@ -69,7 +69,7 @@ int	respect_pattern(char *str, char *pattern, char **keys)
 	return (1);
 }
 
-void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
+void	delete_unwanted_files(t_arg **files, char *pattern, t_garbage *garbage)
 {
 	int		i;
 	char	**keys;
@@ -82,10 +82,10 @@ void	delete_unwanted_files(char **files, char *pattern, t_garbage *garbage)
 	i = 0;
 	if (get_char_occurance(pattern, 42) == (int)ft_strlen(pattern))
 		return ;
-	while (files[i])
+	while (files[i] && files[i]->s)
 	{
-		if (!respect_pattern(files[i], pattern, keys))
-			delete_element_at_index(files, i);
+		if (!respect_pattern(files[i]->s, pattern, keys))
+			delete_arg_at_index(files, i);
 		else
 			i++;
 	}
@@ -111,17 +111,17 @@ int	get_nb_of_files(char *path)
 	return (i - 2);
 }
 
-char	**get_files_in_dir(char *path, t_garbage *garbage)
+t_arg	**get_files_in_dir(char *path, t_garbage *garbage)
 {
 	DIR				*current_dir;
 	struct dirent	*dir_entry;
-	char			**files;
+	t_arg			**files;
 	int				i;
 
 	i = get_nb_of_files(path);
 	if (i == 0)
 		return (NULL);
-	files = malloc(sizeof(char *) * (i + 1));
+	files = malloc(sizeof(t_arg *) * (i + 1));
 	ft_add_garbage(0, &garbage, files);
 	current_dir = opendir(path);
 	if (!current_dir)
@@ -133,7 +133,8 @@ char	**get_files_in_dir(char *path, t_garbage *garbage)
 		if (ft_strcmp(dir_entry->d_name, ".") && \
 			ft_strcmp(dir_entry->d_name, ".."))
 		{
-			files[i] = ft_strdup(dir_entry->d_name);
+			files[i] = init_arg(garbage);
+			files[i]->s = ft_strdup(dir_entry->d_name);
 			files[i + 1] = NULL;
 			ft_add_garbage(0, &garbage, files[i++]);
 		}

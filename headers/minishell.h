@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 13:55:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 17:40:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@
 
 // parse.c
 void		parse(char *input, t_garbage *garbage, char **environ);
-t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);
-void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 void		check_cmd(t_prompt *prompt, t_garbage *garbage);
 void		get_cmd(char **input, t_prompt *prompt, t_garbage *garbage);
 
@@ -51,15 +49,7 @@ char		*get_env_var_name(char *str, t_garbage *garbage);
 int			get_char_pos(char *str, char c);
 int			get_char_occurance(char *str, char c);
 
-// garbage_collector.c
-void		free_garbage(t_garbage *garbage);
-t_garbage	*ft_new_garbage(int log, void *address);
-void		ft_add_garbage(int log, t_garbage **lst, void *address);
-
 // export.c
-t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
-void		ft_add_export(t_export **lst, char *key, char *content,
-				t_garbage *garbage);
 int			export_list_size(t_export *export);
 void		get_export_args(t_prompt *prompt, char *input, t_garbage *garbage);
 char		**convert_to_tab(t_export *export);
@@ -99,7 +89,7 @@ void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 void		replace_env(char *var_name, char *new_value);
 void		ft_unset(t_prompt *prompt);
-void		ft_exit(t_garbage *garbage, char **args);
+void		ft_exit(t_garbage *garbage, t_arg **args);
 void		ft_pwd(t_prompt *prompt, t_garbage *garbage);
 char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);

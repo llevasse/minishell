@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 16:25:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:14:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 	i = 0;
 	while (prompt->args && prompt->args[i])
 	{
-		if (!ft_strncmp(prompt->args[i], "<", 2) && \
-				ft_strncmp(prompt->args[i], "<<", 3))
-			set_input(prompt->args[i + 1], prompt, garbage);
-		else if (!ft_strncmp(prompt->args[i], "<", 1) && \
-				ft_strncmp(prompt->args[i], "<<", 2))
-			set_input(prompt->args[i], prompt, garbage);
-		else if (!ft_strcmp(prompt->args[i], "<<"))
-			heredoc(input, prompt->args[i + 1], prompt, garbage);
-		else if (!ft_strncmp(prompt->args[i], ">", 1) && \
-			ft_strlen(prompt->args[i]) < 3)
+		if (!ft_strncmp(prompt->args[i]->s, "<", 2) && \
+				ft_strncmp(prompt->args[i]->s, "<<", 3))
+			set_input(prompt->args[i + 1]->s, prompt, garbage);
+		else if (!ft_strncmp(prompt->args[i]->s, "<", 1) && \
+				ft_strncmp(prompt->args[i]->s, "<<", 2))
+			set_input(prompt->args[i]->s, prompt, garbage);
+		else if (!ft_strcmp(prompt->args[i]->s, "<<"))
+			heredoc(input, prompt->args[i + 1]->s, prompt, garbage);
+		else if (!ft_strncmp(prompt->args[i]->s, ">", 1) && \
+			ft_strlen(prompt->args[i]->s) < 3)
 			set_output(prompt);
 		i++;
 		cut_section = get_cut_section(input, garbage);
@@ -96,30 +96,30 @@ void	reset_stdio_fd(t_prompt *prompt)
 	}
 }
 
-void	delete_redirection(char **args)
+void	delete_redirection(t_arg **args)
 {
-	int	i;
+	int		i;
+	char	*s;
 
 	i = 0;
 	while (args && args[i])
 	{
-		if ((!ft_strcmp(args[i], ">") && ft_strlen(args[i]) == 1) || \
-		(!ft_strcmp(args[i], "<") && ft_strlen(args[i]) == 1) || \
-		(!ft_strcmp(args[i], ">>") && ft_strlen(args[i]) == 2) || \
-		(!ft_strcmp(args[i], "<<") && ft_strlen(args[i]) == 2))
+		s = args[i]->s;
+		if (!ft_strcmp(s, ">") || !ft_strcmp(s, "<") || \
+			!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
 		{
 			if (args[i + 1])
 			{
-				delete_element_at_index(args, i);
-				delete_element_at_index(args, i);
+				delete_arg_at_index(args, i);
+				delete_arg_at_index(args, i);
 			}
 			else
-				delete_element_at_index(args, i);
+				delete_arg_at_index(args, i);
 		}
-		else if (!ft_strncmp(args[i], "<<", 2) || \
-		!ft_strncmp(args[i], "<", 1) || \
-		!ft_strncmp(args[i], ">>", 2) || !ft_strncmp(args[i], ">", 1))
-			delete_element_at_index(args, i);
+		else if (!args[i]->quote && (!ft_strncmp(s, "<<", 2) || \
+		!ft_strncmp(s, "<", 1) || \
+		!ft_strncmp(s, ">>", 2) || !ft_strncmp(s, ">", 1)))
+			delete_arg_at_index(args, i);
 		else
 			i++;
 	}
