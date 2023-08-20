@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:17:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:23:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	set_output(t_prompt *prompt)
 	if (i == -1)
 		return ((void)(errno = 2, prompt->cmd = 0));
 	if (!prompt->args[i])
-		return ((void)printf(ERR_PARSE_OUTPUT));
+		return ((void)write(2, ERR_PARSE_OUTPUT, ft_strlen(ERR_PARSE_OUTPUT)));
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
 	if (!ft_strcmp(prompt->args[i - 1]->s, ">>"))

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:00:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 21:58:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,20 +156,28 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 			res[index_word]->s = get_split_quote(prompt, &s, &i, index_word - 1);
 			if (!prompt->cmd)
 				return ((void)(errno = 2), NULL);
+			if (i - (ft_strlen(res[index_word]->s) + 3) >= 0 && index_word > 0 &&
+				s[i - (ft_strlen(res[index_word]->s) + 3)] != c)
+			{
+				res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
+										res[index_word]->s);
+				ft_add_garbage(0, &garbage, res[index_word - 1]->s);
+				res[index_word--] = NULL;
+			}
 		}
 		else
 		{
 			res[index_word]->s = get_word_arg(s, c, i, garbage);
 			i += ft_strlen(res[index_word]->s);
 			check_is_env_var(prompt, &res[index_word]->s, garbage);
-		}
-		if (i - (ft_strlen(res[index_word]->s) + 1) >= 0 && index_word > 0 &&
-			s[i - (ft_strlen(res[index_word]->s) + 1)] != c)
-		{
-			res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
-									res[index_word]->s);
-			ft_add_garbage(0, &garbage, res[index_word - 1]->s);
-			res[index_word--] = NULL;
+			if (i - (ft_strlen(res[index_word]->s) + 1) >= 0 && index_word > 0 &&
+				s[i - (ft_strlen(res[index_word]->s) + 1)] != c)
+			{
+				res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
+										res[index_word]->s);
+				ft_add_garbage(0, &garbage, res[index_word - 1]->s);
+				res[index_word--] = NULL;
+			}
 		}
 		index_word++;
 		res[index_word] = NULL;

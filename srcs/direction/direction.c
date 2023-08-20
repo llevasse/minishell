@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:14:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 22:26:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	check_redirection(char *input, t_prompt *prompt, t_garbage *garbage)
 		else if (!ft_strncmp(prompt->args[i]->s, "<", 1) && \
 				ft_strncmp(prompt->args[i]->s, "<<", 2))
 			set_input(prompt->args[i]->s, prompt, garbage);
-		else if (!ft_strcmp(prompt->args[i]->s, "<<"))
+		else if (!prompt->args[i]->quote && \
+				!ft_strcmp(prompt->args[i]->s, "<<"))
 			heredoc(input, prompt->args[i + 1]->s, prompt, garbage);
-		else if (!ft_strncmp(prompt->args[i]->s, ">", 1) && \
+		else if (!prompt->args[i]->quote && \
+				!ft_strncmp(prompt->args[i]->s, ">", 1) && \
 			ft_strlen(prompt->args[i]->s) < 3)
 			set_output(prompt);
 		i++;
@@ -116,7 +118,7 @@ void	delete_redirection(t_arg **args)
 			else
 				delete_arg_at_index(args, i);
 		}
-		else if (!args[i]->quote && (!ft_strncmp(s, "<<", 2) || \
+		else if (args[i]->quote != 0 && (!ft_strncmp(s, "<<", 2) || \
 		!ft_strncmp(s, "<", 1) || \
 		!ft_strncmp(s, ">>", 2) || !ft_strncmp(s, ">", 1)))
 			delete_arg_at_index(args, i);
