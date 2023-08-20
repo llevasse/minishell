@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 12:18:34 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/20 13:55:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
 int			exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage);
 void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
+void		replace_env(char *var_name, char *new_value);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_garbage *garbage, char **args);
 void		ft_pwd(t_prompt *prompt, t_garbage *garbage);
