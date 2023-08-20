@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/20 20:52:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/20 23:20:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int	is_builtin(char *cmd)
 
 void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
-	char	*current_pwd;
-
-	current_pwd = get_pwd(garbage);
 	close(prompt->tmp_fd);
 	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
 		ft_cd(prompt, garbage);
