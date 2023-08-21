@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 20:11:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:09:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_garbage
 }	t_garbage;
 
 
+void		print_prompt(t_prompt p);
 t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 
