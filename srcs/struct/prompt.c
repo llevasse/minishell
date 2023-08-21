@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 21:10:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:25:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_prompt(t_prompt p)
 	printf("prompt.has_redir = %d\n", p.has_redir);
 	printf("prompt.tmp_fd = %d\n", p.tmp_fd);
 	printf("prompt.exec_fd[0] = %d\n", p.exec_fd[0]);
-	printf("prompt.exec_fd[1] = %d\n", p.exec_fd[1]);
+	printf("prompt.exec_fd[1] = %d\n\n\n\n\n", p.exec_fd[1]);
 
 }
 
@@ -35,10 +35,12 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->old_stdin = -1;
 	prompt->has_redir = 0;
 	prompt->args = NULL;
+	prompt->full_args = NULL;
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
 	prompt->prev_cmd = NULL;
 	prompt->exec_fd[0] = -1;
+	prompt->exec_fd[1] = -1;
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
@@ -61,7 +63,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
-//	check_redirection(prompt, garbage);
+	prompt->full_args = get_full_args(prompt, garbage);
 	return (prompt);
 }
 

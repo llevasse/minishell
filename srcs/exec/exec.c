@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 21:12:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:24:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,12 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			prompt->next_cmd->tmp_fd = prompt->tmp_fd;
 			prompt->next_cmd->old_stdout = prompt->old_stdout;
 			prompt->next_cmd->old_stdin = prompt->old_stdin;
-			prompt->next_cmd->full_args = &prompt->full_args[i + 1];
 			prompt->next_cmd->exec_fd[0] = prompt->exec_fd[0];
 			prompt->next_cmd->exec_fd[1] = prompt->exec_fd[1];
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
-//		print_prompt(*prompt);
+		print_prompt(*prompt);
 		while (prompt->full_args[i] && \
 				ft_strcmp(prompt->full_args[i]->s, ";") && \
 					ft_strcmp(prompt->full_args[i]->s, "|"))
@@ -80,7 +79,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
-		prompt->tmp_fd = dup(STDIN_FILENO);
+		prompt->tmp_fd = dup(STDOUT_FILENO);
 	}
 	return (0);
 }
@@ -112,7 +111,6 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = prompt->exec_fd[0];
-		printf("tmp_fd = %d\n", prompt->tmp_fd);
 	}
 	return (0);
 }
