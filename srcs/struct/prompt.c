@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 17:05:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:06:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
-	check_redirection(input, prompt, garbage);
+	check_redirection(prompt, garbage);
 	return (prompt);
 }
 

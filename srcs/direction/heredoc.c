@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 22:22:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:04:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,20 @@
 /// @param *eof_name What was parsed as heredoc 'name' (delimiter'),
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	heredoc(char *input, char *eof_name, t_prompt *prompt,
+void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt,
 			t_garbage *garbage)
 {
-	int	pos;
-	int	use_env_var;
-
-	use_env_var = 1;
+	if (use_env_var == 0)
+		use_env_var = 1;
+	else
+		use_env_var = 0;
 	if (prompt->heredoc_fd[0] != -1)
 	{
 		close(prompt->heredoc_fd[0]);
 		close(prompt->heredoc_fd[1]);
 		prompt->heredoc_fd[0] = -1;
 	}
-	pos = get_separator_pos(input, "<<") + 2;
-	while (input[pos] && ft_isspace(input[pos]))
-		pos++;
-	if (input[pos] == '"' || input[pos] == 39)
-		use_env_var = 0;
+	
 	write_heredoc(prompt, eof_name, garbage, use_env_var);
 }
 
