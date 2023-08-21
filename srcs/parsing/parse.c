@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:23:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:55:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 	delete_duplicate_export("_");
 	g_minishell.env = insert_at_end(exports,
 			g_minishell.env, g_minishell.at_exit_garbage);
+	prompt->exec_fd[0] = -1;
 	reset_stdio_fd(prompt);
 	prompt = NULL;
 }
