@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 10:26:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:31:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ void	set_input(char *name, t_prompt *prompt, t_garbage *garbage)
 		return ((void)(write(2, NO_FILE, ft_strlen(NO_FILE))));
 	dup2(fd, prompt->heredoc_fd[0]);
 	close(fd);
+	(void)garbage;
 }
