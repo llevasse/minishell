@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:53:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:37:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_echo(t_prompt *prompt)
 {
 	if (!prompt->args)
 		write(1, "\n", 1);
-	else if (prompt->args && !ft_strcmp(prompt->args[0]->s, "-n"))
+	else if (prompt->args[0] && !ft_strcmp(prompt->args[0]->s, "-n"))
 	{
 		if (!prompt->args[1])
 			write(1, "", 0);
