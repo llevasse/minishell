@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 16:52:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:17:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,9 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
+		dup2(prompt->exec_fd[1], STDOUT_FILENO);
+		close(prompt->exec_fd[0]);
+		close(prompt->exec_fd[1]);
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
