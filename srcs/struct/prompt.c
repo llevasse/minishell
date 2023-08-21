@@ -6,13 +6,27 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 20:11:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:10:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern struct s_minishell	g_minishell;
+
+void	print_prompt(t_prompt p)
+{
+	printf("prompt.cmd = %s\n", p.cmd);
+	printf_args(p.args, "prompt.args :");
+	printf_args(p.full_args, "prompt.full_args :");
+	printf("prompt.old_stdout = %d\n", p.old_stdout);
+	printf("prompt.old_stdint = %d\n", p.old_stdin);
+	printf("prompt.has_redir = %d\n", p.has_redir);
+	printf("prompt.tmp_fd = %d\n", p.tmp_fd);
+	printf("prompt.exec_fd[0] = %d\n", p.exec_fd[0]);
+	printf("prompt.exec_fd[1] = %d\n", p.exec_fd[1]);
+
+}
 
 void	set_prompt_null(t_prompt *prompt)
 {

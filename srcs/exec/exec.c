@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 20:17:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:09:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
+		print_prompt(*prompt);
 		while (prompt->full_args[i] && \
 				ft_strcmp(prompt->full_args[i]->s, ";") && \
 					ft_strcmp(prompt->full_args[i]->s, "|"))
@@ -111,6 +112,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = prompt->exec_fd[0];
+		printf("tmp_fd = %d\n", prompt->tmp_fd);
 	}
 	return (0);
 }
