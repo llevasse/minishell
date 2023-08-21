@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 15:54:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:48:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	else if (!ft_strcmp(prompt->full_args[0]->s, "unset"))
 		ft_unset(prompt);
 	reset_stdio_fd(prompt);
-	close(1);
-	close(0);
 	free_garbage(garbage);
 	free_garbage(g_minishell.at_exit_garbage);
 	exit(errno);

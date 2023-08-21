@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 16:40:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:52:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			get_exec_pipe (prompt, i, value, garbage);
 	}
 	close(prompt->tmp_fd);
+	prompt->exec_fd[0] = -1;
 }
 
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
-	printf("entry get_exec errno %d\n", errno);
 	check_redirection(prompt, garbage);
 	delete_redirection(prompt->full_args);
 	if (!prompt->next_cmd && !prompt->prev_cmd && \
@@ -81,14 +81,12 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = dup(STDIN_FILENO);
 	}
-	printf("exit get_exec errno %d\n", errno);
 	return (0);
 }
 
 static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 			t_garbage *garbage)
 {
-	printf("entry get_exec_pipe errno %d\n", errno);
 	exec_builtin_main_thread(prompt, garbage);
 	pipe(prompt->exec_fd);
 	check_redirection(prompt, garbage);
@@ -96,11 +94,6 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
-		printf("entry child get_exec_pipe errno %d\n", errno);
-		dup2(prompt->exec_fd[1], STDOUT_FILENO);
-		printf("dup2 child get_exec_pipe errno %d\n", errno);
-		close(prompt->exec_fd[0]);
-		close(prompt->exec_fd[1]);
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
@@ -116,7 +109,6 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = prompt->exec_fd[0];
 	}
-	printf("exit get_exec_pipe errno %d\n", errno);
 	return (0);
 }
 
