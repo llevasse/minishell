@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 14:04:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:24:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt,
 		use_env_var = 1;
 	else
 		use_env_var = 0;
-	if (prompt->heredoc_fd[0] != -1)
+	if (prompt->exec_fd[0] != -1)
 	{
-		close(prompt->heredoc_fd[0]);
-		close(prompt->heredoc_fd[1]);
-		prompt->heredoc_fd[0] = -1;
+		close(prompt->exec_fd[0]);
+		close(prompt->exec_fd[1]);
+		prompt->exec_fd[0] = -1;
 	}
 	
 	write_heredoc(prompt, eof_name, garbage, use_env_var);
@@ -39,9 +39,9 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt,
 /// @return Return 0 if no problem occurs or -1.
 int	create_heredoc_fd(t_prompt *prompt)
 {
-	if (prompt->heredoc_fd[0] == -1)
+	if (prompt->exec_fd[0] == -1)
 	{
-		if (pipe(prompt->heredoc_fd) == -1)
+		if (pipe(prompt->exec_fd) == -1)
 		{
 			write(2, PIPE_ERR, ft_strlen(PIPE_ERR));
 			return (-1);
@@ -79,6 +79,6 @@ void	write_heredoc(t_prompt *p, char *heredoc_name,
 			break ;
 		if (use_env_var)
 			check_is_env_var(p, &text, garbage);
-		ft_putendl_fd(text, p->heredoc_fd[1]);
+		ft_putendl_fd(text, p->exec_fd[1]);
 	}
 }

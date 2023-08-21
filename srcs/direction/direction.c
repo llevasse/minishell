@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 14:05:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:15:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 			set_output(prompt);
 		i++;
 	}
-	if (prompt->heredoc_fd[0] != -1)
+	if (prompt->exec_fd[0] != -1)
 	{
-		close(prompt->heredoc_fd[1]);
+		close(prompt->exec_fd[1]);
 		if (prompt->cmd)
-			dup2(prompt->heredoc_fd[0], STDIN_FILENO);
+			dup2(prompt->exec_fd[0], STDIN_FILENO);
 	}
 	delete_redirection(prompt->args);
 }
@@ -73,10 +73,10 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 /// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
-	if (prompt->heredoc_fd[0] != -1)
+	if (prompt->exec_fd[0] != -1)
 	{
-		close(prompt->heredoc_fd[0]);
-		prompt->heredoc_fd[0] = -1;
+		close(prompt->exec_fd[0]);
+		prompt->exec_fd[0] = -1;
 	}
 	if (prompt->write_fd != -1)
 		close(prompt->write_fd);

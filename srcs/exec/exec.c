@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/20 21:06:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 14:45:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	{
 		if (i != 0 && prompt->full_args[i + 1])
 		{
-			prompt->full_args = &prompt->full_args[i + 1];
+//			prompt->full_args = &prompt->full_args[i + 1];
+			prompt->next_cmd->full_args = &prompt->full_args[i + 1];
+			prompt = prompt->next_cmd;
 			i = 0;
 		}
 		while (prompt->full_args[i] && \
@@ -50,6 +52,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
+	check_redirection(prompt, garbage);
 	if (!prompt->next_cmd && !prompt->prev_cmd && \
 				!ft_strcmp(prompt->cmd, "exit"))
 		ft_exit(garbage, prompt->full_args);
@@ -80,6 +83,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 {
 	exec_builtin_main_thread(prompt, garbage);
 	pipe(prompt->exec_fd);
+	check_redirection(prompt, garbage);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
