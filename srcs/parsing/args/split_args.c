@@ -159,7 +159,7 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 			if (word > 0 && s[i - (ft_strlen(res[word]->s) + 3)] != c)
 			{
 				res[word - 1]->s = ft_strjoin(res[word - 1]->s,
-										res[word]->s);
+						res[word]->s);
 				ft_add_garbage(0, &garbage, res[word - 1]->s);
 				res[word--] = NULL;
 			}
@@ -172,7 +172,7 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 			if (word > 0 && s[i - (ft_strlen(res[word]->s) + 1)] != c)
 			{
 				res[word - 1]->s = ft_strjoin(res[word - 1]->s,
-										res[word]->s);
+						res[word]->s);
 				ft_add_garbage(0, &garbage, res[word - 1]->s);
 				res[word--] = NULL;
 			}

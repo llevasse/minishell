@@ -31,7 +31,8 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strcmp(prompt->args[i]->s, "<<"))
-			heredoc(prompt->args[i + 1]->quote, prompt->args[i + 1]->s, prompt, garbage);
+			heredoc(prompt->args[i + 1]->quote,
+				prompt->args[i + 1]->s, prompt, garbage);
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, ">", 1) && \
 			ft_strlen(prompt->args[i]->s) < 3)

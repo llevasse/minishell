@@ -40,7 +40,6 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
-	//	print_prompt(*prompt);
 		while (prompt->full_args[i] && \
 				ft_strcmp(prompt->full_args[i]->s, ";") && \
 					ft_strcmp(prompt->full_args[i]->s, "|"))

@@ -33,7 +33,8 @@ void	replace_env(char *var_name, char *new_value)
 		}
 		i++;
 	}
-	g_minishell.env = insert_at_end(new_value, g_minishell.env, g_minishell.at_exit_garbage);
+	g_minishell.env = insert_at_end(new_value,
+			g_minishell.env, g_minishell.at_exit_garbage);
 }
 
 void	ft_env(void)

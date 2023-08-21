@@ -43,7 +43,6 @@ typedef struct s_prompt
 	int					write_fd;
 	int					old_stdout;
 	int					old_stdin;
-//	int					heredoc_fd[2];
 	int					exec_fd[2];
 	int					tmp_fd;
 	int					has_redir;
@@ -64,7 +63,6 @@ typedef struct s_garbage
 	void				*address;
 	struct s_garbage	*next;
 }	t_garbage;
-
 
 void		print_prompt(t_prompt p);
 t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);

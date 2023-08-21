@@ -48,14 +48,10 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 							char cwd[PATH_MAX], t_garbage *garbage)
 {
 	if (prompt->args[1])
-		write(2, TMA, ft_strlen(TMA));;
+		write(2, TMA, ft_strlen(TMA));
 	if (!ft_strncmp(new_path, prompt->full_args[1]->s, ft_strlen(new_path)))
 		return ;
-//	new_path = ft_strjoin(
-//				ft_strjoin(ft_getenv(g_minishell.env, "PWD", garbage),
-//					"/"), prompt->args[0]);
-// why ? 
-	else if (!strncmp(prompt->full_args[1]->s, "~/", 2))
+	else if (!ft_strncmp(prompt->full_args[1]->s, "~/", 2))
 	{
 		new_path = ft_joinf("%s/%s", ft_getenv(g_minishell.env,
 					"HOME", garbage), &prompt->full_args[1]->s[3]);
@@ -71,7 +67,7 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 	else
 	{
 		free(new_path);
-		write(2, NO_FILE_E, ft_strlen(NO_FILE_E));;
+		write(2, NO_FILE_E, ft_strlen(NO_FILE_E));
 	}
 }
 

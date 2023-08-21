@@ -14,13 +14,12 @@
 
 struct s_minishell	g_minishell;
 
-
-void	reset_termios()
+void	reset_termios(void)
 {
-    struct termios term_settings;
+	struct termios	term_settings;
 
-    tcgetattr(STDIN_FILENO, &term_settings);
-    term_settings.c_lflag |= (ICANON);
+	tcgetattr(STDIN_FILENO, &term_settings);
+	term_settings.c_lflag |= (ICANON);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
@@ -49,16 +48,15 @@ char	*get_mini_prompt(t_garbage *garbage)
 	return (prompt);
 }
 
-void	set_termios()
+void	set_termios(void)
 {
-    struct termios term_setting;
+	struct termios	term_setting;
 
-    tcgetattr(STDIN_FILENO, &term_setting);
-    term_setting.c_lflag&= ~(ICANON);
-
-    term_setting.c_cc[VMIN] = 1;
-    term_setting.c_cc[VTIME] = 0;
-    tcsetattr(STDIN_FILENO, TCSANOW, &term_setting);
+	tcgetattr(STDIN_FILENO, &term_setting);
+	term_setting.c_lflag &= ~(ICANON);
+	term_setting.c_cc[VMIN] = 1;
+	term_setting.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term_setting);
 }
 
 char	**get_base_env(void)
@@ -120,7 +118,7 @@ int	main(int argc, char **argv, char **envp)
 			exit (errno);
 		ft_add_garbage(0, &g_minishell.at_exit_garbage, envp[0]);
 	}
-//	printf(STARTUP);
+	printf(STARTUP);
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
 	g_minishell.env = envp;

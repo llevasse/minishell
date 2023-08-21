@@ -61,7 +61,6 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 		ft_unset(prompt);
 	close(0);
 	close(1);
-	//reset_stdio_fd(prompt);
 	free_garbage(garbage);
 	free_garbage(g_minishell.at_exit_garbage);
 	exit(errno);
