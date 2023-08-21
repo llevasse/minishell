@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 10:31:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:51:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 /// @param *input Prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	set_input(char *name, t_prompt *prompt, t_garbage *garbage)
+void	set_input(char *name, t_prompt *prompt)
 {
-	int			fd;
+	int	fd;
+	int	entry_errno;
 
+	entry_errno = errno;
 	if (!name)
 	{
 		errno = 2;
@@ -37,9 +39,10 @@ void	set_input(char *name, t_prompt *prompt, t_garbage *garbage)
 	if (create_heredoc_fd(prompt) == -1)
 		return ;
 	fd = open(name, O_RDONLY);
-	if (fd == -1)
-		return ((void)(write(2, NO_FILE, ft_strlen(NO_FILE))));
+	if (fd == -1 && entry_errno != 2)
+		return ((void)(write(2, NO_FILE_E, ft_strlen(NO_FILE_E))));
+	else if (fd == -1)
+		return ;
 	dup2(fd, prompt->heredoc_fd[0]);
 	close(fd);
-	(void)garbage;
 }
