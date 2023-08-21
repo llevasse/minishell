@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:50:33 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:24:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:25:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_arg	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 		}
 		if (!temp->next_cmd)
 			break ;
+		new[i] = init_arg(garbage);
 		new[i++]->s = "|";
 		temp = temp->next_cmd;
 	}

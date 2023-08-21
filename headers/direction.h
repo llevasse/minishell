@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 10:52:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 11:23:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 // srcs/parsing/direction/input.c:
 void	set_input(char *name, t_prompt *prompt);
-char	*get_last_input(char **args);
-char	*get_input(char *input_prompt, t_garbage *garbage);
-void	multiple_input(char *input_prompt, t_prompt *prompt,
-			t_garbage *garbage);
-void	write_file_to_fd(int fd_to_read, int fd_to_write, t_garbage *garbage);
 
 	// srcs/parsing/direction/heredoc.c:
 void	heredoc(char *input, char *eof_name, t_prompt *prompt,
