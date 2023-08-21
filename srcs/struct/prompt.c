@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 21:25:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 21:30:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,15 @@ void	set_prompt_null(t_prompt *prompt)
 t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
 {
 	t_prompt	*prompt;
-	size_t		len;
 
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, prompt);
 	set_prompt_null(prompt);
 	prompt->environ = env;
 	prompt->garbage = garbage;
-	len = ft_strlen(input);
 	get_cmd(&input, prompt, garbage);
 	if (!prompt->cmd && errno != 12)
 		return ((void)(errno = 127), prompt);
-	if (!*input || len == ft_strlen(prompt->cmd))
-		return (prompt);
 	get_args(prompt, input, garbage);
 	prompt->full_args = get_full_args(prompt, garbage);
 	return (prompt);
