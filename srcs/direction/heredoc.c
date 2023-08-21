@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 14:24:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:12:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt,
 	}
 	
 	write_heredoc(prompt, eof_name, garbage, use_env_var);
+	prompt->has_redir = 1;
 }
 
 /// @brief Create heredoc pipe.

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 14:44:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:11:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->write_fd = -1;
 	prompt->old_stdout = -1;
 	prompt->old_stdin = -1;
+	prompt->has_redir = 0;
 	prompt->args = NULL;
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
