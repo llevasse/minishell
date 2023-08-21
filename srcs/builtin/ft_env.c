@@ -14,6 +14,8 @@
 
 extern struct s_minishell	g_minishell;
 
+void	ft_print_env(int i);
+
 void	replace_env(char *var_name, char *new_value)
 {
 	int	i;
@@ -39,33 +41,39 @@ void	replace_env(char *var_name, char *new_value)
 
 void	ft_env(void)
 {
-	char	**print;
 	int		i;
-	int		j;
 
 	i = 0;
 	while (g_minishell.env[i])
 	{
 		if (ft_strncmp("_=", g_minishell.env[i], 2))
 		{
-			j = 0;
-			print = ft_split(g_minishell.env[i++], '=');
-			ft_add_garbage(0, &g_minishell.garbage, print);
-			if (print[1])
-				printf("%s=", print[j]);
-			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-			while (print[j])
-			{
-				printf("%s", print[j]);
-				ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-				if (print[j])
-					printf("=");
-			}
-			if (print[1])
-				printf("\n");
+			ft_print_env(i);
 		}
 		else
 			i++;
 	}
 	ft_printf("_=/usr/bin/env\n");
+}
+
+void	ft_print_env(int i)
+{
+	int		j;
+	char	**print;
+
+	j = 0;
+	print = ft_split(g_minishell.env[i++], '=');
+	ft_add_garbage(0, &g_minishell.garbage, print);
+	if (print[1])
+		printf("%s=", print[j]);
+	ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+	while (print[j])
+	{
+		printf("%s", print[j]);
+		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+		if (print[j])
+			printf("=");
+	}
+	if (print[1])
+		printf("\n");
 }
