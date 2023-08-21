@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 15:27:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:55:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 //		if (prompt->cmd)
 //			dup2(prompt->exec_fd[0], STDIN_FILENO);
 	}
-//	delete_redirection(prompt->args);
+	delete_redirection(prompt->args);
 }
 // ALWAYS CLOSE PIPE WRITE-END BEFORE DUP2
 
@@ -104,6 +104,8 @@ void	delete_redirection(t_arg **args)
 	while (args && args[i])
 	{
 		s = args[i]->s;
+		if (!ft_strcmp(s, "|"))
+			return ;
 		if (!ft_strcmp(s, ">") || !ft_strcmp(s, "<") || \
 			!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
 		{
