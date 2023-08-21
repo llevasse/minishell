@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 15:51:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:06:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	{
 		if (i != 0 && prompt->full_args[i + 1])
 		{
-//			prompt->full_args = &prompt->full_args[i + 1];
-			prompt->next_cmd->full_args = &prompt->full_args[i + 1];
+			prompt->next_cmd->tmp_fd = prompt->tmp_fd;
+			prompt->next_cmd->full_args = &prompt->full_args[i];
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
