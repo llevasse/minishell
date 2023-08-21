@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 14:23:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:26:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,13 @@ void	set_input(char *name, t_prompt *prompt)
 		write(2, ERR_PARSE_INPUT, ft_strlen(ERR_PARSE_INPUT));
 		return ((void)(prompt->cmd = 0));
 	}
-	if (prompt->exec_fd[0] != -1)
+	if (prompt->exec_fd[0] == -1)
 	{
-		close(prompt->exec_fd[0]);
-		close(prompt->exec_fd[1]);
-		prompt->exec_fd[0] = -1;
+		if (create_heredoc_fd(prompt) == -1)
+			return ;
 	}
 	if (name[0] == '<')
 		name++;
-	if (create_heredoc_fd(prompt) == -1)
-		return ;
 	fd = open(name, O_RDONLY);
 	if (fd == -1 && entry_errno != 2)
 		return ((void)(write(2, NO_FILE_E, ft_strlen(NO_FILE_E))));
