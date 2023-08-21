@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 17:05:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:11:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->write_fd = -1;
 	prompt->old_stdout = -1;
 	prompt->old_stdin = -1;
+	prompt->has_redir = 0;
 	prompt->args = NULL;
 	prompt->export_args = NULL;
 	prompt->next_cmd = NULL;
 	prompt->prev_cmd = NULL;
-	prompt->heredoc_fd[0] = -1;
+	prompt->exec_fd[0] = -1;
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
@@ -46,7 +47,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
 	if (!*input || len == ft_strlen(prompt->cmd))
 		return (prompt);
 	get_args(prompt, input, garbage);
-	check_redirection(input, prompt, garbage);
+//	check_redirection(prompt, garbage);
 	return (prompt);
 }
 

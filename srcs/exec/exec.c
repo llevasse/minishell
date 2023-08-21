@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/20 21:06:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:17:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	{
 		if (i != 0 && prompt->full_args[i + 1])
 		{
-			prompt->full_args = &prompt->full_args[i + 1];
+			prompt->next_cmd->tmp_fd = prompt->tmp_fd;
+			prompt->next_cmd->old_stdout = prompt->old_stdout;
+			prompt->next_cmd->old_stdin = prompt->old_stdin;
+			prompt->next_cmd->full_args = &prompt->full_args[i];
+			prompt->next_cmd->exec_fd[0] = prompt->exec_fd[0];
+			prompt->next_cmd->exec_fd[1] = prompt->exec_fd[1];
+			prompt = prompt->next_cmd;
 			i = 0;
 		}
 		while (prompt->full_args[i] && \
@@ -46,10 +52,13 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			get_exec_pipe (prompt, i, value, garbage);
 	}
 	close(prompt->tmp_fd);
+	prompt->exec_fd[0] = -1;
 }
 
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
+	check_redirection(prompt, garbage);
+	delete_redirection(prompt->full_args);
 	if (!prompt->next_cmd && !prompt->prev_cmd && \
 				!ft_strcmp(prompt->cmd, "exit"))
 		ft_exit(garbage, prompt->full_args);
@@ -80,6 +89,8 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 {
 	exec_builtin_main_thread(prompt, garbage);
 	pipe(prompt->exec_fd);
+	check_redirection(prompt, garbage);
+	delete_redirection(prompt->full_args);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 22:23:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:12:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	set_output(t_prompt *prompt)
 		return ;
 	prompt->write_fd = fd;
 	dup2(prompt->write_fd, 1);
+	prompt->has_redir = 1;
 }
 
 /// @brief Open and close file to verify it's existence and/or create it.

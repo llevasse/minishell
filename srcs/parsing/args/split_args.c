@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 23:19:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 20:46:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,47 +140,45 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
 	t_arg	**res;
 	int		i;
-	int		index_word;
+	int		word;
 
 	if (!s || !s[0])
 		return (NULL);
-	index_word = 0;
+	word = 0;
 	res = alloc_tab_args(s, c, garbage);
 	i = skip_char(s, c, 0);
 	while (s[i] != '\0')
 	{
-		res[index_word] = init_arg(garbage);
+		res[word] = init_arg(garbage);
 		if (s[i] == '"' || s[i] == 39)
 		{
-			res[index_word]->quote = s[i];
-			res[index_word]->s = get_split_quote(prompt, &s, &i, index_word - 1);
+			res[word]->quote = s[i];
+			res[word]->s = get_split_quote(prompt, &s, &i, word - 1);
 			if (!prompt->cmd)
 				return ((void)(errno = 2), NULL);
-			if (index_word > 0 &&
-				s[i - (ft_strlen(res[index_word]->s) + 3)] != c)
+			if (word > 0 && s[i - (ft_strlen(res[word]->s) + 3)] != c)
 			{
-				res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
-										res[index_word]->s);
-				ft_add_garbage(0, &garbage, res[index_word - 1]->s);
-				res[index_word--] = NULL;
+				res[word - 1]->s = ft_strjoin(res[word - 1]->s,
+										res[word]->s);
+				ft_add_garbage(0, &garbage, res[word - 1]->s);
+				res[word--] = NULL;
 			}
 		}
 		else
 		{
-			res[index_word]->s = get_word_arg(s, c, i, garbage);
-			i += ft_strlen(res[index_word]->s);
-			check_is_env_var(prompt, &res[index_word]->s, garbage);
-			if (index_word > 0 &&
-				s[i - (ft_strlen(res[index_word]->s) + 1)] != c)
+			res[word]->s = get_word_arg(s, c, i, garbage);
+			i += ft_strlen(res[word]->s);
+			check_is_env_var(prompt, &res[word]->s, garbage);
+			if (word > 0 && s[i - (ft_strlen(res[word]->s) + 1)] != c)
 			{
-				res[index_word - 1]->s = ft_strjoin(res[index_word - 1]->s,
-										res[index_word]->s);
-				ft_add_garbage(0, &garbage, res[index_word - 1]->s);
-				res[index_word--] = NULL;
+				res[word - 1]->s = ft_strjoin(res[word - 1]->s,
+										res[word]->s);
+				ft_add_garbage(0, &garbage, res[word - 1]->s);
+				res[word--] = NULL;
 			}
 		}
-		index_word++;
-		res[index_word] = NULL;
+		word++;
+		res[word] = NULL;
 		prompt->args = res;
 		i = skip_char(s, c, i);
 	}

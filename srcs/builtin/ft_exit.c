@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:56:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/21 10:34:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	is_only_digit(char *s)
 
 void	ft_exit(t_garbage *garbage, t_arg **args)
 {
+	close(1);
+	close(0);
 	if (!args)
 	{
 		free_garbage(garbage);
