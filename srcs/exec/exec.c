@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 21:41:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:42:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
 	check_redirection(prompt, garbage);
+	if (prompt->has_redir == -1)
+		return ((void)(prompt->has_exec = 1), 1);
 	delete_redirection(prompt->full_args);
 	if (!prompt->next_cmd && !prompt->prev_cmd && \
 				!ft_strcmp(prompt->cmd, "exit"))
@@ -88,8 +90,20 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 			t_garbage *garbage)
 {
 	exec_builtin_main_thread(prompt, garbage);
-	pipe(prompt->exec_fd);
+	if (pipe(prompt->exec_fd) == -1)
+	{
+		free_garbage(garbage);
+		exit(1);
+		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))),1);
+	}
 	check_redirection(prompt, garbage);
+	if (prompt->has_redir == -1)
+	{
+		close(prompt->exec_fd[1]);
+		close(prompt->tmp_fd);
+		prompt->tmp_fd = prompt->exec_fd[0];
+		return ((void)(prompt->has_exec = 1), 1);
+	}
 	delete_redirection(prompt->full_args);
 	if (prompt->has_redir == 1)
 		i = get_arg_size(prompt->args) + 1;
