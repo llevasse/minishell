@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 12:45:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:10:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	print_prompt(t_prompt p)
 	printf("prompt.old_stdout = %d\n", p.old_stdout);
 	printf("prompt.old_stdint = %d\n", p.old_stdin);
 	printf("prompt.has_redir = %d\n", p.has_redir);
+	printf("prompt.has_exec = %d\n", p.has_exec);
 	printf("prompt.tmp_fd = %d\n", p.tmp_fd);
 	printf("prompt.exec_fd[0] = %d\n", p.exec_fd[0]);
 	printf("prompt.exec_fd[1] = %d\n\n\n\n\n", p.exec_fd[1]);
@@ -34,6 +35,7 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->old_stdout = -1;
 	prompt->old_stdin = -1;
 	prompt->has_redir = 0;
+	prompt->has_exec = 0;
 	prompt->args = NULL;
 	prompt->full_args = NULL;
 	prompt->export_args = NULL;

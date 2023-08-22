@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 12:57:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:12:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	prompt->tmp_fd = dup(STDIN_FILENO);
 	while (prompt->full_args[i])
 	{
-		if (i != 0 && prompt->full_args[i + 1])
+		if (prompt->has_exec && prompt->next_cmd)
 		{
 			prompt->next_cmd->tmp_fd = prompt->tmp_fd;
 			prompt->next_cmd->old_stdout = prompt->old_stdout;
@@ -79,6 +79,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = dup(STDOUT_FILENO);
+		prompt->has_exec = 1;
 	}
 	return (0);
 }
@@ -112,6 +113,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
 		prompt->tmp_fd = prompt->exec_fd[0];
+		prompt->has_exec = 1;
 	}
 	return (0);
 }
