@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 13:16:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:05:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	prompt->tmp_fd = dup(STDIN_FILENO);
 	while (prompt->full_args[i])
 	{
+	//	print_prompt(*prompt);
+		while (prompt->full_args[i] && \
+				ft_strcmp(prompt->full_args[i]->s, ";") && \
+					ft_strcmp(prompt->full_args[i]->s, "|"))
+			i++;
+		if (i != 0 && (prompt->full_args[i] == NULL || \
+				!ft_strcmp(prompt->full_args[i]->s, ";")))
+			get_exec(prompt, i, value, garbage);
+		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
+			get_exec_pipe (prompt, i, value, garbage);
 		if (prompt->has_exec && prompt->next_cmd)
 		{
 			prompt->next_cmd->tmp_fd = prompt->tmp_fd;
@@ -40,15 +50,6 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
-		while (prompt->full_args[i] && \
-				ft_strcmp(prompt->full_args[i]->s, ";") && \
-					ft_strcmp(prompt->full_args[i]->s, "|"))
-			i++;
-		if (i != 0 && (prompt->full_args[i] == NULL || \
-				!ft_strcmp(prompt->full_args[i]->s, ";")))
-			get_exec(prompt, i, value, garbage);
-		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
-			get_exec_pipe (prompt, i, value, garbage);
 	}
 	close(prompt->tmp_fd);
 	prompt->exec_fd[0] = -1;
@@ -78,7 +79,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
-		prompt->tmp_fd = dup(STDOUT_FILENO);
+		prompt->tmp_fd = dup(STDIN_FILENO);
 		prompt->has_exec = 1;
 	}
 	return (0);
