@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 15:42:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:10:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 	if (prompt->has_redir == 1)
 	{
 //		close(prompt->exec_fd[1]);
-		dup2(prompt->exec_fd[0], prompt->tmp_fd);
+//		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	}
 	delete_redirection(prompt->args);
 }

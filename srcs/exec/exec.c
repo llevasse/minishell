@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 16:03:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 17:10:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	if (prompt->exec_pid == 0)
 	{
 		if (prompt->has_redir)
-			dup2(prompt->exec_fd[0], STDOUT_FILENO);
+		{	
+			dup2(prompt->tmp_fd, STDOUT_FILENO);
+			dup2(prompt->exec_fd[1], prompt->tmp_fd);
+		}
 		else
 			dup2(prompt->exec_fd[1], STDOUT_FILENO);
 		close(prompt->exec_fd[0]);
@@ -110,7 +113,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 			return (1);
 	}
 	else
-{
+	{
 		close(prompt->exec_fd[1]);
 		close(prompt->tmp_fd);
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
