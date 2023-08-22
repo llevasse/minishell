@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 21:46:11 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/22 21:47:49 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
 void		print_unknown_cmd(t_prompt *prompt);
 int			cmp_exec(t_prompt *prompt, int i);
-void		 swap_fd(t_prompt *prompt);
+void		swap_fd(t_prompt *prompt);
 void		wait_exec(t_prompt *prompt, int value);
 
 // SRCS/BUILTIN //
