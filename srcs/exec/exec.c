@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 17:10:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:10:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage);
 static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 				t_garbage *garbage);
 static int	ft_putstr_error(char *str, char *arg);
-static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp);
+static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp, t_prompt *p);
 
 void	exec(t_prompt *prompt, t_garbage *garbage)
 {
@@ -70,7 +70,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
-				prompt->environ))
+				prompt->environ, prompt))
 			return (1);
 	}
 	else
@@ -79,7 +79,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
-		prompt->tmp_fd = dup(STDOUT_FILENO);
+		prompt->tmp_fd = dup(STDIN_FILENO);
 		prompt->has_exec = 1;
 	}
 	return (0);
@@ -97,19 +97,14 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
-		if (prompt->has_redir)
-		{	
-			dup2(prompt->tmp_fd, STDOUT_FILENO);
-			dup2(prompt->exec_fd[1], prompt->tmp_fd);
-		}
-		else
-			dup2(prompt->exec_fd[1], STDOUT_FILENO);
-		close(prompt->exec_fd[0]);
+		dup2(prompt->exec_fd[1], STDOUT_FILENO);
+		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 		close(prompt->exec_fd[1]);
+		close(prompt->exec_fd[0]);
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
-				prompt->environ))
+				prompt->environ, prompt))
 			return (1);
 	}
 	else
@@ -136,12 +131,13 @@ static int	ft_putstr_error(char *str, char *arg)
 	return (1);
 }
 
-static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
+static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp, t_prompt *p)
 {
 	char	**c_args;
-
+	(void)p;
 	if (args[i])
 		args[i]->s = NULL;
+	write(1,"\0",1); //don't know why but that save the case "cat < test | wc"
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
 	c_args = to_char_array(args, i, g_minishell.garbage);

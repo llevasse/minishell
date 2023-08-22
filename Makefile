@@ -56,7 +56,7 @@ HEADER_FILE	=	headers/minishell.h \
 				headers/args.h
 #---RULES----------------------------------------
 
-$(NAME):		$(OBJS_DIR) norm lib Makefile $(HEADER_FILE) $(OBJS)
+$(NAME):		$(OBJS_DIR) lib Makefile $(HEADER_FILE) $(OBJS)
 				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
