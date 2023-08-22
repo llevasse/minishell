@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 20:12:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 23:18:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,18 @@ void	set_output(t_prompt *prompt)
 		return ((void)(errno = 2, prompt->cmd = 0));
 	if (!prompt->args[i])
 		return ((void)write(2, ERR_PARSE_OUTPUT, ft_strlen(ERR_PARSE_OUTPUT)));
-	if (prompt->old_stdout == -1)
-		prompt->old_stdout = dup(1);
 	if (!ft_strcmp(prompt->args[i - 1]->s, ">>"))
 		fd = open(prompt->args[i]->s, O_RDWR | O_APPEND | O_CREAT, 0666);
 	else
 		fd = open(prompt->args[i]->s, O_RDWR | O_TRUNC | O_CREAT, 0666);
-	if (prompt->write_fd == -1)
-		return ;
-	prompt->write_fd = fd;
-	dup2(prompt->write_fd, 1);
+	if (prompt->exec_fd[1] != -1)
+		dup2(fd, prompt->exec_fd[1]);
+	else
+	{
+		prompt->old_stdout = dup(1);
+		dup2(fd, 1);
+	}
+	close(fd);
 	prompt->has_redir = 1;
 }
 
@@ -70,14 +72,15 @@ int	get_last_output_index(t_arg **args)
 	j = -1;
 	while (args[i])
 	{
-		if (!ft_strcmp(">", args[i]->s) || !ft_strcmp(">>", args[i++]->s))
+		if (!ft_strcmp(">", args[i]->s) || !ft_strcmp(">>", args[i]->s))
 		{
-			if (args[i]->s)
-				tini_tiny_open(args, i);
+			if (args[i + 1]->s && args[i]->s)
+				tini_tiny_open(args, i + 1);
 			else
 				return ((void)(errno = 2), -1);
-			j = i - 1;
+			j = i;
 		}
+		i++;
 	}
 	if (j == -1)
 		return (-1);
