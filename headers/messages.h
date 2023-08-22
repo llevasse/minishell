@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 16:23:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:02:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define ERR_PARSE_INPUT "Parsing error around <\n"
 # define ERR_OPEN_F "Error in opening file\n"
 # define NO_FILE "%s : No such file or directory\n"
-# define NO_FILE_E "No such file or directory"
-# define PIPE_ERR "Error in opening pipes"
+# define NO_FILE_E "No such file or directory\n"
+# define PIPE_ERR "Error in opening pipes\n"
 # define ERR_404 "%s: command not found\n"
 # define UNEXPEC_EOF "unexpected EOF while looking for matching `%c'\n\
 syntax error: unexpected end of file\n"
