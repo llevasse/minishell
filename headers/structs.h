@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 21:09:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:53:56 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ typedef struct s_garbage
 	void				*address;
 	struct s_garbage	*next;
 }	t_garbage;
+
+typedef struct s_var
+{
+	char	*var;
+	char	*env_var;
+	int		i;
+}	t_var;
 
 void		print_prompt(t_prompt p);
 t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);
