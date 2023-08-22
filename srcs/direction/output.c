@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 23:18:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 23:25:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ void	set_output(t_prompt *prompt)
 		fd = open(prompt->args[i]->s, O_RDWR | O_APPEND | O_CREAT, 0666);
 	else
 		fd = open(prompt->args[i]->s, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (fd == -1)
+	{
+		prompt->has_redir = -1;
+		return ((void)(write(2, ERR_OPEN_F, ft_strlen(ERR_OPEN_F))));
+	}
 	if (prompt->exec_fd[1] != -1)
 		dup2(fd, prompt->exec_fd[1]);
 	else
