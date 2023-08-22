@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 15:05:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:03:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
-		prompt->tmp_fd = dup(STDIN_FILENO);
+		prompt->tmp_fd = dup(STDOUT_FILENO);
 		prompt->has_exec = 1;
 	}
 	return (0);
@@ -97,7 +97,10 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
-		dup2(prompt->exec_fd[1], STDOUT_FILENO);
+		if (prompt->has_redir)
+			dup2(prompt->exec_fd[0], STDOUT_FILENO);
+		else
+			dup2(prompt->exec_fd[1], STDOUT_FILENO);
 		close(prompt->exec_fd[0]);
 		close(prompt->exec_fd[1]);
 		if (is_builtin(prompt->full_args[0]->s))
@@ -107,7 +110,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 			return (1);
 	}
 	else
-	{
+{
 		close(prompt->exec_fd[1]);
 		close(prompt->tmp_fd);
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
