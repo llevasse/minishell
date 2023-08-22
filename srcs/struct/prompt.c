@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 13:10:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:21:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ extern struct s_minishell	g_minishell;
 
 void	print_prompt(t_prompt p)
 {
+	PRINT_RED
 	printf("prompt.cmd = %s\n", p.cmd);
+	PRINT_NC
 	printf_args(p.args, "prompt.args :");
 	printf_args(p.full_args, "prompt.full_args :");
 	printf("prompt.old_stdout = %d\n", p.old_stdout);
