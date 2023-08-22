@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 21:06:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 12:43:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_arg	*init_arg(t_garbage *garbage)
 	return (arg);
 }
 
-char	**to_char_array(t_arg **args, t_garbage *garbage)
+char	**to_char_array(t_arg **args, int max_index, t_garbage *garbage)
 {
 	char	**new;
 	int		i;
@@ -36,7 +36,7 @@ char	**to_char_array(t_arg **args, t_garbage *garbage)
 	new = malloc((get_arg_size(args) + 1) * sizeof(char *));
 	ft_add_garbage(0, &garbage, new);
 	i = -1;
-	while (args[++i])
+	while (args[++i] && i < max_index)
 		new[i] = args[i]->s;
 	new[i] = 0;
 	return (new);

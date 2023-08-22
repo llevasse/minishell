@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 20:12:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:33:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	set_input(char *name, t_prompt *prompt)
 		return ((void)(write(2, NO_FILE_E, ft_strlen(NO_FILE_E))));
 	else if (fd == -1)
 		return ;
-	dup2(fd, prompt->exec_fd[0]);
+	dup2(fd, prompt->tmp_fd);
 	close(fd);
 	prompt->has_redir = 1;
 }

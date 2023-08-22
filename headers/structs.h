@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 21:09:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 13:09:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_prompt
 	int					exec_fd[2];
 	int					tmp_fd;
 	int					has_redir;
+	int					has_exec;
 	int					exec_pid;
 	char				*cmd;
 	char				**environ;
@@ -79,5 +80,5 @@ void		ft_add_export(t_export **lst, char *key, char *content,
 
 t_arg		*init_arg(t_garbage *garbage);
 int			get_arg_size(t_arg **tab);
-char		**to_char_array(t_arg **args, t_garbage *garbage);
+char		**to_char_array(t_arg **args, int max_index, t_garbage *garbage);
 #endif

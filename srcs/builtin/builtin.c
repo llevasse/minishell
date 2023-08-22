@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 20:45:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:58:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	close(prompt->tmp_fd);
+//	reset_stdio_fd(prompt);
 	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
 		ft_cd(prompt, garbage);
 	else if (!ft_strcmp(prompt->full_args[0]->s, "echo"))
