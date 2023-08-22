@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 22:42:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:43:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			get_exec_pipe (prompt, i, value, garbage);
 		if (prompt->has_exec && prompt->next_cmd)
 		{
-			prompt->next_cmd->tmp_fd = prompt->tmp_fd;
-			prompt->next_cmd->old_stdout = prompt->old_stdout;
-			prompt->next_cmd->old_stdin = prompt->old_stdin;
-			prompt->next_cmd->exec_fd[0] = prompt->exec_fd[0];
-			prompt->next_cmd->exec_fd[1] = prompt->exec_fd[1];
+			swap_fd(prompt);
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
@@ -53,6 +49,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	close(prompt->tmp_fd);
 	prompt->exec_fd[0] = -1;
 }
+
 
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
@@ -76,10 +73,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 	}
 	else
 	{
-		close(prompt->tmp_fd);
-		waitpid(prompt->exec_pid, &value, WUNTRACED);
-		if (WIFEXITED(value))
-			errno = WEXITSTATUS(value);
+		wait_exec(prompt, value);
 		prompt->tmp_fd = dup(STDIN_FILENO);
 		prompt->has_exec = 1;
 	}
@@ -122,8 +116,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	else
 	{
 		close(prompt->exec_fd[1]);
-		close(prompt->tmp_fd);
-		ft_wait(prompt, value);
+		wait_exec(prompt, value);
 		prompt->tmp_fd = prompt->exec_fd[0];
 		prompt->has_exec = 1;
 	}

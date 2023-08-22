@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 23:22:20 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/22 22:00:25 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,9 @@ char	*get_mini_prompt(t_garbage *garbage)
 	return (prompt);
 }
 
-static void	get_exec_cmd(t_garbage *garbage)
-{
-	char	*s;
-
-	g_minishell.garbage = garbage;
-	g_minishell.error_value = errno;
-	errno = 0;
-	s = readline(get_mini_prompt(garbage));
-	if (s == NULL)
-		ft_exit(garbage, NULL);
-	add_history(s);
-	parse(s, garbage, g_minishell.env);
-	free_garbage(garbage);
-	garbage = ft_new_garbage(0, NULL);
-	garbage->next = NULL;
-}
-
 int	main(int argc, char **argv, char **envp)
 {
+	char				*s;
 	struct sigaction	sa;
 	t_garbage			*garbage;
 	t_garbage			*garbage_at_exit;
@@ -62,5 +46,17 @@ int	main(int argc, char **argv, char **envp)
 	set_env(envp, garbage_at_exit);
 	printf(STARTUP);
 	while (42)
-		get_exec_cmd(garbage);
+	{
+		g_minishell.garbage = garbage;
+		g_minishell.error_value = errno;
+		errno = 0;
+		s = readline(get_mini_prompt(garbage));
+		if (s == NULL)
+			ft_exit(garbage, NULL);
+		add_history(s);
+		parse(s, garbage, g_minishell.env);
+		free_garbage(garbage);
+		garbage = ft_new_garbage(0, NULL);
+		garbage->next = NULL;
+	}
 }
