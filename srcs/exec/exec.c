@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 21:37:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:15:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
 	check_redirection(prompt, garbage);
+	if (prompt->has_redir == -1)
+		return (1);
 	delete_redirection(prompt->full_args);
 	if (!prompt->next_cmd && !prompt->prev_cmd && \
 				!ft_strcmp(prompt->cmd, "exit"))
@@ -90,6 +92,9 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	exec_builtin_main_thread(prompt, garbage);
 	pipe(prompt->exec_fd);
 	check_redirection(prompt, garbage);
+	printf("tmp_fd %d\n", prompt->tmp_fd);
+	if (prompt->tmp_fd == -1)
+		return (1);
 	delete_redirection(prompt->full_args);
 	if (prompt->has_redir == 1)
 		i = get_arg_size(prompt->args) + 1;
