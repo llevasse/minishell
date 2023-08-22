@@ -6,14 +6,13 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:42:36 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 11:44:02 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/22 14:23:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-static void	get_files(t_arg ***files, int i,
+static void	get_files(t_arg **files, int i,
 						struct dirent *dir_entry, t_garbage *garbage)
 {
 	files[i] = init_arg(garbage);
@@ -43,10 +42,9 @@ t_arg	**get_files_in_dir(char *path, t_garbage *garbage)
 	{
 		if (ft_strcmp(dir_entry->d_name, ".") && \
 			ft_strcmp(dir_entry->d_name, ".."))
-			get_files(&files, i, dir_entry, garbage);
+			get_files(files, i, dir_entry, garbage);
 		dir_entry = readdir(current_dir);
 	}
 	closedir(current_dir);
 	return (files);
 }
-
