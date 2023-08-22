@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:07:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 20:15:58 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,37 +109,4 @@ int	get_nb_of_files(char *path)
 	}
 	closedir(current_dir);
 	return (i - 2);
-}
-
-t_arg	**get_files_in_dir(char *path, t_garbage *garbage)
-{
-	DIR				*current_dir;
-	struct dirent	*dir_entry;
-	t_arg			**files;
-	int				i;
-
-	i = get_nb_of_files(path);
-	if (i == 0)
-		return (NULL);
-	files = malloc(sizeof(t_arg *) * (i + 1));
-	ft_add_garbage(0, &garbage, files);
-	current_dir = opendir(path);
-	if (!current_dir)
-		return (0);
-	i = 0;
-	dir_entry = readdir(current_dir);
-	while (dir_entry != NULL)
-	{
-		if (ft_strcmp(dir_entry->d_name, ".") && \
-			ft_strcmp(dir_entry->d_name, ".."))
-		{
-			files[i] = init_arg(garbage);
-			files[i]->s = ft_strdup(dir_entry->d_name);
-			files[i + 1] = NULL;
-			ft_add_garbage(0, &garbage, files[i++]);
-		}
-		dir_entry = readdir(current_dir);
-	}
-	closedir(current_dir);
-	return (files);
 }
