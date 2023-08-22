@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 21:29:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 21:37:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	prompt->tmp_fd = dup(STDIN_FILENO);
 	while (prompt->full_args[i])
 	{
-		print_prompt(*prompt);
 		while (prompt->full_args[i] && \
 				ft_strcmp(prompt->full_args[i]->s, ";") && \
 					ft_strcmp(prompt->full_args[i]->s, "|"))
