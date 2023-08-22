@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 21:30:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 12:57:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			prompt = prompt->next_cmd;
 			i = 0;
 		}
-	//	print_prompt(*prompt);
 		while (prompt->full_args[i] && \
 				ft_strcmp(prompt->full_args[i]->s, ";") && \
 					ft_strcmp(prompt->full_args[i]->s, "|"))
@@ -91,6 +90,8 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	pipe(prompt->exec_fd);
 	check_redirection(prompt, garbage);
 	delete_redirection(prompt->full_args);
+	if (prompt->has_redir == 1)
+		i = get_arg_size(prompt->args) + 1;
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
@@ -130,10 +131,10 @@ static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 {
 	char	**c_args;
 
-	args[i] = NULL;
+	args[i]->s = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
-	c_args = to_char_array(args, g_minishell.garbage);
+	c_args = to_char_array(args, i, g_minishell.garbage);
 	execve(c_args[0], c_args, envp);
 	return (ft_putstr_error("error : cannot execute ", c_args[0]));
 }
