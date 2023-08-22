@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 20:46:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 15:18:11 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,3 +184,4 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	}
 	return (res);
 }
+
