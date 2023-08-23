@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 10:19:40 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:21:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int			ft_execute(t_arg **args, int i, int tmp_fd, char **envp);
 void		wait_exec(t_prompt *prompt, int value);
 void		swap_fd(t_prompt *prompt);
 int			exec_child(t_prompt *prompt, int i, t_garbage *garbage);
-int			redir(t_prompt *prompt, t_garbage *garbage);
+int			redir(t_prompt *prompt);
 int			cmp_exec(t_prompt *prompt, int i);
 
 // SRCS/BUILTIN //

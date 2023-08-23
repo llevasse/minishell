@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 19:14:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:18:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param *input String of the prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	check_redirection(t_prompt *prompt, t_garbage *garbage)
+void	check_redirection(t_prompt *prompt)
 {
 	int		i;
 
@@ -33,7 +33,7 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strcmp(prompt->args[i]->s, "<<"))
-			heredoc(prompt->args[i + 1]->quote, prompt->args[i + 1]->s, prompt, garbage);
+			heredoc(prompt->args[i + 1]->quote, prompt->args[i + 1]->s, prompt);
 		else if (prompt->has_output == 0 && \
 				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);

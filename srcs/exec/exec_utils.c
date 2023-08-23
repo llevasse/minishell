@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 10:22:03 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:21:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ int	exec_child(t_prompt *prompt, int i, t_garbage *garbage)
 	return (1);
 }
 
-int	redir(t_prompt *prompt, t_garbage *garbage)
+int	redir(t_prompt *prompt)
 {
-	check_redirection(prompt, garbage);
+	check_redirection(prompt);
 	if (prompt->has_redir == -1)
 	{
 		close(prompt->exec_fd[1]);
