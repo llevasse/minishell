@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:44:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:06:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 // SRCS/PARSE //
 
+void		minishell_loop(t_garbage *garbage);
 // parse.c
 void		parse(char *input, t_garbage *garbage, char **environ);
 void		check_cmd(t_prompt *prompt, t_garbage *garbage);

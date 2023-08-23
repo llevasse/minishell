@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 00:01:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:07:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	export_listing(char **env, int i)
 	j = 0;
 	print = ft_split(env[i++], '=');
 	ft_add_garbage(0, &g_minishell.garbage, print);
-	ft_add_garbage(0, &g_minishell.garbage, NULL); // just a test
 	if (!print[j + 1])
 		printf("declare -x %s", print[j]);
 	else
