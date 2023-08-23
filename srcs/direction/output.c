@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 10:33:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:29:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	set_output(t_prompt *prompt)
 {
 	int			fd;
 
-	fd = get_last_output_index(prompt->args);
+	fd = get_last_output_fd(prompt->args);
 	if (fd == -1)
 		return ((void)(errno = 2, prompt->cmd = 0, prompt->has_redir = -1));
 	if (prompt->exec_fd[1] != -1)
@@ -32,6 +32,7 @@ void	set_output(t_prompt *prompt)
 	}
 	close(fd);
 	prompt->has_redir = 1;
+	prompt->has_output = 1;
 }
 
 int	do_open(char *name, int append, int to_close)
@@ -55,7 +56,7 @@ int	do_open(char *name, int append, int to_close)
 /// @return Return Index of where the name of file to write in
 /// or -1 if none are found 
 /// (or an error occured).
-int	get_last_output_index(t_arg **args)
+int	get_last_output_fd(t_arg **args)
 {
 	int	i;
 	int	fd;
