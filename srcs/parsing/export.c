@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 17:05:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:24:01 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,33 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 	return (content);
 }
 
+void	test(t_prompt *prompt, t_garbage *garbage, char *input, char *key)
+{
+	char	*content;
+	int		equal_pos;
+
+	while (get_char_pos(input, '=') != -1)
+	{
+		equal_pos = get_char_pos(input, '=');
+		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
+		{
+			write(2, BAD_ID, ft_strlen(BAD_ID));
+			errno = 1;
+			return ((void)(prompt->cmd = 0));
+		}
+		key = get_key(prompt, &input, garbage);
+		content = get_content(prompt, &input, garbage);
+		ft_add_export(&prompt->export_args, key, content, garbage);
+	}
+}
+
 /// @brief In case of export cmd, get and assign every export element.
 /// @param *prompt Pointer to prompt struct,
 /// @param *input String of the prompt input,
 /// @param *garbage Pointer to garbage collector.
 void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 {
-	int		equal_pos;
 	char	*key;
-	char	*content;
 
 	prompt->export_args = NULL;
 	while (get_char_pos(input, '=') == -1)
@@ -104,17 +122,5 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		}
 		ft_add_export(&prompt->export_args, NULL, 0, garbage);
 	}
-	while (get_char_pos(input, '=') != -1)
-	{
-		equal_pos = get_char_pos(input, '=');
-		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
-		{
-			write(2, BAD_ID, ft_strlen(BAD_ID));
-			errno = 1;
-			return ((void)(prompt->cmd = 0));
-		}
-		key = get_key(prompt, &input, garbage);
-		content = get_content(prompt, &input, garbage);
-		ft_add_export(&prompt->export_args, key, content, garbage);
-	}
+	test(prompt, garbage, input, key);
 }

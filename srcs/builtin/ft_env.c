@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:15:27 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 13:20:21 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	replace_env(char *var_name, char *new_value)
 			g_minishell.env, g_minishell.at_exit_garbage);
 }
 
-int	test(int i)
+static int	print_env(int i)
 {
 	char	**print;
 	int		j;
@@ -68,7 +68,7 @@ void	ft_env(void)
 	while (g_minishell.env[i])
 	{
 		if (ft_strncmp("_=", g_minishell.env[i], 2))
-			i = test(i);
+			i = print_env(i);
 		else
 			i++;
 	}
