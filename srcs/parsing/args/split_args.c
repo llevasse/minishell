@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 15:37:29 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:25:35 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,56 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	return (new);
 }
 
+void test(t_arg **res, int *word, t_garbage *garbage)
+{
+	res[*word - 1]->s = ft_strjoin(res[*word - 1]->s,
+			res[*word]->s);
+	ft_add_garbage(0, &garbage, res[*word - 1]->s);
+	res[*word--] = NULL;
+}
+
+void test_2(t_arg **res, int *word, t_garbage *garbage)
+{
+	res[*word - 1]->s = ft_strjoin(res[*word - 1]->s, res[*word]->s);
+	ft_add_garbage(0, &garbage, res[*word - 1]->s);
+	res[*word--] = NULL;
+}
+
+void	test_3(t_arg **res, int *word, t_prompt *prompt)
+{
+	(*word)++;
+	res[*word] = NULL;
+	prompt->args = res;
+}
+
+typedef struct s_test
+{
+	t_arg **res;
+	int		i;
+	int		word;
+	char	*str;
+	char 	p;
+}			t_test;
+
+int	test_4(t_prompt *prompt, t_test *var, t_garbage *garbage)
+{
+	var->res[var->word]->quote = var->str[var->i];
+	var->res[var->word]->s = get_split_quote(prompt, &var->str, &var->i, var->word - 1);
+	if (!prompt->cmd)
+		return (0);
+	if (var->word > 0 && var->str[var->i - (ft_strlen(var->res[var->word]->s) + 3)] != var->p)
+		test_2(var->res, &var->word, garbage);
+	return (1);
+}
+
+void	test_5(t_prompt *prompt, t_test *var, t_garbage *garbage)
+{
+	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, garbage);
+	var->i += ft_strlen(var->res[var->word]->s);
+	check_is_env_var(prompt, &var->res[var->word]->s, garbage);
+	if (var->word > 0 && var->str[var->i - (ft_strlen(var->res[var->word]->s) + 1)] != var->p)
+		test(var->res, &var->word, garbage);
+}
 /// @brief Split a string by each c char,
 /// but also take account of quotes and other bash specific args.
 /// @param *prompt Pointer to prompt struct,
@@ -138,49 +188,27 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 /// @return Return a tab containing every separated element.
 t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
-	t_arg	**res;
-	int		i;
-	int		word;
+	t_test	var;
 
 	if (!s || !s[0])
 		return (NULL);
-	word = 0;
-	res = alloc_tab_args(s, c, garbage);
-	i = skip_char(s, c, 0);
-	while (s[i] != '\0')
+	var.str = s;
+	var.p = c;
+	var.word = 0;
+	var.res = alloc_tab_args(s, c, garbage);
+	var.i = skip_char(s, c, 0);
+	while (s[var.i] != '\0')
 	{
-		res[word] = init_arg(garbage);
-		if (s[i] == '"' || s[i] == 39)
+		var.res[var.word] = init_arg(garbage);
+		if (s[var.i] == '"' || s[var.i] == 39)
 		{
-			res[word]->quote = s[i];
-			res[word]->s = get_split_quote(prompt, &s, &i, word - 1);
-			if (!prompt->cmd)
+			if (!test_4(prompt, &var, garbage))
 				return ((void)(errno = 2), NULL);
-			if (word > 0 && s[i - (ft_strlen(res[word]->s) + 3)] != c)
-			{
-				res[word - 1]->s = ft_strjoin(res[word - 1]->s,
-						res[word]->s);
-				ft_add_garbage(0, &garbage, res[word - 1]->s);
-				res[word--] = NULL;
-			}
 		}
 		else
-		{
-			res[word]->s = get_word_arg(s, c, i, garbage);
-			i += ft_strlen(res[word]->s);
-			check_is_env_var(prompt, &res[word]->s, garbage);
-			if (word > 0 && s[i - (ft_strlen(res[word]->s) + 1)] != c)
-			{
-				res[word - 1]->s = ft_strjoin(res[word - 1]->s,
-						res[word]->s);
-				ft_add_garbage(0, &garbage, res[word - 1]->s);
-				res[word--] = NULL;
-			}
-		}
-		word++;
-		res[word] = NULL;
-		prompt->args = res;
-		i = skip_char(s, c, i);
+			test_5(prompt, &var, garbage);
+		test_3(var.res, &var.word, prompt);
+		var.i = skip_char(s, c, var.i);
 	}
-	return (res);
+	return (var.res);
 }
