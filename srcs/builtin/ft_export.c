@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:01:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:48:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,8 @@ void	print_export(char **env)
 	while (env[i])
 	{
 		if (ft_strncmp("_=", env[i], 2))
-		{
 			export_listing(env, i);
-		}
-		else
-			i++;
+		i++;
 	}
 }
 
@@ -83,9 +80,11 @@ void	delete_duplicate_export(char *key)
 void	ft_export(t_prompt *prompt)
 {
 	char		*exports;
+	char		**temp;
 	t_export	*exp;
 
-	sort_tab_alpha(g_minishell.env);
+	temp = duplicate_env();
+	sort_tab_alpha(temp);
 	if (prompt->export_args)
 	{
 		exp = prompt->export_args;
@@ -98,5 +97,5 @@ void	ft_export(t_prompt *prompt)
 				g_minishell.env, g_minishell.at_exit_garbage);
 	}
 	else
-		print_export(g_minishell.env);
+		print_export(temp);
 }

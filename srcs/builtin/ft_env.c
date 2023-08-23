@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 22:50:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:45:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,24 @@ void	replace_env(char *var_name, char *new_value)
 	g_minishell.env = insert_at_end(new_value,
 			g_minishell.env, g_minishell.at_exit_garbage);
 }
+
+/// @brief duplicate g_minishell.env.
+char	**duplicate_env()
+{
+	char	**new;
+	int		i;
+
+	new = malloc((get_tab_size(g_minishell.env) + 1) * sizeof(char *));
+	ft_add_garbage(0, &g_minishell.garbage, new);
+	i = 0;
+	while (g_minishell.env[i])
+	{
+		new[i] = g_minishell.env[i];
+		new[i++ + 1] = NULL;
+	}
+	return (new);
+}
+
 
 /// @brief Print content of g_minishell.env at i index.
 static int	print_env(int i)
