@@ -24,6 +24,7 @@ SRC			=	srcs/minishell.c \
 				srcs/parsing/args/tab_utils.c \
 				srcs/parsing/args/tab_utils_2.c \
 				srcs/parsing/args/split_args.c \
+				srcs/parsing/args/split_args_utils.c \
 				srcs/parsing/args/separate_cmd.c \
 				srcs/parsing/args/wildcard.c \
 				srcs/parsing/args/wildcard_utils.c \
