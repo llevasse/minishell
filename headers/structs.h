@@ -66,7 +66,6 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
-
 void		print_prompt(t_prompt p);
 t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);

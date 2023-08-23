@@ -28,7 +28,6 @@ void	print_prompt(t_prompt p)
 	printf("prompt.tmp_fd = %d\n", p.tmp_fd);
 	printf("prompt.exec_fd[0] = %d\n", p.exec_fd[0]);
 	printf("prompt.exec_fd[1] = %d\n\n\n\n\n", p.exec_fd[1]);
-
 }
 
 void	set_prompt_null(t_prompt *prompt)

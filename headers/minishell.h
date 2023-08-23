@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 17:40:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 22:05:04 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,16 @@ char		*insert_at_index(char *str, char *to_insert,
 				int index, t_garbage *garbage);
 
 // SRCS/EXEC //
+
+// exec.c
 void		exec(t_prompt *prompt, t_garbage *garbage);
 char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
 void		print_unknown_cmd(t_prompt *prompt);
+
+// exec_utils.c
+void		wait_exec(t_prompt *prompt, int value);
+void		swap_fd(t_prompt *prompt);
 
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
@@ -95,5 +101,14 @@ char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);
 void		delete_duplicate_export(char *key);
 void		ft_cd(t_prompt *prompt, t_garbage *garbage);
+
+// terminal.c
+void		set_termios(void);
+void		reset_termios(void);
+void		handler(int sig, siginfo_t *info, void *context);
+
+// set_env.c
+char		**get_base_env(void);
+void		set_env(char **envp, t_garbage *garbage_at_exit);
 
 #endif

@@ -46,7 +46,7 @@ void	ft_exit(t_garbage *garbage, t_arg **args)
 	if (is_only_digit(args[0]->s) && args[1])
 	{
 		errno = 1;
-		write(2, TMA, ft_strlen(TMA));;
+		write(2, TMA, ft_strlen(TMA));
 	}
 	if (!is_only_digit(args[0]->s))
 	{
