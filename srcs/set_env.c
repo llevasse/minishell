@@ -6,13 +6,13 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/21 23:27:01 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 11:33:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-struct s_minishell	g_minishell;
+extern struct s_minishell	g_minishell;
 
 static void	update_shlvl(char **env, t_garbage *garbage)
 {
