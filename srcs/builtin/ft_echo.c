@@ -6,14 +6,14 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:13:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:16:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	print_args(t_arg **args, int i);
-static int is_n_flag(char *s);
+static int	is_n_flag(char *s);
 
 /// @brief recreation of the echo cmd,
 /// print passed argument.
@@ -37,7 +37,7 @@ void	ft_echo(t_prompt *prompt)
 }
 
 /// @brief Check if *s is valid -n echo flag.
-static int is_n_flag(char *s)
+static int	is_n_flag(char *s)
 {
 	int	i;
 

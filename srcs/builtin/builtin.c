@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 22:17:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:15:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 }
 
 /// @brief Execute a builtin command.
-/// This command is not meant to print anything, and is only used for builtin \
+/// This command is not meant to print anything, and is only used for builtin
 /// modifing the environment.
 /// @param *prompt prompt struct containing cmd param,
 /// @param *garbage pointer to garbage collector.
