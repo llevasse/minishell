@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 17:56:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 18:32:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*get_cut_section(char *input, t_garbage *garbage)
 /// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
+	ft_putnbr_fd(errno, 2);
 	if (prompt->exec_fd[0] != -1)
 	{
 		close(prompt->exec_fd[0]);
