@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 10:11:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 10:19:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	set_output(t_prompt *prompt)
 	fd = get_last_output_index(prompt->args);
 	if (fd == -1)
 		return ((void)(errno = 2, prompt->cmd = 0, prompt->has_redir = -1));
-//	if (!prompt->args[i])
-//		return ((void)write(2, ERR_PARSE_OUTPUT, ft_strlen(ERR_PARSE_OUTPUT)));
 	if (prompt->exec_fd[1] != -1)
 		dup2(fd, prompt->exec_fd[1]);
 	else
@@ -42,6 +40,8 @@ int	do_open(char *name, int append, int to_close)
 
 	if (to_close != -1)
 		close(to_close);
+	if (!name)
+		write(2, ERR_PARSE_OUTPUT, ft_strlen(ERR_PARSE_OUTPUT));
 	if (append)
 		fd = open(name, O_RDWR | O_APPEND | O_CREAT, 0666);
 	else
@@ -68,12 +68,16 @@ int	get_last_output_index(t_arg **args)
 		{
 			if (args[i]->s[1] == '>' && args[i]->s[2])
 				fd = do_open(args[i]->s + 2, 1, fd);
-			else if (args[i]->s[1] == '>' && args[i]->s[2] == 0)
+			else if (args[i]->s[1] == '>' && args[i]->s[2] == 0 && args[i + 1])
 				fd = do_open(args[i + 1]->s, 1, fd);
+			else if (args[i]->s[1] == '>' && args[i]->s[2] == 0 && !args[i + 1])
+				fd = do_open(NULL, 0, fd);
 			else if (args[i]->s[1] && args[i]->s[1] != '>')
 				fd = do_open(args[i]->s + 1, 0, fd);
-			else if (args[i]->s[1] == 0)
+			else if (args[i]->s[1] == 0 && args[i + 1])
 				fd = do_open(args[i + 1]->s, 0, fd);
+			else if (args[i]->s[1] == 0 && !args[i + 1])
+				fd = do_open(NULL, 0, fd);
 		}
 		i++;
 	}
