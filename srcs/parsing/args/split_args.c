@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 19:39:28 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:44:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,14 +129,14 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	return (new);
 }
 
-void	test_3(t_arg **res, int *word, t_prompt *prompt)
+void	we_go_forward(t_arg **res, int *word, t_prompt *prompt)
 {
 	(*word)++;
 	res[*word] = NULL;
 	prompt->args = res;
 }
 
-int	test_4(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
+int	go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 {
 	var->res[var->word]->quote = var->str[var->i];
 	var->res[var->word]->s = get_split_quote(prompt,
@@ -154,7 +154,7 @@ int	test_4(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 	return (1);
 }
 
-void	test_5(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
+void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 {
 	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, garbage);
 	var->i += ft_strlen(var->res[var->word]->s);
@@ -191,12 +191,12 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 		var.res[var.word] = init_arg(garbage);
 		if (s[var.i] == '"' || s[var.i] == 39)
 		{
-			if (!test_4(prompt, &var, garbage))
+			if (!go_get_that_quote(prompt, &var, garbage))
 				return ((void)(errno = 2), NULL);
 		}
 		else
-			test_5(prompt, &var, garbage);
-		test_3(var.res, &var.word, prompt);
+			get_arg_not_quoted(prompt, &var, garbage);
+		we_go_forward(var.res, &var.word, prompt);
 		var.i = skip_char(s, c, var.i);
 	}
 	return (var.res);
