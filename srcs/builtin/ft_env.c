@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:45:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:57:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	replace_env(char *var_name, char *new_value)
 }
 
 /// @brief duplicate g_minishell.env.
-char	**duplicate_env()
+char	**duplicate_env(void)
 {
 	char	**new;
 	int		i;
@@ -56,7 +56,6 @@ char	**duplicate_env()
 	}
 	return (new);
 }
-
 
 /// @brief Print content of g_minishell.env at i index.
 static int	print_env(int i)
