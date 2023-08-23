@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:28:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:56:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 	int		i;
 
 	i = 0;
+	if (prompt->old_stdout == -1)
+		prompt->old_stdout = dup(1);
 	while (prompt->args && prompt->args[i])
 	{
 		if (!ft_strncmp(prompt->args[i]->s, "<", 2) && \
@@ -71,9 +73,6 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->exec_fd[0]);
 		prompt->exec_fd[0] = -1;
 	}
-	if (prompt->write_fd != -1)
-		close(prompt->write_fd);
-	prompt->write_fd = -1;
 	if (prompt->old_stdout != -1)
 	{
 		dup2(prompt->old_stdout, 1);
