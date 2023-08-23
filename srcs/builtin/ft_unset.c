@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:55:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 23:06:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 extern struct s_minishell	g_minishell;
 
+/// @brief add OLDPWD variable to g_minishell.env.
 void	add_oldpwd(void)
 {
 	char	path[PATH_MAX];
@@ -25,6 +26,7 @@ void	add_oldpwd(void)
 	g_minishell.env = insert_at_end(s, g_minishell.env, g_minishell.garbage);
 }
 
+/// @brief reproduce unset builtin behavior.
 void	ft_unset(t_prompt *prompt)
 {
 	char	*s;

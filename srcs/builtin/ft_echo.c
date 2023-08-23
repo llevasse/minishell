@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 15:21:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:33:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 static void	print_args(t_arg **args, int i);
 
+/// @brief recreation of the echo cmd,
+/// print passed argument.
+/// @param *prompt pointer to prompt struct containing the args to print.
 void	ft_echo(t_prompt *prompt)
 {
 	if (!prompt->args)
@@ -35,6 +38,9 @@ void	ft_echo(t_prompt *prompt)
 	}
 }
 
+/// @brief Print arguments from a certain index.
+/// @param **args Array of t_arg variable to print,
+/// @param i index to print from (-1 if from the begining).
 static void	print_args(t_arg **args, int i)
 {
 	while (args[++i])

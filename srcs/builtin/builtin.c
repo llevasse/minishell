@@ -6,18 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 19:13:59 by llevasse         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/15 14:24:48 by llevasse          #+#    #+#             */
+/*   Updated: 2023/08/23 22:17:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +14,9 @@
 
 extern struct s_minishell	g_minishell;
 
+/// @brief check if passe char * is the name of a built in command.
+/// @param *cmd name to check.
+/// @return Return 1 if a match if found and zero if not.
 int	is_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "cd"))
@@ -44,6 +36,13 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
+/// @brief Execute a builtin command.
+/// @param *prompt prompt struct containing cmd param,
+/// @param *garbage pointer to garbage collector.
+/// @bug if STDOUT and/or STDIN are not previously set, 
+/// it will be problematic.
+/// @bug if this command is not launched in a child process, 
+/// then the parent process will be stoped.
 void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 {
 	close(prompt->tmp_fd);
@@ -66,6 +65,11 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	exit(errno);
 }
 
+/// @brief Execute a builtin command.
+/// This command is not meant to print anything, and is only used for builtin \
+/// modifing the environment.
+/// @param *prompt prompt struct containing cmd param,
+/// @param *garbage pointer to garbage collector.
 int	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
 {
 	if (!ft_strcmp(prompt->full_args[0]->s, "export") && prompt->export_args)

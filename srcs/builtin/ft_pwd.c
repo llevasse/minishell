@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 11:39:34 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 23:04:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 extern struct s_minishell	g_minishell;
 
-//static char	*get_current_dir(char **environ);
-
+/// @brief Print current working directory.
 void	ft_pwd(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*new_path;
@@ -25,6 +24,7 @@ void	ft_pwd(t_prompt *prompt, t_garbage *garbage)
 	ft_printf("%s\n", new_path);
 }
 
+/// @brief Get current working directory path.
 char	*get_pwd(t_garbage *garbage)
 {
 	char	*pwd;

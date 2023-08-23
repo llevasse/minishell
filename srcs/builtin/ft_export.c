@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:26:00 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 23:01:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ extern struct s_minishell	g_minishell;
 
 void	export_listing(char **env, int i);
 
+/// @brief print content of env.
+/// @param **env array of chars *.
 void	print_export(char **env)
 {
 	int		i;
@@ -34,6 +36,9 @@ void	print_export(char **env)
 	}
 }
 
+/// @brief print content of env[i].
+/// @param **env array of chars *,
+/// @param i index of which **env element to print
 void	export_listing(char **env, int i)
 {
 	int		j;
@@ -59,6 +64,8 @@ void	export_listing(char **env, int i)
 	printf("\n");
 }
 
+/// @brief Delete first instance found of *key in g_minishell.env.
+/// @param *key Variable name to delete.
 void	delete_duplicate_export(char *key)
 {
 	int	i;
@@ -71,6 +78,8 @@ void	delete_duplicate_export(char *key)
 		delete_element_at_index(g_minishell.env, i);
 }
 
+/// @brief Reproduce export builtin behavior.
+/// @param *prompt Pointer to prompt struct.
 void	ft_export(t_prompt *prompt)
 {
 	char		*exports;

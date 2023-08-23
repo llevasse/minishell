@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:20:21 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 22:50:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 extern struct s_minishell	g_minishell;
 
+/// @brief Replace content of env variable or add it.
+/// @param *var_name New env variable name,
+/// @param *new_value New value for env variable.
 void	replace_env(char *var_name, char *new_value)
 {
 	int	i;
@@ -37,6 +40,7 @@ void	replace_env(char *var_name, char *new_value)
 			g_minishell.env, g_minishell.at_exit_garbage);
 }
 
+/// @brief Print content of g_minishell.env at i index.
 static int	print_env(int i)
 {
 	char	**print;
@@ -60,6 +64,7 @@ static int	print_env(int i)
 	return (i);
 }
 
+/// @brief reproduce env builtin behavior.
 void	ft_env(void)
 {
 	int		i;

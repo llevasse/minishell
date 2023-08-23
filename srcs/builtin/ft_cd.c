@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:57:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:29:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 				char cwd[PATH_MAX], t_garbage *garbage);
 static void	cd_without_args(char *new_path, t_garbage *garbage);
 
+/// @brief Change current directory.
+/// @param *prompt Pointer prompt struct,
+/// @param *garbage Pointer to garbage struct.
 void	ft_cd(t_prompt *prompt, t_garbage *garbage)
 {
 	char	*new_path;
@@ -32,6 +35,9 @@ void	ft_cd(t_prompt *prompt, t_garbage *garbage)
 		cd_with_args(prompt, new_path, cwd, garbage);
 }
 
+/// @brief Check if *args is considered a cd valid argument.
+/// @param *args string to check.
+/// @return Return 1 if *args is a valid argument, return 0 otherwise.
 static int	ft_is_cd_args(char *args)
 {
 	if (!ft_strcmp(args, "|") || !ft_strcmp(args, ";") || !args)
@@ -40,9 +46,10 @@ static int	ft_is_cd_args(char *args)
 		return (1);
 }
 
-/// @brief Replace doubles quotes with it's content
+/// @brief Change directory to what was passed as args
 /// @param *prompt Pointer prompt struct,
-/// @param *new_path Pointer to str,
+/// @param *new_path Current path,
+/// @param cwd[PATH_MAX] idk. TODO
 /// @param *garbage Pointer to garbage struct.
 static void	cd_with_args(t_prompt *prompt, char *new_path,
 							char cwd[PATH_MAX], t_garbage *garbage)
@@ -71,6 +78,9 @@ static void	cd_with_args(t_prompt *prompt, char *new_path,
 	}
 }
 
+/// @brief Change directory to HOME env variable.
+/// @param *new_path Current path,
+/// @param *garbage Pointer to garbage struct.
 static void	cd_without_args(char *new_path, t_garbage *garbage)
 {
 	new_path = ft_getenv(g_minishell.env, "HOME", garbage);

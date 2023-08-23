@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 10:34:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 22:53:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 extern struct s_minishell	g_minishell;
 
+/// @brief check is *s is valid param for exit.
+/// @param *s String to check.
+/// @return Return 1 if valid and 0 if not.
 int	is_only_digit(char *s)
 {
 	int	i;
@@ -32,6 +35,9 @@ int	is_only_digit(char *s)
 	return (1);
 }
 
+/// @brief Reproduace exit builtin behavior.
+/// @param *garbage Pointer to garbage collector,
+/// @param **args array of t_arg pointer. 
 void	ft_exit(t_garbage *garbage, t_arg **args)
 {
 	close(1);
