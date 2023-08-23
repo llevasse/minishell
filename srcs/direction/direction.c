@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 10:26:43 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:18:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
 /// @param *input String of the prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	check_redirection(t_prompt *prompt, t_garbage *garbage)
+void	check_redirection(t_prompt *prompt)
 {
 	int		i;
 
 	i = 0;
+	if (prompt->old_stdout == -1)
+		prompt->old_stdout = dup(1);
 	while (prompt->args && prompt->args[i])
 	{
 		if (!ft_strncmp(prompt->args[i]->s, "<", 2) && \
@@ -31,11 +33,9 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strcmp(prompt->args[i]->s, "<<"))
-			heredoc(prompt->args[i + 1]->quote,
-				prompt->args[i + 1]->s, prompt, garbage);
-		else if (!prompt->args[i]->quote && \
-				!ft_strncmp(prompt->args[i]->s, ">", 1) && \
-			ft_strlen(prompt->args[i]->s) < 3)
+			heredoc(prompt->args[i + 1]->quote, prompt->args[i + 1]->s, prompt);
+		else if (prompt->has_output == 0 && \
+				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);
 		i++;
 	}
@@ -73,9 +73,6 @@ void	reset_stdio_fd(t_prompt *prompt)
 		close(prompt->exec_fd[0]);
 		prompt->exec_fd[0] = -1;
 	}
-	if (prompt->write_fd != -1)
-		close(prompt->write_fd);
-	prompt->write_fd = -1;
 	if (prompt->old_stdout != -1)
 	{
 		dup2(prompt->old_stdout, 1);

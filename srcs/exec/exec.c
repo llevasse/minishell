@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 10:22:19 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:21:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
-	check_redirection(prompt, garbage);
+	check_redirection(prompt);
 	if (prompt->has_redir == -1)
 		return ((void)(prompt->has_exec = 1), 1);
 	delete_redirection(prompt->full_args);
@@ -85,7 +85,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		free_garbage(garbage);
 		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))), 1);
 	}
-	if (!redir(prompt, garbage))
+	if (!redir(prompt))
 		return ((void)(prompt->has_exec = 1), 1);
 	if (prompt->has_redir == 1)
 		i = get_arg_size(prompt->args) + 1;
