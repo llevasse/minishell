@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:37:41 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/24 00:02:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ void	get_input(t_garbage *garbage)
 	parse(s, garbage, g_minishell.env);
 }
 
+void	minishell_loop(t_garbage *garbage)
+{
+	while (42)
+	{
+		get_input(garbage);
+		free_garbage(garbage);
+		garbage = ft_new_garbage(0, NULL);
+		garbage->next = NULL;
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	struct sigaction	sa;
@@ -58,11 +69,5 @@ int	main(int argc, char **argv, char **envp)
 	g_minishell.error_value = 0;
 	set_env(envp, garbage_at_exit);
 	printf(STARTUP);
-	while (42)
-	{
-		get_input(garbage);
-		free_garbage(garbage);
-		garbage = ft_new_garbage(0, NULL);
-		garbage->next = NULL;
-	}
+	minishell_loop(garbage);
 }
