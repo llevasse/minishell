@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:03:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 14:30:52 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,35 +88,4 @@ char	**insert_alpha(char *s, char **tab, t_garbage *garbage)
 		i++;
 	}
 	return (insert_at_end(s, tab, garbage));
-}
-
-t_arg	**insert_tab_at_index(t_arg **t1, t_arg **t2,
-			int index, t_garbage *garbage)
-{
-	t_arg	**new;
-	int		i;
-	int		j;
-
-	new = malloc((get_arg_size(t1) + get_arg_size(t2) + 1) * sizeof(t_arg *));
-	ft_add_garbage(0, &garbage, new);
-	if (!new)
-		return (t1);
-	i = 0;
-	j = 0;
-	while (t1[i] && i < index)
-	{
-		new[i + j] = t1[i];
-		new[i++ + j + 1] = NULL;
-	}
-	while (t2[j])
-	{
-		new[i + j] = t2[j];
-		new[i + j++ + 1] = NULL;
-	}
-	while (t1[i])
-	{
-		new[i + j] = t1[i];
-		new[i++ + j + 1] = NULL;
-	}
-	return (new);
 }

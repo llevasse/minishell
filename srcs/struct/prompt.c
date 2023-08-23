@@ -14,23 +14,6 @@
 
 extern struct s_minishell	g_minishell;
 
-void	print_prompt(t_prompt p)
-{
-	PRINT_RED
-	printf("prompt.cmd = %s\n", p.cmd);
-	PRINT_NC
-	printf_args(p.args, "prompt.args :");
-	printf_args(p.full_args, "prompt.full_args :");
-	printf("prompt.old_stdout = %d\n", p.old_stdout);
-	printf("prompt.old_stdint = %d\n", p.old_stdin);
-	printf("prompt.has_redir = %d\n", p.has_redir);
-	printf("prompt.has_exec = %d\n", p.has_exec);
-	printf("prompt.tmp_fd = %d\n", p.tmp_fd);
-	printf("prompt.exec_fd[0] = %d\n", p.exec_fd[0]);
-	printf("prompt.exec_fd[1] = %d\n\n\n\n\n", p.exec_fd[1]);
-
-}
-
 void	set_prompt_null(t_prompt *prompt)
 {
 	prompt->write_fd = -1;

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:50:33 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/21 11:25:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:07:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@ int	get_full_args_size(t_prompt *prompt)
 	return (nb);
 }
 
-t_arg	**get_full_args(t_prompt *prompt, t_garbage *garbage)
+t_arg	**get_this_args(t_prompt *temp, t_arg **new, t_garbage *garbage)
 {
-	int			nb;
-	int			i;
-	t_arg		**new;
-	t_prompt	*temp;
+	int	nb;
+	int	i;
 
-	temp = prompt;
 	i = 0;
-	new = malloc(get_full_args_size(prompt) * sizeof(t_arg *));
-	ft_add_garbage(0, &garbage, new);
 	while (temp)
 	{
 		nb = 0;
@@ -55,4 +50,16 @@ t_arg	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 		temp = temp->next_cmd;
 	}
 	return (new[i] = NULL, new);
+}
+
+t_arg	**get_full_args(t_prompt *prompt, t_garbage *garbage)
+{
+	t_arg		**new;
+	t_prompt	*temp;
+
+	temp = prompt;
+	new = malloc(get_full_args_size(prompt) * sizeof(t_arg *));
+	ft_add_garbage(0, &garbage, new);
+	new = get_this_args(temp, new, garbage);
+	return (new);
 }

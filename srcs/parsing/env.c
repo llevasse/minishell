@@ -6,13 +6,20 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 23:32:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 16:04:31 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern struct s_minishell	g_minishell;
+
+typedef struct s_var
+{
+	char	*var;
+	char	*env_var;
+	int		i;
+}			t_var;
 
 char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 {
@@ -108,30 +115,28 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 /// and replace env variable in *str with his content.
 int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 {
-	char	*var;
-	char	*env_var;
-	int		i;
+	t_var	var;
 
-	i = 0;
+	var.i = 0;
 	if (get_char_pos(*str, '$') == -1)
 		return (0);
-	while (i >= 0 && i < (int)ft_strlen(*str) && \
-		get_char_pos((*str) + i, '$') >= 0)
+	while (var.i >= 0 && var.i < (int)ft_strlen(*str) && \
+		get_char_pos((*str) + var.i, '$') >= 0)
 	{
-		var = get_env_var_name((*str) + i, garbage);
-		if (var[0] == '$' && var[1] == 0)
-			i++;
-		else if (!ft_strncmp("$?", var, 2))
+		var.var = get_env_var_name((*str) + var.i, garbage);
+		if (var.var[0] == '$' && var.var[1] == 0)
+			var.i++;
+		else if (!ft_strncmp("$?", var.var, 2))
 		{
-			var = ft_itoa(g_minishell.error_value);
-			ft_add_garbage(0, &garbage, var);
-			replace_str(str, "$?", var, garbage);
+			var.var = ft_itoa(g_minishell.error_value);
+			ft_add_garbage(0, &garbage, var.var);
+			replace_str(str, "$?", var.var, garbage);
 		}
 		else
 		{
-			env_var = ft_getenv(prompt->environ, var + 1, garbage);
-			replace_str(str, var, env_var, garbage);
-			i = get_char_pos(*str, '$');
+			var.env_var = ft_getenv(prompt->environ, var.var + 1, garbage);
+			replace_str(str, var.var, var.env_var, garbage);
+			var.i = get_char_pos(*str, '$');
 		}
 	}
 	return (1);

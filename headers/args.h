@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/20 20:23:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/22 11:49:36 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	check_for_wildcard(t_prompt *prompt, t_arg **args, int index,
 int		respect_pattern(char *str, char *pattern, char **keys);
 void	delete_unwanted_files(t_arg **files, char *pattern, t_garbage *garbage);
 int		get_nb_of_files(char *path);
+t_arg	**get_files_in_dir(char *path, t_garbage *garbage);
 t_arg	**get_files_in_dir(char *path, t_garbage *garbage);
 
 // srcs/parsing/args/args.c:

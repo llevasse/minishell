@@ -30,7 +30,6 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt,
 		close(prompt->exec_fd[1]);
 		prompt->exec_fd[0] = -1;
 	}
-	
 	write_heredoc(prompt, eof_name, garbage, use_env_var);
 	prompt->has_redir = 1;
 }

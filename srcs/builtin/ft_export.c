@@ -14,11 +14,11 @@
 
 extern struct s_minishell	g_minishell;
 
+void	export_listing(char **env, int i);
+
 void	print_export(char **env)
 {
 	int		i;
-	int		j;
-	char	**print;
 
 	i = 0;
 	if (!env)
@@ -27,28 +27,36 @@ void	print_export(char **env)
 	{
 		if (ft_strncmp("_=", env[i], 2))
 		{
-			j = 0;
-			print = ft_split(env[i++], '=');
-			ft_add_garbage(0, &g_minishell.garbage, print);
-			if (!print[j + 1])
-				printf("declare -x %s", print[j]);
-			else
-				printf("declare -x %s=\"", print[j]);
-			ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-			while (print[j])
-			{
-				printf("%s", print[j]);
-				ft_add_garbage(0, &g_minishell.garbage, print[j++]);
-				if (print[j])
-					printf("=");
-			}
-			if (j > 1)
-				printf("\"");
-			printf("\n");
+			export_listing(env, i);
 		}
 		else
 			i++;
 	}
+}
+
+void	export_listing(char **env, int i)
+{
+	int		j;
+	char	**print;
+
+	j = 0;
+	print = ft_split(env[i++], '=');
+	ft_add_garbage(0, &g_minishell.garbage, print);
+	if (!print[j + 1])
+		printf("declare -x %s", print[j]);
+	else
+		printf("declare -x %s=\"", print[j]);
+	ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+	while (print[j])
+	{
+		printf("%s", print[j]);
+		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+		if (print[j])
+			printf("=");
+	}
+	if (j > 1)
+		printf("\"");
+	printf("\n");
 }
 
 void	delete_duplicate_export(char *key)
