@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 19:31:04 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:39:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,21 +129,6 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	return (new);
 }
 
-void test(t_arg **res, int *word, t_garbage *garbage)
-{
-	res[*word - 1]->s = ft_strjoin(res[*word - 1]->s,
-			res[*word]->s);
-	ft_add_garbage(0, &garbage, res[*word - 1]->s);
-	res[*word--] = NULL;
-}
-
-void test_2(t_arg **res, int *word, t_garbage *garbage)
-{
-	res[*word - 1]->s = ft_strjoin(res[*word - 1]->s, res[*word]->s);
-	ft_add_garbage(0, &garbage, res[*word - 1]->s);
-	res[*word--] = NULL;
-}
-
 void	test_3(t_arg **res, int *word, t_prompt *prompt)
 {
 	(*word)++;
@@ -154,11 +139,18 @@ void	test_3(t_arg **res, int *word, t_prompt *prompt)
 int	test_4(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 {
 	var->res[var->word]->quote = var->str[var->i];
-	var->res[var->word]->s = get_split_quote(prompt, &var->str, &var->i, var->word - 1);
+	var->res[var->word]->s = get_split_quote(prompt,
+			&var->str, &var->i, var->word - 1);
 	if (!prompt->cmd)
 		return (0);
-	if (var->word > 0 && var->str[var->i - (ft_strlen(var->res[var->word]->s) + 3)] != var->p)
-		test_2(var->res, &var->word, garbage);
+	if (var->word > 0 && var->str[var->i - \
+			(ft_strlen(var->res[var->word]->s) + 3)] != var->p)
+	{
+		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s,
+				var->res[var->word]->s);
+		ft_add_garbage(0, &garbage, var->res[var->word - 1]->s);
+		var->res[var->word--] = NULL;
+	}
 	return (1);
 }
 
@@ -167,8 +159,14 @@ void	test_5(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, garbage);
 	var->i += ft_strlen(var->res[var->word]->s);
 	check_is_env_var(prompt, &var->res[var->word]->s, garbage);
-	if (var->word > 0 && var->str[var->i - (ft_strlen(var->res[var->word]->s) + 1)] != var->p)
-		test(var->res, &var->word, garbage);
+	if (var->word > 0 && var->str[var->i - \
+		(ft_strlen(var->res[var->word]->s) + 1)] != var->p)
+	{
+		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s, \
+			var->res[var->word]->s);
+		ft_add_garbage(0, &garbage, var->res[var->word - 1]->s);
+		var->res[var->word--] = NULL;
+	}
 }
 /// @brief Split a string by each c char,
 /// but also take account of quotes and other bash specific args.
