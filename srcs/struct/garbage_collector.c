@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 00:17:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:22:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,25 @@ t_garbage	*ft_new_garbage(int log, void *address)
 	return (new);
 }
 
+void	malloc_failed(t_garbage *garbage)
+{
+	errno = 12;
+	free_garbage(garbage);
+	garbage = ft_new_garbage(0, NULL);
+	minishell_loop(garbage);
+	exit(12);
+}
+
 void	ft_add_garbage(int log, t_garbage **lst, void *address)
 {
 	t_garbage	*temp;
 	t_garbage	*new;
 
 	if (!address)
-	{
-		errno = 12;
-		free_garbage(*lst);
-		*lst = ft_new_garbage(0, NULL);
-		minishell_loop(*lst);
-		exit(12);
-	}
+		malloc_failed(*lst);
 	new = ft_new_garbage(log, address);
 	if (!new)
-	{
-		free_garbage(*lst);
-		minishell_loop(*lst);
-	}
+		malloc_failed(*lst);
 	if (*lst)
 	{
 		temp = *lst;
