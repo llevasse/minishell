@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 19:25:35 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 19:31:04 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,16 +151,7 @@ void	test_3(t_arg **res, int *word, t_prompt *prompt)
 	prompt->args = res;
 }
 
-typedef struct s_test
-{
-	t_arg **res;
-	int		i;
-	int		word;
-	char	*str;
-	char 	p;
-}			t_test;
-
-int	test_4(t_prompt *prompt, t_test *var, t_garbage *garbage)
+int	test_4(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 {
 	var->res[var->word]->quote = var->str[var->i];
 	var->res[var->word]->s = get_split_quote(prompt, &var->str, &var->i, var->word - 1);
@@ -171,7 +162,7 @@ int	test_4(t_prompt *prompt, t_test *var, t_garbage *garbage)
 	return (1);
 }
 
-void	test_5(t_prompt *prompt, t_test *var, t_garbage *garbage)
+void	test_5(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 {
 	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, garbage);
 	var->i += ft_strlen(var->res[var->word]->s);
@@ -188,7 +179,7 @@ void	test_5(t_prompt *prompt, t_test *var, t_garbage *garbage)
 /// @return Return a tab containing every separated element.
 t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 {
-	t_test	var;
+	t_var_2	var;
 
 	if (!s || !s[0])
 		return (NULL);
