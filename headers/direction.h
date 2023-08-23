@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 10:49:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:19:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 void	set_input(char *name, t_prompt *prompt);
 
 	// srcs/parsing/direction/heredoc.c:
-void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt,
-			t_garbage *garbage);
+void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt);
 char	*get_cut_section(char *input, t_garbage *garbage);
 char	*replace_space_in_name(char *str, t_garbage *garbage);
 int		create_heredoc_fd(t_prompt *prompt);
@@ -30,8 +29,7 @@ void	set_output(t_prompt *prompt);
 int		get_last_output_fd(t_arg **args);
 
 // srcs/parsing/direction/direction.c:
-void	check_redirection(t_prompt *prompt, t_garbage *garbage);
-void	set_output_append(char *input, t_prompt *prompt, t_garbage *garbage);
+void	check_redirection(t_prompt *prompt);
 void	reset_stdio_fd(t_prompt *prompt);
 
 #endif

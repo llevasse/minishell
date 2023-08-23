@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 21:41:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:43:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param *input String of the prompt input,
 /// @param *prompt Pointer to prompt struct,
 /// @param *garbage Pointer to garbage collector.
-void	check_redirection(t_prompt *prompt, t_garbage *garbage)
+void	check_redirection(t_prompt *prompt)
 {
 	int		i;
 
@@ -33,11 +33,9 @@ void	check_redirection(t_prompt *prompt, t_garbage *garbage)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strcmp(prompt->args[i]->s, "<<"))
-			heredoc(prompt->args[i + 1]->quote,
-				prompt->args[i + 1]->s, prompt, garbage);
-		else if (!prompt->args[i]->quote && \
-				!ft_strncmp(prompt->args[i]->s, ">", 1) && \
-			ft_strlen(prompt->args[i]->s) < 3)
+			heredoc(prompt->args[i + 1]->quote, prompt->args[i + 1]->s, prompt);
+		else if (prompt->has_output == 0 && \
+				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);
 		i++;
 	}
@@ -104,12 +102,8 @@ void	delete_redirection(t_arg **args)
 			!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
 		{
 			if (args[i + 1])
-			{
 				delete_arg_at_index(args, i);
-				delete_arg_at_index(args, i);
-			}
-			else
-				delete_arg_at_index(args, i);
+			delete_arg_at_index(args, i);
 		}
 		else if (args[i]->quote == 0 && (!ft_strncmp(s, "<<", 2) || \
 		!ft_strncmp(s, "<", 1) || \

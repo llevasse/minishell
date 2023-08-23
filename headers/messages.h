@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 21:21:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 10:09:18 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,5 @@
 syntax error: unexpected end of file\n"
 # define TMA "Too mane arguments\n"
 # define NOT_NUM_ARG "numeric argument required\n"
-
-# define PRINT_RED write(1, "\033[0;31m", 7);
-# define PRINT_GREEN write(1, "\033[0;32m", 7);
-# define PRINT_YELLOW write(1, "\033[0;33m", 7);
-# define PRINT_NC write(1, "\033[0m", 4);
 
 #endif

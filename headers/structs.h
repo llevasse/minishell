@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:27:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 19:32:35 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ typedef struct s_arg
 	int					id;
 	struct s_arg		*next;
 }	t_arg;
+
+typedef struct s_var
+{
+	char	*var;
+	char	*env_var;
+	int		i;
+}			t_var;
+
+typedef struct s_var_2
+{
+	t_arg	**res;
+	int		i;
+	int		word;
+	char	*str;
+	char	p;
+}			t_var_2;
 
 typedef struct s_prompt
 {

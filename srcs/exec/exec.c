@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 21:42:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/23 21:43:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage);
 static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 				t_garbage *garbage);
 static int	ft_putstr_error(char *str, char *arg);
-static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp, t_prompt *p);
 
 void	exec(t_prompt *prompt, t_garbage *garbage)
 {
@@ -30,9 +29,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	prompt->tmp_fd = dup(STDIN_FILENO);
 	while (prompt->full_args[i])
 	{
-		while (prompt->full_args[i] && \
-				ft_strcmp(prompt->full_args[i]->s, ";") && \
-					ft_strcmp(prompt->full_args[i]->s, "|"))
+		while (prompt->full_args[i] && cmp_exec(prompt, i))
 			i++;
 		if (i != 0 && (prompt->full_args[i] == NULL || \
 				!ft_strcmp(prompt->full_args[i]->s, ";")))
@@ -50,10 +47,9 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	prompt->exec_fd[0] = -1;
 }
 
-
 static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 {
-	check_redirection(prompt, garbage);
+	check_redirection(prompt);
 	if (prompt->has_redir == -1)
 		return ((void)(prompt->has_exec = 1), 1);
 	delete_redirection(prompt->full_args);
@@ -68,7 +64,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
-				prompt->environ, prompt))
+				prompt->environ))
 			return (1);
 	}
 	else
@@ -87,30 +83,16 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	if (pipe(prompt->exec_fd) == -1)
 	{
 		free_garbage(garbage);
-		exit(1);
-		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))),1);
+		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))), 1);
 	}
-	check_redirection(prompt, garbage);
-	if (prompt->has_redir == -1)
-	{
-		close(prompt->exec_fd[1]);
-		close(prompt->tmp_fd);
-		prompt->tmp_fd = prompt->exec_fd[0];
+	if (!redir(prompt))
 		return ((void)(prompt->has_exec = 1), 1);
-	}
-	delete_redirection(prompt->full_args);
 	if (prompt->has_redir == 1)
 		i = get_arg_size(prompt->args) + 1;
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
-		dup2(prompt->exec_fd[1], STDOUT_FILENO);
-		close(prompt->exec_fd[1]);
-		close(prompt->exec_fd[0]);
-		if (is_builtin(prompt->full_args[0]->s))
-			exec_builtin(prompt, garbage);
-		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
-				prompt->environ, prompt))
+		if (!exec_child(prompt, i, garbage))
 			return (1);
 	}
 	else
@@ -134,10 +116,10 @@ static int	ft_putstr_error(char *str, char *arg)
 	return (1);
 }
 
-static int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp, t_prompt *p)
+int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 {
 	char	**c_args;
-	(void)p;
+
 	if (args[i])
 		args[i]->s = NULL;
 	dup2(tmp_fd, STDIN_FILENO);

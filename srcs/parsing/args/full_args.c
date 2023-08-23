@@ -6,14 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:50:33 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 15:15:40 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 11:07:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	full_args(t_arg **new,
-				int *i, t_prompt *temp, t_garbage *garbage);
 
 int	get_full_args_size(t_prompt *prompt)
 {
@@ -30,41 +27,39 @@ int	get_full_args_size(t_prompt *prompt)
 	return (nb);
 }
 
-t_arg	**get_full_args(t_prompt *prompt, t_garbage *garbage)
+t_arg	**get_this_args(t_prompt *temp, t_arg **new, t_garbage *garbage)
 {
-	int			i;
-	t_arg		**new;
-	t_prompt	*temp;
+	int	nb;
+	int	i;
 
-	temp = prompt;
 	i = 0;
-	new = malloc(get_full_args_size(prompt) * sizeof(t_arg *));
-	ft_add_garbage(0, &garbage, new);
 	while (temp)
 	{
-		if (!full_args(new, &i, temp, garbage))
+		nb = 0;
+		new[i] = init_arg(garbage);
+		new[i++]->s = temp->cmd;
+		while (temp->args && temp->args[nb] && temp->args[nb]->s)
+		{
+			new[i] = init_arg(garbage);
+			new[i++]->s = temp->args[nb++]->s;
+		}
+		if (!temp->next_cmd)
 			break ;
+		new[i] = init_arg(garbage);
+		new[i++]->s = "|";
 		temp = temp->next_cmd;
 	}
 	return (new[i] = NULL, new);
 }
 
-int	full_args(t_arg **new, int *i,
-				t_prompt *temp, t_garbage *garbage)
+t_arg	**get_full_args(t_prompt *prompt, t_garbage *garbage)
 {
-	int	nb;
+	t_arg		**new;
+	t_prompt	*temp;
 
-	nb = 0;
-	new[*i] = init_arg(garbage);
-	new[*i++]->s = temp->cmd;
-	while (temp->args && temp->args[nb] && temp->args[nb]->s)
-	{
-		new[*i] = init_arg(garbage);
-		new[*i++]->s = temp->args[nb++]->s;
-	}
-	if (!temp->next_cmd)
-		return (0);
-	new[*i] = init_arg(garbage);
-	new[*i++]->s = "|";
-	return (*i);
+	temp = prompt;
+	new = malloc(get_full_args_size(prompt) * sizeof(t_arg *));
+	ft_add_garbage(0, &garbage, new);
+	new = get_this_args(temp, new, garbage);
+	return (new);
 }

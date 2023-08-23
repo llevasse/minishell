@@ -14,13 +14,6 @@
 
 extern struct s_minishell	g_minishell;
 
-typedef struct s_var
-{
-	char	*var;
-	char	*env_var;
-	int		i;
-}			t_var;
-
 char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 {
 	int		i;
