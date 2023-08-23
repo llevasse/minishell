@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:24:01 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/23 13:26:02 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ char	*get_content(t_prompt *prompt, char **input, t_garbage *garbage)
 	return (content);
 }
 
-void	test(t_prompt *prompt, t_garbage *garbage, char *input, char *key)
+void	get_pos_add(t_prompt *prompt, t_garbage *garbage,
+					char *input, char *key)
 {
 	char	*content;
 	int		equal_pos;
@@ -122,5 +123,5 @@ void	get_export_args(t_prompt *prompt, char *input, t_garbage *garbage)
 		}
 		ft_add_export(&prompt->export_args, NULL, 0, garbage);
 	}
-	test(prompt, garbage, input, key);
+	get_pos_add(prompt, garbage, input, key);
 }
