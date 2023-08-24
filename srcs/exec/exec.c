@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 14:19:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:38:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 extern t_minishell	g_minishell;
 
-static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage);
-static int	get_exec_pipe(t_prompt *prompt, int i, int value,
-				t_garbage *garbage);
+static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage);
+static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage);
 static int	ft_putstr_error(char *str, char *arg);
 
 void	exec(t_prompt *prompt, t_garbage *garbage)
@@ -29,15 +28,15 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	value = 0;
 	prompt->tmp_fd = dup(STDIN_FILENO);
 	temp = prompt;
-	while (prompt->full_args[i])
+	while (prompt->full_args && prompt->full_args[i])
 	{
 		while (prompt->full_args[i] && cmp_exec(prompt, i))
 			i++;
 		if (i != 0 && (prompt->full_args[i] == NULL || \
 				!ft_strcmp(prompt->full_args[i]->s, ";")))
-			get_exec(prompt, i, value, garbage);
+			get_exec(prompt, i, garbage);
 		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
-			get_exec_pipe (prompt, i, value, garbage);
+			get_exec_pipe (prompt, i, garbage);
 		if (prompt->has_exec && prompt->next_cmd)
 		{
 			swap_fd(prompt);
@@ -65,10 +64,10 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 	prompt->exec_fd[0] = -1;
 }
 
-static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
+static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 {
 	check_redirection(prompt);
-	if (prompt->has_redir == -1)
+	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	delete_redirection(prompt->full_args);
 	if (!prompt->next_cmd && !prompt->prev_cmd && \
@@ -87,17 +86,11 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 			return (1);
 	}
 	else
-	{
-//		wait_exec(prompt, value);
-//		prompt->tmp_fd = dup(STDIN_FILENO);
 		prompt->has_exec = 1;
-	}
-	(void)value;
 	return (0);
 }
 
-static int	get_exec_pipe(t_prompt *prompt, int i, int value,
-			t_garbage *garbage)
+static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 {
 	exec_builtin_main_thread(prompt, garbage);
 	if (pipe(prompt->exec_fd) == -1)
@@ -105,7 +98,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		free_garbage(garbage);
 		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))), 1);
 	}
-	if (!redir(prompt))
+	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (prompt->has_redir == 1)
 		i = get_arg_size(prompt->args) + 1;
@@ -117,13 +110,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 			return (1);
 	}
 	else
-	{
-//		close(prompt->exec_fd[1]);
-//		wait_exec(prompt, value);
-//		prompt->tmp_fd = prompt->exec_fd[0];
 		prompt->has_exec = 1;
-	}
-	(void)value;
 	return (0);
 }
 
