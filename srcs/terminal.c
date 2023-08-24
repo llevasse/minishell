@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 10:59:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:58:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	set_termios(void)
 
 	tcgetattr(STDIN_FILENO, &term_setting);
 	term_setting.c_lflag &= ~(ICANON);
+	term_setting.c_lflag &= ~ECHOCTL;
 	term_setting.c_cc[VMIN] = 1;
 	term_setting.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_setting);
