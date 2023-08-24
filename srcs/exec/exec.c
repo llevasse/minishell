@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 15:03:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 15:22:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@ extern t_minishell	g_minishell;
 
 static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage);
 static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage);
-static int	ft_putstr_error(char *str, char *arg);
+static void	pls_wait(t_prompt *prompt);
 
 void	exec(t_prompt *prompt, t_garbage *garbage)
 {
 	int			i;
-	int			value;
 	t_prompt	*temp;
 
 	i = 0;
-	value = 0;
 	prompt->tmp_fd = dup(STDIN_FILENO);
 	temp = prompt;
 	while (prompt->full_args && prompt->full_args[i])
@@ -44,24 +42,31 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			i = 0;
 		}
 	}
-	while (temp)
+	pls_wait(temp);
+}
+
+static void	pls_wait(t_prompt *prompt)
+{
+	int			value;
+
+	value = 0;
+	while (prompt)
 	{
-		if (temp->next_cmd)
+		if (prompt->next_cmd)
 		{
-			close(temp->exec_fd[1]);
-			wait_exec(temp, value);
-			temp->tmp_fd = temp->exec_fd[0];
+			close(prompt->exec_fd[1]);
+			wait_exec(prompt, value);
+			prompt->tmp_fd = prompt->exec_fd[0];
 		}
 		else
 		{
-			wait_exec(temp, value);
-			temp->tmp_fd = dup(STDIN_FILENO);
+			wait_exec(prompt, value);
+			prompt->tmp_fd = dup(STDIN_FILENO);
 			break ;
 		}
-		temp = temp->next_cmd;
+		prompt = prompt->next_cmd;
 	}
 	close(prompt->tmp_fd);
-	prompt->exec_fd[0] = -1;
 }
 
 static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
@@ -120,17 +125,6 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 	return (0);
 }
 
-static int	ft_putstr_error(char *str, char *arg)
-{
-	while (str && *str)
-		write(2, str++, 1);
-	if (arg)
-		while (*arg)
-			write(2, arg++, 1);
-	write(2, "\n", 1);
-	return (1);
-}
-
 int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 {
 	char	**c_args;
@@ -141,5 +135,7 @@ int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 	close(tmp_fd);
 	c_args = to_char_array(args, i, g_minishell.garbage);
 	execve(c_args[0], c_args, envp);
-	return (ft_putstr_error("error : cannot execute ", c_args[0]));
+	ft_putstr_fd("error : cannot execute ", 2);
+	ft_putendl_fd(c_args[0], 2);
+	return (1);
 }
