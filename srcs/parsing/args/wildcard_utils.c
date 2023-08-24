@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards_utils.c                                  :+:      :+:    :+:   */
+/*   wildcard_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:42:36 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/22 14:23:28 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/24 09:24:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_arg	**get_files_in_dir(char *path, t_garbage *garbage)
 	{
 		if (ft_strcmp(dir_entry->d_name, ".") && \
 			ft_strcmp(dir_entry->d_name, ".."))
-			get_files(files, i, dir_entry, garbage);
+			get_files(files, i++, dir_entry, garbage);
 		dir_entry = readdir(current_dir);
 	}
 	closedir(current_dir);
