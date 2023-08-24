@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:42:36 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 09:24:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 09:26:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	get_files(t_arg **files, int i,
 	files[i] = init_arg(garbage);
 	files[i]->s = ft_strdup(dir_entry->d_name);
 	files[i + 1] = NULL;
-	ft_add_garbage(0, &garbage, files[i++]);
+	ft_add_garbage(0, &garbage, files[i]->s);
+	ft_add_garbage(0, &garbage, files[i]);
 }
 
 t_arg	**get_files_in_dir(char *path, t_garbage *garbage)
