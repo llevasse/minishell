@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 21:11:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 20:57:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,17 @@ static void	pls_wait(t_prompt *prompt)
 		{
 			close(prompt->exec_fd[1]);
 			wait_exec(prompt, value);
+			prompt->tmp_fd = prompt->exec_fd[0];
 		}
 		else
 		{
 			wait_exec(prompt, value);
 			prompt->tmp_fd = dup(STDIN_FILENO);
-			close (STDOUT_FILENO);
 			break ;
 		}
 		prompt = prompt->next_cmd;
 	}
-	reset_stdio_fd(prompt);
-//	close(prompt->tmp_fd);
+	close(prompt->tmp_fd);
 }
 
 static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
@@ -81,6 +80,8 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 		ft_exit(garbage, prompt->full_args);
 	if (exec_builtin_main_thread(prompt, garbage))
 		return (0);
+	if (prompt->prev_cmd)
+		prompt->tmp_fd = prompt->exec_fd[0];
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
@@ -93,6 +94,8 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 	}
 	else
 	{
+		if (prompt->exec_fd[0] != -1)
+			close(prompt->exec_fd[0]);
 		prompt->has_exec = 1;
 	}
 	return (0);
@@ -118,9 +121,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 			return (1);
 	}
 	else
-	{
 		prompt->has_exec = 1;
-	}
 	return (0);
 }
 
