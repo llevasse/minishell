@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 13:27:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:16:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
+		reset_termios();
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
 		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
@@ -112,6 +113,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
+		reset_termios();
 		if (!exec_child(prompt, i, garbage))
 			return (1);
 	}
