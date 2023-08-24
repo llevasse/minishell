@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 21:43:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 13:27:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ static int	ft_putstr_error(char *str, char *arg);
 
 void	exec(t_prompt *prompt, t_garbage *garbage)
 {
-	int	i;
-	int	value;
+	int			i;
+	int			value;
+//	t_prompt	*temp;
 
 	i = 0;
 	value = 0;
 	prompt->tmp_fd = dup(STDIN_FILENO);
+//	temp = prompt;
 	while (prompt->full_args[i])
 	{
 		while (prompt->full_args[i] && cmp_exec(prompt, i))
@@ -43,6 +45,23 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			i = 0;
 		}
 	}
+//	while (temp)
+//	{
+//		printf("cc pid : %d\n", temp->exec_pid);
+//		if (temp->next_cmd)
+//		{
+//			close(temp->exec_fd[1]);
+//			wait_exec(temp, value);
+///			temp->tmp_fd = temp->exec_fd[0];
+//		}
+//		else
+//		{
+//			wait_exec(temp, value);
+//			temp->tmp_fd = dup(STDIN_FILENO);
+//			break ;
+//		}
+//		temp = temp->next_cmd;
+//	}
 	close(prompt->tmp_fd);
 	prompt->exec_fd[0] = -1;
 }
@@ -73,6 +92,7 @@ static int	get_exec(t_prompt *prompt, int i, int value, t_garbage *garbage)
 		prompt->tmp_fd = dup(STDIN_FILENO);
 		prompt->has_exec = 1;
 	}
+	(void)value;
 	return (0);
 }
 
@@ -102,6 +122,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, int value,
 		prompt->tmp_fd = prompt->exec_fd[0];
 		prompt->has_exec = 1;
 	}
+	(void)value;
 	return (0);
 }
 
