@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 15:11:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 22:45:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	cmp_exec(t_prompt *prompt, int i)
 int	exec_child(t_prompt *prompt, int i, t_garbage *garbage)
 {
 	dup2(prompt->exec_fd[1], STDOUT_FILENO);
-	close(prompt->exec_fd[1]);
-	close(prompt->exec_fd[0]);
+	do_close(&prompt->exec_fd[1]);
+	do_close(&prompt->exec_fd[0]);
 	if (is_builtin(prompt->full_args[0]->s))
 		exec_builtin(prompt, garbage);
 	else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
@@ -38,8 +38,8 @@ int	redir(t_prompt *prompt)
 	check_redirection(prompt);
 	if (prompt->has_redir == -1)
 	{
-		close(prompt->exec_fd[1]);
-		close(prompt->tmp_fd);
+		do_close(&prompt->exec_fd[1]);
+		do_close(&prompt->tmp_fd);
 		prompt->tmp_fd = prompt->exec_fd[0];
 		return (0);
 	}
@@ -49,8 +49,14 @@ int	redir(t_prompt *prompt)
 
 void	wait_exec(t_prompt *prompt, int value)
 {
-	close(prompt->tmp_fd);
+	do_close(&prompt->tmp_fd);
+	ft_putstr_fd("waiting PID ", 2);
+	ft_putnbr_fd(prompt->exec_pid, 2);
+	ft_putstr_fd("\n", 2);
 	waitpid(prompt->exec_pid, &value, WUNTRACED);
+	ft_putstr_fd("PID ", 2);
+	ft_putnbr_fd(prompt->exec_pid, 2);
+	ft_putendl_fd(" exited", 2);
 	if (WIFEXITED(value))
 		errno = WEXITSTATUS(value);
 }

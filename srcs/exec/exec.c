@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 20:57:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 22:46:06 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage);
 static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage);
 static void	pls_wait(t_prompt *prompt);
 
+void	do_close(int *fd)
+{
+	if (*fd == -1)
+		return ;
+	close(*fd);
+	*fd = -1;
+}
 void	exec(t_prompt *prompt, t_garbage *garbage)
 {
 	int			i;
@@ -35,6 +42,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			get_exec(prompt, i, garbage);
 		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
 			get_exec_pipe (prompt, i, garbage);
+		printf("%s pid :%d\n", prompt->cmd, prompt->exec_pid);
 		if (prompt->has_exec && prompt->next_cmd)
 		{
 			swap_fd(prompt);
@@ -54,7 +62,7 @@ static void	pls_wait(t_prompt *prompt)
 	{
 		if (prompt->next_cmd)
 		{
-			close(prompt->exec_fd[1]);
+			do_close(&prompt->exec_fd[1]);
 			wait_exec(prompt, value);
 			prompt->tmp_fd = prompt->exec_fd[0];
 		}
@@ -66,7 +74,7 @@ static void	pls_wait(t_prompt *prompt)
 		}
 		prompt = prompt->next_cmd;
 	}
-	close(prompt->tmp_fd);
+	do_close(&prompt->tmp_fd);
 }
 
 static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
@@ -95,7 +103,7 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 	else
 	{
 		if (prompt->exec_fd[0] != -1)
-			close(prompt->exec_fd[0]);
+			do_close(&prompt->exec_fd[0]);
 		prompt->has_exec = 1;
 	}
 	return (0);
@@ -132,7 +140,7 @@ int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 	if (args[i])
 		args[i]->s = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
-	close(tmp_fd);
+	do_close(&tmp_fd);
 	c_args = to_char_array(args, i, g_minishell.garbage);
 	execve(c_args[0], c_args, envp);
 	ft_putstr_fd("error : cannot execute ", 2);
