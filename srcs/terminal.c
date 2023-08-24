@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 22:03:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 19:58:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	reset_termios(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
-extern struct s_minishell g_minishell;
-
 void	handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
@@ -43,7 +41,6 @@ void	handler(int sig, siginfo_t *info, void *context)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		ft_exit(g_minishell.garbage, NULL);
 		exit(1);
 	}
 	(void)info;

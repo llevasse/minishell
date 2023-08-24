@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 22:45:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 00:06:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char		*insert_at_index(char *str, char *to_insert,
 // SRCS/EXEC //
 
 // exec.c
-void		do_close(int *fd);
 void		exec(t_prompt *prompt, t_garbage *garbage);
 char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
