@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 14:38:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:48:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 		if (temp->next_cmd)
 		{
 			close(temp->exec_fd[1]);
+			close(temp->exec_fd[0]);
 			wait_exec(temp, value);
 			temp->tmp_fd = temp->exec_fd[0];
 		}
