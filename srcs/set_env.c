@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 10:47:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 11:14:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ void	set_env(char **envp, t_garbage *garbage_at_exit)
 	if (!envp || !envp[0])
 	{
 		envp = get_base_env();
+		ft_add_garbage(1, &garbage_at_exit, envp);
 		if (!envp || !envp[0])
 			exit (errno);
-		ft_add_garbage(1, &g_minishell.at_exit_garbage, envp[0]);
+		ft_add_garbage(1, &garbage_at_exit, envp[0]);
 	}
 	update_shlvl(envp, garbage_at_exit);
 	g_minishell.entry_env = envp;
