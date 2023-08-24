@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 10:01:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:38:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,9 @@ void	ft_export(t_prompt *prompt)
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
+		if (!exports)
+			return ;
 		ft_add_garbage(1, &g_minishell.at_exit_garbage, exports);
-		ft_add_garbage(1, &g_minishell.at_exit_garbage, 0);
 		delete_duplicate_export(exp->key);
 		g_minishell.env = insert_alpha(exports,
 				g_minishell.env, g_minishell.at_exit_garbage);
