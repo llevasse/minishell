@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 22:45:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 22:58:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,28 @@ int	redir(t_prompt *prompt)
 	delete_redirection(prompt->full_args);
 	return (1);
 }
+void	print_prompt(t_prompt p)
+{
+	printf("prompt.cmd = %s\n", p.cmd);
+	printf_args(p.args, "prompt.args :");
+	printf_args(p.full_args, "prompt.full_args :");
+	printf("prompt.old_stdout = %d\n", p.old_stdout);
+	printf("prompt.old_stdint = %d\n", p.old_stdin);
+	printf("prompt.has_redir = %d\n", p.has_redir);
+	printf("prompt.has_exec = %d\n", p.has_exec);
+	printf("prompt.tmp_fd = %d\n", p.tmp_fd);
+	printf("prompt.exec_fd[0] = %d\n", p.exec_fd[0]);
+	printf("prompt.exec_fd[1] = %d\n\n\n\n\n", p.exec_fd[1]);
 
+}
 void	wait_exec(t_prompt *prompt, int value)
 {
 	do_close(&prompt->tmp_fd);
 	ft_putstr_fd("waiting PID ", 2);
 	ft_putnbr_fd(prompt->exec_pid, 2);
 	ft_putstr_fd("\n", 2);
+	//close(0);
+	//dup2(prompt->exec_fd[0], 1);
 	waitpid(prompt->exec_pid, &value, WUNTRACED);
 	ft_putstr_fd("PID ", 2);
 	ft_putnbr_fd(prompt->exec_pid, 2);
