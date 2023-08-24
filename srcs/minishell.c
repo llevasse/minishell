@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 00:02:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 09:52:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	minishell_loop(t_garbage *garbage)
 	{
 		get_input(garbage);
 		free_garbage(garbage);
-		garbage = ft_new_garbage(0, NULL);
+		garbage = ft_new_garbage(NULL);
 		garbage->next = NULL;
 	}
 }
@@ -59,8 +59,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	set_termios();
-	garbage = ft_new_garbage(0, NULL);
-	garbage_at_exit = ft_new_garbage(0, NULL);
+	garbage = ft_new_garbage(NULL);
+	garbage_at_exit = ft_new_garbage(NULL);
 	sigemptyset(&(sa.sa_mask));
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handler;

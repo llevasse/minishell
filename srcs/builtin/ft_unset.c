@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:06:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 09:58:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	add_oldpwd(void)
 
 	ft_bzero(path, PATH_MAX);
 	s = ft_joinf("OLDPWD=%s", getcwd(path, PATH_MAX));
-	ft_add_garbage(0, &g_minishell.at_exit_garbage, s);
+	ft_add_garbage(1, &g_minishell.at_exit_garbage, s);
 	g_minishell.env = insert_at_end(s, g_minishell.env, g_minishell.garbage);
 }
 
