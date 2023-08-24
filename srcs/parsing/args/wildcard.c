@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 09:25:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:01:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	check_for_wildcard(t_prompt *prompt, t_arg **args,
 		check_for_wildcard(prompt, args, index, garbage);
 	}
 }
-
-//TODO error handling for opendir
 
 // fun fact, the asterisc sign value in ascii is 42, 42 is really everything
 

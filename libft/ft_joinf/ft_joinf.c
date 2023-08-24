@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/16 17:12:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 16:02:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ char	*ft_joinf(char *string, ...)
 	return ((void)(str[i] = 0), va_end(args), str);
 }
 
-// TODO check possible memory error
 int	pass_specifier(char specifier, va_list args, char **str, int i)
 {
 	char	*parse;
