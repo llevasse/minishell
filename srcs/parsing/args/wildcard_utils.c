@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 11:42:36 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/24 09:26:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 09:43:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_arg	**get_files_in_dir(char *path, t_garbage *garbage)
 	int				i;
 
 	i = get_nb_of_files(path);
-	if (i == 0)
+	if (i <= 0)
 		return (NULL);
 	files = malloc(sizeof(t_arg *) * (i + 1));
 	ft_add_garbage(0, &garbage, files);
