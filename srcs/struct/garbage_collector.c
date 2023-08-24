@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 10:02:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:06:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,15 @@ void	malloc_failed(int at_exit, t_garbage *garbage)
 {
 	errno = 12;
 	free_garbage(garbage);
-	garbage = ft_new_garbage(NULL);
 	if (!at_exit)
+	{
+		garbage = ft_new_garbage(NULL);
 		minishell_loop(garbage);
+	}
 	else
+	{
 		free_garbage(g_minishell.garbage);
+	}
 	exit(g_minishell.error_value);
 }
 
