@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 09:57:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/24 10:42:22 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ void	replace_env(char *var_name, char *new_value)
 	int	i;
 
 	i = 0;
-	delete_duplicate_export(var_name);
 	var_name = ft_strjoin(var_name, "=");
 	ft_add_garbage(0, &g_minishell.garbage, var_name);
 	new_value = ft_strjoin(var_name, new_value);
+	if (!new_value)
+		return ;
 	ft_add_garbage(1, &g_minishell.at_exit_garbage, new_value);
+	delete_duplicate_export(var_name);
 	while (g_minishell.env[i])
 	{
 		if (!ft_strncmp(var_name, g_minishell.env[i], ft_strlen(var_name)))
