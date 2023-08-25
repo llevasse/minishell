@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 01:14:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:29:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ static void	update_shlvl(char **env, t_minishell *shell)
 	new_lvl = ft_itoa(lvl);
 	if (!new_lvl)
 		return ;
-	ft_add_garbage(1, &shell->garbage, new_lvl, shell);
+	ft_add_garbage(1, &shell->at_exit_garbage, new_lvl, shell);
 	new_lvl = ft_joinf("SHLVL=%s", new_lvl);
 	if (!new_lvl)
 		return ;
 	env[i] = new_lvl;
-	ft_add_garbage(1, &shell->garbage, env[i], shell);
+	ft_add_garbage(1, &shell->at_exit_garbage, env[i], shell);
 }
 
 char	**get_base_env(void)
