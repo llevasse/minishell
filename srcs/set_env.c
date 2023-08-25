@@ -6,19 +6,19 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 21:29:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:14:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_shlvl(char **env, t_garbage *garbage)
+static void	update_shlvl(char **env, t_minishell *shell)
 {
 	int		lvl;
 	char	*new_lvl;
 	int		i;
 
-	lvl = ft_atoi(ft_getenv(env, "SHLVL", garbage));
+	lvl = ft_atoi(ft_getenv(env, "SHLVL", shell));
 	lvl++;
 	i = 0;
 	while (env[i] && ft_strncmp("SHLVL=", env[i], 6))
@@ -28,12 +28,12 @@ static void	update_shlvl(char **env, t_garbage *garbage)
 	new_lvl = ft_itoa(lvl);
 	if (!new_lvl)
 		return ;
-	ft_add_garbage(1, &garbage, new_lvl);
+	ft_add_garbage(1, &shell->garbage, new_lvl, shell);
 	new_lvl = ft_joinf("SHLVL=%s", new_lvl);
 	if (!new_lvl)
 		return ;
 	env[i] = new_lvl;
-	ft_add_garbage(1, &garbage, env[i]);
+	ft_add_garbage(1, &shell->garbage, env[i], shell);
 }
 
 char	**get_base_env(void)
@@ -56,13 +56,13 @@ void	set_env(char **envp, t_garbage *garbage, t_minishell *shell)
 	if (!envp || !envp[0])
 	{
 		envp = get_base_env();
-		ft_add_garbage(1, &garbage, envp);
+		ft_add_garbage(1, &garbage, envp, shell);
 		if (!envp || !envp[0])
 			exit (errno);
-		ft_add_garbage(1, &garbage, envp[0]);
+		ft_add_garbage(1, &garbage, envp[0], shell);
 	}
-	update_shlvl(envp, garbage);
+	update_shlvl(envp, shell);
 	shell->entry_env = envp;
 	shell->env = envp;
-	shell->at_exit_garbage = garbage_at_exit;
+	shell->at_exit_garbage = garbage;
 }
