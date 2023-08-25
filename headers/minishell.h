@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 22:57:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:15:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			get_char_occurance(char *str, char c);
 
 // export.c
 int			export_list_size(t_export *export);
-void		get_export_args(t_prompt *prompt, char *input, t_minishell *shell);
+void		get_export_args(t_prompt *prompt, char *input);
 char		**convert_to_tab(t_export *export);
 
 void		sort_tab_alpha(char **tab);
@@ -72,7 +72,7 @@ int			get_substr_pos(char *str, char *sub_str);
 
 // insert_at_index.c
 char		*insert_at_index(char *str, char *to_insert,
-				int index, t_garbage *garbage);
+				int index, t_minishell *shell);
 
 // SRCS/EXEC //
 

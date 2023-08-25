@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/25 17:37:10 by llevasse          #+#    #+#             */
-/*   Updated: 2023/07/26 21:08:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:15:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /// @param index Index of where in *str to insert *to_insert.
 /// @return Return duplicate of *str containing *to_insert.
 char	*insert_at_index(char *str, char *to_insert,
-			int index, t_garbage *garbage)
+			int index, t_minishell *shell)
 {
 	char	*new_str;
 	int		i;
@@ -26,7 +26,7 @@ char	*insert_at_index(char *str, char *to_insert,
 
 	new_str = malloc((ft_strlen(str) + ft_strlen(to_insert) + 1) \
 			* sizeof(char));
-	ft_add_garbage(0, &garbage, new_str);
+	ft_add_garbage(0, &shell->garbage, new_str, shell);
 	i = 0;
 	while (i < index)
 	{

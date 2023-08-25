@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 21:48:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:42:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,15 @@ t_garbage	*ft_new_garbage(void *address)
 	return (new);
 }
 
-void	malloc_failed(int at_exit, t_garbage *garbage)
+void	malloc_failed(int at_exit, t_minishell *shell)
 {
 	errno = 12;
-	free_garbage(garbage);
+	free_garbage(shell->garbage);
 	if (!at_exit)
-	{
-		garbage = ft_new_garbage(NULL);
-		minishell_loop(garbage);
-	}
+		minishell_loop(shell, ft_new_garbage(NULL));
 	else
-	{
-		free_garbage(g_minishell.garbage);
-	}
-	exit(g_minishell.error_value);
+		free_garbage(shell->at_exit_garbage);
+	exit(shell->error_value);
 }
 
 void	ft_add_garbage(int exit, t_garbage **lst, void *addr, 
@@ -65,20 +60,20 @@ void	ft_add_garbage(int exit, t_garbage **lst, void *addr,
 	t_garbage	*new;
 
 	if (!addr)
-		malloc_failed(exit, *lst);
+		malloc_failed(exit, shell);
 	new = ft_new_garbage(addr);
 	if (!new)
-		malloc_failed(exit, *lst);
+		malloc_failed(exit, shell);
 	if (*lst)
 	{
 		temp = *lst;
 		while (temp->next != NULL)
 		{
-			if (temp->addr == addr)
+			if (temp->address == addr)
 				return (free(new));
 			temp = temp->next;
 		}
-		if (temp->addr == addr)
+		if (temp->address == addr)
 			return (free(new));
 		temp->next = new;
 		return ;
