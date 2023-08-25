@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 15:15:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:04:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,6 @@ void	check_redirection(t_prompt *prompt)
 	delete_redirection(prompt->args);
 }
 // ALWAYS CLOSE PIPE WRITE-END BEFORE DUP2
-
-/// @brief Get a duplicate of the nearest section from the begining of
-/// *input calling a redirection.
-/// @param *input Prompt input,
-/// @param *garbage Pointer to garbage collector.
-/// @return Return the redirection call as str.
-char	*get_cut_section(char *input, t_garbage *garbage)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	str = ft_strdup(input);
-	ft_add_garbage(0, &garbage, str);
-	while (str[i] && (ft_is_in_str("<>|", str[i]) || ft_isspace(str[i])))
-		i++;
-	while (str[i] && (!ft_isspace(str[i]) && !ft_is_in_str("<>|", str[i])))
-		i++;
-	str[i] = '\0';
-	return (str);
-}
 
 /// @brief Reset STDIN and STDOUT to their original fds and close heredoc_fd.
 /// @param *prompt Pointer to prompt struct.

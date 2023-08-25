@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 19:18:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:06:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 		close(prompt->exec_fd[1]);
 		prompt->exec_fd[0] = -1;
 	}
-	write_heredoc(prompt, eof_name, prompt->garbage, use_env_var);
+	write_heredoc(prompt, eof_name, use_env_var);
 	prompt->has_redir = 1;
 }
 
@@ -58,26 +58,25 @@ int	create_heredoc_fd(t_prompt *prompt)
 /// @param *heredoc_name String of heredoc name,
 /// @param *garbage Pointer to garbage collector,
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
-void	write_heredoc(t_prompt *p, char *heredoc_name,
-						t_garbage *garbage, int use_env_var)
+void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 {
 	char	*text;
 	char	*prompt;
 	char	*delimiter;
 
 	delimiter = ft_strdup(heredoc_name);
-	ft_add_garbage(0, &garbage, delimiter);
+	ft_add_garbage(0, &p->garbage, delimiter, p->shell);
 	if (create_heredoc_fd(p) == -1)
 		return ;
 	prompt = ft_strjoin(delimiter, " >");
-	ft_add_garbage(0, &garbage, prompt);
+	ft_add_garbage(0, &p->garbage, prompt, p->shell);
 	while (1)
 	{
 		text = readline(prompt);
 		if (!ft_strcmp(text, delimiter))
 			break ;
 		if (use_env_var)
-			check_is_env_var(p, &text, garbage);
+			check_is_env_var(p, &text, p->shell);
 		ft_putendl_fd(text, p->exec_fd[1]);
 	}
 }
