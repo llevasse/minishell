@@ -6,13 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:42:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:24:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern struct s_minishell	g_minishell;
 
 void	free_garbage(t_garbage	*garbage)
 {

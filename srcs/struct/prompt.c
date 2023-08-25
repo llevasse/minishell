@@ -6,13 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:37:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:24:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern struct s_minishell	g_minishell;
 
 void	set_prompt_null(t_prompt *prompt)
 {

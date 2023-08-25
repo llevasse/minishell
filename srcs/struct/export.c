@@ -6,13 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:39:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:25:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern struct s_minishell	g_minishell;
 
 t_export	*ft_new_export(char *key, char *content, t_minishell *shell)
 {

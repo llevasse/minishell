@@ -6,13 +6,11 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 21:22:57 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/19 13:29:33 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 01:24:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern struct s_minishell	g_minishell;
 
 int	is_tab_alpha_sorted(char **tab)
 {
