@@ -6,19 +6,17 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 11:26:11 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:55:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern t_minishell	g_minishell;
-
-static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage);
-static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage);
+static int	get_exec(t_prompt *prompt, int i);
+static int	get_exec_pipe(t_prompt *prompt, int i);
 static void	pls_wait(t_prompt *prompt);
 
-void	exec(t_prompt *prompt, t_garbage *garbage)
+void	exec(t_prompt *prompt)
 {
 	int			i;
 	t_prompt	*temp;
@@ -32,9 +30,9 @@ void	exec(t_prompt *prompt, t_garbage *garbage)
 			i++;
 		if (i != 0 && (prompt->full_args[i] == NULL || \
 				!ft_strcmp(prompt->full_args[i]->s, ";")))
-			get_exec(prompt, i, garbage);
+			get_exec(prompt, i);
 		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
-			get_exec_pipe (prompt, i, garbage);
+			get_exec_pipe (prompt, i);
 		if (prompt->has_exec && prompt->next_cmd)
 		{
 			swap_fd(prompt);
@@ -67,13 +65,13 @@ static void	pls_wait(t_prompt *prompt)
 	close(prompt->tmp_fd);
 }
 
-static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
+static int	get_exec(t_prompt *prompt, int i)
 {
 	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
-		ft_exit(garbage, prompt->full_args);
-	if (exec_builtin_main_thread(prompt, garbage))
+		ft_exit(prompt->shell, prompt->args);
+	if (exec_builtin_main_thread(prompt))
 		return (0);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
@@ -82,9 +80,9 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 		if (prompt->prev_cmd)
 			prompt->tmp_fd = dup(prompt->exec_fd[0]);
 		if (is_builtin(prompt->full_args[0]->s))
-			exec_builtin(prompt, garbage);
+			exec_builtin(prompt);
 		return (ft_execute(prompt->full_args, i, prompt->tmp_fd, 
-				prompt->environ));
+				prompt->shell));
 	}
 	else
 	{
@@ -96,12 +94,12 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 	return (0);
 }
 
-static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
+static int	get_exec_pipe(t_prompt *prompt, int i)
 {
-	exec_builtin_main_thread(prompt, garbage);
+	exec_builtin_main_thread(prompt);
 	if (pipe(prompt->exec_fd) == -1)
 	{
-		free_garbage(garbage);
+		free_garbage(prompt->garbage);
 		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))), 1);
 	}
 	if (!redir(prompt) || !prompt->cmd)
@@ -115,7 +113,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 		close(prompt->exec_fd[1]);
 		close(prompt->exec_fd[0]);
 		reset_termios();
-		if (!exec_child(prompt, i, garbage))
+		if (!exec_child(prompt, i))
 			return (1);
 	}
 	else
@@ -123,7 +121,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 	return (0);
 }
 
-int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
+int	ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell)
 {
 	char	**c_args;
 
@@ -131,8 +129,8 @@ int	ft_execute(t_arg **args, int i, int tmp_fd, char **envp)
 		args[i]->s = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
 	close(tmp_fd);
-	c_args = to_char_array(args, i, g_minishell.garbage);
-	execve(c_args[0], c_args, envp);
+	c_args = to_char_array(args, i, shell);
+	execve(c_args[0], c_args, shell->env);
 	ft_putstr_fd("error : cannot execute ", 2);
 	ft_putendl_fd(c_args[0], 2);
 	return (1);

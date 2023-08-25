@@ -6,13 +6,11 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 23:55:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:51:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern struct s_minishell	g_minishell;
 
 /// @brief check if passe char * is the name of a built in command.
 /// @param *cmd name to check.
@@ -43,7 +41,7 @@ int	is_builtin(char *cmd)
 /// it will be problematic.
 /// @bug if this command is not launched in a child process, 
 /// then the parent process will be stoped.
-void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
+void	exec_builtin(t_prompt *prompt)
 {
 	close(prompt->tmp_fd);
 	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
@@ -61,8 +59,8 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 	close(0);
 	close(1);
 	close(prompt->old_stdout);
-	free_garbage(garbage);
-	free_garbage(g_minishell.at_exit_garbage);
+	free_garbage(prompt->shell->garbage);
+	free_garbage(prompt->shell->at_exit_garbage);
 	exit(errno);
 }
 
@@ -71,7 +69,7 @@ void	exec_builtin(t_prompt *prompt, t_garbage *garbage)
 /// modifing the environment.
 /// @param *prompt prompt struct containing cmd param,
 /// @param *garbage pointer to garbage collector.
-int	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
+int	exec_builtin_main_thread(t_prompt *prompt)
 {
 	if (!ft_strcmp(prompt->full_args[0]->s, "export") && prompt->export_args)
 	{
@@ -85,7 +83,7 @@ int	exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage)
 	}
 	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
 	{
-		ft_cd(prompt, garbage);
+		ft_cd(prompt);
 		return (1);
 	}
 	else

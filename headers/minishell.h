@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:15:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:54:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 void		minishell_loop(t_minishell *shell, t_garbage *garbage);
 // parse.c
 void		parse(char *input, t_garbage *garbage, t_minishell *shell);
-void		check_cmd(t_prompt *prompt, t_garbage *garbage);
+void		check_cmd(t_prompt *prompt);
 void		get_cmd(char **input, t_prompt *prompt, t_minishell *shell);
 
 // ft_strsep.c 
@@ -77,23 +77,23 @@ char		*insert_at_index(char *str, char *to_insert,
 // SRCS/EXEC //
 
 // exec.c
-void		exec(t_prompt *prompt, t_garbage *garbage);
+void		exec(t_prompt *prompt);
 char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
 void		print_unknown_cmd(t_prompt *prompt);
-int			ft_execute(t_arg **args, int i, int tmp_fd, char **envp);
+int			ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell);
 
 // exec_utils.c
 void		wait_exec(t_prompt *prompt, int value);
 void		swap_fd(t_prompt *prompt);
-int			exec_child(t_prompt *prompt, int i, t_garbage *garbage);
+int			exec_child(t_prompt *prompt, int i);
 int			redir(t_prompt *prompt);
 int			cmp_exec(t_prompt *prompt, int i);
 
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
-void		exec_builtin(t_prompt *prompt, t_garbage *garbage);
-int			exec_builtin_main_thread(t_prompt *prompt, t_garbage *garbage);
+void		exec_builtin(t_prompt *prompt);
+int			exec_builtin_main_thread(t_prompt *prompt);
 void		ft_echo(t_prompt *prompt);
 void		ft_env(void);
 char		**duplicate_env(void);
