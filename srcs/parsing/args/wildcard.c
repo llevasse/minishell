@@ -6,14 +6,14 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 16:01:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 23:00:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <minishell.h>
 
 void	check_for_wildcard(t_prompt *prompt, t_arg **args,
-			int index, t_garbage *garbage)
+			int index, t_minishell *shell)
 {
 	char	*pwd;
 	t_arg	**new_args;
@@ -21,21 +21,21 @@ void	check_for_wildcard(t_prompt *prompt, t_arg **args,
 	if (!args || !args[index])
 		return ((void)(prompt->args = args));
 	if (get_char_pos(args[index]->s, 42) == -1)
-		check_for_wildcard(prompt, args, index + 1, garbage);
+		check_for_wildcard(prompt, args, index + 1, shell);
 	else
 	{
-		pwd = get_pwd(garbage);
-		new_args = get_files_in_dir(pwd, garbage);
+		pwd = get_pwd(shell);
+		new_args = get_files_in_dir(pwd, shell);
 		if (!new_args)
 			return ;
-		delete_unwanted_files(new_args, args[index]->s, garbage);
+		delete_unwanted_files(new_args, args[index]->s, shell);
 		if (new_args[0])
 			delete_arg_at_index(args, index);
-		args = insert_tab_at_index(args, new_args, index, garbage);
+		args = insert_tab_at_index(args, new_args, index, shell);
 		index++;
 		while (args[index] && get_char_pos(args[index]->s, 42) == -1)
 			index++;
-		check_for_wildcard(prompt, args, index, garbage);
+		check_for_wildcard(prompt, args, index, shell);
 	}
 }
 
@@ -67,16 +67,16 @@ int	respect_pattern(char *str, char *pattern, char **keys)
 	return (1);
 }
 
-void	delete_unwanted_files(t_arg **files, char *pattern, t_garbage *garbage)
+void	delete_unwanted_files(t_arg **files, char *pattern, t_minishell *shell)
 {
 	int		i;
 	char	**keys;
 
 	keys = ft_split(pattern, 42);
-	ft_add_garbage(0, &garbage, keys);
+	ft_add_garbage(0, &shell->garbage, keys, shell);
 	i = 0;
 	while (keys[i])
-		ft_add_garbage(0, &garbage, keys[i++]);
+		ft_add_garbage(0, &shell->garbage, keys[i++], shell);
 	i = 0;
 	if (get_char_occurance(pattern, 42) == (int)ft_strlen(pattern))
 		return ;
