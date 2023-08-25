@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 10:26:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:12:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static void	pls_wait(t_prompt *prompt)
 		if (prompt->next_cmd)
 		{
 			wait_exec(prompt, value);
-			prompt->tmp_fd = prompt->exec_fd[0];
 		}
 		else
 		{
@@ -116,6 +115,9 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
+		dup2(prompt->exec_fd[1], STDOUT_FILENO);
+		close(prompt->exec_fd[1]);
+		close(prompt->exec_fd[0]);
 		reset_termios();
 		if (!exec_child(prompt, i, garbage))
 			return (1);
@@ -124,7 +126,8 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 	{
 		prompt->has_exec = 1;
 		close(prompt->exec_fd[1]);
-		dup2(prompt->exec_fd[0], prompt->tmp_fd);
+		close(prompt->tmp_fd);
+		prompt->tmp_fd = prompt->exec_fd[0];
 	}
 	return (0);
 }
