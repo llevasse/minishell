@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:10:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:33:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,27 @@ void	delete_duplicate_export(char *key, t_minishell *shell)
 
 /// @brief Reproduce export builtin behavior.
 /// @param *prompt Pointer to prompt struct.
-void	ft_export(t_prompt *prompt)
+void	ft_export(t_prompt *p)
 {
 	char		*exports;
 	char		**temp;
 	t_export	*exp;
 
-	temp = duplicate_env(prompt->shell);
+	temp = duplicate_env(p->shell);
 	sort_tab_alpha(temp);
-	if (prompt->export_args)
+	if (p->export_args)
 	{
-		exp = prompt->export_args;
+		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
 		if (!exports)
 			return ;
-		ft_add_garbage(1, &prompt->shell->at_exit_garbage, exports, prompt->shell);
-		delete_duplicate_export(exp->key, prompt->shell);
-		prompt->shell->env = insert_alpha(exports,
-				prompt->shell->env, prompt->shell);
+		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
+		delete_duplicate_export(exp->key, p->shell);
+		p->shell->env = insert_alpha(exports,
+				p->shell->env, p->shell);
 	}
 	else
-		print_export(temp, prompt->shell);
+		print_export(temp, p->shell);
 }
