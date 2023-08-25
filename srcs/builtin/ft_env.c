@@ -6,75 +6,72 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 10:42:22 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:07:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern struct s_minishell	g_minishell;
-
 /// @brief Replace content of env variable or add it.
 /// @param *var_name New env variable name,
 /// @param *new_value New value for env variable.
-void	replace_env(char *var_name, char *new_value)
+void	replace_env(char *var_name, char *new_value, t_minishell *shell)
 {
 	int	i;
 
 	i = 0;
 	var_name = ft_strjoin(var_name, "=");
-	ft_add_garbage(0, &g_minishell.garbage, var_name);
+	ft_add_garbage(0, &shell->garbage, var_name, shell);
 	new_value = ft_strjoin(var_name, new_value);
 	if (!new_value)
 		return ;
-	ft_add_garbage(1, &g_minishell.at_exit_garbage, new_value);
-	delete_duplicate_export(var_name);
-	while (g_minishell.env[i])
+	ft_add_garbage(1, &shell->at_exit_garbage, new_value, shell);
+	delete_duplicate_export(var_name, shell);
+	while (shell->env[i])
 	{
-		if (!ft_strncmp(var_name, g_minishell.env[i], ft_strlen(var_name)))
+		if (!ft_strncmp(var_name, shell->env[i], ft_strlen(var_name)))
 		{
-			g_minishell.env[i] = new_value;
+			shell->env[i] = new_value;
 			return ;
 		}
 		i++;
 	}
-	g_minishell.env = insert_at_end(new_value,
-			g_minishell.env, g_minishell.at_exit_garbage);
+	shell->env = insert_at_end(new_value, shell->env, shell);
 }
 
-/// @brief duplicate g_minishell.env.
-char	**duplicate_env(void)
+/// @brief duplicate shell->env.
+char	**duplicate_env(t_minishell *shell)
 {
 	char	**new;
 	int		i;
 
-	new = malloc((get_tab_size(g_minishell.env) + 1) * sizeof(char *));
-	ft_add_garbage(0, &g_minishell.garbage, new);
+	new = malloc((get_tab_size(shell->env) + 1) * sizeof(char *));
+	ft_add_garbage(0, &shell->garbage, new, shell);
 	i = 0;
-	while (g_minishell.env[i])
+	while (shell->env[i])
 	{
-		new[i] = g_minishell.env[i];
+		new[i] = shell->env[i];
 		new[i++ + 1] = NULL;
 	}
 	return (new);
 }
 
-/// @brief Print content of g_minishell.env at i index.
-static int	print_env(int i)
+/// @brief Print content of shell->env at i index.
+static int	print_env(t_minishell *shell, int i)
 {
 	char	**print;
 	int		j;
 
 	j = 0;
-	print = ft_split(g_minishell.env[i++], '=');
-	ft_add_garbage(0, &g_minishell.garbage, print);
+	print = ft_split(shell->env[i++], '=');
+	ft_add_garbage(0, &shell->garbage, print, shell);
 	if (print[1])
 		printf("%s=", print[j]);
-	ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+	ft_add_garbage(0, &shell->garbage, print[j++], shell);
 	while (print[j])
 	{
 		printf("%s", print[j]);
-		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+		ft_add_garbage(0, &shell->garbage, print[j++], shell);
 		if (print[j])
 			printf("=");
 	}
@@ -84,15 +81,15 @@ static int	print_env(int i)
 }
 
 /// @brief reproduce env builtin behavior.
-void	ft_env(void)
+void	ft_env(t_minishell *shell)
 {
 	int		i;
 
 	i = 0;
-	while (g_minishell.env[i])
+	while (shell->env[i])
 	{
-		if (ft_strncmp("_=", g_minishell.env[i], 2))
-			i = print_env(i);
+		if (ft_strncmp("_=", shell->env[i], 2))
+			i = print_env(shell, i);
 		else
 			i++;
 	}

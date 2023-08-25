@@ -6,13 +6,11 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 22:53:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:16:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-extern struct s_minishell	g_minishell;
 
 /// @brief check is *s is valid param for exit.
 /// @param *s String to check.
@@ -38,16 +36,16 @@ int	is_only_digit(char *s)
 /// @brief Reproduace exit builtin behavior.
 /// @param *garbage Pointer to garbage collector,
 /// @param **args array of t_arg pointer. 
-void	ft_exit(t_garbage *garbage, t_arg **args)
+void	ft_exit(t_minishell *shell, t_arg **args)
 {
 	close(1);
 	close(0);
 	if (!args)
 	{
-		free_garbage(garbage);
-		free_garbage(g_minishell.at_exit_garbage);
+		free_garbage(shell->garbage);
+		free_garbage(shell->at_exit_garbage);
 		printf(EXIT);
-		exit(g_minishell.error_value);
+		exit(shell->error_value);
 	}
 	if (is_only_digit(args[0]->s) && args[1])
 	{
@@ -56,8 +54,8 @@ void	ft_exit(t_garbage *garbage, t_arg **args)
 	}
 	if (!is_only_digit(args[0]->s))
 	{
-		free_garbage(garbage);
-		free_garbage(g_minishell.at_exit_garbage);
+		free_garbage(shell->garbage);
+		free_garbage(shell->at_exit_garbage);
 		printf(EXIT);
 		write(2, NOT_NUM_ARG, ft_strlen(NOT_NUM_ARG));
 		exit(2);

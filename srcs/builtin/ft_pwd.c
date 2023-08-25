@@ -6,39 +6,36 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:04:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:20:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern struct s_minishell	g_minishell;
-
 /// @brief Print current working directory.
-void	ft_pwd(t_prompt *prompt, t_garbage *garbage)
+void	ft_pwd(t_prompt *prompt)
 {
 	char	*new_path;
 
-	(void)prompt;
-	new_path = get_pwd(garbage);
+	new_path = get_pwd(prompt->shell);
 	ft_printf("%s\n", new_path);
 }
 
 /// @brief Get current working directory path.
-char	*get_pwd(t_garbage *garbage)
+char	*get_pwd(t_minishell *shell)
 {
 	char	*pwd;
 	size_t	size;
 
 	size = 128;
 	pwd = malloc(sizeof(char) * (size + 1));
-	ft_add_garbage(0, &garbage, pwd);
+	ft_add_garbage(0, &shell->garbage, pwd, shell);
 	while (getcwd(pwd, size) == NULL && errno == 36)
 	{
 		size += 128;
 		free(pwd);
 		pwd = malloc(sizeof(char) * (size + 1));
-		ft_add_garbage(0, &garbage, pwd);
+		ft_add_garbage(0, &shell->garbage, pwd, shell);
 	}
 	if (getcwd(pwd, size) != NULL)
 		return (getcwd(pwd, size));

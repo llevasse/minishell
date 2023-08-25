@@ -6,19 +6,17 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 10:40:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:10:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern struct s_minishell	g_minishell;
-
-void	export_listing(char **env, int i);
+void	export_listing(char **env, int i, t_minishell *shell);
 
 /// @brief print content of env.
 /// @param **env array of chars *.
-void	print_export(char **env)
+void	print_export(char **env, t_minishell *shell)
 {
 	int		i;
 
@@ -28,7 +26,7 @@ void	print_export(char **env)
 	while (env[i])
 	{
 		if (ft_strncmp("_=", env[i], 2))
-			export_listing(env, i);
+			export_listing(env, i, shell);
 		i++;
 	}
 }
@@ -36,23 +34,23 @@ void	print_export(char **env)
 /// @brief print content of env[i].
 /// @param **env array of chars *,
 /// @param i index of which **env element to print
-void	export_listing(char **env, int i)
+void	export_listing(char **env, int i, t_minishell *shell)
 {
 	int		j;
 	char	**print;
 
 	j = 0;
 	print = ft_split(env[i++], '=');
-	ft_add_garbage(0, &g_minishell.garbage, print);
+	ft_add_garbage(0, &shell->garbage, print, shell);
 	if (!print[j + 1])
 		printf("declare -x %s", print[j]);
 	else
 		printf("declare -x %s=\"", print[j]);
-	ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+	ft_add_garbage(0, &shell->garbage, print[j++], shell);
 	while (print[j])
 	{
 		printf("%s", print[j]);
-		ft_add_garbage(0, &g_minishell.garbage, print[j++]);
+		ft_add_garbage(0, &shell->garbage, print[j++], shell);
 		if (print[j])
 			printf("=");
 	}
@@ -61,18 +59,18 @@ void	export_listing(char **env, int i)
 	printf("\n");
 }
 
-/// @brief Delete first instance found of *key in g_minishell.env.
+/// @brief Delete first instance found of *key in shell->env.
 /// @param *key Variable name to delete.
-void	delete_duplicate_export(char *key)
+void	delete_duplicate_export(char *key, t_minishell *shell)
 {
 	int	i;
 
 	i = 0;
-	while (g_minishell.env[i] && \
-	ft_strncmp(key, g_minishell.env[i], ft_strlen(key)))
+	while (shell->env[i] && \
+	ft_strncmp(key, shell->env[i], ft_strlen(key)))
 		i++;
-	if (g_minishell.env[i])
-		delete_element_at_index(g_minishell.env, i);
+	if (shell->env[i])
+		delete_element_at_index(shell->env, i);
 }
 
 /// @brief Reproduce export builtin behavior.
@@ -83,7 +81,7 @@ void	ft_export(t_prompt *prompt)
 	char		**temp;
 	t_export	*exp;
 
-	temp = duplicate_env();
+	temp = duplicate_env(prompt->shell);
 	sort_tab_alpha(temp);
 	if (prompt->export_args)
 	{
@@ -93,11 +91,11 @@ void	ft_export(t_prompt *prompt)
 		exports = ft_joinf("%s=%s", exp->key, exp->content);
 		if (!exports)
 			return ;
-		ft_add_garbage(1, &g_minishell.at_exit_garbage, exports);
-		delete_duplicate_export(exp->key);
-		g_minishell.env = insert_alpha(exports,
-				g_minishell.env, g_minishell.at_exit_garbage);
+		ft_add_garbage(1, &prompt->shell->at_exit_garbage, exports, prompt->shell);
+		delete_duplicate_export(exp->key, prompt->shell);
+		prompt->shell->env = insert_alpha(exports,
+				prompt->shell->env, prompt->shell);
 	}
 	else
-		print_export(temp);
+		print_export(temp, prompt->shell);
 }

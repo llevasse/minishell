@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 23:51:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:11:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ void	exec_builtin(t_prompt *prompt)
 {
 	close(prompt->tmp_fd);
 	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
-		ft_cd(prompt, garbage);
+		ft_cd(prompt);
 	else if (!ft_strcmp(prompt->full_args[0]->s, "echo"))
 		ft_echo(prompt);
 	else if (!ft_strcmp(prompt->full_args[0]->s, "env"))
-		ft_env();
+		ft_env(prompt->shell);
 	else if (!ft_strcmp(prompt->full_args[0]->s, "export"))
 		ft_export(prompt);
 	else if (!ft_strcmp(prompt->full_args[0]->s, "pwd"))
-		ft_pwd(prompt, garbage);
+		ft_pwd(prompt);
 	else if (!ft_strcmp(prompt->full_args[0]->s, "unset"))
 		ft_unset(prompt);
 	close(0);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:54:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 00:26:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,16 @@ int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt);
 int			exec_builtin_main_thread(t_prompt *prompt);
 void		ft_echo(t_prompt *prompt);
-void		ft_env(void);
-char		**duplicate_env(void);
-void		replace_env(char *var_name, char *new_value);
+void		ft_env(t_minishell *shell);
+char		**duplicate_env(t_minishell *shell);
+void		replace_env(char *var_name, char *new_value, t_minishell *shell);
 void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_minishell *shell, t_arg **args);
-void		ft_pwd(t_prompt *prompt, t_garbage *garbage);
+void		ft_pwd(t_prompt *prompt);
 char		*get_pwd(t_minishell *shell);
 void		ft_export(t_prompt *prompt);
-void		delete_duplicate_export(char *key);
-void		ft_cd(t_prompt *prompt, t_garbage *garbage);
+void		delete_duplicate_export(char *key, t_minishell *shell);
+void		ft_cd(t_prompt *prompt);
 
 // terminal.c
 void		set_termios(void);

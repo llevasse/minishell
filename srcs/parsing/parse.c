@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:48:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:07:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 	exports = ft_joinf("_=%s",
 			prompt->full_args[get_arg_size(prompt->full_args) - 1]);
 	ft_add_garbage(1, &shell->at_exit_garbage, exports, shell);
-	delete_duplicate_export("_");
+	delete_duplicate_export("_", shell);
 	shell->env = insert_at_end(exports, shell->env, shell);
 	prompt->exec_fd[0] = -1;
 	reset_stdio_fd(prompt);
