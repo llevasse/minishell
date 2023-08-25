@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 10:41:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:43:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	delete_arg_at_index(t_arg **tab, int index)
 	}
 }
 
-char	**insert_at_end(char *s, char **tab, t_garbage *garbage)
+char	**insert_at_end(char *s, char **tab, t_minishell *shell)
 {
 	char	**new;
 	int		i;
@@ -41,7 +41,7 @@ char	**insert_at_end(char *s, char **tab, t_garbage *garbage)
 	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
 	if (!new)
 		return (tab);
-	ft_add_garbage(0, &garbage, new);
+	ft_add_garbage(0, &shell->at_exit_garbage, new, shell);
 	i = 0;
 	while (tab[i])
 	{
@@ -53,13 +53,13 @@ char	**insert_at_end(char *s, char **tab, t_garbage *garbage)
 	return (new);
 }
 
-char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage)
+char	**insert_s_at_index(char *s, char **tab, int index, t_minishell *shell)
 {
 	char	**new;
 	int		i;
 
 	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
-	ft_add_garbage(1, &garbage, new);
+	ft_add_garbage(1, &shell->garbage, new, shell);
 	i = 0;
 	while (tab[i] && i < index)
 	{
@@ -76,18 +76,18 @@ char	**insert_s_at_index(char *s, char **tab, int index, t_garbage *garbage)
 	return (new);
 }
 
-char	**insert_alpha(char *s, char **tab, t_garbage *garbage)
+char	**insert_alpha(char *s, char **tab, t_minishell *shell)
 {
 	int			i;
 
 	i = 0;
 	if (ft_strcmp(s, tab[1]) < 0)
-		return (insert_s_at_index(s, tab, i, garbage));
+		return (insert_s_at_index(s, tab, i, shell));
 	while (tab[i] && tab[i + 1])
 	{
 		if (ft_strcmp(s, tab[i]) > 0 && ft_strcmp(s, tab[i + 1]) < 0)
-			return (insert_s_at_index(s, tab, i, garbage));
+			return (insert_s_at_index(s, tab, i, shell));
 		i++;
 	}
-	return (insert_at_end(s, tab, garbage));
+	return (insert_s_at_index(s, tab, i + 1, shell));
 }

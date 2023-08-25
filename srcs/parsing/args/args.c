@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 11:31:12 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/25 22:47:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
 /// @param *input Inputed string to get args from.
-void	get_args(t_prompt *prompt, char *input, t_garbage *garbage)
+void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 {
 	int		i;
 
 	i = 0;
 	prompt->args = NULL;
 	if (!ft_strcmp(prompt->cmd, "export"))
-		return (get_export_args(prompt, input, garbage));
-	separate_cmd(prompt, input, garbage);
-	prompt->args = ft_split_args(prompt, input, ' ', garbage);
-	parse_args(prompt, prompt->args, garbage);
+		return (get_export_args(prompt, input, shell));
+	separate_cmd(prompt, input, shell);
+	prompt->args = ft_split_args(prompt, input, ' ', shell);
+	parse_args(prompt, prompt->args, shell);
 	input += i;
 }
 
@@ -57,14 +57,14 @@ void	printf_args(t_arg **tab, char *prompt)
 /// @param *prompt Pointer to prompt struct,
 /// @param **args Pointer to args,
 /// @param *garbage Pointer to garbage collector.
-void	parse_args(t_prompt *prompt, t_arg **args, t_garbage *garbage)
+void	parse_args(t_prompt *prompt, t_arg **args, t_minishell *shell)
 {
 	int	i;
 
 	i = 0;
 	if (!args)
 		return ;
-	check_for_wildcard(prompt, args, i, garbage);
+	check_for_wildcard(prompt, args, i, shell);
 	while (args[i])
 	{
 		if (args[i] && args[i]->s[0] != 0 && \
@@ -72,7 +72,7 @@ void	parse_args(t_prompt *prompt, t_arg **args, t_garbage *garbage)
 		{
 			args[i]->s[ft_strlen(args[i]->s) - 1] = 0;
 			args[i]->s = ft_joinf("%s %s", args[i]->s, args[i + 1]->s);
-			ft_add_garbage(0, &garbage, args[i]->s);
+			ft_add_garbage(0, &prompt->garbage, args[i]->s, prompt->shell);
 			delete_arg_at_index(args, i + 1);
 		}
 		i++;

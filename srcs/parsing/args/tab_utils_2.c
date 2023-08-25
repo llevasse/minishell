@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:31:14 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 10:07:04 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/25 22:44:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ static t_arg	**move_index(t_arg **new, t_arg **t1, t_arg **t2, int index)
 }
 
 t_arg	**insert_tab_at_index(t_arg **t1, t_arg **t2,
-					int index, t_garbage *garbage)
+					int index, t_minishell *shell)
 {
 	t_arg	**new;
 
 	new = malloc((get_arg_size(t1) + get_arg_size(t2) + 1) * sizeof(t_arg *));
-	ft_add_garbage(0, &garbage, new);
+	ft_add_garbage(0, &shell->garbage, new, shell);
 	if (!new)
 		return (t1);
 	new = move_index(new, t1, t2, index);

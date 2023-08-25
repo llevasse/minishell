@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 21:49:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:54:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 			prompt->full_args[get_arg_size(prompt->full_args) - 1]);
 	ft_add_garbage(1, &shell->at_exit_garbage, exports, shell);
 	delete_duplicate_export("_");
-	shell->env = insert_at_end(exports,
-			shell->env, shell->at_exit_garbage);
+	shell->env = insert_at_end(exports, shell->env, shell);
 	prompt->exec_fd[0] = -1;
 	reset_stdio_fd(prompt);
 	prompt = NULL;
@@ -55,29 +54,29 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		prompt->shell->error_value = 127;
 }
 
-void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)
+void	get_cmd(char **input, t_prompt *prompt, t_minishell *shell)
 {
 	if ((*input)[0] == '"')
 	{
 		if (get_char_occurance(*input, '"') % 2 != 0)
-			no_end_quote(input, '"', W_DQUOTE, garbage);
+			no_end_quote(input, '"', W_DQUOTE, prompt->shell);
 		prompt->cmd = get_quoted_str(*input, '"', 1, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, '"');
 	}
 	else if ((*input)[0] == 39)
 	{
 		if (get_char_occurance(*input, 39) % 2 != 0)
-			no_end_quote(input, 39, W_QUOTE, garbage);
+			no_end_quote(input, 39, W_QUOTE, prompt->shell);
 		prompt->cmd = get_quoted_str(*input, 39, 0, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}
 	else
 	{
 		prompt->cmd = ft_strsep(input, " ");
-		check_is_env_var(prompt, &prompt->cmd, garbage);
+		check_is_env_var(prompt, &prompt->cmd, shell);
 	}
 	if (prompt->cmd[0] == 0)
 		return ;
 	if (!is_builtin(prompt->cmd))
-		prompt->cmd = get_cmd_w_path(prompt, garbage);
+		prompt->cmd = get_cmd_w_path(prompt, shell);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 21:43:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:59:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// @param *prompt Pointer to prompt struct,
 /// @param *input String of the prompt input,
 /// @param *garbage Pointer to garbage collector.
-void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage)
+void	separate_cmd(t_prompt *prompt, char *input, t_minishell *shell)
 {
 	int	pos;
 
@@ -30,7 +30,7 @@ void	separate_cmd(t_prompt *prompt, char *input, t_garbage *garbage)
 	if (!input[pos])
 		return ;
 	input += pos;
-	ft_add_prompt(&prompt, init_prompt(input, garbage, prompt->shell));
+	ft_add_prompt(&prompt, init_prompt(input, shell->garbage, prompt->shell));
 }
 
 /// @brief Search for the closest cmd separator in *input.

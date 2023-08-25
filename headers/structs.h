@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 21:48:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:50:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
 void		ft_add_export(t_export **lst, char *key, char *content,
 				t_garbage *garbage);
 
-t_arg		*init_arg(t_garbage *garbage);
+t_arg		*init_arg(t_minishell *shell);
 int			get_arg_size(t_arg **tab);
-char		**to_char_array(t_arg **args, int max_index, t_garbage *garbage);
+char		**to_char_array(t_arg **args, int max_index, t_minishell *shell);
 #endif

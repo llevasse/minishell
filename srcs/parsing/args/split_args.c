@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 19:51:06 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/25 22:51:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	skip_arg(char *s, char c, int *i)
 /// @param c Char separating every element in *s,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return allocated pointer of char *.
-t_arg	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
+t_arg	**alloc_tab_args(char const *s, char c, t_minishell *shell)
 {
 	int		i;
 	int		j;
@@ -65,7 +65,7 @@ t_arg	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 		i++;
 	}
 	res = malloc((j + 1) * sizeof(struct s_arg *));
-	ft_add_garbage(0, &garbage, res);
+	ft_add_garbage(0, &shell->garbage, res, shell);
 	return (res);
 }
 
@@ -75,7 +75,7 @@ t_arg	**alloc_tab_args(char const *s, char c, t_garbage *garbage)
 /// @param i index to search word from,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return word.
-char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
+char	*get_word_arg(char const *s, char c, int i, t_minishell *shell)
 {
 	int		j;
 	int		len_word;
@@ -91,7 +91,7 @@ char	*get_word_arg(char const *s, char c, int i, t_garbage *garbage)
 		!ft_is_in_str("<>|'\"", s[i + len_word]))
 		len_word++;
 	res = malloc((len_word + 1) * sizeof(char));
-	ft_add_garbage(0, &garbage, res);
+	ft_add_garbage(0, &shell->garbage, res, shell);
 	while (j < len_word && s[i] != '\0')
 	{
 		res[j] = s[i];
@@ -110,7 +110,7 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	if ((*s)[*i] == '"')
 	{
 		if (get_char_occurance(*s, '"') % 2 != 0)
-			no_end_quote(s, '"', W_DQUOTE, prompt->garbage);
+			no_end_quote(s, '"', W_DQUOTE, prompt->shell);
 		if ((*s)[0] == 0)
 			return ((void)(prompt->cmd = NULL), NULL);
 		if (index_word >= 0 && !ft_strcmp(prompt->args[index_word]->s, "<<"))
@@ -122,7 +122,7 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	else if ((*s)[*i] == 39)
 	{
 		if (get_char_occurance(*s, 39) % 2 != 0)
-			no_end_quote(s, 39, W_QUOTE, prompt->garbage);
+			no_end_quote(s, 39, W_QUOTE, prompt->shell);
 		new = get_quoted_str(*s + *i, 39, 0, prompt);
 		*i += get_char_pos(*s + *i + 1, 39) + 2;
 	}
@@ -136,7 +136,7 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 /// @param c Char separating every element in *s,
 /// @param *garbage Pointer to garbage collector.
 /// @return Return a tab containing every separated element.
-t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
+t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 {
 	t_var_2	var;
 
@@ -145,18 +145,18 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_garbage *garbage)
 	var.str = s;
 	var.p = c;
 	var.word = 0;
-	var.res = alloc_tab_args(s, c, garbage);
+	var.res = alloc_tab_args(s, c, shell);
 	var.i = skip_char(s, c, 0);
 	while (s[var.i] != '\0')
 	{
-		var.res[var.word] = init_arg(garbage);
+		var.res[var.word] = init_arg(shell);
 		if (s[var.i] == '"' || s[var.i] == 39)
 		{
-			if (!go_get_that_quote(prompt, &var, garbage))
+			if (!go_get_that_quote(prompt, &var, shell))
 				return ((void)(errno = 2), NULL);
 		}
 		else
-			get_arg_not_quoted(prompt, &var, garbage);
+			get_arg_not_quoted(prompt, &var, shell);
 		we_go_forward(var.res, &var.word, prompt);
 		var.i = skip_char(s, c, var.i);
 	}

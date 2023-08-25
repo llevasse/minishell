@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 22:03:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:57:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,17 @@ char	*ft_getenv(char **env, char *search, t_minishell *shell)
 /// @brief Get path of cmd in env.
 /// @return If the path of cmd is found it will be returned,
 /// else NULL is returned.
-char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
+char	*get_cmd_w_path(t_prompt *prompt, t_minishell *shell)
 {
 	char	*path;
 	char	*temp;
 	int		has_exec;
 
 	has_exec = 0;
-	if (!ft_getenv(prompt->environ, "PATH", prompt->shell))
+	if (!ft_getenv(prompt->environ, "PATH", shell))
 		return ((void)printf(ERR_404, prompt->cmd), NULL);
-	path = ft_strdup(ft_getenv(prompt->environ, "PATH", prompt->shell));
-	ft_add_garbage(0, &garbage, path, prompt->shell);
+	path = ft_strdup(ft_getenv(prompt->environ, "PATH", shell));
+	ft_add_garbage(0, &shell->garbage, path, shell);
 	while (*path && !has_exec)
 	{
 		temp = ft_strsep(&path, ":");
@@ -51,10 +51,10 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 	if (!has_exec && prompt->cmd[0] != '.')
 		return ((void)printf(ERR_404, prompt->cmd), NULL);
 	else if (!has_exec && prompt->cmd[0] == '.')
-		path = ft_joinf("%s/%s", get_pwd(garbage), prompt->cmd);
+		path = ft_joinf("%s/%s", get_pwd(shell), prompt->cmd);
 	else
 		path = ft_joinf("%s/%s", temp, prompt->cmd);
-	ft_add_garbage(0, &garbage, path, prompt->shell);
+	ft_add_garbage(0, &shell->garbage, path, shell);
 	return (path);
 }
 
@@ -104,7 +104,7 @@ char	*get_env_var_name(char *str, t_minishell *shell)
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
 /// and replace env variable in *str with his content.
-int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
+int	check_is_env_var(t_prompt *prompt, char **str, t_minishell *shell)
 {
 	t_var	var;
 
@@ -120,7 +120,7 @@ int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 		else if (!ft_strncmp("$?", var.var, 2))
 		{
 			var.var = ft_itoa(prompt->shell->error_value);
-			ft_add_garbage(0, &garbage, var.var, prompt->shell);
+			ft_add_garbage(0, &shell->garbage, var.var, shell);
 			replace_str(str, "$?", var.var, prompt->shell);
 		}
 		else

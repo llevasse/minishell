@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/23 19:51:20 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/25 22:58:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	we_go_forward(t_arg **res, int *word, t_prompt *prompt)
 	prompt->args = res;
 }
 
-int	go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
+int	go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 {
 	var->res[var->word]->quote = var->str[var->i];
 	var->res[var->word]->s = get_split_quote(prompt,
@@ -31,23 +31,23 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
 	{
 		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s,
 				var->res[var->word]->s);
-		ft_add_garbage(0, &garbage, var->res[var->word - 1]->s);
+		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
 	return (1);
 }
 
-void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_garbage *garbage)
+void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 {
-	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, garbage);
+	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, shell);
 	var->i += ft_strlen(var->res[var->word]->s);
-	check_is_env_var(prompt, &var->res[var->word]->s, garbage);
+	check_is_env_var(prompt, &var->res[var->word]->s, shell);
 	if (var->word > 0 && var->str[var->i - \
 		(ft_strlen(var->res[var->word]->s) + 1)] != var->p)
 	{
 		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s, \
 			var->res[var->word]->s);
-		ft_add_garbage(0, &garbage, var->res[var->word - 1]->s);
+		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
 }
