@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 09:50:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:48:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_prompt
 	struct s_prompt		*next_cmd;
 	struct s_prompt		*prev_cmd;
 	struct s_garbage	*garbage;
+	struct s_minishell	*shell;
 }	t_prompt;
 
 typedef struct s_garbage
@@ -83,13 +84,14 @@ typedef struct s_garbage
 }	t_garbage;
 
 void		print_prompt(t_prompt p);
-t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env);
+t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
 t_garbage	*ft_new_garbage(void *address);
-void		ft_add_garbage(int exit, t_garbage **lst, void *address);
+void		ft_add_garbage(int exit, t_garbage **lst, void *addr, t_minishell 
+				*shell);
 
 t_export	*ft_new_export(char *key, char *content, t_garbage *garbage);
 void		ft_add_export(t_export **lst, char *key, char *content,

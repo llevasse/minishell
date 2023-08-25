@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 13:29:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:44:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,15 @@ void	set_prompt_null(t_prompt *prompt)
 /// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt	*init_prompt(char *input, t_garbage *garbage, char **env)
+t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 {
 	t_prompt	*prompt;
 
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, prompt);
 	set_prompt_null(prompt);
-	prompt->environ = env;
+	prompt->environ = shell->env;
+	prompt->shell = shell;
 	prompt->garbage = garbage;
 	get_cmd(&input, prompt, garbage);
 	if (!prompt->cmd && errno != 12)
@@ -56,7 +57,7 @@ void	ft_add_prompt(t_prompt **lst, t_prompt *new)
 	t_prompt	*temp;
 
 	if (!new)
-		return (ft_exit(g_minishell.garbage, NULL));
+		return (ft_exit(new->shell, NULL));
 	if (*lst)
 	{
 		temp = *lst;

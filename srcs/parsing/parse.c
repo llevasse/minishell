@@ -6,15 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 09:57:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:49:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern struct s_minishell	g_minishell;
-
-void	parse(char *input, t_garbage *garbage, char **environ)
+void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 {
 	t_prompt	*prompt;
 	char		*exports;
@@ -25,17 +23,17 @@ void	parse(char *input, t_garbage *garbage, char **environ)
 		input++;
 	if (!*input)
 		return ;
-	prompt = init_prompt(input, garbage, environ);
-	ft_add_garbage(0, &g_minishell.garbage, prompt);
+	prompt = init_prompt(input, garbage, shell);
+	ft_add_garbage(0, &shell->garbage, prompt, shell);
 	if (!prompt->cmd || errno == 12)
 		return ;
 	check_cmd(prompt, garbage);
 	exports = ft_joinf("_=%s",
 			prompt->full_args[get_arg_size(prompt->full_args) - 1]);
-	ft_add_garbage(1, &g_minishell.at_exit_garbage, exports);
+	ft_add_garbage(1, &shell->at_exit_garbage, exports, shell);
 	delete_duplicate_export("_");
-	g_minishell.env = insert_at_end(exports,
-			g_minishell.env, g_minishell.at_exit_garbage);
+	shell->env = insert_at_end(exports,
+			shell->env, shell->at_exit_garbage);
 	prompt->exec_fd[0] = -1;
 	reset_stdio_fd(prompt);
 	prompt = NULL;
@@ -51,10 +49,10 @@ void	check_cmd(t_prompt *prompt, t_garbage *garbage)
 		return ((void)(errno = 127));
 	}
 	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)
-		return (ft_exit(garbage, prompt->args));
+		return (ft_exit(prompt->shell, prompt->args));
 	exec(prompt, garbage);
 	if (errno == 127)
-		g_minishell.error_value = 127;
+		prompt->shell->error_value = 127;
 }
 
 void	get_cmd(char **input, t_prompt *prompt, t_garbage *garbage)

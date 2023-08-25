@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 00:06:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 22:02:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 
 // SRCS/PARSE //
 
-void		minishell_loop(t_garbage *garbage);
+void		minishell_loop(t_minishell *shell, t_garbage *garbage);
 // parse.c
-void		parse(char *input, t_garbage *garbage, char **environ);
+void		parse(char *input, t_garbage *garbage, t_minishell *shell);
 void		check_cmd(t_prompt *prompt, t_garbage *garbage);
 void		get_cmd(char **input, t_prompt *prompt, t_garbage *garbage);
 
@@ -40,11 +40,11 @@ void		get_cmd(char **input, t_prompt *prompt, t_garbage *garbage);
 char		*ft_strsep(char **p_str, const char *delim);
 
 // env.c
-char		*ft_getenv(char **env, char *search, t_garbage *garbage);
+char		*ft_getenv(char **env, char *search, t_minishell *shell);
 char		*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage);
 int			check_present_in_path(t_prompt *prompt, char *path);
 int			check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage);
-char		*get_env_var_name(char *str, t_garbage *garbage);
+char		*get_env_var_name(char *str, t_minishell *shell);
 
 // chars.c
 int			get_char_pos(char *str, char c);
@@ -69,7 +69,7 @@ char		*get_quoted_str(char *str, char quote, int env_var,
 
 // replace_str.c
 void		replace_str(char **str, char *old_substr, char *new_substr,
-				t_garbage *garbage);
+				t_minishell *shell);
 int			get_substr_pos(char *str, char *sub_str);
 
 // insert_at_index.c
@@ -101,7 +101,7 @@ void		ft_env(void);
 char		**duplicate_env(void);
 void		replace_env(char *var_name, char *new_value);
 void		ft_unset(t_prompt *prompt);
-void		ft_exit(t_garbage *garbage, t_arg **args);
+void		ft_exit(t_minishell *shell, t_arg **args);
 void		ft_pwd(t_prompt *prompt, t_garbage *garbage);
 char		*get_pwd(t_garbage *garbage);
 void		ft_export(t_prompt *prompt);
@@ -115,6 +115,6 @@ void		handler(int sig, siginfo_t *info, void *context);
 
 // set_env.c
 char		**get_base_env(void);
-void		set_env(char **envp, t_garbage *garbage_at_exit);
+void		set_env(char **envp, t_garbage *garbage, t_minishell *shell);
 
 #endif

@@ -6,15 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/22 16:04:31 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/25 22:03:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern struct s_minishell	g_minishell;
-
-char	*ft_getenv(char **env, char *search, t_garbage *garbage)
+char	*ft_getenv(char **env, char *search, t_minishell *shell)
 {
 	int		i;
 	char	*search_e;
@@ -22,7 +20,7 @@ char	*ft_getenv(char **env, char *search, t_garbage *garbage)
 
 	i = 0;
 	search_e = ft_joinf("%s=", search);
-	ft_add_garbage(0, &garbage, search_e);
+	ft_add_garbage(0, &shell->garbage, search_e, shell);
 	while (env[i] && ft_strncmp(search_e, env[i], ft_strlen(search_e)))
 		i++;
 	if (!env[i])
@@ -41,10 +39,10 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 	int		has_exec;
 
 	has_exec = 0;
-	if (!ft_getenv(prompt->environ, "PATH", garbage))
+	if (!ft_getenv(prompt->environ, "PATH", prompt->shell))
 		return ((void)printf(ERR_404, prompt->cmd), NULL);
-	path = ft_strdup(ft_getenv(prompt->environ, "PATH", garbage));
-	ft_add_garbage(0, &garbage, path);
+	path = ft_strdup(ft_getenv(prompt->environ, "PATH", prompt->shell));
+	ft_add_garbage(0, &garbage, path, prompt->shell);
 	while (*path && !has_exec)
 	{
 		temp = ft_strsep(&path, ":");
@@ -56,7 +54,7 @@ char	*get_cmd_w_path(t_prompt *prompt, t_garbage *garbage)
 		path = ft_joinf("%s/%s", get_pwd(garbage), prompt->cmd);
 	else
 		path = ft_joinf("%s/%s", temp, prompt->cmd);
-	ft_add_garbage(0, &garbage, path);
+	ft_add_garbage(0, &garbage, path, prompt->shell);
 	return (path);
 }
 
@@ -84,7 +82,7 @@ int	check_present_in_path(t_prompt *prompt, char *path)
 /// @brief get first possible environnement variable int *str
 /// @param *str String to search in.
 /// @return Env variable name or NULL if error
-char	*get_env_var_name(char *str, t_garbage *garbage)
+char	*get_env_var_name(char *str, t_minishell *shell)
 {
 	int		i;
 	int		j;
@@ -97,7 +95,7 @@ char	*get_env_var_name(char *str, t_garbage *garbage)
 			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
-	ft_add_garbage(0, &garbage, var_name);
+	ft_add_garbage(0, &shell->garbage, var_name, shell);
 	ft_strlcpy(var_name, str + (i - 1), j + 2);
 	return (var_name);
 }
@@ -116,19 +114,19 @@ int	check_is_env_var(t_prompt *prompt, char **str, t_garbage *garbage)
 	while (var.i >= 0 && var.i < (int)ft_strlen(*str) && \
 		get_char_pos((*str) + var.i, '$') >= 0)
 	{
-		var.var = get_env_var_name((*str) + var.i, garbage);
+		var.var = get_env_var_name((*str) + var.i, prompt->shell);
 		if (var.var[0] == '$' && var.var[1] == 0)
 			var.i++;
 		else if (!ft_strncmp("$?", var.var, 2))
 		{
-			var.var = ft_itoa(g_minishell.error_value);
-			ft_add_garbage(0, &garbage, var.var);
-			replace_str(str, "$?", var.var, garbage);
+			var.var = ft_itoa(prompt->shell->error_value);
+			ft_add_garbage(0, &garbage, var.var, prompt->shell);
+			replace_str(str, "$?", var.var, prompt->shell);
 		}
 		else
 		{
-			var.env_var = ft_getenv(prompt->environ, var.var + 1, garbage);
-			replace_str(str, var.var, var.env_var, garbage);
+			var.env_var = ft_getenv(prompt->environ, var.var + 1, prompt->shell);
+			replace_str(str, var.var, var.env_var, prompt->shell);
 			var.i = get_char_pos(*str, '$');
 		}
 	}

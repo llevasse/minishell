@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 10:06:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 21:48:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,15 @@ void	malloc_failed(int at_exit, t_garbage *garbage)
 	exit(g_minishell.error_value);
 }
 
-void	ft_add_garbage(int exit, t_garbage **lst, void *address)
+void	ft_add_garbage(int exit, t_garbage **lst, void *addr, 
+	t_minishell *shell)
 {
 	t_garbage	*temp;
 	t_garbage	*new;
 
-	if (!address)
+	if (!addr)
 		malloc_failed(exit, *lst);
-	new = ft_new_garbage(address);
+	new = ft_new_garbage(addr);
 	if (!new)
 		malloc_failed(exit, *lst);
 	if (*lst)
@@ -73,11 +74,11 @@ void	ft_add_garbage(int exit, t_garbage **lst, void *address)
 		temp = *lst;
 		while (temp->next != NULL)
 		{
-			if (temp->address == address)
+			if (temp->addr == addr)
 				return (free(new));
 			temp = temp->next;
 		}
-		if (temp->address == address)
+		if (temp->addr == addr)
 			return (free(new));
 		temp->next = new;
 		return ;
