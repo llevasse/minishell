@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 11:12:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:26:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,9 @@ static void	pls_wait(t_prompt *prompt)
 
 static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 {
-	check_redirection(prompt);
 	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
-	delete_redirection(prompt->full_args);
-	if (!prompt->next_cmd && !prompt->prev_cmd && \
-				!ft_strcmp(prompt->cmd, "exit"))
+	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
 		ft_exit(garbage, prompt->full_args);
 	if (exec_builtin_main_thread(prompt, garbage))
 		return (0);
@@ -86,9 +83,8 @@ static int	get_exec(t_prompt *prompt, int i, t_garbage *garbage)
 			prompt->tmp_fd = dup(prompt->exec_fd[0]);
 		if (is_builtin(prompt->full_args[0]->s))
 			exec_builtin(prompt, garbage);
-		else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
-				prompt->environ))
-			return (1);
+		return (ft_execute(prompt->full_args, i, prompt->tmp_fd, 
+				prompt->environ));
 	}
 	else
 	{
@@ -123,12 +119,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i, t_garbage *garbage)
 			return (1);
 	}
 	else
-	{
 		prompt->has_exec = 1;
-		close(prompt->exec_fd[1]);
-		close(prompt->tmp_fd);
-		prompt->tmp_fd = prompt->exec_fd[0];
-	}
 	return (0);
 }
 

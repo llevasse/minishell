@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 10:15:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/25 11:20:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ void	wait_exec(t_prompt *prompt, int value)
 
 void	swap_fd(t_prompt *prompt)
 {
+	close(prompt->exec_fd[1]);
+	close(prompt->tmp_fd);
+	prompt->tmp_fd = prompt->exec_fd[0];
 	prompt->next_cmd->tmp_fd = prompt->tmp_fd;
 	prompt->next_cmd->old_stdout = prompt->old_stdout;
 	prompt->next_cmd->old_stdin = prompt->old_stdin;
