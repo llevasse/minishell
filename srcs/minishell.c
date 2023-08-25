@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 21:49:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:18:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
 		return (1);
 	minishell.error_value = 0;
+	minishell.garbage = garbage;
 	set_env(envp, garbage_at_exit, &minishell);
 	printf(STARTUP);
 	minishell_loop(&minishell, garbage);
