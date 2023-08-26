@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:18:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 22:11:01 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	minishell_loop(t_minishell *shell, t_garbage *garbage)
 
 int	main(int argc, char **argv, char **envp)
 {
-	struct sigaction	sa;
 	struct s_minishell	minishell;
 	t_garbage			*garbage;
 	t_garbage			*garbage_at_exit;
@@ -60,10 +59,10 @@ int	main(int argc, char **argv, char **envp)
 	set_termios();
 	garbage = ft_new_garbage(NULL);
 	garbage_at_exit = ft_new_garbage(NULL);
-	sigemptyset(&(sa.sa_mask));
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = &handler;
-	if (sigaction(SIGINT, &sa, NULL) < 0 || sigaction(SIGQUIT, &sa, NULL) < 0)
+	sigemptyset(&(minishell.sig_prompt.sa_mask));
+	minishell.sig_prompt.sa_flags = SA_SIGINFO;
+	minishell.sig_prompt.sa_sigaction = &handler;
+	if (sigaction(SIGINT, &minishell.sig_prompt, NULL) < 0 || sigaction(SIGQUIT, &minishell.sig_prompt, NULL) < 0)
 		return (1);
 	minishell.error_value = 0;
 	minishell.garbage = garbage;
