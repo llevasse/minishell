@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:04:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:36:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_redirection(t_prompt *prompt)
 		prompt->old_stdout = dup(1);
 	while (prompt->args && prompt->args[i])
 	{
-		if (!ft_strncmp(prompt->args[i]->s, "<", 2) && \
+		if (prompt->args[i + 1] && !ft_strncmp(prompt->args[i]->s, "<", 2) && \
 				ft_strncmp(prompt->args[i]->s, "<<", 3))
 			set_input(prompt->args[i + 1]->s, prompt);
 		else if (prompt->args[i]->quote == 0 && \

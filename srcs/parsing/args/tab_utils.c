@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 22:43:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:34:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,24 @@ char	**insert_s_at_index(char *s, char **tab, int index, t_minishell *shell)
 {
 	char	**new;
 	int		i;
+	int		nb;
 
-	new = malloc((get_tab_size(tab) + 2) * sizeof(char *));
+	nb = get_tab_size(tab);
+	new = malloc((nb + 2) * sizeof(char *));
 	ft_add_garbage(1, &shell->garbage, new, shell);
 	i = 0;
-	while (tab[i] && i < index)
+	while (tab[i] && i < index && i <= nb)
 	{
 		new[i] = tab[i];
-		new[i++ + 1] = NULL;
+		i++;
 	}
-	new[i] = s;
-	new[i++ + 1] = NULL;
-	while (tab[i])
+	new[i++] = s;
+	while (tab[i] && i < nb + 2)
 	{
 		new[i] = tab[i - 1];
-		new[i++ + 1] = NULL;
+		i++;
 	}
+	new[i - 1] = NULL;
 	return (new);
 }
 
