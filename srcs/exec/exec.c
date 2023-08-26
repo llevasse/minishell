@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 15:26:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:55:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ static void	pls_wait(t_prompt *prompt)
 		else
 		{
 			wait_exec(prompt, value);
-			//close(prompt->tmp_fd);
+			do_close(prompt->tmp_fd);
 			prompt->tmp_fd = dup(STDIN_FILENO);
 			break ;
 		}
 		prompt = prompt->next_cmd;
 	}
-	close(prompt->tmp_fd);
+	do_close(prompt->tmp_fd);
 }
 
 static int	get_exec(t_prompt *prompt, int i)
@@ -86,8 +86,8 @@ static int	get_exec(t_prompt *prompt, int i)
 	else
 	{
 		if (prompt->exec_fd[0] != -1)
-			close(prompt->exec_fd[0]);
-		close(prompt->tmp_fd);
+			do_close(prompt->exec_fd[0]);
+		do_close(prompt->tmp_fd);
 		prompt->has_exec = 1;
 	}
 	return (0);
@@ -109,8 +109,8 @@ static int	get_exec_pipe(t_prompt *prompt, int i)
 	if (prompt->exec_pid == 0)
 	{
 		dup2(prompt->exec_fd[1], STDOUT_FILENO);
-		close(prompt->exec_fd[1]);
-		close(prompt->exec_fd[0]);
+		do_close(prompt->exec_fd[1]);
+		do_close(prompt->exec_fd[0]);
 		reset_termios();
 		if (!exec_child(prompt, i))
 			return (1);
@@ -127,7 +127,7 @@ int	ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell)
 	if (args[i])
 		args[i]->s = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
-	close(tmp_fd);
+	do_close(tmp_fd);
 	c_args = to_char_array(args, i, shell);
 	execve(c_args[0], c_args, shell->env);
 	ft_putstr_fd("error : cannot execute ", 2);

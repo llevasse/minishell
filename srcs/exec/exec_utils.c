@@ -23,8 +23,8 @@ int	cmp_exec(t_prompt *prompt, int i)
 int	exec_child(t_prompt *prompt, int i)
 {
 	dup2(prompt->exec_fd[1], STDOUT_FILENO);
-	close(prompt->exec_fd[1]);
-	close(prompt->exec_fd[0]);
+	do_close(prompt->exec_fd[1]);
+	do_close(prompt->exec_fd[0]);
 	if (is_builtin(prompt->full_args[0]->s))
 		exec_builtin(prompt);
 	else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
@@ -38,8 +38,8 @@ int	redir(t_prompt *prompt)
 	check_redirection(prompt);
 	if (prompt->has_redir == -1)
 	{
-		close(prompt->exec_fd[1]);
-		close(prompt->tmp_fd);
+		do_close(prompt->exec_fd[1]);
+		do_close(prompt->tmp_fd);
 		prompt->tmp_fd = prompt->exec_fd[0];
 		return (0);
 	}
@@ -58,13 +58,13 @@ void	wait_exec(t_prompt *prompt, int value)
 			errno = 131;
 	}
 	else if (prompt->exec_fd[0] != -1)
-		close(prompt->exec_fd[0]);
+		do_close(prompt->exec_fd[0]);
 }
 
 void	swap_fd(t_prompt *prompt)
 {
-	close(prompt->exec_fd[1]);
-	close(prompt->tmp_fd);
+	do_close(prompt->exec_fd[1]);
+	do_close(prompt->tmp_fd);
 	prompt->next_cmd->tmp_fd = prompt->exec_fd[0];
 	prompt->next_cmd->old_stdout = prompt->old_stdout;
 	prompt->next_cmd->old_stdin = prompt->old_stdin;
