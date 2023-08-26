@@ -1,0 +1,10 @@
+pwd ne prend pas d arguments
+lancement de minishell dans minishell +ctr-c =cassé
+131, lors d un ctr+c
+
+problemes hredocs
+< avant la commande
+on gere toute les chaines de caractere dans les pipes
+ech"h"'o' c'o'"u"cou doit fonctionner
+quote fermé wtf ????
+export plusieurs variables
