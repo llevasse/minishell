@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 23:21:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:23:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	we_go_forward(t_arg **res, int *word, t_prompt *prompt)
 
 int	is_redir_symbol(t_arg *arg, int is_alone)
 {
-	printf("s : |%s|\n", arg->s);
 	if (arg->quote)
 		return (0);
 	if (is_alone && !ft_strcmp(arg->s, "<"))
