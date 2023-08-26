@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 13:00:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:49:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 {
 	t_prompt	*prompt;
 
+	if (get_char_occurance(input, '"') % 2 != 0 || \
+		get_char_occurance(input, 39) % 2 != 0)
+		return (NULL);
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, prompt, shell);
 	set_prompt_null(prompt);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 15:24:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:03:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ char	*add_quote(char *str, t_minishell *shell)
 	ft_add_garbage(0, &shell->garbage, str, shell);
 	return (str);
 }
+
 /// @brief Check if a string contain a env variable.
 /// @param **str Pointer to string to check.
 /// @return Return 0 if no env variable and otherwise return 1
