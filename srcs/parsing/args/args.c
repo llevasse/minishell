@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:09:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:49:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 	prompt->args = NULL;
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt, input));
+	separate_cmd(prompt, input, shell);
 	prompt->args = ft_split_args(prompt, input, ' ', shell);
 	parse_args(prompt, prompt->args, shell);
 	input += i;
