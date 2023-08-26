@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 01:36:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:55:34 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,20 @@ void	reset_termios(void)
 //and to print sigquit text when sigquit is sent in child process
 void	handler(int sig, siginfo_t *info, void *context)
 {
+	(void) info;
+	(void) context;
 	if (sig == SIGINT)
 	{
-		write(1, CTRL_C, 3);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (info->si_pid == 0)
+			write(1, "\n", 1);
+		if (info->si_pid != 0)
+		{
+			write(1, CTRL_C, 3);
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+		}
 	}
-	(void)info;
-	(void)context;
+	if (sig == SIGQUIT && info->si_pid == 0)
+		write(1, ERR_QUIT, 19);
 }
