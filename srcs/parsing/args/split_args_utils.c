@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 22:58:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:11:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 	var->res[var->word]->quote = var->str[var->i];
 	var->res[var->word]->s = get_split_quote(prompt,
 			&var->str, &var->i, var->word - 1);
-	if (!prompt->cmd)
-		return (0);
 	if (var->word > 0 && var->str[var->i - \
 			(ft_strlen(var->res[var->word]->s) + 3)] != var->p)
 	{
