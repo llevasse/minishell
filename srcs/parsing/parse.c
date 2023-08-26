@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:16:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:38:04 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,11 @@ void	check_cmd(t_prompt *prompt)
 		prompt->shell->error_value = 127;
 }
 
-// if prompt == "ls|cat"
-void	get_cmd_strsep(char **input, t_prompt *prompt, t_minishell *shell)	
+void	get_cmd_wo_space(char **input, int *pos_sep[2], \
+		t_prompt *prompt, t_minishell *shell)
 {
-	int	pos_sep;
-	int	pos_space;
-	int	i;
-
-	i = skip_char(*input, ' ', 0);
-	if (*input[i] == '|')
-		return ((void)(ft_putstr_fd(UNEXPEC_PIPE, 2), prompt->cmd = NULL));
-	pos_sep = get_nearer_separator_pos(*input);
-	pos_space = get_char_pos(*input, ' ');
-	if (pos_sep != -1 && ((pos_space != -1 && pos_sep < pos_space) || (pos_space == -1)))
-		ft_add_prompt(&prompt, init_prompt((*input) + pos_sep + 1, shell->garbage, prompt->shell));
-	prompt->cmd = ft_strsep(input, " ");
-	if (pos_sep != -1 && ((pos_space != -1 && pos_sep < pos_space) || (pos_space == -1)))
+	if (*pos_sep[0] != -1 && ((*pos_sep[1] != -1 && \
+		*pos_sep[0] < *pos_sep[1]) || (*pos_sep[1] == -1)))
 		*input = NULL;
 	if (get_char_pos(prompt->cmd, '|') != -1)
 		prompt->cmd[get_char_pos(prompt->cmd, '|')] = 0;
@@ -78,12 +67,33 @@ void	get_cmd_strsep(char **input, t_prompt *prompt, t_minishell *shell)
 		*input = ft_strdup(prompt->cmd + get_char_pos(prompt->cmd, '>'));
 		ft_add_garbage(0, &shell->garbage, *input, shell);
 		prompt->cmd[get_char_pos(prompt->cmd, '>')] = 0;
-	}if (get_char_pos(prompt->cmd, '<') != -1)
+	}
+	if (get_char_pos(prompt->cmd, '<') != -1)
 	{
 		*input = ft_strdup(prompt->cmd + get_char_pos(prompt->cmd, '<'));
 		ft_add_garbage(0, &shell->garbage, *input, shell);
 		prompt->cmd[get_char_pos(prompt->cmd, '<')] = 0;
 	}
+}
+
+//pos_sep[0] == pos_sep
+//pos_sep[1] == pos_space
+void	get_cmd_strsep(char **input, t_prompt *prompt, t_minishell *shell)
+{
+	int	*pos_sep[2];
+	int	i;
+
+	i = skip_char(*input, ' ', 0);
+	if (*input[i] == '|')
+		return ((void)(ft_putstr_fd(UNEXPEC_PIPE, 2), prompt->cmd = NULL));
+	*pos_sep[0] = get_nearer_separator_pos(*input);
+	*pos_sep[1] = get_char_pos(*input, ' ');
+	if (*pos_sep[0] != -1 && ((*pos_sep[1] != -1 && pos_sep < *pos_sep[1]) || \
+		(*pos_sep[1] == -1)))
+		ft_add_prompt(&prompt, init_prompt((*input) + *pos_sep[0] + 1, \
+			shell->garbage, prompt->shell));
+	prompt->cmd = ft_strsep(input, " ");
+	get_cmd_wo_space(input, pos_sep, prompt, shell);
 	check_is_env_var(prompt, &prompt->cmd, shell);
 }
 

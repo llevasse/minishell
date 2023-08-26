@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 18:05:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:24:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:24:39 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	malloc_failed(int at_exit, t_minishell *shell)
 	exit(shell->error_value);
 }
 
-void	ft_add_garbage(int exit, t_garbage **lst, void *addr, 
+void	ft_add_garbage(int exit, t_garbage **lst, void *addr, \
 	t_minishell *shell)
 {
 	t_garbage	*temp;

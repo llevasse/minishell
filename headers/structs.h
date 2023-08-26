@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:12:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:23:45 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 // garbage_collector.c
 void		free_garbage(t_garbage *garbage);
 t_garbage	*ft_new_garbage(void *address);
-void		ft_add_garbage(int exit, t_garbage **lst, void *addr, t_minishell 
+void		ft_add_garbage(int exit, t_garbage **lst, void *addr, t_minishell \
 				*shell);
 
 t_export	*ft_new_export(char *key, char *content, t_minishell *shell);
