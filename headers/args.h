@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 13:04:09 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 23:09:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word);
 void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
 int		go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
 void	we_go_forward(t_arg **res, int *word, t_prompt *prompt);
+int		is_redir_symbol(t_arg *arg, int is_alone);
+
 //srcs/parsing/args/tab_utils.c:
 void	delete_element_at_index(char **tab, int index);
 void	delete_arg_at_index(t_arg **tab, int index);

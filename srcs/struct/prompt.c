@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 20:23:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:53:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->exec_fd[0] = -1;
 	prompt->exec_fd[1] = -1;
 	prompt->exec_pid = -1;
+	prompt->tmp_fd = -1;
 }
 
 /// @brief Allocate memory and assign values to t_prompt.

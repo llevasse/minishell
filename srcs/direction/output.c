@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 17:57:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:54:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	set_output(t_prompt *prompt)
 	fd = get_last_output_fd(prompt->args);
 	if (fd == -1)
 		return ((void)(errno = 2, prompt->cmd = 0, prompt->has_redir = -1));
-	dup2(fd, 1);
+	if (prompt->tmp_fd != -1)
+		dup2(fd, 1);
 	close(fd);
 	prompt->has_redir = 1;
 	prompt->has_output = 1;
