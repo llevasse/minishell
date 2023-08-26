@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:38:04 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 12:41:44 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	check_cmd(t_prompt *prompt)
 		prompt->shell->error_value = 127;
 }
 
+//pos_sep[0] == pos_sep
+//pos_sep[1] == pos_space
 void	get_cmd_wo_space(char **input, int *pos_sep[2], \
 		t_prompt *prompt, t_minishell *shell)
 {
