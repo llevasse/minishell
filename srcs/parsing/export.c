@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 16:38:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:07:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int	must_be_valid(char *s1)
 /// @param *input address of string of the prompt input,
 /// @param *garbage pointer to garbage collector.
 /// @return return string containing key of export.
-char	*get_key(t_prompt *prompt, char **input)
+char	*get_key(t_prompt *prompt, char *input)
 {
 	char	*key;	
 
-	key = ft_strdup(ft_strsep(input, "="));
+	key = ft_strdup(ft_strsep(&input, "="));
 	ft_add_garbage(0, &prompt->garbage, key, prompt->shell);
 	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key);
@@ -56,17 +56,17 @@ char	*get_key(t_prompt *prompt, char **input)
 /// @param *input address of string of the prompt input,
 /// @param *garbage pointer to garbage collector.
 /// @return return string containing content of export.
-char	*get_content(t_prompt *prompt, char **input)
+char	*get_content(t_prompt *prompt, char *input)
 {
 	char	*content;
 
-	if (**input == '"')
-		content = get_quoted_str(*input, '"', 1, prompt);
-	else if (**input == 39)
-		content = get_quoted_str(*input, 39, 0, prompt);
+	if (*input == '"')
+		content = get_quoted_str(input, '"', 1, prompt);
+	else if (*input == 39)
+		content = get_quoted_str(input, 39, 0, prompt);
 	else
 	{
-		content = ft_strdup(ft_strsep(input, " "));
+		content = ft_strdup(ft_strsep(&input, " "));
 		ft_add_garbage(0, &prompt->garbage, content, prompt->shell);
 		if (content[0] != '>' && content[1] != '<')
 			check_is_env_var(prompt, &content, prompt->shell);
@@ -78,23 +78,26 @@ char	*get_content(t_prompt *prompt, char **input)
 	return (content);
 }
 
-void	get_pos_add(t_prompt *prompt, char *input, char *key)
+void	get_pos_add(t_prompt *prompt, char *key)
 {
 	char	*content;
 	int		equal_pos;
+	int		i;
 
-	while (get_char_pos(input, '=') != -1)
+	i = 0;
+	while (prompt->args[i] && get_char_pos(prompt->args[i]->s, '=') != -1)
 	{
-		equal_pos = get_char_pos(input, '=');
-		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
+		equal_pos = get_char_pos(prompt->args[i]->s, '=');
+		if (equal_pos == 0 || ft_isspace(prompt->args[i]->s[equal_pos - 1]))
 		{
 			write(2, BAD_ID, ft_strlen(BAD_ID));
 			errno = 1;
 			return ((void)(prompt->cmd = 0));
 		}
-		key = get_key(prompt, &input);
-		content = get_content(prompt, &input);
+		key = get_key(prompt, prompt->args[i]->s);
+		content = get_content(prompt, prompt->args[i]->s);
 		ft_add_export(&prompt->export_args, key, content, prompt->shell);
+		i++;
 	}
 }
 
@@ -102,12 +105,16 @@ void	get_pos_add(t_prompt *prompt, char *input, char *key)
 /// @param *prompt Pointer to prompt struct,
 /// @param *input String of the prompt input,
 /// @param *garbage Pointer to garbage collector.
-void	get_export_args(t_prompt *prompt, char *input)
+void	get_export_args(t_prompt *prompt)
 {
 	char	*key;
+	char	*input;
+	int		i;
 
 	prompt->export_args = NULL;
-	while (get_char_pos(input, '=') == -1)
+	i = 0;
+	input = prompt->args[i++]->s;
+	while (input && get_char_pos(input, '=') == -1)
 	{
 		key = ft_strdup(ft_strsep(&input, " "));
 		ft_add_garbage(0, &prompt->garbage, key, prompt->shell);
@@ -120,6 +127,7 @@ void	get_export_args(t_prompt *prompt, char *input)
 			return ((void)(prompt->cmd = 0));
 		}
 		ft_add_export(&prompt->export_args, NULL, 0, prompt->shell);
+		input = prompt->args[i++]->s;
 	}
-	get_pos_add(prompt, input, key);
+	get_pos_add(prompt, key);
 }
