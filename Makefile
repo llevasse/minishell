@@ -54,6 +54,7 @@ SRC			=	srcs/minishell.c \
 
 OBJS_DIR	=	.OBJS/
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
+OBJS_LOUD	=	$(addprefix $(OBJS_DIR), $(SRC:.c=.shell))
 HEADER_DIR	=	headers/
 HEADER_FILE	=	headers/minishell.h \
 				headers/structs.h \
@@ -70,6 +71,9 @@ $(NAME):		$(OBJS_DIR) lib Makefile $(HEADER_FILE) $(OBJS)
 $(OBJS_DIR)%.o:	%.c $(HEADER_FILE)
 				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
 				@echo -n "\33[2K\r$(YELLOW)Compiled $<"
+
+$(OBJS_DIR)%.shell:	%.c $(HEADER_FILE)
+				$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
 
 $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
@@ -107,8 +111,8 @@ fclean:			clean
 
 re:				fclean all
 
-pls_gd-harco:	$(OBJS_DIR) loud_lib Makefile $(HEADER_FILE) $(OBJS)
-				$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS) -lreadline $(LIBFT) -o $@
+pls_gd-harco:	$(OBJS_DIR) loud_lib Makefile $(HEADER_FILE) $(OBJS_LOUD)
+				$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS_LOUD) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
 loud_lib:
