@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:05:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:07:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	get_cmd_strsep(char **input, t_prompt *prompt, t_minishell *shell)
 	if (pos_sep != -1 && ((pos_space != -1 && pos_sep < pos_space) || (pos_space == -1)))
 		ft_add_prompt(&prompt, init_prompt((*input) + pos_sep + 1, shell->garbage, prompt->shell));
 	prompt->cmd = ft_strsep(input, " ");
-	*input = NULL;
+	if (pos_sep != -1 && ((pos_space != -1 && pos_sep < pos_space) || (pos_space == -1)))
+		*input = NULL;
 	if (get_char_pos(prompt->cmd, '|') != -1)
 		prompt->cmd[get_char_pos(prompt->cmd, '|')] = 0;
 	check_is_env_var(prompt, &prompt->cmd, shell);
