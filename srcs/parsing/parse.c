@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:07:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:58:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,38 @@ void	check_cmd(t_prompt *prompt)
 		prompt->shell->error_value = 127;
 }
 
+// if prompt == "ls|cat"
+void	get_cmd_strsep(char **input, t_prompt *prompt, t_minishell *shell)	
+{
+	int	pos_sep;
+	int	pos_space;
+	int	i;
+
+	i = skip_char(*input, ' ', 0);
+	if (*input[i] == '|')
+		return ((void)(ft_putstr_fd(UNEXPEC_PIPE, 2), prompt->cmd = NULL));
+	pos_sep = get_nearer_separator_pos(*input);
+	pos_space = get_char_pos(*input, ' ');
+	if (pos_sep != -1 && pos_sep < pos_space)
+		ft_add_prompt(&prompt, init_prompt((*input) + pos_sep + 1, shell->garbage, prompt->shell));
+	prompt->cmd = ft_strsep(input, " ");
+	*input = NULL;
+	check_is_env_var(prompt, &prompt->cmd, shell);
+}
+
 void	get_cmd(char **input, t_prompt *prompt, t_minishell *shell)
 {
-	if ((*input)[0] == '"')
+	int	i;
+
+	i = skip_char(*input, ' ', 0);
+	if ((*input)[i] == '"')
 	{
 		if (get_char_occurance(*input, '"') % 2 != 0)
 			no_end_quote(input, '"', W_DQUOTE, prompt->shell);
 		prompt->cmd = get_quoted_str(*input, '"', 1, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, '"');
 	}
-	else if ((*input)[0] == 39)
+	else if ((*input)[i] == 39)
 	{
 		if (get_char_occurance(*input, 39) % 2 != 0)
 			no_end_quote(input, 39, W_QUOTE, prompt->shell);
@@ -71,10 +93,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_minishell *shell)
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}
 	else
-	{
-		prompt->cmd = ft_strsep(input, " ");
-		check_is_env_var(prompt, &prompt->cmd, shell);
-	}
+		get_cmd_strsep(input, prompt, shell);
 	if (prompt->cmd[0] == 0)
 		return ;
 	if (!is_builtin(prompt->cmd))
