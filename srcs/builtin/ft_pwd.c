@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 17:00:03 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 17:02:19 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_pwd(t_prompt *prompt)
 {
 	char	*new_path;
 
-	if (prompt->full_args[1] && ft_strcmp(prompt->full_args[1]->s, "-") && \
+	if (prompt->full_args[1] && !ft_strncmp(prompt->full_args[1]->s, "-", 1) && \
 		prompt->full_args[1]->s[1])
 		write(2, "Invalid flags for pwd\n", 22);
 	else
