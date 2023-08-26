@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 15:54:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 20:26:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_export(t_prompt *p)
 	if (p->export_args)
 	{
 		exp = p->export_args;
+		printf("key : |%s| content : |%s|\n", exp->key, exp->content);
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
 		exports = ft_joinf("%s=%s", exp->key, exp->content);

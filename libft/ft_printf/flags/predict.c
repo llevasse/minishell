@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 16:42:42 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/12 18:40:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 20:44:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,25 @@
 
 int	predict_len(const char *str, va_list args)
 {
-	va_list	args_cp;
 	char	*base;
 
 	base = "0123456789abcdef";
-	va_copy(args_cp, args);
 	if (*str == 'c' || *str == '%')
 		return (1);
 	if (ft_is_in_str("diuxX", *str) && is_neg(str, args) == 2 && has_prec(str))
 		return (0);
 	if (*str == 'd' || *str == 'i')
-		return (get_int_len(va_arg(args_cp, int)));
+		return (get_int_len(va_arg(args, int)));
 	if (*str == 'u')
-		return (get_unsigned_len(va_arg(args_cp, unsigned int)));
+		return (get_unsigned_len(va_arg(args, unsigned int)));
 	if (*str == 'x' || *str == 'X')
-		return (get_size_base(va_arg(args_cp, int), "0123456789abcdef"));
+		return (get_size_base(va_arg(args, int), "0123456789abcdef"));
 	if (*str == 'p')
-		return (get_size_base_u(va_arg(args_cp, unsigned long long), base));
+		return (get_size_base_u(va_arg(args, unsigned long long), base));
 	if (*str != 's')
 		return (0);
 	base = NULL;
-	base = va_arg(args_cp, char *);
+	base = va_arg(args, char *);
 	if (base)
 		return (ft_strlen(base));
 	return (6);
