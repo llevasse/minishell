@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 12:38:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:21:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ void	wait_exec(t_prompt *prompt, int value)
 	if (prompt->exec_pid != -1)
 	{
 		waitpid(prompt->exec_pid, &value, WUNTRACED);
-		if (WIFEXITED(value))
+		if (errno != 4 && WIFEXITED(value))
 			errno = WEXITSTATUS(value);
+		else
+			errno = 131;
 	}
 	else if (prompt->exec_fd[0] != -1)
 		close(prompt->exec_fd[0]);
