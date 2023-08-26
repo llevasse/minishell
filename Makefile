@@ -64,11 +64,12 @@ HEADER_FILE	=	headers/minishell.h \
 
 $(NAME):		$(OBJS_DIR) lib Makefile $(HEADER_FILE) $(OBJS)
 				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS) -lreadline $(LIBFT) -o $@
-				@echo "$(GREEN)Minishell compiled :D$(NC)"
+				@echo "\33[2K\r$(GREEN)Minishell compiled :D$(NC)"
 
 
 $(OBJS_DIR)%.o:	%.c $(HEADER_FILE)
-				$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
+				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
+				@echo -n "\33[2K\r$(YELLOW)Compiled $<"
 
 $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
