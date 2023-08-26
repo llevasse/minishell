@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 11:55:34 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 11:58:15 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	reset_termios(void)
 	term_settings.c_lflag |= (ICANON);
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
-
 
 //TODO handler specific handler for childprocess (like cmd cat with no args)
 //and to print sigquit text when sigquit is sent in child process
