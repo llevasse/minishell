@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 17:17:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 21:04:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 {
 	var->res[var->word]->s = get_word_arg(var->str, var->p, var->i, shell);
 	var->i += ft_strlen(var->res[var->word]->s);
-	check_is_env_var(prompt, &var->res[var->word]->s, shell);
 	if (var->word > 0 && var->str[var->i - \
 		(ft_strlen(var->res[var->word]->s) + 1)] != var->p)
 	{
@@ -48,4 +47,5 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
+	check_is_env_var(prompt, &var->res[var->word]->s, shell);
 }

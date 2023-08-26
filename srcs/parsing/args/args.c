@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 20:24:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 21:04:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 	separate_cmd(prompt, input, shell);
 	prompt->full_args = ft_split_args(prompt, input, ' ', shell);
 	prompt->cmd = prompt->full_args[0]->s;
-	printf("cmd %s\n", prompt->cmd);
 	if (!is_builtin(prompt->cmd))
 		prompt->cmd = get_cmd_w_path(prompt, shell);
 	prompt->args = &prompt->full_args[1];
