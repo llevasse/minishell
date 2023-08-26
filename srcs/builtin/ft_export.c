@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:33:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:50:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_export(t_prompt *p)
 			return ;
 		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
 		delete_duplicate_export(exp->key, p->shell);
-		p->shell->env = insert_alpha(exports,
+		p->shell->env = insert_at_end(exports,
 				p->shell->env, p->shell);
 	}
 	else

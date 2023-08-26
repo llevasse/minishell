@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 15:02:17 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 15:26:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	pls_wait(t_prompt *prompt)
 		else
 		{
 			wait_exec(prompt, value);
-			close(prompt->tmp_fd);
+			//close(prompt->tmp_fd);
 			prompt->tmp_fd = dup(STDIN_FILENO);
 			break ;
 		}

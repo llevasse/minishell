@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/03 15:25:39 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 13:34:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:48:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,5 @@ char	**insert_alpha(char *s, char **tab, t_minishell *shell)
 			return (insert_s_at_index(s, tab, i, shell));
 		i++;
 	}
-	return (insert_s_at_index(s, tab, i + 1, shell));
+	return (insert_s_at_index(s, tab, 1, shell));
 }
