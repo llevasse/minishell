@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 22:58:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:45:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,6 @@ int	check_quotes(t_prompt *prompt, char **str)
 	return (1);
 }
 
-/// @brief Check if the prompt cmd has a full quote.
-/// @param *prompt Pointer to t_prompt,
-/// @param quote Character showing begining and end of quote,
-/// @param *to_print String to print as prompt while the quote is not ended.
-/// @return Do nothing if quote is full, 
-/// otherwise create an infinite loop until quote ends.
-void	no_end_quote(char **str, char quote, char *to_print, t_minishell *shell)
-{
-	char	*new_str;
-
-	while (get_char_occurance(*str, quote) % 2 != 0)
-	{
-		new_str = readline(to_print);
-		if (!new_str)
-			return ((void)((*str)[0] = 0, printf(UNEXPEC_EOF, quote)));
-		*str = ft_strjoin(*str, "\n");
-		ft_add_garbage(0, &shell->garbage, *str, shell);
-		if (new_str && *new_str != '\0')
-			*str = ft_strjoin(*str, new_str);
-		free(new_str);
-		new_str = NULL;
-		ft_add_garbage(0, &shell->garbage, *str, shell);
-	}
-}
-
 /// @brief allocate and assign content of quote to a new str
 /// @param *str Str containing quoted content,
 /// @param quote Character used as quote.
@@ -71,6 +46,8 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_prompt *prompt)
 
 	i = get_char_pos(str, quote);
 	j = get_char_pos(str + i + 1, quote);
+	if (get_char_occurance(str, quote) % 2 != 0)
+		j = ft_strlen(str + i);
 	if (j > i)
 		j -= i;
 	else
@@ -100,7 +77,6 @@ void	pass_double_quotes(t_prompt *prompt, char **str)
 	char	*in_quotes;
 	int		i;
 
-	no_end_quote(str, '"', W_DQUOTE, prompt->shell);
 	i = get_char_pos(*str, '"');
 	in_quotes = get_quoted_str(*str, '"', 1, prompt);
 	if (!in_quotes)
@@ -124,7 +100,6 @@ void	pass_single_quotes(t_prompt *prompt, char **str)
 	char	*in_quotes;
 	int		i;
 
-	no_end_quote(str, (char)39, W_QUOTE, prompt->shell);
 	i = get_char_pos(*str, (char)39);
 	original_quote = ft_strdup(*str + i);
 	ft_add_garbage(0, &prompt->garbage, original_quote, prompt->shell);
@@ -132,3 +107,6 @@ void	pass_single_quotes(t_prompt *prompt, char **str)
 	in_quotes = get_quoted_str(*str, (char)39, 0, prompt);
 	replace_str(str, original_quote, in_quotes, prompt->shell);
 }
+
+
+// check what is a valid quote (\" is not considered a quote)

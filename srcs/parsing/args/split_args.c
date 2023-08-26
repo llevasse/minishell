@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 22:51:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:38:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	new = NULL;
 	if ((*s)[*i] == '"')
 	{
-		if (get_char_occurance(*s, '"') % 2 != 0)
-			no_end_quote(s, '"', W_DQUOTE, prompt->shell);
 		if ((*s)[0] == 0)
 			return ((void)(prompt->cmd = NULL), NULL);
 		if (index_word >= 0 && !ft_strcmp(prompt->args[index_word]->s, "<<"))
@@ -121,8 +119,6 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word)
 	}
 	else if ((*s)[*i] == 39)
 	{
-		if (get_char_occurance(*s, 39) % 2 != 0)
-			no_end_quote(s, 39, W_QUOTE, prompt->shell);
 		new = get_quoted_str(*s + *i, 39, 0, prompt);
 		*i += get_char_pos(*s + *i + 1, 39) + 2;
 	}

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:52:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:37:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,15 +106,11 @@ void	get_cmd(char **input, t_prompt *prompt, t_minishell *shell)
 	i = skip_char(*input, ' ', 0);
 	if ((*input)[i] == '"')
 	{
-		if (get_char_occurance(*input, '"') % 2 != 0)
-			no_end_quote(input, '"', W_DQUOTE, prompt->shell);
 		prompt->cmd = get_quoted_str(*input, '"', 1, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, '"');
 	}
 	else if ((*input)[i] == 39)
 	{
-		if (get_char_occurance(*input, 39) % 2 != 0)
-			no_end_quote(input, 39, W_QUOTE, prompt->shell);
 		prompt->cmd = get_quoted_str(*input, 39, 0, prompt);
 		(*input) += 2 + get_char_pos((*input) + 1, 39);
 	}
