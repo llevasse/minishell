@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:07:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:16:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ void	get_cmd_strsep(char **input, t_prompt *prompt, t_minishell *shell)
 		*input = NULL;
 	if (get_char_pos(prompt->cmd, '|') != -1)
 		prompt->cmd[get_char_pos(prompt->cmd, '|')] = 0;
+	if (get_char_pos(prompt->cmd, '>') != -1)
+	{
+		*input = ft_strdup(prompt->cmd + get_char_pos(prompt->cmd, '>'));
+		ft_add_garbage(0, &shell->garbage, *input, shell);
+		prompt->cmd[get_char_pos(prompt->cmd, '>')] = 0;
+	}if (get_char_pos(prompt->cmd, '<') != -1)
+	{
+		*input = ft_strdup(prompt->cmd + get_char_pos(prompt->cmd, '<'));
+		ft_add_garbage(0, &shell->garbage, *input, shell);
+		prompt->cmd[get_char_pos(prompt->cmd, '<')] = 0;
+	}
 	check_is_env_var(prompt, &prompt->cmd, shell);
 }
 
