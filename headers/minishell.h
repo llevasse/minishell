@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 00:26:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:04:51 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int			get_char_occurance(char *str, char c);
 // export.c
 int			export_list_size(t_export *export);
 void		get_export_args(t_prompt *prompt, char *input);
-char		**convert_to_tab(t_export *export);
 
 void		sort_tab_alpha(char **tab);
 // quotes.c
@@ -70,17 +69,11 @@ void		replace_str(char **str, char *old_substr, char *new_substr,
 				t_minishell *shell);
 int			get_substr_pos(char *str, char *sub_str);
 
-// insert_at_index.c
-char		*insert_at_index(char *str, char *to_insert,
-				int index, t_minishell *shell);
-
 // SRCS/EXEC //
 
 // exec.c
 void		exec(t_prompt *prompt);
-char		**pass_args_exec(char *path, t_prompt *prompt, t_garbage *garbage);
 int			get_tab_size(char **tab);
-void		print_unknown_cmd(t_prompt *prompt);
 int			ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell);
 
 // exec_utils.c

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:49:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:04:04 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,6 @@ int	get_tab_size(char **tab)
 	while (tab && tab[i])
 		i++;
 	return (i);
-}
-
-void	printf_args(t_arg **tab, char *prompt)
-{
-	int	i;
-
-	i = 0;
-	printf("%s\n", prompt);
-	while (tab && tab[i] && tab[i]->s)
-		printf("%s\n", tab[i++]->s);
 }
 
 /// @brief Parse each quoted args and env variable,

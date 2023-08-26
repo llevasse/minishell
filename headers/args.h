@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 22:46:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 13:04:09 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_arg	**get_files_in_dir(char *path, t_minishell *shell);
 void	get_args(t_prompt *prompt, char *input, t_minishell *shell);
 t_arg	**get_full_args(t_prompt *prompt, t_minishell *shell);
 void	delete_redirection(t_arg **args);
-void	printf_args(t_arg **tab, char *prompt);
 void	parse_args(t_prompt *prompt, t_arg **args, t_minishell *shell);
 
 //srcs/parsing/args/split_args.c:
