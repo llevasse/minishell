@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 12:38:28 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 12:56:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	reset_termios(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
-//TODO handler specific handler for childprocess (like cmd cat with no args)
-//and to print sigquit text when sigquit is sent in child process
 void	handler(int sig, siginfo_t *info, void *context)
 {
 	(void) info;
@@ -52,5 +50,8 @@ void	handler(int sig, siginfo_t *info, void *context)
 		}
 	}
 	if (sig == SIGQUIT && info->si_pid == 0)
+	{
 		write(1, ERR_QUIT, 19);
+		errno = 131;
+	}
 }

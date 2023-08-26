@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 12:23:45 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 13:00:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ typedef struct s_minishell
 {
 	unsigned char		error_value;
 	char				**env;
-	char				**entry_env;
 	struct s_garbage	*garbage;
 	struct s_garbage	*at_exit_garbage;
-	pid_t				current_pid;
 }	t_minishell;
 
 typedef struct s_export
@@ -34,8 +32,6 @@ typedef struct s_arg
 {
 	char				*s;
 	int					quote;
-	int					id;
-	struct s_arg		*next;
 }	t_arg;
 
 typedef struct s_var
@@ -56,7 +52,6 @@ typedef struct s_var_2
 
 typedef struct s_prompt
 {
-	int					write_fd;
 	int					old_stdout;
 	int					old_stdin;
 	int					exec_fd[2];
@@ -78,7 +73,6 @@ typedef struct s_prompt
 
 typedef struct s_garbage
 {
-	int					at_exit;
 	void				*address;
 	struct s_garbage	*next;
 }	t_garbage;

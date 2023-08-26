@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 01:30:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:57:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ void	set_env(char **envp, t_garbage *garbage, t_minishell *shell)
 	}
 	shell->at_exit_garbage = garbage;
 	update_shlvl(envp, shell);
-	shell->entry_env = envp;
 	shell->env = envp;
 }
