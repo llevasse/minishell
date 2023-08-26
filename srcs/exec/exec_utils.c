@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 23:54:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:26:14 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,12 @@ int	redir(t_prompt *prompt)
 
 void	wait_exec(t_prompt *prompt, int value)
 {
-	waitpid(prompt->exec_pid, &value, WUNTRACED);
-	if (WIFEXITED(value))
-		errno = WEXITSTATUS(value);
+	if (prompt->exec_pid != -1)
+	{
+		waitpid(prompt->exec_pid, &value, WUNTRACED);
+		if (WIFEXITED(value))
+			errno = WEXITSTATUS(value);
+	}
 }
 
 void	swap_fd(t_prompt *prompt)
