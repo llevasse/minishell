@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:16:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:37:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@ int	i_dont_like_people_doing_this(t_prompt *p)
 	i = 0;
 	if (is_redir_symbol(p->full_args[i], 0))
 	{
-		while (is_redir_symbol(p->full_args[i], 0))
+		while (p->full_args[i] && is_redir_symbol(p->full_args[i], 0))
 			i++;
 	}
 	if (i == 0)
 		return (1);
+	p->cmd = NULL;
+	if (!p->full_args[i])	
+		return ((void)(p->args = &p->full_args[0]), 0);
 	p->cmd = p->full_args[i]->s;
 	if (!is_builtin(p->cmd))
 		p->cmd = get_cmd_w_path(p, p->shell);
