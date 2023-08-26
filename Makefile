@@ -66,6 +66,7 @@ $(NAME):		$(OBJS_DIR) lib Makefile $(HEADER_FILE) $(OBJS)
 				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS) -lreadline $(LIBFT) -o $@
 				@echo "$(GREEN)Minishell compiled :D$(NC)"
 
+
 $(OBJS_DIR)%.o:	%.c $(HEADER_FILE)
 				$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
 
@@ -104,5 +105,15 @@ fclean:			clean
 				@echo "$(GREEN)Done\n"
 
 re:				fclean all
+
+pls_gd-harco:	$(OBJS_DIR) loud_lib Makefile $(HEADER_FILE) $(OBJS)
+				$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS) -lreadline $(LIBFT) -o $@
+				@echo "$(GREEN)Minishell compiled :D$(NC)"
+
+loud_lib:
+				@echo "$(YELLOW)\nCOMPILING $(LIBFT_PATH)\n"
+				make -C $(LIBFT_PATH)
+				@echo "$(GREEN)LIBFT created\n$(NC)"
+
 
 .PHONY:			all clean fclean re
