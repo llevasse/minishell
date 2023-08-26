@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 11:58:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:00:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	get_cmd(char **input, t_prompt *prompt, t_minishell *shell)
 	}
 	else
 		get_cmd_strsep(input, prompt, shell);
-	if (prompt->cmd[0] == 0)
+	if (!prompt->cmd || prompt->cmd[0] == 0)
 		return ;
 	if (!is_builtin(prompt->cmd))
 		prompt->cmd = get_cmd_w_path(prompt, shell);
