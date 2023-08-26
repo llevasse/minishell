@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 13:36:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:51:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	delete_redirection(t_arg **args)
 		s = args[i]->s;
 		if (!ft_strcmp(s, "|"))
 			return ;
-		if (!ft_strcmp(s, ">") || !ft_strcmp(s, "<") || \
-			!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<"))
+		if ((!ft_strcmp(s, ">") || !ft_strcmp(s, "<") || \
+			!ft_strcmp(s, ">>") || !ft_strcmp(s, "<<")) && !args[i]->quote)
 		{
 			if (args[i + 1])
 				delete_arg_at_index(args, i);
