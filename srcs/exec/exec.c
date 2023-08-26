@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 15:59:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 21:23:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,15 @@ static void	pls_wait(t_prompt *prompt)
 
 static int	get_exec(t_prompt *prompt, int i)
 {
+	struct sigaction	sigint_off;
+	struct sigaction	sigint_on;
+
+	sigint_off.sa_handler = SIG_IGN;
+	sigint_off.sa_flags = SA_RESTART;
+	sigemptyset(&sigint_on.sa_mask);
+	sigint_on.sa_handler = SIG_DFL;
+	sigint_on.sa_flags = SA_RESTART;
+	sigemptyset(&sigint_on.sa_mask);
 	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
@@ -75,6 +84,7 @@ static int	get_exec(t_prompt *prompt, int i)
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
+		sigaction(SIGINT, &sigint_on, NULL);
 		reset_termios();
 		if (prompt->prev_cmd)
 			prompt->tmp_fd = dup(prompt->exec_fd[0]);
@@ -85,6 +95,7 @@ static int	get_exec(t_prompt *prompt, int i)
 	}
 	else
 	{
+		sigaction(SIGINT, &sigint_off, NULL);
 		if (prompt->exec_fd[0] != -1)
 			do_close(&prompt->exec_fd[0]);
 		do_close(&prompt->tmp_fd);
