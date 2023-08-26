@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 21:04:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:18:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,46 @@ void	we_go_forward(t_arg **res, int *word, t_prompt *prompt)
 	prompt->args = res;
 }
 
-int	go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
+int	is_redir_symbol(t_arg *arg, int is_alone)
 {
-	var->res[var->word]->quote = var->str[var->i];
-	var->res[var->word]->s = get_split_quote(prompt,
-			&var->str, &var->i, var->word - 1);
-	if (var->word > 0 && var->str[var->i - \
-			(ft_strlen(var->res[var->word]->s) + 3)] != var->p)
+	printf("s : |%s|\n", arg->s);
+	if (arg->quote)
+		return (0);
+	if (is_alone && !ft_strcmp(arg->s, "<"))
+		return (1);
+	if (is_alone && !ft_strcmp(arg->s, "<<"))
+		return (1);
+	if (is_alone && !ft_strcmp(arg->s, ">"))
+		return (1);
+	if (is_alone && !ft_strcmp(arg->s, ">>"))
+		return (1);
+	if (!is_alone && !ft_strncmp(arg->s, "<", 1))
+		return (1);
+	if (!is_alone && !ft_strncmp(arg->s, "<<", 2))
+		return (1);
+	if (!is_alone && !ft_strncmp(arg->s, ">", 1))
+		return (1);
+	if (!is_alone && !ft_strncmp(arg->s, ">>", 2))
+		return (1);
+	return (0);
+}
+
+int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
+{
+	int	word;
+
+	word = v->word;
+	v->res[word]->quote = v->str[v->i];
+	v->res[word]->s = get_split_quote(prompt,
+			&v->str, &v->i, word - 1);
+	if (word > 0 && (v->str[v->i - \
+			(ft_strlen(v->res[word]->s) + 3)] != v->p || \
+			 is_redir_symbol(v->res[word - 1], 1)))
 	{
-		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s,
-				var->res[var->word]->s);
-		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
-		var->res[var->word--] = NULL;
+		v->res[v->word - 1]->s = ft_strjoin(v->res[v->word - 1]->s,
+				v->res[v->word]->s);
+		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
+		v->res[v->word--] = NULL;
 	}
 	return (1);
 }

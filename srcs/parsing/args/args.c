@@ -6,11 +6,32 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 21:04:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:16:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/// cases like prompt is "< text" or whatever 
+int	i_dont_like_people_doing_this(t_prompt *p)
+{
+	int	i;
+
+	i = 0;
+	if (is_redir_symbol(p->full_args[i], 0))
+	{
+		while (is_redir_symbol(p->full_args[i], 0))
+			i++;
+	}
+	if (i == 0)
+		return (1);
+	p->cmd = p->full_args[i]->s;
+	if (!is_builtin(p->cmd))
+		p->cmd = get_cmd_w_path(p, p->shell);
+	delete_arg_at_index(p->full_args, i);
+	p->args = &p->full_args[0];
+	return (0);
+}
 
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
@@ -23,10 +44,13 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 	prompt->args = NULL;
 	separate_cmd(prompt, input, shell);
 	prompt->full_args = ft_split_args(prompt, input, ' ', shell);
-	prompt->cmd = prompt->full_args[0]->s;
-	if (!is_builtin(prompt->cmd))
-		prompt->cmd = get_cmd_w_path(prompt, shell);
-	prompt->args = &prompt->full_args[1];
+	if (i_dont_like_people_doing_this(prompt))
+	{
+		prompt->cmd = prompt->full_args[0]->s;
+		if (!is_builtin(prompt->cmd))
+			prompt->cmd = get_cmd_w_path(prompt, shell);
+		prompt->args = &prompt->full_args[1];
+	}
 	if (!ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt));
 	parse_args(prompt, prompt->args, shell);
