@@ -6,19 +6,38 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 00:20:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:18:34 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	val_pwd_prompt(t_prompt *prompt)
+{
+	if (prompt->full_args[1] && (!ft_strncmp(prompt->full_args[1]->s, "-", 1) \
+		&& ft_strncmp(prompt->full_args[1]->s, "-LP", 3)
+			&& prompt->full_args[1]->s[1]))
+		return (1);
+	return (0);
+}
 
 /// @brief Print current working directory.
 void	ft_pwd(t_prompt *prompt)
 {
 	char	*new_path;
 
-	new_path = get_pwd(prompt->shell);
-	ft_printf("%s\n", new_path);
+	if (val_pwd_prompt(prompt))
+	{
+		new_path = ft_joinf(ERR_PWD, prompt->full_args[1]->s);
+		ft_add_garbage(0, &prompt->garbage, new_path, prompt->shell);
+		write(2, new_path, ft_strlen(new_path));
+		errno = 2;
+	}
+	else
+	{
+		new_path = get_pwd(prompt->shell);
+		ft_printf("%s\n", new_path);
+	}
 }
 
 /// @brief Get current working directory path.
