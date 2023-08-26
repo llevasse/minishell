@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 13:04:51 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 15:33:32 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void		ft_cd(t_prompt *prompt);
 void		set_termios(void);
 void		reset_termios(void);
 void		handler(int sig, siginfo_t *info, void *context);
+void		do_close(int fd);
 
 // set_env.c
 char		**get_base_env(void);

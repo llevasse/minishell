@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 13:22:56 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 15:31:25 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,13 @@ void	handler(int sig, siginfo_t *info, void *context)
 		write(1, ERR_QUIT, 19);
 	if (sig == SIGQUIT)
 		errno = 131;
+}
+
+void	do_close(int fd)
+{
+	if (fd >= 0)
+	{
+		close(fd);
+		fd = -1;
+	}
 }
