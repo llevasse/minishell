@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 12:26:14 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 12:36:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	wait_exec(t_prompt *prompt, int value)
 		if (WIFEXITED(value))
 			errno = WEXITSTATUS(value);
 	}
+	else
+		close(prompt->exec_fd[0]);
 }
 
 void	swap_fd(t_prompt *prompt)
