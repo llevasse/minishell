@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 00:16:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:16:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_exit(t_minishell *shell, t_arg **args)
 {
 	close(1);
 	close(0);
-	if (!args)
+	if (!args || !args[0])
 	{
 		free_garbage(shell->garbage);
 		free_garbage(shell->at_exit_garbage);
