@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 13:21:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:59:30 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,7 @@ void	swap_fd(t_prompt *prompt)
 {
 	close(prompt->exec_fd[1]);
 	close(prompt->tmp_fd);
-	prompt->tmp_fd = prompt->exec_fd[0];
-	prompt->next_cmd->tmp_fd = prompt->tmp_fd;
+	prompt->next_cmd->tmp_fd = prompt->exec_fd[0];
 	prompt->next_cmd->old_stdout = prompt->old_stdout;
 	prompt->next_cmd->old_stdin = prompt->old_stdin;
 	prompt->next_cmd->exec_fd[0] = prompt->exec_fd[0];
