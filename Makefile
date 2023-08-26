@@ -33,7 +33,6 @@ SRC			=	srcs/minishell.c \
 				srcs/direction/input.c \
 				srcs/direction/heredoc.c \
 				srcs/parsing/export.c \
-				srcs/parsing/insert_at_index.c \
 				srcs/struct/prompt.c \
 				srcs/struct/export.c \
 				srcs/struct/garbage_collector.c \
