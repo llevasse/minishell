@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 00:11:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:43:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	exec_builtin(t_prompt *prompt)
 	close(0);
 	close(1);
 	close(prompt->old_stdout);
-	free_garbage(prompt->shell->garbage);
 	free_garbage(prompt->shell->at_exit_garbage);
+	free_garbage(prompt->shell->garbage);
 	exit(errno);
 }
 
