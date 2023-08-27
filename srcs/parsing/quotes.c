@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 16:45:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:32:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,3 @@ void	pass_single_quotes(t_prompt *prompt, char **str)
 	in_quotes = get_quoted_str(*str, (char)39, 0, prompt);
 	replace_str(str, original_quote, in_quotes, prompt->shell);
 }
-
-
-// check what is a valid quote (\" is not considered a quote)

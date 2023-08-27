@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 11:09:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:34:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,47 +100,4 @@ char	*get_env_var_name(char *str, t_minishell *shell)
 	ft_add_garbage(0, &shell->garbage, var_name, shell);
 	ft_strlcpy(var_name, str + (i - 1), j + 2);
 	return (var_name);
-}
-
-char	*add_quote(char *str, t_minishell *shell)
-{
-	if (str[0] != '<' && str[0] != '>')
-		return (str);
-	str = ft_joinf("\"%s\"", str);
-	ft_add_garbage(0, &shell->garbage, str, shell);
-	return (str);
-}
-
-/// @brief Check if a string contain a env variable.
-/// @param **str Pointer to string to check.
-/// @return Return 0 if no env variable and otherwise return 1
-/// and replace env variable in *str with his content.
-int	check_is_env_var(t_prompt *p, char **str, t_minishell *shell)
-{
-	t_var	var;
-
-	var.i = 0;
-	if (get_char_pos(*str, '$') == -1)
-		return (0);
-	while (var.i >= 0 && var.i < (int)ft_strlen(*str) && \
-		get_char_pos((*str) + var.i, '$') >= 0)
-	{
-		var.var = get_env_var_name((*str) + var.i, p->shell);
-		if (var.var[0] == '$' && var.var[1] == 0)
-			var.i++;
-		else if (!ft_strncmp("$?", var.var, 2))
-		{
-			var.var = ft_itoa(p->shell->error_value);
-			ft_add_garbage(0, &shell->garbage, var.var, shell);
-			replace_str(str, "$?", var.var, p->shell);
-		}
-		else
-		{
-			var.env_var = ft_getenv(p->environ, var.var + 1, p->shell);
-			var.env_var = add_quote(var.env_var, p->shell);
-			replace_str(str, var.var, var.env_var, p->shell);
-			var.i = get_char_pos(*str, '$');
-		}
-	}
-	return (1);
 }
