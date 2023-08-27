@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:17:34 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 21:42:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,18 @@ void	delete_duplicate_export(char *key, t_minishell *shell)
 
 void	export_empty(t_prompt *p, char *exports, t_export *exp)
 {
-
+	printf("cc\n");
 	exp = p->export_args;
 	while (p->export_args && p->export_args->key && !p->export_args->content)
 	{
 		exp = p->export_args;
-		if (!ft_strncmp(exp->key, "_=", 2))
+		if (!ft_strncmp(exp->key, "_=", 2) || \
+			ft_getenv(p->shell->env, exp->key, p->shell))
 			return ;
-		exports = ft_joinf("%s", exp->key);
-		if (!exports)
-			return ;
+		exports = ft_strdup(exp->key);
 		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
-		delete_duplicate_export(exp->key, p->shell);
+		p->shell->env = insert_at_end(exports,
+			p->shell->env, p->shell);
 		p->export_args = p->export_args->next;
 	}
 }
@@ -113,6 +113,7 @@ void	ft_export(t_prompt *p)
 		else
 		{
 			exports = ft_joinf("%s=%s", exp->key, exp->content);
+			printf("exports : |%s|\n", exports);
 			if (!exports)
 				return ;
 			ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
