@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 17:16:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:47:37 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,28 @@ int	is_only_digit(char *s)
 	return (1);
 }
 
+void	exit_with_one(t_minishell *shell)
+{
+	free_garbage(shell->garbage);
+	free_garbage(shell->at_exit_garbage);
+	printf(EXIT);
+	write(2, NOT_NUM_ARG, ft_strlen(NOT_NUM_ARG));
+	close(1);
+	exit(2);
+}
+
 /// @brief Reproduace exit builtin behavior.
 /// @param *garbage Pointer to garbage collector,
 /// @param **args array of t_arg pointer. 
 void	ft_exit(t_minishell *shell, t_arg **args)
 {
-	close(1);
 	close(0);
 	if (!args || !args[0])
 	{
 		free_garbage(shell->garbage);
 		free_garbage(shell->at_exit_garbage);
 		printf(EXIT);
+		close(1);
 		exit(shell->error_value);
 	}
 	if (is_only_digit(args[0]->s) && args[1])
@@ -53,13 +63,8 @@ void	ft_exit(t_minishell *shell, t_arg **args)
 		write(2, TMA, ft_strlen(TMA));
 	}
 	if (!is_only_digit(args[0]->s))
-	{
-		free_garbage(shell->garbage);
-		free_garbage(shell->at_exit_garbage);
-		printf(EXIT);
-		write(2, NOT_NUM_ARG, ft_strlen(NOT_NUM_ARG));
-		exit(2);
-	}
+		exit_with_one(shell);
 	printf(EXIT);
+	close(1);
 	exit((unsigned char)ft_atoi(args[0]->s));
 }

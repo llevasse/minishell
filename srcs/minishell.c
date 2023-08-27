@@ -3,10 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
+/*   Updated: 2023/08/27 11:51:08 by mwubneh          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:39:09 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 22:11:01 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 11:09:08 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +49,22 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	parse(s, garbage, shell);
 }
 
-void	minishell_loop(t_minishell *shell, t_garbage *garbage)
+int	minishell_loop(t_minishell *shell, t_garbage *garbage)
 {
 	while (42)
 	{
+		sigemptyset(&(shell->sig.sig_prompt.sa_mask));
+		shell->sig.sig_prompt.sa_flags = SA_SIGINFO;
+		shell->sig.sig_prompt.sa_sigaction = &handler;
+		if (sigaction(SIGINT, &shell->sig.sig_prompt, NULL) < 0 || \
+			sigaction(SIGQUIT, &shell->sig.sig_prompt, NULL) < 0)
+			return (1);
 		get_input(garbage, shell);
 		free_garbage(garbage);
 		garbage = ft_new_garbage(NULL);
 		garbage->next = NULL;
 	}
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -59,14 +78,10 @@ int	main(int argc, char **argv, char **envp)
 	set_termios();
 	garbage = ft_new_garbage(NULL);
 	garbage_at_exit = ft_new_garbage(NULL);
-	sigemptyset(&(minishell.sig_prompt.sa_mask));
-	minishell.sig_prompt.sa_flags = SA_SIGINFO;
-	minishell.sig_prompt.sa_sigaction = &handler;
-	if (sigaction(SIGINT, &minishell.sig_prompt, NULL) < 0 || sigaction(SIGQUIT, &minishell.sig_prompt, NULL) < 0)
-		return (1);
 	minishell.error_value = 0;
 	minishell.garbage = garbage;
 	set_env(envp, garbage_at_exit, &minishell);
 	printf(STARTUP);
-	minishell_loop(&minishell, garbage);
+	if (minishell_loop(&minishell, garbage))
+		return (1);
 }

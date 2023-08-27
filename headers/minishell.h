@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 18:03:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:07:03 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 // SRCS/PARSE //
 
-void		minishell_loop(t_minishell *shell, t_garbage *garbage);
+int			minishell_loop(t_minishell *shell, t_garbage *garbage);
 // parse.c
 void		parse(char *input, t_garbage *garbage, t_minishell *shell);
 void		check_cmd(t_prompt *prompt);
@@ -57,8 +57,7 @@ void		get_export_args(t_prompt *prompt);
 void		sort_tab_alpha(char **tab);
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str);
-void		no_end_quote(char **str, char quote, char *to_print,
-				t_minishell *shell);
+
 void		pass_double_quotes(t_prompt *prompt, char **str);
 void		pass_single_quotes(t_prompt *prompt, char **str);
 char		*get_quoted_str(char *str, char quote, int env_var,
@@ -82,6 +81,12 @@ void		swap_fd(t_prompt *prompt);
 int			exec_child(t_prompt *prompt, int i);
 int			redir(t_prompt *prompt);
 int			cmp_exec(t_prompt *prompt, int i);
+
+// exec_utils_2.c
+void		sig_init(t_prompt *prompt);
+void		signal_termios(t_prompt *prompt);
+void		sig_mute(t_prompt *prompt);
+int			child_exec(t_prompt *prompt, int i);
 
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
