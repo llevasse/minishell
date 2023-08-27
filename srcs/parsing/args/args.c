@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:11:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:34:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 		prompt->cmd = prompt->full_args[0]->s;
 		if (!is_builtin(prompt->cmd) && prompt->cmd[0] != '/')
 			prompt->cmd = get_cmd_w_path(prompt, shell);
-		prompt->args = &prompt->full_args[1];
+		prompt->args = NULL;
+		if (prompt->full_args[1])
+			prompt->args = &prompt->full_args[1];
 	}
 	if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt));
 	parse_args(prompt, prompt->args, shell);
-	input += i;
 }
 
 /// @brief Get number of element in **tab.
