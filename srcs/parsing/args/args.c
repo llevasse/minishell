@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 10:58:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:34:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	i_dont_like_people_doing_this(t_prompt *p)
 	if (!p->full_args[i])
 		return ((void)(p->args = &p->full_args[0]), 0);
 	p->cmd = p->full_args[i]->s;
-	if (!is_builtin(p->cmd))
+	if (!is_builtin(p->cmd) && p->cmd[0] != '/')
 		p->cmd = get_cmd_w_path(p, p->shell);
 	delete_arg_at_index(p->full_args, i);
 	p->args = &p->full_args[0];
@@ -50,14 +50,15 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 	if (i_dont_like_people_doing_this(prompt))
 	{
 		prompt->cmd = prompt->full_args[0]->s;
-		if (!is_builtin(prompt->cmd))
+		if (!is_builtin(prompt->cmd) && prompt->cmd[0] != '/')
 			prompt->cmd = get_cmd_w_path(prompt, shell);
-		prompt->args = &prompt->full_args[1];
+		prompt->args = NULL;
+		if (prompt->full_args[1])
+			prompt->args = &prompt->full_args[1];
 	}
 	if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
 		return (get_export_args(prompt));
 	parse_args(prompt, prompt->args, shell);
-	input += i;
 }
 
 /// @brief Get number of element in **tab.
@@ -96,6 +97,8 @@ void	parse_args(t_prompt *prompt, t_arg **args, t_minishell *shell)
 			ft_add_garbage(0, &prompt->garbage, args[i]->s, prompt->shell);
 			delete_arg_at_index(args, i + 1);
 		}
+		if (args[i] && args[i]->s[0] == 0 && !args[i]->quote)
+			delete_arg_at_index(args, i);
 		i++;
 	}
 }

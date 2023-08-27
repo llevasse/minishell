@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:09:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 13:44:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	parse_args(t_prompt *prompt, t_arg **args, t_minishell *shell);
 t_arg	**alloc_tab_args(char const *s, char c, t_minishell *shell);
 char	*get_word_arg(char const *s, char c, int i, t_minishell *shell);
 t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell);
-char	*get_split_quote(t_prompt *prompt, char **s, int *i, int index_word);
+char	*get_split_quote(t_prompt *prompt, char **s, int *i);
+
 //srcs/parsing/args/split_args_utils.c:
 void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
 int		go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
