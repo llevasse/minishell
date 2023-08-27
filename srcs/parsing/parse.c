@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 19:39:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:10:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void	check_cmd(t_prompt *prompt)
 	if (!prompt->cmd && prompt->args)
 		return (check_redirection(prompt));
 	if (!ft_strcmp(prompt->cmd, ""))
-	{
-		ft_printf(ERR_404, "''");
 		return ((void)(errno = 127));
-	}
 	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)
 		return (ft_exit(prompt->shell, prompt->args));
 	exec(prompt);
