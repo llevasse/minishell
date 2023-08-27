@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:19:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:36:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 		text = readline(prompt);
 		if (text == NULL)
 		{
-			text = ft_joinf("%s%s%s", UNEXPEC_EOF, delimiter, SYNTAX_EOF);
+			text = ft_joinf("%s%s'\n", UNEXPEC_EOF, delimiter);
 			ft_add_garbage(0, &p->garbage, text, p->shell);
 			write(2, text, ft_strlen(text));
 			break ;
