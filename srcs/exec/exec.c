@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 12:05:30 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:18:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	exec(t_prompt *prompt)
 
 	i = 0;
 
+	prompt->tmp_fd = dup(0);
 	temp = prompt;
 	while (prompt->full_args && prompt->full_args[i])
 	{
