@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 10:58:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 13:45:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 
 	word = v->word;
 	v->res[word]->quote = v->str[v->i];
-	v->res[word]->s = get_split_quote(prompt,
-			&v->str, &v->i, word - 1);
+	v->res[word]->s = get_split_quote(prompt, &v->str, &v->i);
 	if (word > 0 && (v->str[v->i - \
 			(ft_strlen(v->res[word]->s) + 3)] != v->p || \
 			is_redir_symbol(v->res[word - 1], 1)))
@@ -58,6 +57,12 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 				v->res[v->word]->s);
 		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
 		v->res[v->word--] = NULL;
+	}
+	if (v->res[word]->quote == '"')
+	{
+		if (word >= 0 && ft_strcmp(v->res[word]->s, "<<"))
+			return (1);
+		check_is_env_var(prompt, &v->res[word]->s, shell);
 	}
 	return (1);
 }
