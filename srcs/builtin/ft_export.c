@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 21:42:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:50:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,13 @@ void	export_listing(char **env, int i, t_minishell *shell)
 {
 	int		j;
 	char	**print;
+	int		empty;
 
 	j = 0;
+	empty = !!(get_char_pos(env[i], '='));
 	print = ft_split(env[i++], '=');
 	ft_add_garbage(0, &shell->garbage, print, shell);
-	if (!print[j + 1])
+	if (!empty)
 		printf("declare -x %s", print[j]);
 	else
 		printf("declare -x %s=\"", print[j]);
@@ -54,7 +56,7 @@ void	export_listing(char **env, int i, t_minishell *shell)
 		if (print[j])
 			printf("=");
 	}
-	if (j > 1)
+	if (empty)
 		printf("\"");
 	printf("\n");
 }
@@ -108,19 +110,18 @@ void	ft_export(t_prompt *p)
 		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
-		if (!p->export_args->content)
-			export_empty(p, exports, exp);
 		else
 		{
 			exports = ft_joinf("%s=%s", exp->key, exp->content);
 			printf("exports : |%s|\n", exports);
 			if (!exports)
 				return ;
+			printf("|%s|\n", exports);
 			ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
 			delete_duplicate_export(exp->key, p->shell);
 			p->shell->env = insert_at_end(exports,
 					p->shell->env, p->shell);
-			p->export_args = p->export_args->next;
 		}
+		p->export_args = p->export_args->next;
 	}
 }
