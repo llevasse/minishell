@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 23:00:24 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:22:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,30 @@ int	create_heredoc_fd(t_prompt *prompt)
 	return (0);
 }
 
+int	check_heredoc(t_prompt *p, t_heredoc *doc)
+{
+	char *text;
+
+	text = readline(doc->prompt);
+	if (text == NULL)
+	{
+		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
+		ft_add_garbage(0, &p->garbage, text, p->shell);
+		write(2, text, ft_strlen(text));
+		return (0) ;
+	}
+	if (!ft_strcmp(text, doc->delimiter))
+		return (0) ;
+	if (doc->use_env_var)
+		check_is_env_var(p, &text, p->shell);
+	if (doc->len < 57000)
+	{
+		doc->len += ft_strlen(text);
+		ft_putendl_fd(text, p->exec_fd[1]);
+	}
+	return (1);
+}
+
 /// @brief Write readline input in heredoc pipe.
 /// @param *p Pointer to prompt structure,
 /// @param *heredoc_name String of heredoc name,
@@ -60,47 +84,28 @@ int	create_heredoc_fd(t_prompt *prompt)
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
 void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 {
-	char	*text;
-	char	*prompt;
-	char	*delimiter;
-	int		len;
-	int		full;
+	t_heredoc doc;
 
-	delimiter = ft_strdup(heredoc_name);
-	ft_add_garbage(0, &p->garbage, delimiter, p->shell);
+	doc.delimiter = ft_strdup(heredoc_name);
+	ft_add_garbage(0, &p->garbage, doc.delimiter, p->shell);
 	if (create_heredoc_fd(p) == -1)
 		return ;
-	prompt = ft_strjoin(delimiter, " >");
-	ft_add_garbage(0, &p->garbage, prompt, p->shell);
-	len = 0;
-	full = 0;
+	doc.prompt = ft_strjoin(doc.delimiter, " >");
+	ft_add_garbage(0, &p->garbage, doc.prompt, p->shell);
+	doc.len = 0;
+	doc.is_full = 0;
+	doc.use_env_var = use_env_var;
 	while (1)
 	{
-		text = readline(prompt);
-		if (text == NULL)
-		{
-			text = ft_joinf("%s%s'\n", UNEXPEC_EOF, delimiter);
-			ft_add_garbage(0, &p->garbage, text, p->shell);
-			write(2, text, ft_strlen(text));
+		if (!check_heredoc(p, &doc))
 			break ;
-		}
-		if (!ft_strcmp(text, delimiter))
-			break ;
-		if (use_env_var)
-			check_is_env_var(p, &text, p->shell);
-		if (len < 57000)
+		if (!doc.is_full && doc.len > 57000)
 		{
-			len += ft_strlen(text);
-			ft_putendl_fd(text, p->exec_fd[1]);
-		}
-		else if (!full)
-		{
-			prompt = ft_strjoin("(heredoc full)", prompt);
-			ft_add_garbage(0, &p->garbage, prompt, p->shell);
-			full = 1;
+			doc.prompt = ft_strjoin("(heredoc full)", doc.prompt);
+			ft_add_garbage(0, &p->garbage, doc.prompt, p->shell);
+			doc.is_full = 1;
 		}
 	}
-
 	if (p->tmp_fd != -1)
 		dup2(p->exec_fd[0], p->tmp_fd);
 	close(p->exec_fd[1]);

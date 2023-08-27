@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 21:10:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:06:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 	t_prompt	*prompt;
 	char		*exports;
 
-	if (!input || !*input)
-		return ;
-	while (ft_isspace(*input))
+	while (input && *input && ft_isspace(*input))
 		input++;
-	if (!*input)
+	if (!input || !*input)
 		return ;
 	prompt = init_prompt(input, garbage, shell);
 	ft_add_garbage(0, &shell->garbage, prompt, shell);
