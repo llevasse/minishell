@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:31:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:15:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@
 # define NO_FILE_E "No such file or directory\n"
 # define PIPE_ERR "Error in opening pipes\n"
 # define ERR_404 "%s: command not found\n"
-# define UNEXPEC_EOF "unexpected EOF while looking for matching `%c'\n\
-syntax error: unexpected end of file\n"
+# define UNEXPEC_EOF "unexpected EOF while looking for matching `"
+# define SYNTAX_EOF "'\nsyntax error: unexpected end of file\n"
 # define UNEXPEC_PIPE "syntax error near unexpected tolen `|'\n"
 # define TMA "Too mane arguments\n"
 # define NOT_NUM_ARG "numeric argument required\n"
