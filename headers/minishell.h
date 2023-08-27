@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 15:59:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:08:48 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 // SRCS/PARSE //
 
-void		minishell_loop(t_minishell *shell, t_garbage *garbage);
+int			minishell_loop(t_minishell *shell, t_garbage *garbage);
 // parse.c
 void		parse(char *input, t_garbage *garbage, t_minishell *shell);
 void		check_cmd(t_prompt *prompt);
@@ -57,8 +57,7 @@ void		get_export_args(t_prompt *prompt, char *input);
 void		sort_tab_alpha(char **tab);
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str);
-void		no_end_quote(char **str, char quote, char *to_print,
-				t_minishell *shell);
+
 void		pass_double_quotes(t_prompt *prompt, char **str);
 void		pass_single_quotes(t_prompt *prompt, char **str);
 char		*get_quoted_str(char *str, char quote, int env_var,
@@ -108,5 +107,9 @@ void		do_close(int *fd);
 // set_env.c
 char		**get_base_env(void);
 void		set_env(char **envp, t_garbage *garbage, t_minishell *shell);
+
+
+
+void	handler_2(int sig, siginfo_t *info, void *context);
 
 #endif
