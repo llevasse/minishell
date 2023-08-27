@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 17:50:56 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 18:07:30 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	print_export(char **env, t_minishell *shell)
 /// @param i index of which **env element to print
 void	export_listing(char **env, int i, t_minishell *shell)
 {
-	int j;
-	char **print;
+	int		j;
+	char	**print;
 
 	j = 0;
 	print = ft_split(env[i++], '=');
@@ -47,7 +47,7 @@ void	export_listing(char **env, int i, t_minishell *shell)
 	else if (print[j + 1] && !ft_strcmp(print[j + 1], "\"\""))
 	{
 		printf("declare -x %s=\"\"\n", print[j]);
-		print[j + 1] = NULL;
+		print[j + 1] = "";
 	}
 	else
 	{
