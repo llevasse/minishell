@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 10:57:20 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 11:11:38 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static void	pls_wait(t_prompt *prompt)
 
 static int	get_exec(t_prompt *prompt, int i)
 {
-
 	//TODO: delete this
 	struct sigaction sigint_parent;
 	struct sigaction sigint_child;

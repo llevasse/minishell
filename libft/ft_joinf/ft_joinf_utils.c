@@ -6,11 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 15:07:27 by levasse           #+#    #+#             */
-/*   Updated: 2023/08/10 18:48:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 20:33:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_joinf.h"
+
+#include <stdio.h>
 
 int	predict_len(const char *str, va_list args)
 {

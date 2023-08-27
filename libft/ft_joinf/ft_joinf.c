@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 16:33:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/24 16:02:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 20:45:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int	predict_full_str_len(char *str, va_list args)
 			str++;
 		}
 	}
+	va_end(args_cp);
 	return (i);
 }

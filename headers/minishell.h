@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 11:08:48 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 11:12:17 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			get_char_occurance(char *str, char c);
 
 // export.c
 int			export_list_size(t_export *export);
-void		get_export_args(t_prompt *prompt, char *input);
+void		get_export_args(t_prompt *prompt);
 
 void		sort_tab_alpha(char **tab);
 // quotes.c

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 16:49:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:53:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->exec_fd[0] = -1;
 	prompt->exec_fd[1] = -1;
 	prompt->exec_pid = -1;
+	prompt->tmp_fd = -1;
 }
 
 /// @brief Allocate memory and assign values to t_prompt.
@@ -45,12 +46,10 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 	prompt->environ = shell->env;
 	prompt->shell = shell;
 	prompt->garbage = garbage;
-	get_cmd(&input, prompt, shell);
-	if (!prompt->cmd && errno != 12)
-		return ((void)(errno = 127), prompt);
-	prompt->args = NULL;
-	if (input)
-		get_args(prompt, input, shell);
+//	get_cmd(&input, prompt, shell);
+//	if (!prompt->cmd && errno != 12)
+//		return ((void)(errno = 127), prompt);
+	get_args(prompt, input, shell);
 	prompt->full_args = get_full_args(prompt, shell);
 	return (prompt);
 }

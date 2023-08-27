@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 15:54:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 21:13:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ void	ft_export(t_prompt *p)
 
 	temp = duplicate_env(p->shell);
 	sort_tab_alpha(temp);
-	if (p->export_args)
+	if (!p->export_args)
+		return (print_export(temp, p->shell));
+	while (p->export_args)
 	{
 		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
@@ -95,7 +97,6 @@ void	ft_export(t_prompt *p)
 		delete_duplicate_export(exp->key, p->shell);
 		p->shell->env = insert_at_end(exports,
 				p->shell->env, p->shell);
+		p->export_args = p->export_args->next;
 	}
-	else
-		print_export(temp, p->shell);
 }

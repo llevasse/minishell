@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 16:38:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 20:13:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,26 @@ char	*get_content(t_prompt *prompt, char **input)
 	return (content);
 }
 
-void	get_pos_add(t_prompt *prompt, char *input, char *key)
+void	get_pos_add(t_prompt *prompt, char *key)
 {
 	char	*content;
 	int		equal_pos;
+	int		i;
 
-	while (get_char_pos(input, '=') != -1)
+	i = 0;
+	while (prompt->args[i] && get_char_pos(prompt->args[i]->s, '=') != -1)
 	{
-		equal_pos = get_char_pos(input, '=');
-		if (equal_pos == 0 || ft_isspace(input[equal_pos - 1]))
+		equal_pos = get_char_pos(prompt->args[i]->s, '=');
+		if (equal_pos == 0 || ft_isspace(prompt->args[i]->s[equal_pos - 1]))
 		{
 			write(2, BAD_ID, ft_strlen(BAD_ID));
 			errno = 1;
 			return ((void)(prompt->cmd = 0));
 		}
-		key = get_key(prompt, &input);
-		content = get_content(prompt, &input);
+		key = get_key(prompt, &prompt->args[i]->s);
+		content = get_content(prompt, &prompt->args[i]->s);
 		ft_add_export(&prompt->export_args, key, content, prompt->shell);
+		i++;
 	}
 }
 
@@ -102,12 +105,18 @@ void	get_pos_add(t_prompt *prompt, char *input, char *key)
 /// @param *prompt Pointer to prompt struct,
 /// @param *input String of the prompt input,
 /// @param *garbage Pointer to garbage collector.
-void	get_export_args(t_prompt *prompt, char *input)
+void	get_export_args(t_prompt *prompt)
 {
 	char	*key;
+	char	*input;
+	int		i;
 
 	prompt->export_args = NULL;
-	while (get_char_pos(input, '=') == -1)
+	if (!prompt->args[0])
+		return ;
+	i = 0;
+	input = prompt->args[i++]->s;
+	while (input && get_char_pos(input, '=') == -1)
 	{
 		key = ft_strdup(ft_strsep(&input, " "));
 		ft_add_garbage(0, &prompt->garbage, key, prompt->shell);
@@ -120,6 +129,7 @@ void	get_export_args(t_prompt *prompt, char *input)
 			return ((void)(prompt->cmd = 0));
 		}
 		ft_add_export(&prompt->export_args, NULL, 0, prompt->shell);
+		input = prompt->args[i++]->s;
 	}
-	get_pos_add(prompt, input, key);
+	get_pos_add(prompt, key);
 }

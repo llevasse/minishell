@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 15:25:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 23:27:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,12 @@ void	check_redirection(t_prompt *prompt)
 		prompt->old_stdout = dup(1);
 	while (prompt->args && prompt->args[i])
 	{
-		if (prompt->args[i + 1] && !ft_strncmp(prompt->args[i]->s, "<", 2) && \
-				ft_strncmp(prompt->args[i]->s, "<<", 3))
-			set_input(prompt->args[i + 1]->s, prompt);
-		else if (prompt->args[i]->quote == 0 && \
-				prompt->args[i]->s[0] == '<' && prompt->args[i]->s[1] != '<')
+		if (prompt->args[i]->quote == 0 && \
+			prompt->args[i]->s[0] == '<' && prompt->args[i]->s[1] != '<')
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
-				!ft_strcmp(prompt->args[i]->s, "<<"))
-			heredoc(prompt->args[i + 1]->quote, prompt->args[i + 1]->s, prompt);
+				!ft_strncmp(prompt->args[i]->s, "<<", 2))
+			heredoc(prompt->args[i]->quote, prompt->args[i]->s + 2, prompt);
 		else if (prompt->has_output == 0 && \
 				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);

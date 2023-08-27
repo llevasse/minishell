@@ -6,11 +6,35 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 13:04:04 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/26 23:39:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/// cases like prompt is "< text" or whatever 
+int	i_dont_like_people_doing_this(t_prompt *p)
+{
+	int	i;
+
+	i = 0;
+	if (is_redir_symbol(p->full_args[i], 0))
+	{
+		while (p->full_args[i] && is_redir_symbol(p->full_args[i], 0))
+			i++;
+	}
+	if (i == 0)
+		return (1);
+	p->cmd = NULL;
+	if (!p->full_args[i])	
+		return ((void)(p->args = &p->full_args[0]), 0);
+	p->cmd = p->full_args[i]->s;
+	if (!is_builtin(p->cmd))
+		p->cmd = get_cmd_w_path(p, p->shell);
+	delete_arg_at_index(p->full_args, i);
+	p->args = &p->full_args[0];
+	return (0);
+}
 
 /// @brief Get, and assign to t_prompt, args from inputed string.
 /// @param *cmd Pointer to t_prompt,
@@ -21,10 +45,17 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 
 	i = 0;
 	prompt->args = NULL;
-	if (!ft_strcmp(prompt->cmd, "export"))
-		return (get_export_args(prompt, input));
 	separate_cmd(prompt, input, shell);
-	prompt->args = ft_split_args(prompt, input, ' ', shell);
+	prompt->full_args = ft_split_args(prompt, input, ' ', shell);
+	if (i_dont_like_people_doing_this(prompt))
+	{
+		prompt->cmd = prompt->full_args[0]->s;
+		if (!is_builtin(prompt->cmd))
+			prompt->cmd = get_cmd_w_path(prompt, shell);
+		prompt->args = &prompt->full_args[1];
+	}
+	if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
+		return (get_export_args(prompt));
 	parse_args(prompt, prompt->args, shell);
 	input += i;
 }
