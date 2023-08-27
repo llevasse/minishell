@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 13:12:59 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:31:53 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	exit_with_one(t_minishell *shell)
 	free_garbage(shell->at_exit_garbage);
 	printf(EXIT);
 	write(2, NOT_NUM_ARG, ft_strlen(NOT_NUM_ARG));
+	close(0);
 	close(1);
 	exit(2);
 }
@@ -48,25 +49,24 @@ void	exit_with_one(t_minishell *shell)
 /// @param **args array of t_arg pointer. 
 void	ft_exit(t_minishell *shell, t_arg **args)
 {
-	if (args && args[1])
-		return ((void)write (1, "exit\ntoo many arguments\n", 24));
-	close(0);
 	if (!args || !args[0])
 	{
 		free_garbage(shell->garbage);
 		free_garbage(shell->at_exit_garbage);
 		printf(EXIT);
 		close(1);
+		close(0);
 		exit(shell->error_value);
 	}
 	if (is_only_digit(args[0]->s) && args[1])
 	{
 		errno = 1;
-		write(2, TMA, ft_strlen(TMA));
+		return ((void)write(2, TMA, ft_strlen(TMA)));
 	}
 	if (!is_only_digit(args[0]->s))
 		exit_with_one(shell);
 	printf(EXIT);
+	close(0);
 	close(1);
 	exit((unsigned char)ft_atoi(args[0]->s));
 }

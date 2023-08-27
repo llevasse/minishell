@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:06:55 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:28:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define UNEXPEC_EOF "unexpected EOF while looking for matching `%c'\n\
 syntax error: unexpected end of file\n"
 # define UNEXPEC_PIPE "syntax error near unexpected tolen `|'\n"
-# define TMA "Too mane arguments\n"
+# define TMA "Too many arguments\n"
 # define NOT_NUM_ARG "numeric argument required\n"
 # define ERR_QUIT "^\\QUIT (core dumped)\n"
 # define ERR_PWD "pwd: %s: invalid option\npwd: usage: pwd [-LP]\n"

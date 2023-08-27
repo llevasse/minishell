@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 21:13:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:17:34 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,24 @@ void	delete_duplicate_export(char *key, t_minishell *shell)
 		delete_element_at_index(shell->env, i);
 }
 
+void	export_empty(t_prompt *p, char *exports, t_export *exp)
+{
+
+	exp = p->export_args;
+	while (p->export_args && p->export_args->key && !p->export_args->content)
+	{
+		exp = p->export_args;
+		if (!ft_strncmp(exp->key, "_=", 2))
+			return ;
+		exports = ft_joinf("%s", exp->key);
+		if (!exports)
+			return ;
+		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
+		delete_duplicate_export(exp->key, p->shell);
+		p->export_args = p->export_args->next;
+	}
+}
+
 /// @brief Reproduce export builtin behavior.
 /// @param *prompt Pointer to prompt struct.
 void	ft_export(t_prompt *p)
@@ -90,13 +108,18 @@ void	ft_export(t_prompt *p)
 		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
-		exports = ft_joinf("%s=%s", exp->key, exp->content);
-		if (!exports)
-			return ;
-		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
-		delete_duplicate_export(exp->key, p->shell);
-		p->shell->env = insert_at_end(exports,
-				p->shell->env, p->shell);
-		p->export_args = p->export_args->next;
+		if (!p->export_args->content)
+			export_empty(p, exports, exp);
+		else
+		{
+			exports = ft_joinf("%s=%s", exp->key, exp->content);
+			if (!exports)
+				return ;
+			ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
+			delete_duplicate_export(exp->key, p->shell);
+			p->shell->env = insert_at_end(exports,
+					p->shell->env, p->shell);
+			p->export_args = p->export_args->next;
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 20:13:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:36:26 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,8 @@ void	get_export_args(t_prompt *prompt)
 			return ((void)(prompt->cmd = 0));
 		}
 		ft_add_export(&prompt->export_args, NULL, 0, prompt->shell);
+		if (!prompt->args[i + 1] || !prompt->args[i + 1]->s )
+			break ;
 		input = prompt->args[i++]->s;
 	}
 	get_pos_add(prompt, key);
