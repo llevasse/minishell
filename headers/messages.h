@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 17:10:48 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 10:58:54 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,5 @@ syntax error: unexpected end of file\n"
 # define NOT_NUM_ARG "numeric argument required\n"
 # define ERR_QUIT "QUIT (core dumped)\n"
 # define ERR_PWD "pwd: %s: invalid option\npwd: usage: pwd [-LP]\n"
-
 
 #endif

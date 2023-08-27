@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:53:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:09:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 	prompt->environ = shell->env;
 	prompt->shell = shell;
 	prompt->garbage = garbage;
-//	get_cmd(&input, prompt, shell);
-//	if (!prompt->cmd && errno != 12)
-//		return ((void)(errno = 127), prompt);
 	get_args(prompt, input, shell);
 	prompt->full_args = get_full_args(prompt, shell);
 	return (prompt);

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 16:03:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:09:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ char	*get_cmd_w_path(t_prompt *prompt, t_minishell *shell)
 		temp = ft_strsep(&path, ":");
 		has_exec = check_present_in_path(prompt, temp);
 	}
+	if (prompt->cmd[0] == 0)
+		prompt->cmd = "''";
 	if (!has_exec && prompt->cmd[0] != '.')
-		return ((void)printf(ERR_404, prompt->cmd), NULL);
+		return ((void)(printf(ERR_404, prompt->cmd), errno = 127), NULL);
 	else if (!has_exec && prompt->cmd[0] == '.')
 		path = ft_joinf("%s/%s", get_pwd(shell), prompt->cmd);
 	else
