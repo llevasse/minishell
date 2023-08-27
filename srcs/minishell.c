@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 11:51:08 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 12:24:43 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	minishell.error_value = 0;
 	minishell.garbage = garbage;
 	set_env(envp, garbage_at_exit, &minishell);
-	printf(STARTUP);
+	//printf(STARTUP);
 	if (minishell_loop(&minishell, garbage))
 		return (1);
 }
