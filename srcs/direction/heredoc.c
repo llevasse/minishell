@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:36:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:21:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 	char	*text;
 	char	*prompt;
 	char	*delimiter;
+	int		len;
 
 	delimiter = ft_strdup(heredoc_name);
 	ft_add_garbage(0, &p->garbage, delimiter, p->shell);
@@ -70,6 +71,7 @@ void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 		return ;
 	prompt = ft_strjoin(delimiter, " >");
 	ft_add_garbage(0, &p->garbage, prompt, p->shell);
+	len = 0;
 	while (1)
 	{
 		text = readline(prompt);
@@ -84,6 +86,9 @@ void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 			break ;
 		if (use_env_var)
 			check_is_env_var(p, &text, p->shell);
+		len += ft_strlen(text);
+		if (len >= 57000)
+			break ;
 		ft_putendl_fd(text, p->exec_fd[1]);
 	}
 
