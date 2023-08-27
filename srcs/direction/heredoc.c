@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 23:22:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:25:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 		prompt->exec_fd[0] = -1;
 	}
 	write_heredoc(prompt, eof_name, use_env_var);
+	if (prompt->tmp_fd != -1)
+		dup2(prompt->exec_fd[0], prompt->tmp_fd);
+	close(prompt->exec_fd[1]);
+	if (prompt->tmp_fd == -1)
+		close(prompt->exec_fd[0]);
 	prompt->has_redir = 1;
 }
 
@@ -55,7 +60,7 @@ int	create_heredoc_fd(t_prompt *prompt)
 
 int	check_heredoc(t_prompt *p, t_heredoc *doc)
 {
-	char *text;
+	char	*text;
 
 	text = readline(doc->prompt);
 	if (text == NULL)
@@ -63,10 +68,10 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
 		ft_add_garbage(0, &p->garbage, text, p->shell);
 		write(2, text, ft_strlen(text));
-		return (0) ;
+		return (0);
 	}
 	if (!ft_strcmp(text, doc->delimiter))
-		return (0) ;
+		return (0);
 	if (doc->use_env_var)
 		check_is_env_var(p, &text, p->shell);
 	if (doc->len < 57000)
@@ -84,7 +89,7 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
 void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 {
-	t_heredoc doc;
+	t_heredoc	doc;
 
 	doc.delimiter = ft_strdup(heredoc_name);
 	ft_add_garbage(0, &p->garbage, doc.delimiter, p->shell);
@@ -106,9 +111,4 @@ void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 			doc.is_full = 1;
 		}
 	}
-	if (p->tmp_fd != -1)
-		dup2(p->exec_fd[0], p->tmp_fd);
-	close(p->exec_fd[1]);
-	if (p->tmp_fd == -1)
-		close(p->exec_fd[0]);
 }
