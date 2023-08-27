@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 13:24:23 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:28:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	exec(t_prompt *prompt)
 	t_prompt			*temp;
 
 	i = 0;
-	prompt->tmp_fd = dup(STDIN_FILENO);
+
+	prompt->tmp_fd = dup(0);
 	temp = prompt;
 	while (prompt->full_args && prompt->full_args[i])
 	{

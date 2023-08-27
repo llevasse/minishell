@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:39:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 10:58:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	i_dont_like_people_doing_this(t_prompt *p)
 	if (i == 0)
 		return (1);
 	p->cmd = NULL;
-	if (!p->full_args[i])	
+	if (!p->full_args[i])
 		return ((void)(p->args = &p->full_args[0]), 0);
 	p->cmd = p->full_args[i]->s;
 	if (!is_builtin(p->cmd))

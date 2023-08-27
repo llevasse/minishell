@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 23:23:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 10:58:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 			&v->str, &v->i, word - 1);
 	if (word > 0 && (v->str[v->i - \
 			(ft_strlen(v->res[word]->s) + 3)] != v->p || \
-			 is_redir_symbol(v->res[word - 1], 1)))
+			is_redir_symbol(v->res[word - 1], 1)))
 	{
 		v->res[v->word - 1]->s = ft_strjoin(v->res[v->word - 1]->s,
 				v->res[v->word]->s);
