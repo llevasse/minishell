@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 10:58:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:08:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	parse_args(t_prompt *prompt, t_arg **args, t_minishell *shell)
 			ft_add_garbage(0, &prompt->garbage, args[i]->s, prompt->shell);
 			delete_arg_at_index(args, i + 1);
 		}
+		if (args[i] && args[i]->s[0] == 0 && !args[i]->quote)
+			delete_arg_at_index(args, i);
 		i++;
 	}
 }
