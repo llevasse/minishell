@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 12:34:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:37:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:41:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int	check_is_env_var(t_prompt *p, char **str, t_minishell *shell)
 		else
 		{
 			var.env_var = ft_getenv(p->environ, var.var + 1, p->shell);
+			if (!var.env_var)
+				return (-1);
 			var.env_var = add_quote(var.env_var, p->shell);
 			replace_str(str, var.var, var.env_var, p->shell);
 			var.i = get_char_pos(*str, '$');

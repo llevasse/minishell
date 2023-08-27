@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:31:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:42:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	set_prompt_null(t_prompt *prompt)
 	prompt->has_redir = 0;
 	prompt->has_output = 0;
 	prompt->has_exec = 0;
+	prompt->cmd = NULL;
 	prompt->args = NULL;
 	prompt->full_args = NULL;
 	prompt->export_args = NULL;
@@ -47,7 +48,8 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 	prompt->shell = shell;
 	prompt->garbage = garbage;
 	get_args(prompt, input, shell);
-	prompt->full_args = get_full_args(prompt, shell);
+	if (prompt->full_args[0])
+		prompt->full_args = get_full_args(prompt, shell);
 	return (prompt);
 }
 
