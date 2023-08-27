@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:08:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:11:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	i_dont_like_people_doing_this(t_prompt *p)
 	if (!p->full_args[i])
 		return ((void)(p->args = &p->full_args[0]), 0);
 	p->cmd = p->full_args[i]->s;
-	if (!is_builtin(p->cmd))
+	if (!is_builtin(p->cmd) && p->cmd[0] != '/')
 		p->cmd = get_cmd_w_path(p, p->shell);
 	delete_arg_at_index(p->full_args, i);
 	p->args = &p->full_args[0];
@@ -50,7 +50,7 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 	if (i_dont_like_people_doing_this(prompt))
 	{
 		prompt->cmd = prompt->full_args[0]->s;
-		if (!is_builtin(prompt->cmd))
+		if (!is_builtin(prompt->cmd) && prompt->cmd[0] != '/')
 			prompt->cmd = get_cmd_w_path(prompt, shell);
 		prompt->args = &prompt->full_args[1];
 	}
