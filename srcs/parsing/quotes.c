@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:19:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:45:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,45 +33,6 @@ int	check_quotes(t_prompt *prompt, char **str)
 	return (1);
 }
 
-int	get_true_nb_quotes(char *str)
-{
-	int	i;
-	int	j;
-	int	len;
-
-	j = 0;
-	i = 0;
-	len = ft_strlen(str);
-	while (i < len)
-	{
-		if (str[i] == 39 || str[i] == '"')
-			j++;
-		if (str[i] == '\\')
-			i += 2;
-		else
-			i++;
-	}
-	return (j);
-}
-
-int	get_next_true_quote_pos(char *str, char quote)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(str);
-	while (i <= len)
-	{
-		if (str[i] == '\\')
-			i++;
-		else if (str[i] == quote)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 /// @brief allocate and assign content of quote to a new str
 /// @param *str Str containing quoted content,
 /// @param quote Character used as quote.
@@ -81,12 +42,11 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_prompt *prompt)
 {
 	int		i;
 	int		j;
-	int		y;
 	char	*new_str;
 
-	i = get_next_true_quote_pos(str, quote);
-	j = get_next_true_quote_pos(str + i + 1, quote);
-	if (get_true_nb_quotes(str) % 2 != 0)
+	i = get_char_pos(str, quote);
+	j = get_char_pos(str + i + 1, quote);
+	if (get_char_occurance(str, quote) % 2 != 0)
 		j = ft_strlen(str + i);
 	if (j > i)
 		j -= i;
@@ -94,14 +54,14 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_prompt *prompt)
 		j = i - j;
 	new_str = malloc((j + 1) * sizeof(char));
 	ft_add_garbage(0, &prompt->garbage, new_str, prompt->shell);
-	y = 0;
+	j = 0;
 	i++;
-	while (str[i + y] && y < j)
+	while (str[i + j] && str[i + j] != quote)
 	{
-		new_str[y] = str[i + y];
-		y++;
+		new_str[j] = str[i + j];
+		j++;
 	}
-	new_str[y] = 0;
+	new_str[j] = 0;
 	if (env_var)
 		check_is_env_var(prompt, &new_str, prompt->shell);
 	return (new_str);

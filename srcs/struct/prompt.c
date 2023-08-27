@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 11:30:15 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:09:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 {
 	t_prompt	*prompt;
 
-	if (get_true_nb_quotes(input) % 2 != 0)
+	if (get_char_occurance(input, '"') % 2 != 0 || \
+		get_char_occurance(input, 39) % 2 != 0)
 		return (NULL);
 	prompt = malloc(sizeof(struct s_prompt));
 	ft_add_garbage(0, &garbage, prompt, shell);
