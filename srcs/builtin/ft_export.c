@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 22:18:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:19:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	ft_export(t_prompt *p)
 		else
 		{
 			exports = ft_joinf("%s=%s", exp->key, exp->content);
-			printf("exports : |%s|\n", exports);
 			if (!exports)
 				return ;
 			ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
