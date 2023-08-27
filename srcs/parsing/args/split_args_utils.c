@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 13:46:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:53:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
 		v->res[v->word--] = NULL;
 	}
-	if (v->res[word]->quote == '"')
+	if (v->res[v->word]->quote == '"')
 	{
 		if (word >= 0 && !ft_strcmp(v->res[word]->s, "<<"))
 			return (1);
