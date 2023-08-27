@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:36:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:49:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define ERR_404 "%s: command not found\n"
 # define UNEXPEC_EOF "unexpected EOF while looking for matching `"
 # define UNEXPEC_PIPE "syntax error near unexpected tolen `|'\n"
-# define TMA "Too mane arguments\n"
+# define TMA "Too many arguments\n"
 # define NOT_NUM_ARG "numeric argument required\n"
 # define ERR_QUIT "^\\QUIT (core dumped)\n"
 # define ERR_PWD "pwd: %s: invalid option\npwd: usage: pwd [-LP]\n"

@@ -121,5 +121,4 @@ loud_lib:
 				make -C $(LIBFT_PATH)
 				@echo "$(GREEN)LIBFT created\n$(NC)"
 
-
 .PHONY:			all clean fclean re
