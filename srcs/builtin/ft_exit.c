@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:57:33 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:12:59 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	exit_with_one(t_minishell *shell)
 /// @param **args array of t_arg pointer. 
 void	ft_exit(t_minishell *shell, t_arg **args)
 {
-	if (args[0] && args[1])
+	if (args && args[1])
 		return ((void)write (1, "exit\ntoo many arguments\n", 24));
 	close(0);
 	if (!args || !args[0])

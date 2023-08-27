@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 12:24:43 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 13:14:53 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	s = readline(get_mini_prompt(garbage, shell));
 	if (s == NULL)
 		ft_exit(shell, NULL);
+//	if (s == NULL)
+//		return ;
 	add_history(s);
 	parse(s, garbage, shell);
 }
