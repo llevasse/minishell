@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:17:34 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 17:50:56 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,34 @@ void	print_export(char **env, t_minishell *shell)
 /// @param i index of which **env element to print
 void	export_listing(char **env, int i, t_minishell *shell)
 {
-	int		j;
-	char	**print;
+	int j;
+	char **print;
 
 	j = 0;
 	print = ft_split(env[i++], '=');
 	ft_add_garbage(0, &shell->garbage, print, shell);
 	if (!print[j + 1])
-		printf("declare -x %s", print[j]);
-	else
-		printf("declare -x %s=\"", print[j]);
-	ft_add_garbage(0, &shell->garbage, print[j++], shell);
-	while (print[j])
+		printf("declare -x %s\n", print[j]);
+	else if (print[j + 1] && !ft_strcmp(print[j + 1], "\"\""))
 	{
-		printf("%s", print[j]);
-		ft_add_garbage(0, &shell->garbage, print[j++], shell);
-		if (print[j])
-			printf("=");
+		printf("declare -x %s=\"\"\n", print[j]);
+		print[j + 1] = NULL;
 	}
-	if (j > 1)
-		printf("\"");
-	printf("\n");
+	else
+	{
+		printf("declare -x %s=\"", print[j]);
+		ft_add_garbage(0, &shell->garbage, print[j++], shell);
+		while (print[j])
+		{
+			printf("%s", print[j]);
+			ft_add_garbage(0, &shell->garbage, print[j++], shell);
+			if (print[j])
+				printf("=");
+		}
+		if (j > 1)
+			printf("\"");
+		printf("\n");
+	}
 }
 
 /// @brief Delete first instance found of *key in shell->env.
@@ -75,11 +82,8 @@ void	delete_duplicate_export(char *key, t_minishell *shell)
 
 void	export_empty(t_prompt *p, char *exports, t_export *exp)
 {
-
-	exp = p->export_args;
 	while (p->export_args && p->export_args->key && !p->export_args->content)
 	{
-		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
 		exports = ft_joinf("%s", exp->key);
@@ -87,6 +91,8 @@ void	export_empty(t_prompt *p, char *exports, t_export *exp)
 			return ;
 		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
 		delete_duplicate_export(exp->key, p->shell);
+		p->shell->env = insert_at_end(exports,
+				p->shell->env, p->shell);
 		p->export_args = p->export_args->next;
 	}
 }
@@ -103,7 +109,7 @@ void	ft_export(t_prompt *p)
 	sort_tab_alpha(temp);
 	if (!p->export_args)
 		return (print_export(temp, p->shell));
-	while (p->export_args)
+	while (p->export_args && p->export_args->key)
 	{
 		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
@@ -113,6 +119,7 @@ void	ft_export(t_prompt *p)
 		else
 		{
 			exports = ft_joinf("%s=%s", exp->key, exp->content);
+			printf("%s\n", exports);
 			if (!exports)
 				return ;
 			ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
