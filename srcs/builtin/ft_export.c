@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 21:50:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:18:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	export_listing(char **env, int i, t_minishell *shell)
 	int		empty;
 
 	j = 0;
-	empty = !!(get_char_pos(env[i], '='));
+
+	empty = get_char_pos(env[i], '=') + 1;
 	print = ft_split(env[i++], '=');
 	ft_add_garbage(0, &shell->garbage, print, shell);
 	if (!empty)
@@ -77,20 +78,15 @@ void	delete_duplicate_export(char *key, t_minishell *shell)
 
 void	export_empty(t_prompt *p, char *exports, t_export *exp)
 {
-	printf("cc\n");
-	exp = p->export_args;
-	while (p->export_args && p->export_args->key && !p->export_args->content)
-	{
-		exp = p->export_args;
-		if (!ft_strncmp(exp->key, "_=", 2) || \
-			ft_getenv(p->shell->env, exp->key, p->shell))
-			return ;
-		exports = ft_strdup(exp->key);
-		ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
-		p->shell->env = insert_at_end(exports,
-			p->shell->env, p->shell);
-		p->export_args = p->export_args->next;
-	}
+	if (!ft_strncmp(exp->key, "_=", 2) || \
+		!!ft_getenv(p->shell->env, exp->key, p->shell))
+		return ;
+	exports = ft_strdup(exp->key);
+	ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
+	delete_duplicate_export(exports, p->shell);
+	p->shell->env = insert_at_end(exports,
+		p->shell->env, p->shell);
+	exp = exp->next;
 }
 
 /// @brief Reproduce export builtin behavior.
@@ -103,25 +99,26 @@ void	ft_export(t_prompt *p)
 
 	temp = duplicate_env(p->shell);
 	sort_tab_alpha(temp);
+	exp = p->export_args;
 	if (!p->export_args)
 		return (print_export(temp, p->shell));
-	while (p->export_args)
+	while (exp)
 	{
-		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
+		if (!p->export_args->content)
+			export_empty(p, exports, exp);
 		else
 		{
 			exports = ft_joinf("%s=%s", exp->key, exp->content);
 			printf("exports : |%s|\n", exports);
 			if (!exports)
 				return ;
-			printf("|%s|\n", exports);
 			ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
 			delete_duplicate_export(exp->key, p->shell);
 			p->shell->env = insert_at_end(exports,
 					p->shell->env, p->shell);
 		}
-		p->export_args = p->export_args->next;
+		exp = exp->next;
 	}
 }
