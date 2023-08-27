@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 11:12:17 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 12:07:03 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,12 @@ int			exec_child(t_prompt *prompt, int i);
 int			redir(t_prompt *prompt);
 int			cmp_exec(t_prompt *prompt, int i);
 
+// exec_utils_2.c
+void		sig_init(t_prompt *prompt);
+void		signal_termios(t_prompt *prompt);
+void		sig_mute(t_prompt *prompt);
+int			child_exec(t_prompt *prompt, int i);
+
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt);
@@ -107,9 +113,5 @@ void		do_close(int *fd);
 // set_env.c
 char		**get_base_env(void);
 void		set_env(char **envp, t_garbage *garbage, t_minishell *shell);
-
-
-
-void	handler_2(int sig, siginfo_t *info, void *context);
 
 #endif

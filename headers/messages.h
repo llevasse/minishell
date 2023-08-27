@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 17:10:48 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 12:06:55 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ syntax error: unexpected end of file\n"
 # define UNEXPEC_PIPE "syntax error near unexpected tolen `|'\n"
 # define TMA "Too mane arguments\n"
 # define NOT_NUM_ARG "numeric argument required\n"
-# define ERR_QUIT "QUIT (core dumped)\n"
+# define ERR_QUIT "^\\QUIT (core dumped)\n"
 # define ERR_PWD "pwd: %s: invalid option\npwd: usage: pwd [-LP]\n"
-
 
 #endif

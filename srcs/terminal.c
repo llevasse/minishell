@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 21:16:06 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 11:19:39 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 		}
 	}
 	if (sig == SIGQUIT && info->si_pid == 0)
-		write(1, ERR_QUIT, 19);
+		write(1, ERR_QUIT, 21);
 	if (sig == SIGQUIT)
 		errno = 131;
 }

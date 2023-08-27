@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 11:12:30 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 11:51:08 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ int	minishell_loop(t_minishell *shell, t_garbage *garbage)
 {
 	while (42)
 	{
-		sigemptyset(&(shell->sa.sa_mask));
-		shell->sa.sa_flags = SA_SIGINFO;
-		shell->sa.sa_sigaction = &handler;
-		if (sigaction(SIGINT, &shell->sa, NULL) < 0 || \
-			sigaction(SIGQUIT, &shell->sa, NULL) < 0)
+		sigemptyset(&(shell->sig.sig_prompt.sa_mask));
+		shell->sig.sig_prompt.sa_flags = SA_SIGINFO;
+		shell->sig.sig_prompt.sa_sigaction = &handler;
+		if (sigaction(SIGINT, &shell->sig.sig_prompt, NULL) < 0 || \
+			sigaction(SIGQUIT, &shell->sig.sig_prompt, NULL) < 0)
 			return (1);
 		get_input(garbage, shell);
 		free_garbage(garbage);

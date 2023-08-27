@@ -6,18 +6,26 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 18:23:29 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 11:50:24 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+typedef struct s_sig
+{
+	struct sigaction	sigint_parent;
+	struct sigaction	sigint_child;
+	struct sigaction	sigquit_parent;
+	struct sigaction	sig_prompt;
+}			t_sig;
+
 typedef struct s_minishell
 {
 	unsigned char		error_value;
 	char				**env;
-	struct sigaction	sa;
+	struct s_sig		sig;
 	struct s_garbage	*garbage;
 	struct s_garbage	*at_exit_garbage;
 }	t_minishell;

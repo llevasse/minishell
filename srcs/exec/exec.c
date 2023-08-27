@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 11:11:38 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 12:05:30 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,6 @@
 static int	get_exec(t_prompt *prompt, int i);
 static int	get_exec_pipe(t_prompt *prompt, int i);
 static void	pls_wait(t_prompt *prompt);
-
-void	handler_2(int sig, siginfo_t *info, void *context)
-{
-	(void)sig;
-	(void)info;
-	(void)context;
-}
 
 void	exec(t_prompt *prompt)
 {
@@ -74,17 +67,7 @@ static void	pls_wait(t_prompt *prompt)
 
 static int	get_exec(t_prompt *prompt, int i)
 {
-	//TODO: delete this
-	struct sigaction sigint_parent;
-	struct sigaction sigint_child;
-
-	sigint_parent.sa_flags = SA_RESTART;
-	sigint_parent.sa_handler = SIG_IGN;
-	sigemptyset(&sigint_parent.sa_mask);
-	sigint_child.sa_flags = SA_RESTART;
-	sigint_child.sa_handler = SIG_DFL;
-	sigemptyset(&sigint_child.sa_mask);
-	//END DELETE THIS
+	sig_init(prompt);
 	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
@@ -93,19 +76,10 @@ static int	get_exec(t_prompt *prompt, int i)
 		return (0);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
-	{
-		sigaction(SIGINT, &sigint_child, NULL);
-		reset_termios();
-		if (prompt->prev_cmd)
-			prompt->tmp_fd = dup(prompt->exec_fd[0]);
-		if (is_builtin(prompt->full_args[0]->s))
-			exec_builtin(prompt);
-		return (ft_execute(prompt->full_args, i, prompt->tmp_fd, \
-				prompt->shell));
-	}
+		return (child_exec(prompt, i));
 	else
 	{
-		sigaction(SIGINT, &sigint_parent, NULL);
+		sig_mute(prompt);
 		if (prompt->exec_fd[0] != -1)
 			do_close(&prompt->exec_fd[0]);
 		do_close(&prompt->tmp_fd);
