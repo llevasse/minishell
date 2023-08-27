@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 18:03:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:29:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void		get_export_args(t_prompt *prompt);
 void		sort_tab_alpha(char **tab);
 // quotes.c
 int			check_quotes(t_prompt *prompt, char **str);
+int			get_true_nb_quotes(char *str);
 void		no_end_quote(char **str, char quote, char *to_print,
 				t_minishell *shell);
 void		pass_double_quotes(t_prompt *prompt, char **str);

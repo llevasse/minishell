@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 20:58:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 12:01:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	skip_arg(char *s, char c, int *i)
 			if (s[*i] == '>' || s[*i] == '<')
 				j++;
 			(*i)++;
+			if ((s[*i] == 39 || s[*i] == '"') && s[*i - 1] == '\\')
+				(*i)++;
 		}
 	}
 	return (j);
@@ -88,8 +90,15 @@ char	*get_word_arg(char const *s, char c, int i, t_minishell *shell)
 	if (s[i + 1] == '>' || s[i + 1] == '<')
 		len_word++;
 	while (s[i + len_word] && s[i + len_word] != c && \
-		!ft_is_in_str("<>|'\"", s[i + len_word]))
-		len_word++;
+		!ft_is_in_str("<>|", s[i + len_word]))
+		{
+			if (i + len_word - 1 > 0 && s[i + len_word - 1] == '\\')
+				len_word++;
+			else if (ft_is_in_str("\"'", s[i + len_word]))
+				break ;
+			else
+				len_word++;
+		}
 	res = malloc((len_word + 1) * sizeof(char));
 	ft_add_garbage(0, &shell->garbage, res, shell);
 	while (j < len_word && s[i] != '\0')

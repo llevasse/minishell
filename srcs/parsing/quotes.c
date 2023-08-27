@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 16:45:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 11:29:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,27 @@ int	check_quotes(t_prompt *prompt, char **str)
 	else if ((*str)[i] == 39)
 		pass_single_quotes(prompt, str);
 	return (1);
+}
+
+int	get_true_nb_quotes(char *str)
+{
+	int	i;
+	int	j;
+	int	len;
+
+	j = 0;
+	i = 0;
+	len = ft_strlen(str);
+	while (i < len)
+	{
+		if (str[i] == 39 || str[i] == '"')
+			j++;
+		if (str[i] == '\\')
+			i += 2;
+		else
+			i++;
+	}
+	return (j);
 }
 
 /// @brief allocate and assign content of quote to a new str
