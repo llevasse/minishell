@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 21:40:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:27:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ void	get_export_args(t_prompt *prompt)
 	int		i;
 
 	prompt->export_args = NULL;
-	if (!prompt->args)
-		return ;
 	i = 0;
 	input = prompt->args[i++]->s;
 	while (input && get_char_pos(input, '=') == -1)

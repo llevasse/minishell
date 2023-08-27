@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 14:43:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:34:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ int	is_builtin(char *cmd)
 void	exec_builtin(t_prompt *prompt)
 {
 	close(prompt->tmp_fd);
-	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
+	if (!ft_strcmp(prompt->cmd[0]->s, "cd"))
 		ft_cd(prompt);
-	else if (!ft_strcmp(prompt->full_args[0]->s, "echo"))
+	else if (!ft_strcmp(prompt->cmd[0]->s, "echo"))
 		ft_echo(prompt);
-	else if (!ft_strcmp(prompt->full_args[0]->s, "env"))
+	else if (!ft_strcmp(prompt->cmd[0]->s, "env"))
 		ft_env(prompt->shell);
-	else if (!ft_strcmp(prompt->full_args[0]->s, "export"))
-		ft_export(prompt);
-	else if (!ft_strcmp(prompt->full_args[0]->s, "pwd"))
+	else if (!ft_strcmp(prompt->cmd[0]->s, "export") && !prompt->export_args)
+		return (print_export(temp, p->shell));
+	else if (!ft_strcmp(prompt->cmd[0]->s, "pwd"))
 		ft_pwd(prompt);
-	else if (!ft_strcmp(prompt->full_args[0]->s, "unset"))
+	else if (!ft_strcmp(prompt->cmd[0]->s, "unset"))
 		ft_unset(prompt);
 	close(0);
 	close(1);

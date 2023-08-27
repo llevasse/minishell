@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 22:19:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:34:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	export_listing(char **env, int i, t_minishell *shell)
 	int		empty;
 
 	j = 0;
-
 	empty = get_char_pos(env[i], '=') + 1;
 	print = ft_split(env[i++], '=');
 	ft_add_garbage(0, &shell->garbage, print, shell);
@@ -85,7 +84,7 @@ void	export_empty(t_prompt *p, char *exports, t_export *exp)
 	ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
 	delete_duplicate_export(exports, p->shell);
 	p->shell->env = insert_at_end(exports,
-		p->shell->env, p->shell);
+			p->shell->env, p->shell);
 	exp = exp->next;
 }
 
@@ -100,8 +99,6 @@ void	ft_export(t_prompt *p)
 	temp = duplicate_env(p->shell);
 	sort_tab_alpha(temp);
 	exp = p->export_args;
-	if (!p->export_args)
-		return (print_export(temp, p->shell));
 	while (exp)
 	{
 		if (!ft_strncmp(exp->key, "_=", 2))
