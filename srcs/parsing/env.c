@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:34:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 15:05:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ char	*get_env_var_name(char *str, t_minishell *shell)
 	i = get_char_pos(str, '$');
 	i++;
 	j = 0;
-	while (str[i + j] && str[i + j] != '$' && str[i + j] != 39 \
-			&& str[i + j] != '"' && !ft_isspace(str[i + j]))
+	while (str[i + j] && ft_isalnum(str[i + j]) && !ft_isspace(str[i + j]))
 		j++;
 	var_name = malloc((j + 2) * sizeof(char));
 	ft_add_garbage(0, &shell->garbage, var_name, shell);
