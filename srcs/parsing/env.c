@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:05:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:30:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_getenv(char **env, char *search, t_minishell *shell)
 	while (env[i] && ft_strncmp(search_e, env[i], ft_strlen(search_e)))
 		i++;
 	if (!env[i])
-		return ("");
+		return (NULL);
 	res = env[i];
 	return (res + ft_strlen(search_e));
 }

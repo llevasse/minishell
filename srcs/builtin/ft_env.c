@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:07:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:13:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	replace_env(char *var_name, char *new_value, t_minishell *shell)
 	int	i;
 
 	i = 0;
+	delete_duplicate_export(var_name, shell);
 	var_name = ft_strjoin(var_name, "=");
 	ft_add_garbage(0, &shell->garbage, var_name, shell);
 	new_value = ft_strjoin(var_name, new_value);
@@ -63,10 +64,11 @@ static int	print_env(t_minishell *shell, int i)
 	int		j;
 
 	j = 0;
+	if (get_char_pos(shell->env[i], '=') == -1)
+		return (1);
 	print = ft_split(shell->env[i++], '=');
 	ft_add_garbage(0, &shell->garbage, print, shell);
-	if (print[1])
-		printf("%s=", print[j]);
+	printf("%s=", print[j]);
 	ft_add_garbage(0, &shell->garbage, print[j++], shell);
 	while (print[j])
 	{
@@ -75,8 +77,7 @@ static int	print_env(t_minishell *shell, int i)
 		if (print[j])
 			printf("=");
 	}
-	if (print[1])
-		printf("\n");
+	printf("\n");
 	return (i);
 }
 
@@ -89,9 +90,8 @@ void	ft_env(t_minishell *shell)
 	while (shell->env[i])
 	{
 		if (ft_strncmp("_=", shell->env[i], 2))
-			i = print_env(shell, i);
-		else
-			i++;
+			print_env(shell, i);
+		i++;
 	}
 	ft_printf("_=/usr/bin/env\n");
 }

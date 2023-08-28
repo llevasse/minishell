@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:07:03 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/28 10:00:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void		ft_unset(t_prompt *prompt);
 void		ft_exit(t_minishell *shell, t_arg **args);
 void		ft_pwd(t_prompt *prompt);
 char		*get_pwd(t_minishell *shell);
+void		print_export(char **env, t_minishell *shell);
 void		ft_export(t_prompt *prompt);
 void		delete_duplicate_export(char *key, t_minishell *shell);
 void		ft_cd(t_prompt *prompt);

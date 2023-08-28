@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 16:01:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:48:43 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*get_content(t_prompt *prompt, char **input)
 
 	content = ft_strdup(ft_strsep(input, " "));
 	ft_add_garbage(0, &prompt->garbage, content, prompt->shell);
-	if (!content[0] || content[0] == '>' || content[1] == '<')
+	if (content[0] == 0 || content[0] == '>' || content[1] == '<')
 		return ("");
 	if (content[0] != '>' && content[1] != '<')
 		check_is_env_var(prompt, &content, prompt->shell);
@@ -104,8 +104,6 @@ void	get_export_args(t_prompt *prompt)
 	int		i;
 
 	prompt->export_args = NULL;
-	if (!prompt->args)
-		return ;
 	i = 0;
 	input = prompt->args[i++]->s;
 	while (input && get_char_pos(input, '=') == -1)

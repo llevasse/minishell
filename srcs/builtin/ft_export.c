@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 18:42:18 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/28 10:47:39 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	print_export(char **env, t_minishell *shell)
 	i = 0;
 	if (!env)
 		return ;
+	sort_tab_alpha(env);
 	while (env[i])
 	{
 		if (ft_strncmp("_=", env[i], 2))
@@ -38,11 +39,13 @@ void	export_listing(char **env, int i, t_minishell *shell)
 {
 	int		j;
 	char	**print;
+	int		empty;
 
 	j = 0;
+	empty = get_char_pos(env[i], '=') + 1;
 	print = ft_split(env[i++], '=');
 	ft_add_garbage(0, &shell->garbage, print, shell);
-	if (!print[j + 1])
+	if (!empty)
 		printf("declare -x %s", print[j]);
 	else
 		printf("declare -x %s=\"", print[j]);
@@ -54,7 +57,7 @@ void	export_listing(char **env, int i, t_minishell *shell)
 		if (print[j])
 			printf("=");
 	}
-	if (j > 1)
+	if (empty)
 		printf("\"");
 	printf("\n");
 }
@@ -73,21 +76,29 @@ void	delete_duplicate_export(char *key, t_minishell *shell)
 		delete_element_at_index(shell->env, i);
 }
 
+void	export_empty(t_prompt *p, char *exports, t_export *exp)
+{
+	if (!ft_strncmp(exp->key, "_=", 2) || \
+		!!ft_getenv(p->shell->env, exp->key, p->shell))
+		return ;
+	exports = ft_strdup(exp->key);
+	ft_add_garbage(1, &p->shell->at_exit_garbage, exports, p->shell);
+	delete_duplicate_export(exports, p->shell);
+	p->shell->env = insert_at_end(exports,
+			p->shell->env, p->shell);
+	exp = exp->next;
+}
+
 /// @brief Reproduce export builtin behavior.
 /// @param *prompt Pointer to prompt struct.
 void	ft_export(t_prompt *p)
 {
 	char		*exports;
-	char		**temp;
 	t_export	*exp;
 
-	temp = duplicate_env(p->shell);
-	sort_tab_alpha(temp);
-	if (!p->export_args)
-		return (print_export(temp, p->shell));
-	while (p->export_args)
+	exp = p->export_args;
+	while (exp)
 	{
-		exp = p->export_args;
 		if (!ft_strncmp(exp->key, "_=", 2))
 			return ;
 		else
@@ -99,7 +110,7 @@ void	ft_export(t_prompt *p)
 			delete_duplicate_export(exp->key, p->shell);
 			p->shell->env = insert_at_end(exports,
 					p->shell->env, p->shell);
-			p->export_args = p->export_args->next;
 		}
+		exp = exp->next;
 	}
 }

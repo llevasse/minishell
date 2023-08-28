@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 11:50:24 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 23:35:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ typedef struct s_var_2
 	char	*str;
 	char	p;
 }			t_var_2;
+
+typedef struct heredoc
+{
+	char	*prompt;
+	char	*delimiter;
+	int		len;
+	int		is_full;
+	int		use_env_var;	
+}			t_heredoc;
 
 typedef struct s_prompt
 {

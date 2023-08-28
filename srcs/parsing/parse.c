@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:45:02 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:06:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,18 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 	t_prompt	*prompt;
 	char		*exports;
 
-	if (!input || !*input)
-		return ;
-	while (ft_isspace(*input))
+	while (input && *input && ft_isspace(*input))
 		input++;
-	if (!*input)
+	if (!input || !*input)
 		return ;
 	prompt = init_prompt(input, garbage, shell);
 	ft_add_garbage(0, &shell->garbage, prompt, shell);
+	if (!prompt->cmd && !prompt->full_args[0])
+	{
+		delete_duplicate_export("_", shell);
+		shell->env = insert_at_end("_=", shell->env, shell);
+		return ;
+	}
 	check_cmd(prompt);
 	exports = ft_joinf("_=%s",
 			prompt->full_args[get_arg_size(prompt->full_args) - 1]);
@@ -43,10 +47,7 @@ void	check_cmd(t_prompt *prompt)
 	if (!prompt->cmd && prompt->args)
 		return (check_redirection(prompt));
 	if (!ft_strcmp(prompt->cmd, ""))
-	{
-		ft_printf(ERR_404, "''");
 		return ((void)(errno = 127));
-	}
 	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)
 		return (ft_exit(prompt->shell, prompt->args));
 	exec(prompt);

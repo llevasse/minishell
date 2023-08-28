@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 15:53:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:41:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	we_go_forward(t_arg **res, int *word, t_prompt *prompt)
 
 int	is_redir_symbol(t_arg *arg, int is_alone)
 {
-	if (arg->quote)
+	if (!arg || arg->quote)
 		return (0);
 	if (is_alone && !ft_strcmp(arg->s, "<"))
 		return (1);
@@ -80,5 +80,6 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
-	check_is_env_var(prompt, &var->res[var->word]->s, shell);
+	if (check_is_env_var(prompt, &var->res[var->word]->s, shell) == -1)
+		var->res[var->word] = NULL;
 }
