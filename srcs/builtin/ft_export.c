@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:41 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 23:34:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:33:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	print_export(char **env, t_minishell *shell)
 	i = 0;
 	if (!env)
 		return ;
+	sort_tab_alpha(env);
 	while (env[i])
 	{
 		if (ft_strncmp("_=", env[i], 2))
@@ -93,11 +94,8 @@ void	export_empty(t_prompt *p, char *exports, t_export *exp)
 void	ft_export(t_prompt *p)
 {
 	char		*exports;
-	char		**temp;
 	t_export	*exp;
 
-	temp = duplicate_env(p->shell);
-	sort_tab_alpha(temp);
 	exp = p->export_args;
 	while (exp)
 	{
