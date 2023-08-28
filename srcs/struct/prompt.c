@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 15:17:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/27 19:42:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 	get_args(prompt, input, shell);
 	if (prompt->full_args[0])
 		prompt->full_args = get_full_args(prompt, shell);
-	else
-		prompt = init_prompt("echo -n", garbage, shell);
 	return (prompt);
 }
 
