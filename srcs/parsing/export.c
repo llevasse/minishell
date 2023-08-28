@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 10:48:43 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/28 13:27:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ char	*get_key(t_prompt *prompt, char **input)
 	ft_add_garbage(0, &prompt->garbage, key, prompt->shell);
 	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key);
-	else
-		check_is_env_var(prompt, &key, prompt->shell);
-	if (key[0] == '\0')
+	if (check_is_env_var(prompt, &key, prompt->shell) == -1 || key[0] == 0)
 		return ((void)printf(BAD_ASS), NULL);
 	if (!must_be_valid(key))
 	{
@@ -77,7 +75,7 @@ void	get_pos_add(t_prompt *prompt, char *key)
 	int		i;
 
 	i = 0;
-	while (prompt->args[i] && get_char_pos(prompt->args[i]->s, '=') != -1)
+	while (prompt->args[i])
 	{
 		equal_pos = get_char_pos(prompt->args[i]->s, '=');
 		if (equal_pos == 0 || ft_isspace(prompt->args[i]->s[equal_pos - 1]))
@@ -91,6 +89,8 @@ void	get_pos_add(t_prompt *prompt, char *key)
 		ft_add_export(&prompt->export_args, key, content, prompt->shell);
 		i++;
 	}
+	if (!prompt->export_args)
+		prompt->cmd = NULL;
 }
 
 /// @brief In case of export cmd, get and assign every export element.
