@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 10:28:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:56:27 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@
 # define ERR_QUIT "^\\QUIT (core dumped)\n"
 # define ERR_PWD "pwd: %s: invalid option\npwd: usage: pwd [-LP]\n"
 # define NO_HOME "HOME not set\n"
+# define WARN_LVL "warning: shell level (1000) to high, resetting to 1"
 
 #endif

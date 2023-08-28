@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 23:35:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:48:10 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 		{
 			write(1, CTRL_C, 3);
 			rl_on_new_line();
+			rl_replace_line("", 0);
 			rl_redisplay();
 		}
 	}
