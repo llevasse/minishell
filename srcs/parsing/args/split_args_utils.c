@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	var_set(t_var_2 *var, char *s, char c, t_minishell *shell)
+{
+	var->str = s;
+	var->p = c;
+	var->word = 0;
+	var->res = alloc_tab_args(s, c, shell);
+	var->i = skip_char(s, c, 0);
+}
+
 void	we_go_forward(t_arg **res, int *word, t_prompt *prompt)
 {
 	(*word)++;

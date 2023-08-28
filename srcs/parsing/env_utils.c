@@ -24,7 +24,7 @@ char	*add_quote(char *str, t_minishell *shell)
 static void	error_code(t_prompt *p, char **str, t_minishell *shell)
 {
 	t_var	var;
-	
+
 	var.var = ft_itoa(p->shell->error_value);
 	ft_add_garbage(0, &shell->garbage, var.var, shell);
 	replace_str(str, "$?", var.var, p->shell);

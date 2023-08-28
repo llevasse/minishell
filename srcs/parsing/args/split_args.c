@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 14:06:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:06:43 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,13 +131,9 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 {
 	t_var_2	var;
 
+	var_set(&var, s, c, shell);
 	if (!s || !s[0])
 		return (NULL);
-	var.str = s;
-	var.p = c;
-	var.word = 0;
-	var.res = alloc_tab_args(s, c, shell);
-	var.i = skip_char(s, c, 0);
 	while (s[var.i] != '\0')
 	{
 		var.res[var.word] = init_arg(shell);

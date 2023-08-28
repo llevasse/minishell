@@ -6,11 +6,24 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 13:58:45 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/28 17:11:56 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	check_lvl(int *lvl)
+{
+	if (*lvl < 0)
+		(*lvl) = 0;
+	else if (*lvl > 999)
+	{
+		printf("%s\n", ft_joinf(WARN_LVL, ft_itoa(*lvl)));
+		(*lvl) = 1;
+	}
+	else
+		(*lvl)++;
+}
 
 static void	update_shlvl(char **env, t_minishell *shell)
 {
@@ -19,15 +32,7 @@ static void	update_shlvl(char **env, t_minishell *shell)
 	int		i;
 
 	lvl = ft_atoi(ft_getenv(env, "SHLVL", shell));
-	if (lvl < 0)
-		lvl = 0;
-	else if (lvl > 1000)
-	{
-		lvl = 1;
-		printf("%s\n", WARN_LVL);
-	}
-	else
-		lvl++;
+	check_lvl(&lvl);
 	i = 0;
 	while (env[i] && ft_strncmp("SHLVL=", env[i], 6))
 		i++;

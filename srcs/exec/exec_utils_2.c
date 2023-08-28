@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:59:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 12:07:19 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/28 18:02:37 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,11 @@ int	child_exec(t_prompt *prompt, int i)
 		exec_builtin(prompt);
 	return (ft_execute(prompt->full_args, i, prompt->tmp_fd, \
 				prompt->shell));
+}
+
+void	next_prompt(t_prompt *prompt, int *i)
+{
+	swap_fd(prompt);
+	*prompt = *prompt->next_cmd;
+	*i = 0;
 }
