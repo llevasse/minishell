@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:20:54 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/26 12:57:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 13:58:45 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,15 @@ static void	update_shlvl(char **env, t_minishell *shell)
 	int		i;
 
 	lvl = ft_atoi(ft_getenv(env, "SHLVL", shell));
-	lvl++;
+	if (lvl < 0)
+		lvl = 0;
+	else if (lvl > 1000)
+	{
+		lvl = 1;
+		printf("%s\n", WARN_LVL);
+	}
+	else
+		lvl++;
 	i = 0;
 	while (env[i] && ft_strncmp("SHLVL=", env[i], 6))
 		i++;
