@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 16:44:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:36:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	write_heredoc(prompt, eof_name, use_env_var);
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
-	close(prompt->exec_fd[1]);
+//	do_close(&prompt->exec_fd[1]);
 	if (prompt->tmp_fd == -1)
-		close(prompt->exec_fd[0]);
+		do_close(&prompt->exec_fd[0]);
 	prompt->has_redir = 1;
 }
 
@@ -78,11 +78,6 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 	}
 	if (doc->use_env_var)
 		check_is_env_var(p, &text, p->shell);
-	if (doc->len != 0 && doc->len < 57000)
-	{
-		ft_putchar_fd('\n', p->exec_fd[1]);
-		doc->len++;
-	}
 	if (doc->len < 57000)
 	{
 		doc->len += ft_strlen(text);

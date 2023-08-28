@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:27:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:29:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	check_redirection(t_prompt *prompt)
 	i = 0;
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
+	if (prompt->old_stdin == -1)
+		prompt->old_stdin = dup(0);
 	while (prompt->args && prompt->args[i])
 	{
 		if (prompt->args[i]->quote == 0 && \
