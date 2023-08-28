@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/27 23:34:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:03:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,26 @@ int	is_builtin(char *cmd)
 /// it will be problematic.
 /// @bug if this command is not launched in a child process, 
 /// then the parent process will be stoped.
-void	exec_builtin(t_prompt *prompt)
+void	exec_builtin(t_prompt *p)
 {
-	close(prompt->tmp_fd);
-	if (!ft_strcmp(prompt->cmd[0]->s, "cd"))
-		ft_cd(prompt);
-	else if (!ft_strcmp(prompt->cmd[0]->s, "echo"))
-		ft_echo(prompt);
-	else if (!ft_strcmp(prompt->cmd[0]->s, "env"))
-		ft_env(prompt->shell);
-	else if (!ft_strcmp(prompt->cmd[0]->s, "export") && !prompt->export_args)
-		return (print_export(temp, p->shell));
-	else if (!ft_strcmp(prompt->cmd[0]->s, "pwd"))
-		ft_pwd(prompt);
-	else if (!ft_strcmp(prompt->cmd[0]->s, "unset"))
-		ft_unset(prompt);
+	close(p->tmp_fd);
+	if (!ft_strcmp(p->cmd, "cd"))
+		ft_cd(p);
+	else if (!ft_strcmp(p->cmd, "echo"))
+		ft_echo(p);
+	else if (!ft_strcmp(p->cmd, "env"))
+		ft_env(p->shell);
+	else if (!ft_strcmp(p->cmd, "export") && !p->export_args)
+		return (print_export(duplicate_env(p->shell), p->shell));
+	else if (!ft_strcmp(p->cmd, "pwd"))
+		ft_pwd(p);
+	else if (!ft_strcmp(p->cmd, "unset"))
+		ft_unset(p);
 	close(0);
 	close(1);
-	close(prompt->old_stdout);
-	free_garbage(prompt->shell->at_exit_garbage);
-	free_garbage(prompt->shell->garbage);
+	close(p->old_stdout);
+	free_garbage(p->shell->at_exit_garbage);
+	free_garbage(p->shell->garbage);
 	exit(errno);
 }
 
