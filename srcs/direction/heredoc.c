@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 22:35:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:55:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,22 @@
 /// @param *garbage Pointer to garbage collector.
 void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 {
-	if (use_env_var == 0)
-		use_env_var = 1;
-	else
-		use_env_var = 0;
+	int	worked;
+
 	if (prompt->exec_fd[0] != -1)
 	{
 		do_close(&prompt->exec_fd[0]);
 		do_close(&prompt->exec_fd[1]);
 	}
-	if (!write_heredoc(prompt, eof_name, use_env_var))
-		return ((void)(prompt->has_redir = -1));
-	if (prompt->tmp_fd != -1)
+	worked = write_heredoc(prompt, eof_name, !use_env_var);
+	if (prompt->tmp_fd != -1 && worked)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
 		do_close(&prompt->exec_fd[1]);
 	if (prompt->tmp_fd == -1)
 		do_close(&prompt->exec_fd[0]);
+	if (!worked)
+		return ((void)(prompt->has_redir = -1));
 	prompt->has_redir = 1;
 }
 
@@ -72,11 +71,7 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 		return ((void)(doc->status = 0), 0);
 	}
 	if (!ft_strcmp(text, doc->delimiter))
-	{
-		if (doc->len < 57000)
-			ft_putchar_fd(0, p->exec_fd[1]);
 		return ((void)(doc->status = 1), 0);
-	}
 	if (doc->use_env_var)
 		check_is_env_var(p, &text, p->shell);
 	if (doc->len < 57000)
