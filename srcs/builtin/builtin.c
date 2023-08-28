@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 10:03:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:08:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	exec_builtin(t_prompt *p)
 	else if (!ft_strcmp(p->cmd, "env"))
 		ft_env(p->shell);
 	else if (!ft_strcmp(p->cmd, "export") && !p->export_args)
-		return (print_export(duplicate_env(p->shell), p->shell));
+		print_export(duplicate_env(p->shell), p->shell);
 	else if (!ft_strcmp(p->cmd, "pwd"))
 		ft_pwd(p);
 	else if (!ft_strcmp(p->cmd, "unset"))
