@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 12:34:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 19:41:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:13:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*add_quote(char *str, t_minishell *shell)
 static void	error_code(t_prompt *p, char **str, t_minishell *shell)
 {
 	t_var	var;
-
+	
 	var.var = ft_itoa(p->shell->error_value);
 	ft_add_garbage(0, &shell->garbage, var.var, shell);
 	replace_str(str, "$?", var.var, p->shell);
