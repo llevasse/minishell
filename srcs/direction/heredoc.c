@@ -82,7 +82,8 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 	{
 		ft_putchar_fd('\n', p->exec_fd[1]);
 		doc->len++;
-	}if (doc->len < 57000)
+	}
+	if (doc->len < 57000)
 	{
 		doc->len += ft_strlen(text);
 		ft_putendl_fd(text, p->exec_fd[1]);
