@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 23:35:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:29:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct heredoc
 	int		len;
 	int		is_full;
 	int		use_env_var;	
+	int		status;	
 }			t_heredoc;
 
 typedef struct s_prompt

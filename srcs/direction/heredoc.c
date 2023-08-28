@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 21:38:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:32:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 		use_env_var = 0;
 	if (prompt->exec_fd[0] != -1)
 	{
-		close(prompt->exec_fd[0]);
-		close(prompt->exec_fd[1]);
-		prompt->exec_fd[0] = -1;
+		do_close(&prompt->exec_fd[0]);
+		do_close(&prompt->exec_fd[1]);
 	}
-	write_heredoc(prompt, eof_name, use_env_var);
+	if (!write_heredoc(prompt, eof_name, use_env_var))
+		return ((void)(prompt->has_redir = -1));
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
@@ -69,12 +69,14 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
 		ft_add_garbage(0, &p->garbage, text, p->shell);
 		write(2, text, ft_strlen(text));
+		doc->status = 0;
 		return (0);
 	}
 	if (!ft_strcmp(text, doc->delimiter))
 	{
 		if (doc->len < 57000)
 			ft_putchar_fd(0, p->exec_fd[1]);
+		doc->status = 1;
 		return (0);
 	}
 	if (doc->use_env_var)
@@ -92,14 +94,14 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 /// @param *heredoc_name String of heredoc name,
 /// @param *garbage Pointer to garbage collector,
 /// @param use_env_var boolean int, 1 if env var are parsed and 0 if not.
-void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
+int	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 {
 	t_heredoc	doc;
 
 	doc.delimiter = ft_strdup(heredoc_name);
 	ft_add_garbage(0, &p->garbage, doc.delimiter, p->shell);
 	if (create_heredoc_fd(p) == -1)
-		return ;
+		return (0);
 	doc.prompt = ft_strjoin(doc.delimiter, " >");
 	ft_add_garbage(0, &p->garbage, doc.prompt, p->shell);
 	doc.len = 0;
@@ -116,4 +118,5 @@ void	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 			doc.is_full = 1;
 		}
 	}
+	return (doc.status);
 }
