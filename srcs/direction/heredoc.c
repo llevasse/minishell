@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 13:32:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:44:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,18 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 		return (0);
 	}
 	if (!ft_strcmp(text, doc->delimiter))
+	{
+		if (doc->len < 57000)
+			ft_putchar_fd(0, p->exec_fd[1]);
 		return (0);
+	}
 	if (doc->use_env_var)
 		check_is_env_var(p, &text, p->shell);
-	if (doc->len < 57000)
+	if (doc->len != 0 && doc->len < 57000)
+	{
+		ft_putchar_fd('\n', p->exec_fd[1]);
+		doc->len++;
+	}if (doc->len < 57000)
 	{
 		doc->len += ft_strlen(text);
 		ft_putendl_fd(text, p->exec_fd[1]);
