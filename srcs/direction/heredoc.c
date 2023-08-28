@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 21:36:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 21:38:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	write_heredoc(prompt, eof_name, use_env_var);
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
-//	do_close(&prompt->exec_fd[1]);
+	if (!prompt->next_cmd)
+		do_close(&prompt->exec_fd[1]);
 	if (prompt->tmp_fd == -1)
 		do_close(&prompt->exec_fd[0]);
 	prompt->has_redir = 1;
