@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 11:19:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:21:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void	wait_exec(t_prompt *prompt, int value)
 		else if (WIFSIGNALED(value))
 		{
 			if (WTERMSIG(value) == SIGQUIT)
+			{
+				write(1, ERR_QUIT, 21);
 				errno = 131;
+			}
 			if (WTERMSIG(value) == SIGINT)
 				errno = 130;
 		}
