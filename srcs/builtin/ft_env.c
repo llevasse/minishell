@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:02 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 22:29:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:13:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	replace_env(char *var_name, char *new_value, t_minishell *shell)
 	int	i;
 
 	i = 0;
+	delete_duplicate_export(var_name, shell);
 	var_name = ft_strjoin(var_name, "=");
 	ft_add_garbage(0, &shell->garbage, var_name, shell);
 	new_value = ft_strjoin(var_name, new_value);
