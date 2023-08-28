@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 15:45:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 16:12:10 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ void	exec(t_prompt *prompt)
 			i = 0;
 		}
 		else
-			break ;
+		{
+			do_close(&prompt->exec_fd[0]);
+			break;
+		}
 	}
 	pls_wait(temp);
 }
