@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 10:17:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:29:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_cd(t_prompt *prompt)
 
 	new_path = get_pwd(prompt->shell);
 	replace_env("OLDPWD", new_path, prompt->shell);
-	if (!ft_is_cd_args(prompt->full_args[1]->s))
+	if (!prompt->full_args[1] || !ft_is_cd_args(prompt->full_args[1]->s))
 		cd_without_args(new_path, prompt->shell);
 	else
 		cd_with_args(prompt, new_path, cwd);
@@ -81,16 +81,16 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 /// @param *garbage Pointer to garbage struct.
 static void	cd_without_args(char *new_path, t_minishell *shell)
 {
-	char	*str;
-
 	new_path = ft_getenv(shell->env, "HOME", shell);
-	if (chdir(new_path) == 0)
+	if (!new_path)
+	{
+		write(2, NO_HOME, ft_strlen(NO_HOME));
+		errno = 1;
+	}
+	else if (chdir(new_path) == 0)
 	{
 		sort_tab_alpha(shell->env);
-		delete_duplicate_export("PWD", shell);
-		str = ft_joinf("PWD=%s", new_path);
-		ft_add_garbage(0, &shell->at_exit_garbage, str, shell);
-		shell->env = insert_alpha(str, shell->env, shell);
+		replace_env("PWD", new_path, shell);
 	}
 	else
 		ft_printf("cd Failure\n");
