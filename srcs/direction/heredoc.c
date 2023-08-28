@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 22:32:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:35:17 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,13 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
 		ft_add_garbage(0, &p->garbage, text, p->shell);
 		write(2, text, ft_strlen(text));
-		doc->status = 0;
-		return (0);
+		return ((void)(doc->status = 0), 0);
 	}
 	if (!ft_strcmp(text, doc->delimiter))
 	{
 		if (doc->len < 57000)
 			ft_putchar_fd(0, p->exec_fd[1]);
-		doc->status = 1;
-		return (0);
+		return ((void)(doc->status = 1), 0);
 	}
 	if (doc->use_env_var)
 		check_is_env_var(p, &text, p->shell);
