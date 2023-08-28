@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 13:59:16 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:10:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,25 @@ int	is_redir_symbol(t_arg *arg, int is_alone)
 
 int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 {
-	int	word;
+	int	quote;
 
-	word = v->word;
-	v->res[word]->quote = v->str[v->i];
-	v->res[word]->s = get_split_quote(prompt, &v->str, &v->i);
-	if (word > 0 && (v->str[v->i - \
-			(ft_strlen(v->res[word]->s) + 3)] != v->p || \
-			is_redir_symbol(v->res[word - 1], 1)))
+	v->res[v->word]->quote = v->str[v->i];
+	quote = v->res[v->word]->quote;
+	v->res[v->word]->s = get_split_quote(prompt, &v->str, &v->i);
+	if (v->word > 0 && (v->str[v->i - \
+			(ft_strlen(v->res[v->word]->s) + 3)] != v->p || \
+			is_redir_symbol(v->res[v->word - 1], 1)))
 	{
 		v->res[v->word - 1]->s = ft_strjoin(v->res[v->word - 1]->s,
 				v->res[v->word]->s);
 		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
 		v->res[v->word--] = NULL;
 	}
-	if (v->res[v->word]->quote == '"')
+	if (quote == '"')
 	{
-		if (word >= 0 && !ft_strncmp(v->res[word]->s, "<<", 2))
+		if (v->word >= 0 && !ft_strncmp(v->res[v->word]->s, "<<", 2))
 			return (1);
-		check_is_env_var(prompt, &v->res[word]->s, shell);
+		check_is_env_var(prompt, &v->res[v->word]->s, shell);
 	}
 	return (1);
 }
