@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 01:11:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 10:42:54 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ void	ft_cd(t_prompt *prompt)
 	char	cwd[PATH_MAX];
 
 	new_path = get_pwd(prompt->shell);
-	replace_env("OLDPWD", new_path, prompt->shell);
-	if (!ft_is_cd_args(prompt->full_args[1]->s))
+	if (!(prompt->full_args[1]) || !ft_is_cd_args(prompt->full_args[1]->s))
 		cd_without_args(new_path, prompt->shell);
 	else
 		cd_with_args(prompt, new_path, cwd);
@@ -55,18 +54,20 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 		write(2, TMA, ft_strlen(TMA));
 	if (!ft_strncmp(new_path, prompt->full_args[1]->s, ft_strlen(new_path)))
 		return ;
+	else if (!ft_strcmp(prompt->full_args[1]->s, "-"))
+		new_path = ft_joinf("%s", ft_getenv(prompt->shell->env, \
+		"OLDPWD", prompt->shell));
 	else if (!ft_strncmp(prompt->full_args[1]->s, "~/", 2))
-	{
 		new_path = ft_joinf("%s/%s", ft_getenv(prompt->shell->env,
-					"HOME", prompt->shell), &prompt->full_args[1]->s[3]);
-		printf("%s\n", prompt->full_args[1]->s);
-	}
+					"HOME", prompt->shell), &prompt->full_args[1]->s[2]);
 	else
 		new_path = ft_strjoin("", prompt->args[0]->s);
+	cwd = ft_getenv(prompt->shell->env, "PWD", prompt->shell);
 	if (chdir(new_path) == 0)
 	{
+		replace_env("OLDPWD", cwd, prompt->shell);
 		free(new_path);
-		getcwd(cwd, PATH_MAX);
+		replace_env("PWD", cwd, prompt->shell);
 	}
 	else
 	{

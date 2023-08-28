@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 17:21:01 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/27 16:01:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_content(t_prompt *prompt, char **input)
 	content = ft_strdup(ft_strsep(input, " "));
 	ft_add_garbage(0, &prompt->garbage, content, prompt->shell);
 	if (!content[0] || content[0] == '>' || content[1] == '<')
-		return ("\"\"");
+		return ("");
 	if (content[0] != '>' && content[1] != '<')
 		check_is_env_var(prompt, &content, prompt->shell);
 	ft_add_garbage(0, &prompt->garbage, content, prompt->shell);
