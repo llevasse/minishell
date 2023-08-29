@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 14:10:05 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:00:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 	var->i += ft_strlen(var->res[var->word]->s);
 	if (var->word > 0 && (var->str[var->i - \
 		(ft_strlen(var->res[var->word]->s) + 1)] != var->p || \
-		is_redir_symbol(var->res[var->word - 1], 1)))
+		is_redir_symbol(var->res[var->word - 1], 1)) && \
+		!is_redir_symbol(var->res[var->word], 0))
 	{
 		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s, \
 			var->res[var->word]->s);

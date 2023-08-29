@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 14:13:43 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:02:02 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,11 @@ static int	get_exec(t_prompt *prompt, int i)
 	{
 		sig_mute(prompt);
 		if (prompt->exec_fd[0] != -1)
-		{
-			do_close(&prompt->exec_fd[0]);
 			prompt->tmp_fd = -1;
-		}
-		prompt->has_exec = 1;
+		do_close(&prompt->exec_fd[0]);
+		do_close(&prompt->tmp_fd);
 	}
-	return (0);
+	return ((void)(prompt->has_exec = 1), 0);
 }
 
 static int	get_exec_pipe(t_prompt *prompt, int i)
@@ -118,9 +116,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i)
 		if (!exec_child(prompt, i))
 			return (1);
 	}
-	else
-		prompt->has_exec = 1;
-	return (0);
+	return ((void)(prompt->has_exec = 1), 0);
 }
 
 int	ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell)

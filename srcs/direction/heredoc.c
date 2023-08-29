@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 23:25:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:06:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,15 @@
 /// @param *garbage Pointer to garbage collector.
 void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 {
-	int	worked;
-
 	do_close(&prompt->exec_fd[0]);
 	do_close(&prompt->exec_fd[1]);
-	worked = write_heredoc(prompt, eof_name, !use_env_var);
-	if (prompt->tmp_fd != -1 && worked)
+	write_heredoc(prompt, eof_name, !use_env_var);
+	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
 		do_close(&prompt->exec_fd[1]);
 	if (prompt->tmp_fd == -1)
 		do_close(&prompt->exec_fd[0]);
-	if (!worked)
-		return ((void)(prompt->has_redir = -1, do_close(&prompt->tmp_fd)));
 	prompt->has_redir = 1;
 }
 
