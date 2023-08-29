@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 12:37:13 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 13:19:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ static int	get_exec(t_prompt *prompt, int i)
 			do_close(&prompt->exec_fd[0]);
 			prompt->tmp_fd = -1;
 		}
+		do_close(&prompt->tmp_fd);
 		prompt->has_exec = 1;
 	}
 	return (0);
