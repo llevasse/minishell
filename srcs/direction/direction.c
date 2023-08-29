@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 21:29:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:56:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	check_redirection(t_prompt *prompt)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
-			heredoc(prompt->args[i]->quote, prompt->args[i]->s + 2, prompt);
+			heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
+				prompt);
 		else if (prompt->has_output == 0 && \
 				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);

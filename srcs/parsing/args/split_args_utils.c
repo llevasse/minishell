@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 22:31:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:53:59 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ int	is_redir_symbol(t_arg *arg, int is_alone)
 
 int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 {
-	int	quote;
-
 	v->res[v->word]->quote = v->str[v->i];
-	quote = v->res[v->word]->quote;
 	v->res[v->word]->s = get_split_quote(prompt, &v->str, &v->i);
 	if (v->word > 0 && (v->str[v->i - \
 			(ft_strlen(v->res[v->word]->s) + 3)] != v->p || \
@@ -64,15 +61,16 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 	{
 		v->res[v->word - 1]->s = ft_strjoin(v->res[v->word - 1]->s,
 				v->res[v->word]->s);
+		v->res[v->word - 1]->joined_quote += v->res[v->word]->quote;
 		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
 		v->res[v->word--] = NULL;
 	}
-	if (quote == '"')
+	if (v->str[v->i] == '"')
 	{
-		if (v->word >= 0 && !ft_strncmp(v->res[v->word]->s, "<<", 2))
-			return (1);
-		check_is_env_var(prompt, &v->res[v->word]->s, shell);
+		if (!(v->word >= 0 && !ft_strncmp(v->res[v->word]->s, "<<", 2)))
+			check_is_env_var(prompt, &v->res[v->word]->s, shell);
 	}
+	printf("%s : quote : %c\n", v->res[v->word]->s, v->res[v->word]->quote);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 22:29:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:53:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_arg
 {
 	char				*s;
 	int					quote;
+	int					joined_quote;
 }	t_arg;
 
 typedef struct s_var

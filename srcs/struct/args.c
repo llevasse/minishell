@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:45:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:54:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_arg	*init_arg(t_minishell *shell)
 	arg = malloc(sizeof(struct s_arg));
 	ft_add_garbage(0, &shell->garbage, arg, shell);
 	arg->quote = 0;
+	arg->joined_quote = 0;
 	arg->s = 0;
 	return (arg);
 }
