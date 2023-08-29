@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 23:25:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 12:47:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 		do_close(&prompt->exec_fd[0]);
 	if (!worked)
 		return ((void)(prompt->has_redir = -1, do_close(&prompt->tmp_fd)));
-	prompt->has_redir = 1;
+	prompt->has_redir = 2;
 }
 
 /// @brief Create heredoc pipe.
