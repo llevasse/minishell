@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 14:17:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:33:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,8 @@ static void	pls_wait(t_prompt *prompt)
 static int	get_exec(t_prompt *prompt, int i)
 {
 	sig_init(prompt);
-	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && \
-			prompt->prev_cmd->exec_pid != -1)
-		kill(prompt->prev_cmd->exec_pid, SIGTERM);
+	if (will_have_input_redir(prompt->next_cmd))
+		return ((void)(prompt->has_exec = 1), 0);
 	if (!redir(prompt, &i) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
@@ -94,9 +93,6 @@ static int	get_exec(t_prompt *prompt, int i)
 
 static int	get_exec_pipe(t_prompt *prompt, int i)
 {
-	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && \
-			prompt->prev_cmd->exec_pid != -1)
-		kill(prompt->prev_cmd->exec_pid, SIGTERM);
 	exec_builtin_main_thread(prompt);
 	if (pipe(prompt->exec_fd) == -1)
 	{
@@ -105,6 +101,8 @@ static int	get_exec_pipe(t_prompt *prompt, int i)
 	}
 	if (!redir(prompt, &i) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
+	if (will_have_input_redir(prompt->next_cmd))
+		return ((void)(prompt->has_exec = 1), 0);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{

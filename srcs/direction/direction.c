@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 21:29:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:30:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,28 @@ void	check_redirection(t_prompt *prompt)
 	delete_redirection(prompt->args);
 }
 // ALWAYS CLOSE PIPE WRITE-END BEFORE DUP2
+
+int	will_have_input_redir(t_prompt *p)
+{
+	t_prompt	*temp;
+	int			i;
+
+	if (!p)
+		return (0);
+	temp = p;
+	while (temp)
+	{
+		i = 0;
+		while (temp->args && temp->args[i])
+		{
+			if (!temp->args[i]->quote && is_redir_symbol(temp->args[i], 0) == 2)
+				return (1);
+			i++;
+		}
+		temp = temp->next_cmd;
+	}
+	return (0);
+}
 
 /// @brief Reset STDIN and STDOUT to their original fds and close heredoc_fd.
 /// @param *prompt Pointer to prompt struct.

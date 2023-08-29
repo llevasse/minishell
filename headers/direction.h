@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 22:34:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:28:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int		get_last_output_fd(t_arg **args);
 // srcs/parsing/direction/direction.c:
 void	check_redirection(t_prompt *prompt);
 void	reset_stdio_fd(t_prompt *prompt);
+int		will_have_input_redir(t_prompt *p);
 
 #endif
