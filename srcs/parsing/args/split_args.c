@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 15:59:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:11:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 				var.res[var.word])
 			prompt->cmd = var.res[var.word]->s;
 		if (!var.res[var.word]->quote && !ft_strcmp(var.res[var.word]->s, "|"))
-			break;
+			break ;
 		we_go_forward(var.res, &var.word, prompt);
 		var.i = skip_char(s, c, var.i);
 		prompt->full_args = var.res;
