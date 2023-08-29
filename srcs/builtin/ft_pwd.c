@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:28:07 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 17:18:36 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:11:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	ft_pwd(t_prompt *prompt)
 	else
 	{
 		new_path = get_pwd(prompt->shell);
+		if (!new_path)
+			new_path = ft_getenv(prompt->shell->env, "PWD", prompt->shell);
 		ft_printf("%s\n", new_path);
 	}
 }
