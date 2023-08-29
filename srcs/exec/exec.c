@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 12:47:32 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:00:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ static void	pls_wait(t_prompt *prompt)
 static int	get_exec(t_prompt *prompt, int i)
 {
 	sig_init(prompt);
-	if (prompt->prev_cmd && prompt->prev_cmd->has_redir > 1 && \
-		   	prompt->prev_cmd->exec_pid != -1)
+	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && prompt->prev_cmd->exec_pid != -1)
 		kill(prompt->prev_cmd->exec_pid, SIGTERM);
 	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
@@ -96,8 +95,7 @@ static int	get_exec(t_prompt *prompt, int i)
 
 static int	get_exec_pipe(t_prompt *prompt, int i)
 {
-	if (prompt->prev_cmd && prompt->prev_cmd->has_redir > 1 && \
-		   	prompt->prev_cmd->exec_pid != -1)
+	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && prompt->prev_cmd->exec_pid != -1)
 		kill(prompt->prev_cmd->exec_pid, SIGTERM);
 	exec_builtin_main_thread(prompt);
 	if (!redir(prompt) || !prompt->cmd)
