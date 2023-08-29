@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 14:58:29 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 23:00:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_exit(t_minishell *shell, t_arg **args)
 	int	i;
 
 	i = -1;
-	while (++i <= OPEN_MAX)
+	while (++i < 1024)
 		close(i);
 	if (!args || !args[0])
 	{
