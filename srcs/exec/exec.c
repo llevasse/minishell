@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 15:02:02 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:04:28 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ static void	pls_wait(t_prompt *prompt)
 static int	get_exec(t_prompt *prompt, int i)
 {
 	sig_init(prompt);
-	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && prompt->prev_cmd->exec_pid != -1)
+	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && \
+		prompt->prev_cmd->exec_pid != -1)
 		kill(prompt->prev_cmd->exec_pid, SIGUSR1);
-	if (!redir(prompt) || !prompt->cmd)
+	if (!redir(prompt, &i) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
 		ft_exit(prompt->shell, prompt->args);
@@ -93,7 +94,8 @@ static int	get_exec(t_prompt *prompt, int i)
 
 static int	get_exec_pipe(t_prompt *prompt, int i)
 {
-	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && prompt->prev_cmd->exec_pid != -1)
+	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && \
+		prompt->prev_cmd->exec_pid != -1)
 		kill(prompt->prev_cmd->exec_pid, SIGUSR1);
 	exec_builtin_main_thread(prompt);
 	if (pipe(prompt->exec_fd) == -1)
@@ -101,10 +103,8 @@ static int	get_exec_pipe(t_prompt *prompt, int i)
 		free_garbage(prompt->garbage);
 		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))), 1);
 	}
-	if (!redir(prompt) || !prompt->cmd)
+	if (!redir(prompt, &i) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
-	if (prompt->has_redir == 1)
-		i = get_arg_size(prompt->args) + 1;
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{

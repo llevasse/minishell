@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:59:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 14:19:49 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:03:09 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	sig_init(t_prompt *prompt)
 	prompt->shell->sig.sigint_child.sa_flags = SA_RESTART;
 	prompt->shell->sig.sigint_child.sa_handler = SIG_DFL;
 	sigemptyset(&prompt->shell->sig.sigint_child.sa_mask);
-
 }
 
 void	signal_termios(t_prompt *prompt)
