@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 14:26:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:00:50 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ int	is_redir_symbol(t_arg *arg, int is_alone)
 	if (is_alone && !ft_strcmp(arg->s, ">>"))
 		return (1);
 	if (!is_alone && !ft_strncmp(arg->s, "<", 1))
-		return (2);
+		return (1);
 	if (!is_alone && !ft_strncmp(arg->s, "<<", 2))
-		return (2);
+		return (1);
 	if (!is_alone && !ft_strncmp(arg->s, ">", 1))
 		return (1);
 	if (!is_alone && !ft_strncmp(arg->s, ">>", 2))
