@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:08:37 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:09:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	exit_with_one(t_minishell *shell)
 	i = -1;
 	free_garbage(shell->garbage);
 	free_garbage(shell->at_exit_garbage);
-		printf(EXIT);
+	printf(EXIT);
 	write(2, NOT_NUM_ARG, ft_strlen(NOT_NUM_ARG));
 	while (++i < 1024)
 		close(i);
