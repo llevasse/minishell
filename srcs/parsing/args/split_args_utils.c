@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 14:00:50 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:31:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
-	if (!ft_strncmp(var->res[var->word]->s, "<<", 2))
-		return ;
 	if (check_is_env_var(prompt, &var->res[var->word]->s, shell) == -1)
 	{
 		if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
