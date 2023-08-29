@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:45:46 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:52:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	set_prompt_null(t_prompt *prompt)
 /// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell, int lvl)
+t_prompt	*init_prompt(char *input, t_garbage *garbage, \
+			t_minishell *shell, int lvl)
 {
 	t_prompt	*prompt;
 

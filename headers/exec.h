@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 23:48:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:50:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:53:09 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,5 @@ void		signal_termios(t_prompt *prompt);
 void		sig_mute(t_prompt *prompt);
 int			child_exec(t_prompt *prompt);
 t_prompt	*next_prompt(t_prompt *prompt);
-
 
 #endif

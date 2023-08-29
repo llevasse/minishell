@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:38:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:53:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
-t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell, int lvl);
+t_prompt	*init_prompt(char *input, t_garbage *garbage, \
+				t_minishell *shell, int lvl);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 
 // garbage_collector.c
