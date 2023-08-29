@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 14:50:33 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 15:03:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:42:27 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,9 @@
 int	get_full_args_size(t_prompt *prompt)
 {
 	int			nb;
-	t_prompt	*temp;
 
 	nb = 0;
-	temp = prompt;
-	while (temp)
-	{
-		nb += get_arg_size(temp->args) + 2;
-		temp = temp->next_cmd;
-	}
+	nb += get_arg_size(prompt->args) + 2;
 	return (nb);
 }
 
@@ -33,21 +27,13 @@ t_arg	**get_this_args(t_prompt *temp, t_arg **new, t_minishell *shell)
 	int	i;
 
 	i = 0;
-	while (temp)
+	nb = 0;
+	new[i] = init_arg(shell);
+	new[i++]->s = temp->cmd;
+	while (temp->args && temp->args[nb] && temp->args[nb]->s)
 	{
-		nb = 0;
 		new[i] = init_arg(shell);
-		new[i++]->s = temp->cmd;
-		while (temp->args && temp->args[nb] && temp->args[nb]->s)
-		{
-			new[i] = init_arg(shell);
-			new[i++]->s = temp->args[nb++]->s;
-		}
-		if (!temp->next_cmd)
-			break ;
-		new[i] = init_arg(shell);
-		new[i++]->s = "|";
-		temp = temp->next_cmd;
+		new[i++]->s = temp->args[nb++]->s;
 	}
 	return (new[i] = NULL, new);
 }

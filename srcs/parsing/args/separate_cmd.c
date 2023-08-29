@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 17:38:44 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 11:11:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:19:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	separate_cmd(t_prompt *prompt, char *input, t_minishell *shell)
 {
 	int	pos;
 
+	printf("separate %d\n", prompt->lvl + 1);
 	pos = get_nearer_separator_pos(input);
 	if (pos == -1)
 		return ;
@@ -30,7 +31,8 @@ void	separate_cmd(t_prompt *prompt, char *input, t_minishell *shell)
 	if (!input[pos])
 		return ;
 	input += pos;
-	ft_add_prompt(&prompt, init_prompt(input, shell->garbage, prompt->shell));
+	pos = prompt->lvl + 1;
+	ft_add_prompt(&prompt, init_prompt(input, shell->garbage, prompt->shell, pos));
 }
 
 /// @brief Search for the closest cmd separator in *input.

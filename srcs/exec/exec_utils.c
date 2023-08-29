@@ -6,34 +6,26 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 15:02:11 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 23:38:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cmp_exec(t_prompt *prompt, int i)
-{
-	if (ft_strcmp(prompt->full_args[i]->s, ";") && \
-		ft_strcmp(prompt->full_args[i]->s, "|"))
-		return (1);
-	return (0);
-}
-
-int	exec_child(t_prompt *prompt, int i)
+int	exec_child(t_prompt *prompt)
 {
 	dup2(prompt->exec_fd[1], STDOUT_FILENO);
 	do_close(&prompt->exec_fd[1]);
 	do_close(&prompt->exec_fd[0]);
 	if (is_builtin(prompt->full_args[0]->s))
 		exec_builtin(prompt);
-	else if (ft_execute(prompt->full_args, i, prompt->tmp_fd,
+	else if (ft_execute(prompt->full_args, prompt->tmp_fd,
 			prompt->shell))
 		return (0);
 	return (1);
 }
 
-int	redir(t_prompt *prompt, int *i)
+int	redir(t_prompt *prompt)
 {
 	check_redirection(prompt);
 	if (prompt->has_redir == -1)
@@ -43,8 +35,6 @@ int	redir(t_prompt *prompt, int *i)
 		prompt->tmp_fd = prompt->exec_fd[0];
 		return (0);
 	}
-	if (prompt->has_redir == 1)
-		*i = get_arg_size(prompt->args) + 1;
 	delete_redirection(prompt->full_args);
 	return (1);
 }

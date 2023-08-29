@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 19:42:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:27:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	set_prompt_null(t_prompt *prompt)
 /// @brief Allocate memory and assign values to t_prompt.
 /// @param *input Inputed string to get command from.
 /// @return Return pointer to t_prompt or NULL if something failed.
-t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
+t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell, int lvl)
 {
 	t_prompt	*prompt;
 
@@ -47,9 +47,11 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell)
 	prompt->environ = shell->env;
 	prompt->shell = shell;
 	prompt->garbage = garbage;
+	prompt->lvl = lvl;
 	get_args(prompt, input, shell);
 	if (prompt->full_args[0])
 		prompt->full_args = get_full_args(prompt, shell);
+	printf("end parse %d\n", prompt->lvl);
 	return (prompt);
 }
 

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 14:11:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:36:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,21 @@ int			get_substr_pos(char *str, char *sub_str);
 // exec.c
 void		exec(t_prompt *prompt);
 int			get_tab_size(char **tab);
-int			ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell);
+int			ft_execute(t_arg **args, int tmp_fd, t_minishell *shell);
 
 // exec_utils.c
 void		wait_exec(t_prompt *prompt, int value);
 void		swap_fd(t_prompt *prompt);
-int			exec_child(t_prompt *prompt, int i);
-int			redir(t_prompt *prompt, int *i);
-int			cmp_exec(t_prompt *prompt, int i);
+int			exec_child(t_prompt *prompt);
+int			redir(t_prompt *prompt);
 
 // exec_utils_2.c
 void		sig_init(t_prompt *prompt);
 void		signal_termios(t_prompt *prompt);
 void		sig_mute(t_prompt *prompt);
-int			child_exec(t_prompt *prompt, int i);
-t_prompt	*next_prompt(t_prompt *prompt, int *i);
+int			child_exec(t_prompt *prompt);
+t_prompt	*next_prompt(t_prompt *prompt);
+
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt);

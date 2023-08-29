@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 23:06:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:20:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 		input++;
 	if (!input || !*input)
 		return ;
-	prompt = init_prompt(input, garbage, shell);
+	prompt = init_prompt(input, garbage, shell, 0);
 	ft_add_garbage(0, &shell->garbage, prompt, shell);
 	if (!prompt->cmd && !prompt->full_args[0])
 	{

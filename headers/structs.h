@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:34:32 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 22:53:43 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:38:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct heredoc
 
 typedef struct s_prompt
 {
+	int					lvl;
 	int					old_stdout;
 	int					old_stdin;
 	int					exec_fd[2];
@@ -98,7 +99,7 @@ typedef struct s_garbage
 	struct s_garbage	*next;
 }	t_garbage;
 
-t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell);
+t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell, int lvl);
 void		ft_add_prompt(t_prompt **lst, t_prompt *new);
 
 // garbage_collector.c
@@ -113,5 +114,5 @@ void		ft_add_export(t_export **lst, char *key, char *content,
 
 t_arg		*init_arg(t_minishell *shell);
 int			get_arg_size(t_arg **tab);
-char		**to_char_array(t_arg **args, int max_index, t_minishell *shell);
+char		**to_char_array(t_arg **args, t_minishell *shell);
 #endif

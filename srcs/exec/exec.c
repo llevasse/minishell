@@ -6,14 +6,14 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 15:04:28 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 23:38:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_exec(t_prompt *prompt, int i);
-static int	get_exec_pipe(t_prompt *prompt, int i);
+static int	get_exec(t_prompt *prompt);
+static int	get_exec_pipe(t_prompt *prompt);
 static void	pls_wait(t_prompt *prompt);
 
 void	exec(t_prompt *prompt)
@@ -24,17 +24,14 @@ void	exec(t_prompt *prompt)
 	i = 0;
 	prompt->tmp_fd = dup(0);
 	temp = prompt;
-	while (prompt->full_args && prompt->full_args[i])
+	while (prompt->full_args && prompt->full_args[0])
 	{
-		while (prompt->full_args[i] && cmp_exec(prompt, i))
-			i++;
-		if (i != 0 && (prompt->full_args[i] == NULL || \
-				!ft_strcmp(prompt->full_args[i]->s, ";")))
-			get_exec(prompt, i);
-		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
-			get_exec_pipe (prompt, i);
+		if (!prompt->next_cmd)
+			get_exec(prompt);
+		else
+			get_exec_pipe (prompt);
 		if (prompt->has_exec && prompt->next_cmd)
-			prompt = next_prompt(prompt, &i);
+			prompt = next_prompt(prompt);
 		else
 		{
 			do_close(&prompt->exec_fd[0]);
@@ -66,13 +63,13 @@ static void	pls_wait(t_prompt *prompt)
 	do_close(&prompt->tmp_fd);
 }
 
-static int	get_exec(t_prompt *prompt, int i)
+static int	get_exec(t_prompt *prompt)
 {
 	sig_init(prompt);
 	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && \
 		prompt->prev_cmd->exec_pid != -1)
 		kill(prompt->prev_cmd->exec_pid, SIGUSR1);
-	if (!redir(prompt, &i) || !prompt->cmd)
+	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	if (!prompt->prev_cmd && !ft_strcmp(prompt->cmd, "exit"))
 		ft_exit(prompt->shell, prompt->args);
@@ -80,7 +77,7 @@ static int	get_exec(t_prompt *prompt, int i)
 		return (0);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
-		return (child_exec(prompt, i));
+		return (child_exec(prompt));
 	else
 	{
 		sig_mute(prompt);
@@ -92,7 +89,7 @@ static int	get_exec(t_prompt *prompt, int i)
 	return ((void)(prompt->has_exec = 1), 0);
 }
 
-static int	get_exec_pipe(t_prompt *prompt, int i)
+static int	get_exec_pipe(t_prompt *prompt)
 {
 	if (prompt->prev_cmd && (prompt->prev_cmd->has_redir > 0) && \
 		prompt->prev_cmd->exec_pid != -1)
@@ -103,7 +100,7 @@ static int	get_exec_pipe(t_prompt *prompt, int i)
 		free_garbage(prompt->garbage);
 		return ((void)(write(2, PIPE_ERR, ft_strlen(PIPE_ERR))), 1);
 	}
-	if (!redir(prompt, &i) || !prompt->cmd)
+	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
@@ -113,21 +110,19 @@ static int	get_exec_pipe(t_prompt *prompt, int i)
 		dup2(prompt->exec_fd[1], STDOUT_FILENO);
 		do_close(&prompt->exec_fd[1]);
 		reset_termios();
-		if (!exec_child(prompt, i))
+		if (!exec_child(prompt))
 			return (1);
 	}
 	return ((void)(prompt->has_exec = 1), 0);
 }
 
-int	ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell)
+int	ft_execute(t_arg **args, int tmp_fd, t_minishell *shell)
 {
 	char	**c_args;
 
-	if (args[i])
-		args[i]->s = NULL;
 	dup2(tmp_fd, STDIN_FILENO);
 	do_close(&tmp_fd);
-	c_args = to_char_array(args, i, shell);
+	c_args = to_char_array(args, shell);
 	execve(c_args[0], c_args, shell->env);
 	ft_putstr_fd("error : cannot execute ", 2);
 	ft_putendl_fd(c_args[0], 2);
