@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 15:44:17 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:59:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,17 @@ char	*ft_getenv(char **env, char *search, t_minishell *shell)
 	return (res + ft_strlen(search_e));
 }
 
+char	*local_path(char *str, t_minishell *shell)
+{
+	char	*path;
+
+	if (str[0] == '/')
+		return (str);
+	path = ft_joinf("%s/%s", get_pwd(shell), str);
+	ft_add_garbage(0, &shell->garbage, path, shell);
+	return (path);
+}
+
 /// @brief Get path of cmd in env.
 /// @return If the path of cmd is found it will be returned,
 /// else NULL is returned.
@@ -39,21 +50,21 @@ char	*get_cmd_w_path(t_prompt *prompt, t_minishell *shell)
 	int		has_exec;
 
 	has_exec = 0;
-	temp = NULL;
 	if (prompt->cmd[0] == '.' || prompt->cmd[0] == '/')
-		return (prompt->cmd);
+		return (local_path(prompt->cmd, shell));
 	if (!ft_getenv(prompt->environ, "PATH", shell))
 		return ((void)printf(ERR_404, prompt->cmd), NULL);
 	path = ft_strdup(ft_getenv(prompt->environ, "PATH", shell));
 	ft_add_garbage(0, &shell->garbage, path, shell);
 	while (*path && !has_exec)
-		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"));
+	{
+		temp = ft_strsep(&path, ":");
+		has_exec = check_present_in_path(prompt, temp);
+	}
 	if (prompt->cmd[0] == 0)
 		prompt->cmd = "''";
 	if (!has_exec)
 		return ((void)(printf(ERR_404, prompt->cmd), errno = 127), NULL);
-	else if (!has_exec && prompt->cmd[0] == '.')
-		path = ft_joinf("%s/%s", get_pwd(shell), prompt->cmd);
 	else
 		path = ft_joinf("%s/%s", temp, prompt->cmd);
 	ft_add_garbage(0, &shell->garbage, path, shell);
