@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 14:26:09 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 16:10:34 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	if (argc != 1)
+		return (127);
 	set_termios();
 	printf(STARTUP);
 	garbage = ft_new_garbage(NULL);
