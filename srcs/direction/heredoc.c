@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 13:08:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:15:33 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
 		do_close(&prompt->exec_fd[1]);
-	do_close(&prompt->exec_fd[0]);
+	if (prompt->tmp_fd == -1)
+		do_close(&prompt->exec_fd[0]);
 	prompt->has_redir = 1;
 }
 
