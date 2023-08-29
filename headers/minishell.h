@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 18:03:21 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 11:52:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		sig_init(t_prompt *prompt);
 void		signal_termios(t_prompt *prompt);
 void		sig_mute(t_prompt *prompt);
 int			child_exec(t_prompt *prompt, int i);
-void		next_prompt(t_prompt *prompt, int *i);
+t_prompt	*next_prompt(t_prompt *prompt, int *i);
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
 void		exec_builtin(t_prompt *prompt);

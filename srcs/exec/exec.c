@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 11:36:13 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/29 11:52:52 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	exec(t_prompt *prompt)
 		else if (i != 0 && !ft_strcmp(prompt->full_args[i]->s, "|"))
 			get_exec_pipe (prompt, i);
 		if (prompt->has_exec && prompt->next_cmd)
-			next_prompt(prompt, &i);
+			prompt = next_prompt(prompt, &i);
 		else
 		{
 			do_close(&prompt->exec_fd[0]);
