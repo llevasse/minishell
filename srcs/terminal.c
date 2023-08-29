@@ -54,6 +54,8 @@ void	handler(int sig, siginfo_t *info, void *context)
 		write(1, ERR_QUIT, 21);
 	if (sig == SIGQUIT)
 		errno = 131;
+	if (sig == SIGUSR1)
+		exit(0);
 }
 
 void	do_close(int *fd)

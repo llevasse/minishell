@@ -19,6 +19,7 @@ typedef struct s_sig
 	struct sigaction	sigint_child;
 	struct sigaction	sigquit_parent;
 	struct sigaction	sig_prompt;
+	struct sigaction	sig_exit;
 }			t_sig;
 
 typedef struct s_minishell
