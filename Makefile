@@ -62,6 +62,7 @@ HEADER_FILE	=	headers/minishell.h \
 				headers/structs.h \
 				headers/messages.h \
 				headers/direction.h \
+				headers/exec.h \
 				headers/args.h
 #---RULES----------------------------------------
 

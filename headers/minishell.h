@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:36:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:49:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <termios.h>
 # include <errno.h>
 # include "structs.h"
+# include "exec.h"
 # include "args.h"
 # include "direction.h"
 # include "messages.h"
@@ -69,24 +70,6 @@ void		replace_str(char **str, char *old_substr, char *new_substr,
 int			get_substr_pos(char *str, char *sub_str);
 
 // SRCS/EXEC //
-
-// exec.c
-void		exec(t_prompt *prompt);
-int			get_tab_size(char **tab);
-int			ft_execute(t_arg **args, int tmp_fd, t_minishell *shell);
-
-// exec_utils.c
-void		wait_exec(t_prompt *prompt, int value);
-void		swap_fd(t_prompt *prompt);
-int			exec_child(t_prompt *prompt);
-int			redir(t_prompt *prompt);
-
-// exec_utils_2.c
-void		sig_init(t_prompt *prompt);
-void		signal_termios(t_prompt *prompt);
-void		sig_mute(t_prompt *prompt);
-int			child_exec(t_prompt *prompt);
-t_prompt	*next_prompt(t_prompt *prompt);
 
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);
