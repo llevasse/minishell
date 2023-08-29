@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:27:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 23:45:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, t_minishell *shell, int l
 	get_args(prompt, input, shell);
 	if (prompt->full_args[0])
 		prompt->full_args = get_full_args(prompt, shell);
-	printf("end parse %d\n", prompt->lvl);
 	return (prompt);
 }
 
