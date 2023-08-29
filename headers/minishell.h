@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 11:52:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 14:11:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int			ft_execute(t_arg **args, int i, int tmp_fd, t_minishell *shell);
 void		wait_exec(t_prompt *prompt, int value);
 void		swap_fd(t_prompt *prompt);
 int			exec_child(t_prompt *prompt, int i);
-int			redir(t_prompt *prompt);
+int			redir(t_prompt *prompt, int *i);
 int			cmp_exec(t_prompt *prompt, int i);
 
 // exec_utils_2.c
