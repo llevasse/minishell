@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 15:34:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:36:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*get_cmd_w_path(t_prompt *prompt, t_minishell *shell)
 	int		has_exec;
 
 	has_exec = 0;
+	temp = NULL;
 	if (prompt->cmd[0] == '.')
 		return (prompt->cmd);
 	if (!ft_getenv(prompt->environ, "PATH", shell))
@@ -46,10 +47,7 @@ char	*get_cmd_w_path(t_prompt *prompt, t_minishell *shell)
 	path = ft_strdup(ft_getenv(prompt->environ, "PATH", shell));
 	ft_add_garbage(0, &shell->garbage, path, shell);
 	while (*path && !has_exec)
-	{
-		temp = ft_strsep(&path, ":");
-		has_exec = check_present_in_path(prompt, temp);
-	}
+		has_exec = check_present_in_path(prompt, ft_strsep(&path, ":"));
 	if (prompt->cmd[0] == 0)
 		prompt->cmd = "''";
 	if (!has_exec)
