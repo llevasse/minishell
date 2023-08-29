@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/28 11:21:18 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/29 12:22:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,20 @@ int	redir(t_prompt *prompt)
 
 void	wait_exec(t_prompt *prompt, int value)
 {
-	if (prompt->exec_pid != -1)
+	waitpid(prompt->exec_pid, &value, WUNTRACED);
+	if (WIFEXITED(value))
+		errno = WEXITSTATUS(value);
+	else if (WIFSIGNALED(value))
 	{
-		waitpid(prompt->exec_pid, &value, WUNTRACED);
-		if (WIFEXITED(value))
-			errno = WEXITSTATUS(value);
-		else if (WIFSIGNALED(value))
+		if (WTERMSIG(value) == SIGQUIT)
 		{
-			if (WTERMSIG(value) == SIGQUIT)
-			{
-				write(1, ERR_QUIT, 21);
-				errno = 131;
-			}
-			if (WTERMSIG(value) == SIGINT)
-				errno = 130;
+			write(1, ERR_QUIT, 21);
+			errno = 131;
 		}
+		if (WTERMSIG(value) == SIGINT)
+			errno = 130;
 	}
-	else if (prompt->exec_fd[0] != -1)
-		do_close(&prompt->exec_fd[0]);
+	do_close(&prompt->exec_fd[0]);
 }
 
 void	swap_fd(t_prompt *prompt)
