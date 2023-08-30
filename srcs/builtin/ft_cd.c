@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/30 15:38:24 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/08/30 15:52:40 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
 	if (chdir(new_path) == 0)
 	{
 		replace_env("OLDPWD", cwd, prompt->shell);
-		ft_add_garbage(0,  &prompt->garbage, new_path, prompt->shell);
+		ft_add_garbage(0, &prompt->garbage, new_path, prompt->shell);
 		getcwd(cwd, PATH_MAX);
 		replace_env("PWD", cwd, prompt->shell);
 	}
