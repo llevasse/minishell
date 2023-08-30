@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 15:41:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/25 23:00:33 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:42:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ int	respect_pattern(char *str, char *pattern, char **keys)
 		return (0);
 	while (*str && keys[i])
 	{
+		printf("keys %d : |%s|\n", i, keys[i]);
 		if (get_substr_pos(str, keys[i++]) == -1)
 			return (0);
+		printf("str : %s\n", str);
 		str += get_substr_pos(str, keys[i - 1]) + ft_strlen(keys[i - 1]);
 	}
 	last_key = keys[get_tab_size(keys) - 1];
-	if (pattern[ft_strlen(pattern)] != 42)
+	if (pattern[ft_strlen(pattern) - 1] != 42)
 	{
 		if (ft_strncmp(str + (ft_strlen(str) - \
 					ft_strlen(last_key)), last_key, ft_strlen(last_key) + 1))
