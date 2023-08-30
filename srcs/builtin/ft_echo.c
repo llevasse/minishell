@@ -6,13 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/23 23:16:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:51:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	print_args(t_arg **args, int i);
+static void	print_args(t_arg **args);
 static int	is_n_flag(char *s);
 
 /// @brief recreation of the echo cmd,
@@ -27,11 +27,11 @@ void	ft_echo(t_prompt *prompt)
 		if (!prompt->args[1])
 			write(1, "", 0);
 		else
-			print_args(&prompt->args[1], -1);
+			print_args(&prompt->args[1]);
 	}
 	else
 	{
-		print_args(prompt->args, -1);
+		print_args(prompt->args);
 		write(1, "\n", 2);
 	}
 }
@@ -55,12 +55,18 @@ static int	is_n_flag(char *s)
 /// @brief Print arguments from a certain index.
 /// @param **args Array of t_arg variable to print,
 /// @param i index to print from (-1 if from the begining).
-static void	print_args(t_arg **args, int i)
+static void	print_args(t_arg **args)
 {
-	while (args[++i])
+	int	i;
+
+	i = 0;
+	while (args[i] && args[i]->quote == 0 && args[i]->s[0] == '-')
+		i++;
+	while (args[i])
 	{
-		if (i != 0)
-			write(1, " ", 1);
 		write(STDOUT_FILENO, args[i]->s, ft_strlen(args[i]->s));
+		i++;
+		if (args[i])
+			write(1, " ", 1);
 	}
 }
