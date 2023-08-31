@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 16:10:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:37:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@
 
 #include "minishell.h"
 
+int	g_prompt;
+
 char	*get_mini_prompt(t_garbage *garbage, t_minishell *shell)
 {
+	if (g_prompt == 1)
+		return ("(130)minishell >>");
 	char	*prompt;
 
 	prompt = ft_joinf(PROMPT, shell->error_value);
@@ -41,6 +45,7 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 
 	shell->garbage = garbage;
 	shell->error_value = errno;
+	g_prompt = errno;
 	errno = 0;
 	s = readline(get_mini_prompt(garbage, shell));
 	if (s == NULL)
@@ -48,6 +53,9 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	if (s == NULL)
 		return ;
 	add_history(s);
+	shell->error_value = g_prompt;
+	errno = g_prompt;
+	g_prompt = 0;
 	parse(s, garbage, shell);
 }
 
@@ -79,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 	t_garbage			*garbage;
 	t_garbage			*garbage_at_exit;
 
-	(void)argc;
+	g_prompt = 0;
 	(void)argv;
 	if (argc != 1)
 		return (127);
