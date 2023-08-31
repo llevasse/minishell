@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/31 15:37:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:44:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	g_prompt;
 
 char	*get_mini_prompt(t_garbage *garbage, t_minishell *shell)
 {
-	if (g_prompt == 1)
-		return ("(130)minishell >>");
 	char	*prompt;
 
 	prompt = ft_joinf(PROMPT, shell->error_value);
@@ -47,6 +45,7 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	shell->error_value = errno;
 	g_prompt = errno;
 	errno = 0;
+	g_prompt = 0;
 	s = readline(get_mini_prompt(garbage, shell));
 	if (s == NULL)
 		ft_exit(shell, NULL);
@@ -55,8 +54,9 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	add_history(s);
 	shell->error_value = g_prompt;
 	errno = g_prompt;
-	g_prompt = 0;
 	parse(s, garbage, shell);
+	if (errno == 130)
+		errno = 0;
 }
 
 int	minishell_loop(t_minishell *shell, t_garbage *garbage)
