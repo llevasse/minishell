@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 12:03:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:55:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 {
 	prompt->args = NULL;
 	separate_cmd(prompt, input, shell);
+	if (!input || !input[0])
+		return ;
 	prompt->full_args = ft_split_args(prompt, input, ' ', shell);
 	if (i_dont_like_people_doing_this(prompt))
 	{
