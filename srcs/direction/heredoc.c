@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:36:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:54:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 /// @param *garbage Pointer to garbage collector.
 void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 {
-//	do_close(&prompt->exec_fd[0]);
-//	do_close(&prompt->exec_fd[1]);
 	write_heredoc(prompt, eof_name, !use_env_var);
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
@@ -29,6 +27,33 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	if (prompt->tmp_fd == -1)
 		do_close(&prompt->exec_fd[0]);
 	prompt->has_redir = 1;
+}
+
+void	heredoc_fork(t_prompt *prompt, int i, int value)
+{
+	prompt->exec_pid = fork();
+	if (prompt->exec_pid == 0)
+	{
+		signal_termios(prompt);
+		heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
+		prompt);
+		close(1);
+		ft_exit(prompt->shell, NULL);
+	}
+	sig_mute(prompt);
+	waitpid(prompt->exec_pid, &value, WUNTRACED);
+	if (WIFSIGNALED(value) && WTERMSIG(value) == SIGINT)
+	{
+		write(1, "\n", 1);
+		errno = 130;
+		return ((void)(prompt->has_redir = -1));
+	}
+	errno = WEXITSTATUS(value);
+	dup2(prompt->exec_fd[0], prompt->tmp_fd);
+	if (!prompt->next_cmd)
+		do_close(&prompt->exec_fd[1]);
+	if (prompt->tmp_fd == -1)
+		do_close(&prompt->exec_fd[0]);
 }
 
 /// @brief Create heredoc pipe.

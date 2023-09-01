@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:39:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:49:48 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	check_redirection(t_prompt *prompt)
 {
 	int		i;
 	int		value;	
+
 	i = 0;
+	value = 0;
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
 	while (prompt->args && prompt->args[i])
@@ -31,42 +33,8 @@ void	check_redirection(t_prompt *prompt)
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
 		{
-			if (create_heredoc_fd(prompt) == -1)
-				return ((void)delete_redirection(prompt->args));
-			sig_init(prompt);
-			prompt->exec_pid = fork();
-			if (prompt->exec_pid == 0)
-			{
-				signal_termios(prompt);
-				heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
-				prompt);
-				close(1);
-				ft_exit(prompt->shell, NULL);
-			}
-			else
-			{
-				sig_mute(prompt);
-				waitpid(prompt->exec_pid, &value, WUNTRACED);
-       			if (WIFEXITED(value))
-				{
-					errno = WEXITSTATUS(value);
-					dup2(prompt->exec_fd[0], prompt->tmp_fd);
-					if (!prompt->next_cmd)
-						do_close(&prompt->exec_fd[1]);
-					if (prompt->tmp_fd == -1)
-						do_close(&prompt->exec_fd[0]);
-				}
-				else if (WIFSIGNALED(value))
-               	{
-					if (WTERMSIG(value) == SIGINT)
-					{
-						write(1, "\n", 1);
-						errno = 130;
-						prompt->has_redir = -1;
-					}
-					prompt->exec_pid = -1;
-				}
-			}
+			if (create_heredoc_fd(prompt) != -1)
+				heredoc_fork(prompt, i, value);
 		}
 		else if (prompt->has_output == 0 && \
 				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')

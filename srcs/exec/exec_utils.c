@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 23:38:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:52:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	redir(t_prompt *prompt)
 		do_close(&prompt->exec_fd[1]);
 		do_close(&prompt->tmp_fd);
 		prompt->tmp_fd = prompt->exec_fd[0];
+		prompt->exec_pid = -1;
 		return (0);
 	}
 	delete_redirection(prompt->full_args);
