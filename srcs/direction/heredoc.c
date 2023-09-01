@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:09:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:22:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	do_close(&prompt->exec_fd[0]);
 	do_close(&prompt->exec_fd[1]);
 	write_heredoc(prompt, eof_name, !use_env_var);
-	if (prompt->tmp_fd != -1)
-		dup2(prompt->exec_fd[0], prompt->tmp_fd);
-	if (!prompt->next_cmd)
-		do_close(&prompt->exec_fd[1]);
-	if (prompt->tmp_fd == -1)
-		do_close(&prompt->exec_fd[0]);
 	prompt->has_redir = 1;
 }
 
@@ -86,8 +80,6 @@ int	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 
 	doc.delimiter = ft_strdup(heredoc_name);
 	ft_add_garbage(0, &p->garbage, doc.delimiter, p->shell);
-	if (create_heredoc_fd(p) == -1)
-		return (0);
 	doc.prompt = ft_strjoin(doc.delimiter, " >");
 	ft_add_garbage(0, &p->garbage, doc.prompt, p->shell);
 	doc.len = 0;
