@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/30 13:36:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 20:42:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void	check_redirection(t_prompt *prompt)
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
 		{
-			sig_init(prompt);
+			//sig_init(prompt);
 			prompt->exec_pid = fork();
 			if (prompt->exec_pid == 0)
 			{
+				signal_termios(prompt);
 				heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
 				prompt);
 				free_garbage(prompt->garbage);
@@ -43,19 +44,23 @@ void	check_redirection(t_prompt *prompt)
 			else
 			{
 				sig_mute(prompt);
-				 waitpid(prompt->exec_pid, &value, WUNTRACED);
-       			         if (WIFEXITED(value))
-                		        errno = WEXITSTATUS(value);
-               			 else if (WIFSIGNALED(value))
-                		{
-                        		if (WTERMSIG(value) == SIGQUIT)
-                        		{
-                                		write(1, ERR_QUIT, 21);
-                                		errno = 131;
-                        		}
-                        		if (WTERMSIG(value) == SIGINT)
-                                		errno = 130;
-                		}
+				waitpid(prompt->exec_pid, &value, WUNTRACED);
+       			if (WIFEXITED(value))
+					errno = WEXITSTATUS(value);
+				else if (WIFSIGNALED(value))
+               	{
+					write(2, "cc\n", 3);
+					if (WTERMSIG(value) == SIGQUIT)
+					{
+						write(1, ERR_QUIT, 21);
+						errno = 131;
+					}
+					if (WTERMSIG(value) == SIGINT)
+					{
+						errno = 130;
+						prompt->has_redir = -1;
+					}
+				}
 			}
 		}
 		else if (prompt->has_output == 0 && \

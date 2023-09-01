@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 14:06:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:52:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int g_prompt;
 
 /// @brief Handle heredoc in prompt.
 /// @param *input Prompt input,
@@ -56,6 +58,11 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 	char	*text;
 
 	text = readline(doc->prompt);
+	if (g_prompt == 130)
+	{	
+		close(p->exec_fd[0]);
+		return (0);
+	}
 	if (text == NULL)
 	{
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
@@ -93,7 +100,7 @@ int	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 	doc.len = 0;
 	doc.is_full = 0;
 	doc.use_env_var = use_env_var;
-	while (1)
+	while (1 && g_prompt != 130)
 	{
 		if (!check_heredoc(p, &doc))
 			break ;
