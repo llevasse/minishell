@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:32:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:39:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	check_redirection(t_prompt *prompt)
 				signal_termios(prompt);
 				heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
 				prompt);
-				free_garbage(prompt->garbage);
-				exit(0);
+				close(1);
+				ft_exit(prompt->shell, NULL);
 			}
 			else
 			{
