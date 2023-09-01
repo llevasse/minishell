@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 20:42:38 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:05:21 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	check_redirection(t_prompt *prompt)
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
 		{
-			//sig_init(prompt);
+			sig_init(prompt);
 			prompt->exec_pid = fork();
 			if (prompt->exec_pid == 0)
 			{
@@ -49,7 +49,6 @@ void	check_redirection(t_prompt *prompt)
 					errno = WEXITSTATUS(value);
 				else if (WIFSIGNALED(value))
                	{
-					write(2, "cc\n", 3);
 					if (WTERMSIG(value) == SIGQUIT)
 					{
 						write(1, ERR_QUIT, 21);
@@ -57,9 +56,11 @@ void	check_redirection(t_prompt *prompt)
 					}
 					if (WTERMSIG(value) == SIGINT)
 					{
+						write(1, "\n", 1);
 						errno = 130;
 						prompt->has_redir = -1;
 					}
+					prompt->exec_pid = -1;
 				}
 			}
 		}

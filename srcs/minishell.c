@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/31 15:44:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:01:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	shell->error_value = g_prompt;
 	errno = g_prompt;
 	parse(s, garbage, shell);
-	if (errno == 130)
-		errno = 0;
+//	if (errno == 130)
+//		errno = 0;
 }
 
 int	minishell_loop(t_minishell *shell, t_garbage *garbage)
