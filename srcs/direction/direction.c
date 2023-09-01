@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:05:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/01 21:07:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ void	check_redirection(t_prompt *prompt)
 					errno = WEXITSTATUS(value);
 				else if (WIFSIGNALED(value))
                	{
-					if (WTERMSIG(value) == SIGQUIT)
-					{
-						write(1, ERR_QUIT, 21);
-						errno = 131;
-					}
 					if (WTERMSIG(value) == SIGINT)
 					{
 						write(1, "\n", 1);
