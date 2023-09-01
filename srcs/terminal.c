@@ -43,7 +43,10 @@ void	handler(int sig, siginfo_t *info, void *context)
 	if (sig == SIGINT)
 	{
 		if (info->si_pid == 0)
+		{
 			write(1, "\n", 1);
+			close(0);
+		}
 		if (info->si_pid != 0)
 		{
 			write(1, CTRL_C, 3);

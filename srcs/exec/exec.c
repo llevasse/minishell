@@ -18,10 +18,8 @@ static void	pls_wait(t_prompt *prompt);
 
 void	exec(t_prompt *prompt)
 {
-	int			i;
 	t_prompt	*temp;
 
-	i = 0;
 	prompt->tmp_fd = dup(0);
 	temp = prompt;
 	while (prompt->full_args && prompt->full_args[0])

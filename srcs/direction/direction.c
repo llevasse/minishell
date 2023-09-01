@@ -19,7 +19,7 @@
 void	check_redirection(t_prompt *prompt)
 {
 	int		i;
-
+	int		value;	
 	i = 0;
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
@@ -30,8 +30,34 @@ void	check_redirection(t_prompt *prompt)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
-			heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
+		{
+			sig_init(prompt);
+			prompt->exec_pid = fork();
+			if (prompt->exec_pid == 0)
+			{
+				heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
 				prompt);
+				free_garbage(prompt->garbage);
+				exit(0);
+			}
+			else
+			{
+				sig_mute(prompt);
+				 waitpid(prompt->exec_pid, &value, WUNTRACED);
+       			         if (WIFEXITED(value))
+                		        errno = WEXITSTATUS(value);
+               			 else if (WIFSIGNALED(value))
+                		{
+                        		if (WTERMSIG(value) == SIGQUIT)
+                        		{
+                                		write(1, ERR_QUIT, 21);
+                                		errno = 131;
+                        		}
+                        		if (WTERMSIG(value) == SIGINT)
+                                		errno = 130;
+                		}
+			}
+		}
 		else if (prompt->has_output == 0 && \
 				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);
