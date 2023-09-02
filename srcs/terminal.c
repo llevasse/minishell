@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/31 15:36:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:59:18 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ void	handler(int sig, siginfo_t *info, void *context)
 		{
 			write(1, CTRL_C, 3);
 			g_prompt = 1;
+			rl_replace_line("", 1);
+			rl_redisplay();
 			write(1, "\33[2K\r(130)minishell >>", 22);
 			g_prompt = 130;
-			rl_replace_line("", 1);
 		}
 	}
 	if (sig == SIGQUIT && info->si_pid == 0)
