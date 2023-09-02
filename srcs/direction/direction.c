@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 15:22:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 23:45:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,9 @@ void	check_redirection(t_prompt *prompt)
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
 			heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
 				prompt);
-		else if (prompt->has_output == 0 && \
-				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
-			set_output(prompt);
 		i++;
 	}
+	set_output(prompt);
 	delete_redirection(prompt->args);
 }
 // ALWAYS CLOSE PIPE WRITE-END BEFORE DUP2
