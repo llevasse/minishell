@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 15:15:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:21:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ extern int	g_sig;
 /// @param *garbage Pointer to garbage collector.
 void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 {
+	if (*eof_name == 0)
+	{
+		prompt->has_redir = -1;
+		errno = 2;
+		return ((void)ft_putstr_fd(UNEXPEC_DOC, 2));
+	}
 	do_close(&prompt->exec_fd[0]);
 	do_close(&prompt->exec_fd[1]);
 	write_heredoc(prompt, eof_name, !use_env_var);
