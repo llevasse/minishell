@@ -11,7 +11,6 @@ NC			=	\033[0m
 LIBFT_PATH	=	libft/
 LIBFT_NAME	=	libft.a
 LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
-LOUD_LIBFT		=	$(addprefix $(LIBFT_PATH), $(LIBFT_NAME))
 #---MINISHELL_VAR----------------------------------
 SRC			=	srcs/minishell.c \
 				srcs/parsing/ft_strsep.c \
@@ -56,7 +55,6 @@ SRC			=	srcs/minishell.c \
 
 OBJS_DIR	=	.OBJS/
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
-OBJS_LOUD	=	$(addprefix $(OBJS_DIR), $(SRC:.c=.shell))
 HEADER_DIR	=	headers/
 HEADER_FILE	=	headers/minishell.h \
 				headers/structs.h \
@@ -113,14 +111,5 @@ fclean:			clean
 				@echo "$(GREEN)Done\n"
 
 re:				fclean all
-
-pls_gd-harco:	$(OBJS_DIR) $(LOUD_LIBFT) Makefile $(HEADER_FILE) $(OBJS_LOUD)
-				$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS_LOUD) -lreadline $(LIBFT) -o $@
-				@echo "$(GREEN)Minishell compiled :D$(NC)"
-
-$(LOUD_LIBFT):
-				@echo "$(YELLOW)\nCOMPILING $(LIBFT_PATH)\n"
-				make -C $(LIBFT_PATH)
-				@echo "$(GREEN)LIBFT created\n$(NC)"
 
 .PHONY:			all clean fclean re
