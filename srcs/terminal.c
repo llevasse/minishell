@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/01 21:02:08 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:48:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	reset_termios(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
-//rl_replace_line("", 0);
 void	handler(int sig, siginfo_t *info, void *context)
 {
 	(void) info;
@@ -61,6 +60,17 @@ void	handler(int sig, siginfo_t *info, void *context)
 		errno = 131;
 	if (sig == SIGUSR1)
 		exit(0);
+}
+
+void	heredoc_handler(int sig, siginfo_t *info, void *context)
+{
+	if (sig == SIGINT)
+	{
+		g_prompt = 130;
+		errno = 130;
+	}
+	(void)context;
+	(void)info;
 }
 
 void	do_close(int *fd)

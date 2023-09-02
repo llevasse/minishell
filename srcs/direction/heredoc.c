@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:54:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:49:15 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_prompt;
 
 /// @brief Handle heredoc in prompt.
 /// @param *input Prompt input,
@@ -34,7 +36,12 @@ void	heredoc_fork(t_prompt *prompt, int i, int value)
 	prompt->exec_pid = fork();
 	if (prompt->exec_pid == 0)
 	{
-		signal_termios(prompt);
+		g_prompt = 0;
+		errno = 0;
+		prompt->shell->sig.sigint_child.sa_sigaction = &heredoc_handler;	
+		sig_mute(prompt);
+		sigaction(SIGINT, &prompt->shell->sig.sigint_child, NULL);
+		reset_termios();
 		heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
 		prompt);
 		close(1);
@@ -79,8 +86,18 @@ int	create_heredoc_fd(t_prompt *prompt)
 int	check_heredoc(t_prompt *p, t_heredoc *doc)
 {
 	char	*text;
-
+	
+	if (errno == 130 || g_prompt == 130 || p->shell->error_value == 130)
+	{
+		close(1);
+		ft_exit(p->shell, NULL);
+	}
 	text = readline(doc->prompt);
+	if (errno == 130 || g_prompt == 130 || p->shell->error_value == 130)
+	{
+		close(1);
+		ft_exit(p->shell, NULL);
+	}
 	if (text == NULL)
 	{
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);

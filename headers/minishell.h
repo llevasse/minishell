@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:49:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:44:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void		ft_cd(t_prompt *prompt);
 void		set_termios(void);
 void		reset_termios(void);
 void		handler(int sig, siginfo_t *info, void *context);
+void		heredoc_handler(int sig, siginfo_t *info, void *context);
 void		do_close(int *fd);
 
 // set_env.c
