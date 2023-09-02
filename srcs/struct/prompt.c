@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:52:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 23:53:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, \
 	prompt->garbage = garbage;
 	prompt->lvl = lvl;
 	get_args(prompt, input, shell);
-	if (prompt->full_args[0])
+	if (prompt->full_args && prompt->full_args[0])
 		prompt->full_args = get_full_args(prompt, shell);
+	else
+		return (NULL);
+	ft_add_garbage(0, &shell->garbage, prompt, shell);
 	return (prompt);
 }
 
