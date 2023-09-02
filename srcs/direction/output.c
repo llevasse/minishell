@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 23:45:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 23:46:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	do_open(char *name, int append, int to_close)
 	if (!name || !*name)
 	{
 		write(2, ERR_PARSE_OUTPUT, ft_strlen(ERR_PARSE_OUTPUT));
-		return (-2);
+		return (-1);
 	}
 	if (append)
 		fd = open(name, O_RDWR | O_APPEND | O_CREAT, 0666);
