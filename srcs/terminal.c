@@ -6,13 +6,13 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 11:48:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 13:44:02 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_prompt;
+extern int	g_sig;
 
 void	set_termios(void)
 {
@@ -52,7 +52,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 			write(1, "\33[2K\r(130)minishell >>", 22);
 			rl_replace_line("", 1);
 		}
-		g_prompt = 130;
+		g_sig = SIGINT;
 	}
 	if (sig == SIGQUIT && info->si_pid == 0)
 		write(1, ERR_QUIT, 21);
@@ -66,7 +66,7 @@ void	heredoc_handler(int sig, siginfo_t *info, void *context)
 {
 	if (sig == SIGINT)
 	{
-		g_prompt = 130;
+		g_sig = SIGINT;
 		errno = 130;
 	}
 	(void)context;
