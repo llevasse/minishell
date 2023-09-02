@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 15:17:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 23:18:11 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # define ERR_PARSE_OUTPUT "Parsing error around >\n"
 # define ERR_PARSE_INPUT "Parsing error around <\n"
 # define ERR_OPEN_F "Error in opening file\n"
-# define NO_FILE "%s : No such file or directory\n"
+# define DENIED "Permission denied\n"
 # define NO_FILE_E "No such file or directory\n"
 # define PIPE_ERR "Error in opening pipes\n"
 # define ERR_404 "%s: command not found\n"

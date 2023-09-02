@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/26 23:54:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 23:33:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	set_output(t_prompt *prompt)
 
 	fd = get_last_output_fd(prompt->args);
 	if (fd == -1)
-		return ((void)(errno = 2, prompt->cmd = 0, prompt->has_redir = -1));
+		return ((void)(errno = 1, prompt->cmd = 0, prompt->has_redir = -1));
 	if (prompt->tmp_fd != -1)
 		dup2(fd, 1);
 	close(fd);
@@ -36,12 +36,17 @@ int	do_open(char *name, int append, int to_close)
 
 	if (to_close != -1)
 		close(to_close);
-	if (!name)
+	if (!name || !*name)
+	{
 		write(2, ERR_PARSE_OUTPUT, ft_strlen(ERR_PARSE_OUTPUT));
+		return (-2);
+	}
 	if (append)
 		fd = open(name, O_RDWR | O_APPEND | O_CREAT, 0666);
 	else
 		fd = open(name, O_RDWR | O_TRUNC | O_CREAT, 0666);
+	if (fd == -1)
+		ft_putstr_fd(DENIED, 2);
 	return (fd);
 }
 
@@ -62,18 +67,16 @@ int	get_last_output_fd(t_arg **args)
 	{
 		if (args[i]->quote == 0 && args[i]->s[0] == '>')
 		{
-			if (args[i]->s[1] == '>' && args[i]->s[2])
+			if (args[i]->s[1] == '>')
+			{
 				fd = do_open(args[i]->s + 2, 1, fd);
-			else if (args[i]->s[1] == '>' && args[i]->s[2] == 0 && args[i + 1])
-				fd = do_open(args[i + 1]->s, 1, fd);
-			else if (args[i]->s[1] == '>' && args[i]->s[2] == 0 && !args[i + 1])
-				fd = do_open(NULL, 0, fd);
-			else if (args[i]->s[1] && args[i]->s[1] != '>')
+				if (fd == -1)
+					return (-1);
+			}
+			else
 				fd = do_open(args[i]->s + 1, 0, fd);
-			else if (args[i]->s[1] == 0 && args[i + 1])
-				fd = do_open(args[i + 1]->s, 0, fd);
-			else if (args[i]->s[1] == 0 && !args[i + 1])
-				fd = do_open(NULL, 0, fd);
+			if (fd == -1)
+				return (-1);
 		}
 		i++;
 	}
