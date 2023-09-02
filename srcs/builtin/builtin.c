@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 00:31:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 00:42:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	is_builtin(char *cmd)
 /// then the parent process will be stoped.
 void	exec_builtin(t_prompt *p)
 {
-//	close(p->tmp_fd);
 	if (!ft_strcmp(p->cmd, "cd"))
 		ft_cd(p);
 	else if (!ft_strcmp(p->cmd, "echo"))
@@ -52,16 +51,14 @@ void	exec_builtin(t_prompt *p)
 		ft_env(p->shell);
 	else if (!ft_strcmp(p->cmd, "export") && !p->export_args)
 		print_export(duplicate_env(p->shell), p->shell);
+	else if (!ft_strcmp(p->cmd, "export"))
+		ft_export(p);
 	else if (!ft_strcmp(p->cmd, "pwd"))
 		ft_pwd(p);
 	else if (!ft_strcmp(p->cmd, "unset"))
 		ft_unset(p);
-//	close(0);
-//	close(1);
-//	close(p->old_stdout);
-//	free_garbage(p->shell->at_exit_garbage);
-//	free_garbage(p->shell->garbage);
-//	exit(errno);
+	else if (!p->prev_cmd && !ft_strcmp(p->cmd, "exit"))
+		ft_exit(p->shell, p->args);
 }
 
 /// @brief Execute a builtin command.
