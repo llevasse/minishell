@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 14:55:27 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:13:43 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 #include "minishell.h"
 
-int	g_prompt;
+int	g_sig;
 
 char	*get_mini_prompt(t_garbage *garbage, t_minishell *shell)
 {
@@ -44,8 +44,8 @@ void	pre_parse(char *s, t_minishell *shell)
 	if (s == NULL)
 		return ;
 	add_history(s);
-	shell->error_value = g_prompt;
-	errno = g_prompt;
+	if (g_sig == SIGINT)
+		shell->error_value = 130;
 }
 
 void	get_input(t_garbage *garbage, t_minishell *shell)
@@ -54,9 +54,8 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 
 	shell->garbage = garbage;
 	shell->error_value = errno;
-	g_prompt = errno;
 	errno = 0;
-	g_prompt = 0;
+	g_sig = 0;
 	s = readline(get_mini_prompt(garbage, shell));
 	pre_parse(s, shell);
 	parse(s, garbage, shell);
@@ -92,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 	t_garbage			*garbage;
 	t_garbage			*garbage_at_exit;
 
-	g_prompt = 0;
+	g_sig = 0;
 	(void)argv;
 	if (argc != 1)
 		return (127);

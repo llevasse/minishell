@@ -6,13 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 15:05:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:15:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_prompt;
+extern int	g_sig;
 
 /// @brief Handle heredoc in prompt.
 /// @param *input Prompt input,
@@ -24,7 +24,7 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	do_close(&prompt->exec_fd[0]);
 	do_close(&prompt->exec_fd[1]);
 	write_heredoc(prompt, eof_name, !use_env_var);
-	if (g_prompt == 130)
+	if (g_sig == SIGINT)
 		return ((void)(prompt->has_redir = -2));
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
@@ -59,10 +59,12 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 {
 	char	*text;
 
-	if (g_prompt == 130)
+	if (g_sig == SIGINT)
 		return ((void)(doc->status = -1), 0);
 	text = readline(doc->prompt);
 	p->heredoc_last_input = text;
+	if (g_sig == SIGINT)
+		return ((void)(doc->status = -1), 0);
 	if (text == NULL)
 	{
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
