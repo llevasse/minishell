@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 14:47:07 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:07:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ int	redir(t_prompt *prompt)
 		do_close(&prompt->exec_fd[1]);
 		do_close(&prompt->tmp_fd);
 		prompt->tmp_fd = prompt->exec_fd[0];
+		if (prompt->has_redir == -2)
+		{
+			do_close(&prompt->exec_fd[0]);
+			pre_parse(prompt->heredoc_last_input, prompt->shell);
+			parse(prompt->heredoc_last_input, prompt->garbage, prompt->shell);
+		}
 		return (0);
 	}
 	delete_redirection(prompt->full_args);

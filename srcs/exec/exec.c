@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 15:00:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:04:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ void	exec(t_prompt *prompt)
 		else
 			get_exec_pipe (prompt);
 		if (prompt->has_redir == -2)
-		{
-			pre_parse(prompt->heredoc_last_input, prompt->shell);
-			errno = 130;
-			return (parse(prompt->heredoc_last_input, prompt->garbage, prompt->shell));
-		}
+			return ;
 		else if (prompt->has_exec && prompt->next_cmd)
 			prompt = next_prompt(prompt);
 		else

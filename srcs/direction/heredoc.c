@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 14:46:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 15:05:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	create_heredoc_fd(t_prompt *prompt)
 int	check_heredoc(t_prompt *p, t_heredoc *doc)
 {
 	char	*text;
-	
+
 	if (g_prompt == 130)
 		return ((void)(doc->status = -1), 0);
 	text = readline(doc->prompt);
