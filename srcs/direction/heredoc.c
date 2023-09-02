@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:54:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:19:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	heredoc_fork(t_prompt *prompt, int i, int value)
 	dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
 		do_close(&prompt->exec_fd[1]);
-	if (prompt->tmp_fd == -1)
-		do_close(&prompt->exec_fd[0]);
+	do_close(&prompt->exec_fd[0]);
 }
 
 /// @brief Create heredoc pipe.

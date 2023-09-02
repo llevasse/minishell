@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:49:48 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:22:29 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	check_redirection(t_prompt *prompt)
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
 		{
-			if (create_heredoc_fd(prompt) != -1)
+			if (prompt->args[i]->s[3] == 0)
+				ft_putstr_fd(UNEXPEC_DOC, 2);	
+			else if(create_heredoc_fd(prompt) != -1)
 				heredoc_fork(prompt, i, value);
 		}
 		else if (prompt->has_output == 0 && \
