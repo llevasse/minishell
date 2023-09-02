@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 14:19:35 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:25:28 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void	heredoc_fork(t_prompt *prompt, int i, int value)
 		signal_termios(prompt);
 		heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
 		prompt);
-		close(1);
-		ft_exit(prompt->shell, NULL);
+		free_garbage(prompt->shell->garbage);
+		free_garbage(prompt->shell->at_exit_garbage);
+		exit(errno);
 	}
 	sig_mute(prompt);
 	waitpid(prompt->exec_pid, &value, WUNTRACED);
