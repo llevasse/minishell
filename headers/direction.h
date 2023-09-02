@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:30:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/01 21:47:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:34:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	set_input(char *name, t_prompt *prompt);
 
 	// srcs/parsing/direction/heredoc.c:
 void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt);
-void	heredoc_fork(t_prompt *prompt, int i, int value);
 int		create_heredoc_fd(t_prompt *prompt);
 int		write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var);
 

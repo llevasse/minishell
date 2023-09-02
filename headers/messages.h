@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 14:42:29 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 14:21:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:11:02 by mwubneh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 # define ERR_404 "%s: command not found\n"
 # define UNEXPEC_EOF "unexpected EOF while looking for matching `"
 # define UNEXPEC_PIPE "syntax error near unexpected tolen `|'\n"
-# define UNEXPEC_DOC "syntax error near unexpected tolen `newline'\n"
 # define TMA "Too many arguments\n"
 # define NOT_NUM_ARG "numeric argument required\n"
 # define ERR_QUIT "^\\QUIT (core dumped)\n"

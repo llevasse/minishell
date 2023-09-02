@@ -6,13 +6,13 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 14:06:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/31 15:36:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern int	g_sig;
+extern int	g_prompt;
 
 void	set_termios(void)
 {
@@ -35,6 +35,7 @@ void	reset_termios(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
+//rl_replace_line("", 0);
 void	handler(int sig, siginfo_t *info, void *context)
 {
 	(void) info;
@@ -42,18 +43,15 @@ void	handler(int sig, siginfo_t *info, void *context)
 	if (sig == SIGINT)
 	{
 		if (info->si_pid == 0)
-		{
 			write(1, "\n", 1);
-			close(0);
-		}
 		if (info->si_pid != 0)
 		{
 			write(1, CTRL_C, 3);
-			rl_replace_line("", 0);
-			rl_redisplay();
+			g_prompt = 1;
 			write(1, "\33[2K\r(130)minishell >>", 22);
+			g_prompt = 130;
+			rl_replace_line("", 1);
 		}
-		g_sig = SIGINT;
 	}
 	if (sig == SIGQUIT && info->si_pid == 0)
 		write(1, ERR_QUIT, 21);
@@ -61,17 +59,6 @@ void	handler(int sig, siginfo_t *info, void *context)
 		errno = 131;
 	if (sig == SIGUSR1)
 		exit(0);
-}
-
-void	heredoc_handler(int sig, siginfo_t *info, void *context)
-{
-	if (sig == SIGINT)
-	{
-		g_sig = SIGINT;
-		errno = 130;
-	}
-	(void)context;
-	(void)info;
 }
 
 void	do_close(int *fd)

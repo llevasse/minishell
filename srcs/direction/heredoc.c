@@ -6,11 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 14:25:28 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:46:23 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_prompt;
 
 /// @brief Handle heredoc in prompt.
 /// @param *input Prompt input,
@@ -19,7 +21,11 @@
 /// @param *garbage Pointer to garbage collector.
 void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 {
+	do_close(&prompt->exec_fd[0]);
+	do_close(&prompt->exec_fd[1]);
 	write_heredoc(prompt, eof_name, !use_env_var);
+	if (g_prompt == 130)
+		return ((void)(prompt->has_redir = -2));
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
@@ -27,33 +33,6 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	if (prompt->tmp_fd == -1)
 		do_close(&prompt->exec_fd[0]);
 	prompt->has_redir = 1;
-}
-
-void	heredoc_fork(t_prompt *prompt, int i, int value)
-{
-	prompt->exec_pid = fork();
-	if (prompt->exec_pid == 0)
-	{
-		signal_termios(prompt);
-		heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
-		prompt);
-		free_garbage(prompt->shell->garbage);
-		free_garbage(prompt->shell->at_exit_garbage);
-		exit(errno);
-	}
-	sig_mute(prompt);
-	waitpid(prompt->exec_pid, &value, WUNTRACED);
-	if (WIFSIGNALED(value) && WTERMSIG(value) == SIGINT)
-	{
-		write(1, "\n", 1);
-		errno = 130;
-		return ((void)(prompt->has_redir = -1));
-	}
-	errno = WEXITSTATUS(value);
-	dup2(prompt->exec_fd[0], prompt->tmp_fd);
-	if (!prompt->next_cmd)
-		do_close(&prompt->exec_fd[1]);
-	do_close(&prompt->exec_fd[0]);
 }
 
 /// @brief Create heredoc pipe.
@@ -79,8 +58,11 @@ int	create_heredoc_fd(t_prompt *prompt)
 int	check_heredoc(t_prompt *p, t_heredoc *doc)
 {
 	char	*text;
-
+	
+	if (g_prompt == 130)
+		return ((void)(doc->status = -1), 0);
 	text = readline(doc->prompt);
+	p->heredoc_last_input = text;
 	if (text == NULL)
 	{
 		text = ft_joinf("%s%s'\n", UNEXPEC_EOF, doc->delimiter);
@@ -111,6 +93,8 @@ int	write_heredoc(t_prompt *p, char *heredoc_name, int use_env_var)
 
 	doc.delimiter = ft_strdup(heredoc_name);
 	ft_add_garbage(0, &p->garbage, doc.delimiter, p->shell);
+	if (create_heredoc_fd(p) == -1)
+		return (0);
 	doc.prompt = ft_strjoin(doc.delimiter, " >");
 	ft_add_garbage(0, &p->garbage, doc.prompt, p->shell);
 	doc.len = 0;

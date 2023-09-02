@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/01 21:52:55 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/02 14:47:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@ int	exec_child(t_prompt *prompt)
 int	redir(t_prompt *prompt)
 {
 	check_redirection(prompt);
-	if (prompt->has_redir == -1)
+	if (prompt->has_redir <= -1)
 	{
 		do_close(&prompt->exec_fd[1]);
 		do_close(&prompt->tmp_fd);
 		prompt->tmp_fd = prompt->exec_fd[0];
-		prompt->exec_pid = -1;
 		return (0);
 	}
 	delete_redirection(prompt->full_args);

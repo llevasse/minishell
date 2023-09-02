@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 14:22:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/08/30 13:36:40 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@
 void	check_redirection(t_prompt *prompt)
 {
 	int		i;
-	int		value;	
 
 	i = 0;
-	value = 0;
 	if (prompt->old_stdout == -1)
 		prompt->old_stdout = dup(1);
 	while (prompt->args && prompt->args[i])
@@ -32,12 +30,8 @@ void	check_redirection(t_prompt *prompt)
 			set_input(prompt->args[i]->s, prompt);
 		else if (!prompt->args[i]->quote && \
 				!ft_strncmp(prompt->args[i]->s, "<<", 2))
-		{
-			if (prompt->args[i]->s[3] == 0)
-				ft_putstr_fd(UNEXPEC_DOC, 2);	
-			else if(create_heredoc_fd(prompt) != -1)
-				heredoc_fork(prompt, i, value);
-		}
+			heredoc(prompt->args[i]->joined_quote, prompt->args[i]->s + 2, \
+				prompt);
 		else if (prompt->has_output == 0 && \
 				!prompt->args[i]->quote && prompt->args[i]->s[0] == '>')
 			set_output(prompt);
