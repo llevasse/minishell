@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 15:04:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 00:21:47 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	pls_wait(t_prompt *prompt)
 		}
 		prompt = prompt->next_cmd;
 	}
-	do_close(&prompt->tmp_fd);
 }
 
 static int	get_exec(t_prompt *prompt)
@@ -85,8 +84,7 @@ static int	get_exec(t_prompt *prompt)
 		sig_mute(prompt);
 		if (prompt->exec_fd[0] != -1)
 			prompt->tmp_fd = -1;
-		do_close(&prompt->exec_fd[0]);
-		do_close(&prompt->tmp_fd);
+		prompt->tmp_fd = dup(prompt->exec_fd[0]);
 	}
 	return ((void)(prompt->has_exec = 1), 0);
 }

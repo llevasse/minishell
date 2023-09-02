@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/31 15:55:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 00:07:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 	var_set(&var, s, c, shell);
 	while (s[var.i] != '\0')
 	{
+		while (s[var.i] && s[var.i] == '|')
+			var.i++;
 		var.res[var.word] = init_arg(shell);
 		if (s[var.i] == '"' || s[var.i] == 39)
 		{
@@ -145,9 +147,6 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 		if (!prompt->cmd && !is_redir_symbol(var.res[var.word], 0) && \
 				var.res[var.word])
 			prompt->cmd = var.res[var.word]->s;
-		if (var.res[var.word] && \
-			!var.res[var.word]->quote && !ft_strcmp(var.res[var.word]->s, "|"))
-			break ;
 		we_go_forward(var.res, &var.word, prompt);
 		var.i = skip_char(s, c, var.i);
 		prompt->full_args = var.res;
