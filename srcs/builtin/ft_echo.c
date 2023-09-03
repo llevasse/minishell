@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:26:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 00:36:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 09:45:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void	print_args(t_arg **args)
 		i++;
 	while (args[i])
 	{
-		printf("%s", args[i++]->s);
+		write(1, args[i]->s, ft_strlen(args[i]->s));
+		i++;
 		if (args[i])
 			write(1, " ", 1);
 	}
