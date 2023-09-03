@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/02 16:08:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:16:30 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	pre_parse(char *s, t_minishell *shell)
 {
 	if (s == NULL)
 		ft_exit(shell, NULL);
-	add_history(s);
+	while (*s && ft_isspace(*s))
+		s++;
+	if (s[0] != 0)
+		add_history(s);
 	if (g_sig == SIGINT)
 		shell->error_value = 130;
 }
