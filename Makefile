@@ -56,6 +56,7 @@ SRC			=	srcs/minishell.c \
 
 OBJS_DIR	=	.OBJS/
 OBJS		=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o))
+OBJS_SAN	=	$(addprefix $(OBJS_DIR), $(SRC:.c=.o.san))
 HEADER_DIR	=	headers/
 HEADER_FILE	=	headers/minishell.h \
 				headers/structs.h \
@@ -67,15 +68,14 @@ HEADER_FILE	=	headers/minishell.h \
 
 $(NAME):		$(OBJS_DIR) $(LIBFT) Makefile $(HEADER_FILE) $(OBJS)
 				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) $(OBJS) -lreadline $(LIBFT) -o $@
+				@$(CC) $(FLAGS) -fsanitize=address -g3 -I $(HEADER_DIR) $(OBJS_SAN) -lreadline $(LIBFT) -o $@_SAN
 				@echo "\33[2K\r$(GREEN)Minishell compiled :D$(NC)"
 
 
 $(OBJS_DIR)%.o:	%.c $(HEADER_FILE)
 				@$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
+				@$(CC) $(FLAGS) -fsanitize=address -g3 -I $(HEADER_DIR) -c $< -o $@.san
 				@echo -n "\33[2K\r$(YELLOW)Compiled $<"
-
-$(OBJS_DIR)%.shell:	%.c $(HEADER_FILE)
-				$(CC) $(FLAGS) -g -I $(HEADER_DIR) -c $< -o $@
 
 $(OBJS_DIR):
 				@mkdir -p $(OBJS_DIR)
