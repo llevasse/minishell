@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 23:46:47 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 09:39:58 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	set_output(t_prompt *prompt)
 	int			fd;
 
 	fd = get_last_output_fd(prompt->args);
+	if (fd == -3)
+		return ;
 	if (fd == -1)
 		return ((void)(errno = 1, prompt->cmd = 0, prompt->has_redir = -1));
 	if (prompt->tmp_fd != -1)
@@ -62,7 +64,7 @@ int	get_last_output_fd(t_arg **args)
 	int	fd;
 
 	i = 0;
-	fd = -1;
+	fd = -3;
 	while (args[i])
 	{
 		if (args[i]->quote == 0 && args[i]->s[0] == '>')
