@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 14:27:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:33:37 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	*get_content(t_prompt *prompt, char **input)
 	char	*content;
 
 	content = ft_strdup(*input);
-	printf("content :|%s|\n", content);
 	ft_add_garbage(0, &prompt->garbage, content, prompt->shell);
 	if (content[0] == 0 || content[0] == '>' || content[1] == '<')
 		return ("");
@@ -78,7 +77,6 @@ void	get_pos_add(t_prompt *prompt, char *key)
 	i = 0;
 	while (prompt->args[i])
 	{
-		printf("args |%s|\n", prompt->args[i]->s);
 		equal_pos = get_char_pos(prompt->args[i]->s, '=');
 		if (equal_pos == 0 || ft_isspace(prompt->args[i]->s[equal_pos - 1]))
 		{
