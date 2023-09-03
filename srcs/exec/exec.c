@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 11:16:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 13:34:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,13 @@ static int	get_exec_pipe(t_prompt *prompt)
 	}
 	if (!redir(prompt) || !prompt->cmd)
 		return ((void)(prompt->has_exec = 1), 1);
-	if (!is_builtin(prompt->cmd))
-		prompt->exec_pid = fork();
-	if (prompt->exec_pid == 0 || is_builtin(prompt->cmd))
+	prompt->exec_pid = fork();
+	if (prompt->exec_pid == 0)
 	{
 		if (!prompt->has_redir)
 			do_close(&prompt->exec_fd[0]);
+		dup2(prompt->exec_fd[1], STDOUT_FILENO);
+		do_close(&prompt->exec_fd[1]);
 		reset_termios();
 		if (!exec_child(prompt))
 			return (1);
