@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/28 18:11:27 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/09/03 15:35:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
 int		go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
 void	we_go_forward(t_arg **res, int *word, t_prompt *prompt);
 int		is_redir_symbol(t_arg *arg, int is_alone);
+void	get_env_var_as_arg(t_prompt *p, t_var_2 *var, t_minishell *shell);
 
 //srcs/parsing/args/tab_utils.c:
 void	delete_element_at_index(char **tab, int index);
@@ -49,6 +50,7 @@ char	**insert_s_at_index(char *s, char **tab, int index, t_minishell *shell);
 char	**insert_alpha(char *s, char **tab, t_minishell *shell);
 t_arg	**insert_tab_at_index(t_arg **t1, t_arg **t2, int index,
 			t_minishell *shell);
+void	add_split_to_garbage(char **str, t_minishell *shell);
 
 //srcs/parsing/args/separate_cmd.c:
 void	separate_cmd(t_prompt *prompt, char *input, t_minishell *shell);

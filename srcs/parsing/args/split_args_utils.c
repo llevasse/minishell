@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 14:26:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:49:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,38 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
-	if (check_is_env_var(&var->res[var->word]->s, shell) == -1)
+	if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
 	{
-		if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
-		{
-			var->res[var->word]->s += get_char_pos(var->res[var->word]->s, '$');
-			return ;
-		}
-		var->res[var->word] = NULL;
+		var->res[var->word]->s += get_char_pos(var->res[var->word]->s, '$');
+		return ;
 	}
+	var->res[var->word + 1] = NULL;
+}
+
+void	get_env_var_as_arg(t_prompt *p, t_var_2 *var, t_minishell *shell)
+{
+	char	*var_name;
+	char	**split;
+	int		i;
+	t_arg	**arg;
+
+	var_name = get_env_var_name(var->str + var->i, shell);
+	if (check_is_env_var(&var_name, shell) == -1)
+		return ; //handle that
+	var->i += ft_strlen(var_name);
+	split = ft_split(var_name, ' ');
+	add_split_to_garbage(split, shell);
+	i = 0;
+	arg = malloc(get_tab_size(split) + 1);
+	ft_add_garbage(0, &shell->garbage, arg, shell);
+	while (split[i])
+	{
+		arg[i] = init_arg(shell);
+		arg[i]->s = split[i];
+		arg[i++]->quote = '"';
+		arg[i] = NULL;
+	}
+	var->res = insert_tab_at_index(var->res, arg, var->word, shell);
+	var->word++;
+	(void)p;
 }

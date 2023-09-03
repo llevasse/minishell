@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:31:14 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/25 22:44:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:48:01 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,14 @@ t_arg	**insert_tab_at_index(t_arg **t1, t_arg **t2,
 		return (t1);
 	new = move_index(new, t1, t2, index);
 	return (new);
+}
+
+void	add_split_to_garbage(char **str, t_minishell *shell)
+{
+	int	i;
+
+	i = 0;
+	ft_add_garbage(0, &shell->garbage, str, shell);
+	while (str[i])
+		ft_add_garbage(0, &shell->garbage, str[i++], shell);
 }

@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 15:59:12 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:10:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,19 @@ char	*get_env_var_name(char *str, t_minishell *shell)
 	ft_add_garbage(0, &shell->garbage, var_name, shell);
 	ft_strlcpy(var_name, str + (i - 1), j + 2);
 	return (var_name);
+}
+
+int	get_env_var_name_len(char *str)
+{
+	int	i;
+	int	j;
+
+	i = get_char_pos(str, '$') + 1;
+	if (i == 0)
+		return (0);
+	j = 0;
+	while (str[i + j] && (ft_isalnum(str[i + j]) || str[i + j] == '?') && \
+			!ft_isspace(str[i + j]))
+		j++;
+	return (j);
 }

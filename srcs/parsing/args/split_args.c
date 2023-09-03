@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 00:07:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:48:41 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@ int	skip_arg(char *s, char c, int *i)
 		*i += get_char_pos(s + *i, 39);
 	else if (s[*i] == '"')
 		*i += get_char_pos(s + *i, '"');
+	else if (s[*i] == '$')
+		*i += get_env_var_name_len(s + *i);
 	else
 	{
-		while (s[*i] && s[*i] != c && s[*i] != 39 && s[*i] != '"')
+		while (s[*i] && \
+				s[*i] != c && s[*i] != 39 && s[*i] != '"')
 		{
 			if (s[*i] == '|')
 				return (j);
@@ -53,7 +56,7 @@ t_arg	**alloc_tab_args(char const *s, char c, t_minishell *shell)
 		i = skip_char(s, c, i);
 		if (!s[i])
 			break ;
-		if (s[i] && (s[i] != c || s[i] == 39 || s[i] == '"'))
+		if (s[i] && (s[i] != c || s[i] == 39 || s[i] == '"' || s[i] == '$'))
 		{
 			j++;
 			j += skip_arg((char *)s, c, &i);
@@ -88,7 +91,7 @@ char	*get_word_arg(char const *s, char c, int i, t_minishell *shell)
 	if (s[i + 1] == '>' || s[i + 1] == '<')
 		len_word++;
 	while (s[i + len_word] && s[i + len_word] != c && \
-		!ft_is_in_str("<>|'\"", s[i + len_word]))
+		!ft_is_in_str("<>|'\"$", s[i + len_word]))
 		len_word++;
 	res = malloc((len_word + 1) * sizeof(char));
 	ft_add_garbage(0, &shell->garbage, res, shell);
@@ -142,6 +145,8 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 			if (!go_get_that_quote(prompt, &var, shell))
 				return ((void)(errno = 2), NULL);
 		}
+		if (s[var.i] == '$')
+			get_env_var_as_arg(prompt, &var, shell);
 		else
 			get_arg_not_quoted(prompt, &var, shell);
 		if (!prompt->cmd && !is_redir_symbol(var.res[var.word], 0) && \
