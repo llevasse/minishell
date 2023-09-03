@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 17:30:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:42:45 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,12 @@ void	get_env_var_as_arg(t_prompt *p, t_var_2 *var, t_minishell *shell)
 	t_arg	**arg;
 
 	var_name = get_env_var_name(var->str + var->i, shell);
-	if (check_is_env_var(&var_name, shell) == -1)
-		return ; //handle that
 	var->i += ft_strlen(var_name);
+	if (check_is_env_var(&var_name, shell) == -1)
+	{
+		var->res[var->word] = NULL;
+		return ;
+	}
 	split = ft_split(var_name, ' ');
 	add_split_to_garbage(split, shell);
 	i = 0;

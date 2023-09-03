@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:31:14 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 17:27:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:43:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,16 @@ static t_arg	**move_index(t_arg **new, t_arg **t1, t_arg **t2, int index)
 	while (t1[i] && i < index)
 	{
 		new[i + j] = t1[i];
-		printf("add : |%s|\n", t1[i]->s);
 		new[i++ + j + 1] = NULL;
 	}
 	while (t2[j])
 	{
 		new[i + j] = t2[j];
-		printf("add : |%s|\n", t2[j]->s);
 		new[i + j++ + 1] = NULL;
 	}
 	while (t1[i])
 	{
 		new[i + j] = t1[i];
-		printf("add : |%s|\n", t1[i]->s);
 		new[i++ + j + 1] = NULL;
 	}
 	return (new);
