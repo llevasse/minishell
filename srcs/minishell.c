@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 00:06:06 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 00:49:38 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 
 	shell->garbage = garbage;
 	shell->error_value = errno;
+	if (g_sig == SIGINT)
+		shell->error_value = 130;
 	errno = 0;
 	g_sig = 0;
 	s = readline(get_mini_prompt(garbage, shell));

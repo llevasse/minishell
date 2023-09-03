@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 00:14:57 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 00:47:51 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	reset_termios(void)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_settings);
 }
 
-//rl_replace_line("", 0);
 void	handler(int sig, siginfo_t *info, void *context)
 {
 	(void) info;
@@ -48,7 +47,6 @@ void	handler(int sig, siginfo_t *info, void *context)
 		{
 			write(1, CTRL_C, 3);
 			write(1, PROMPT, ft_strlen(PROMPT));
-			//rl_on_new_line();
 			rl_replace_line("", 1);
 			rl_redisplay();
 		}
