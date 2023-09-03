@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 14:52:05 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 09:39:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 10:10:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	do_open(char *name, int append, int to_close)
 {
 	int	fd;
 
-	if (to_close != -1)
+	if (to_close >= 0)
 		close(to_close);
 	if (!name || !*name)
 	{
