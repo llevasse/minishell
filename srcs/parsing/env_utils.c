@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 12:34:28 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 17:58:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:33:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,19 @@ int	check_is_env_var(char **str, t_minishell *shell)
 		}
 	}
 	return (1);
+}
+
+int	get_env_var_name_len(char *str)
+{
+	int	i;
+	int	j;
+
+	i = get_char_pos(str, '$') + 1;
+	if (i == 0)
+		return (0);
+	j = 0;
+	while (str[i + j] && (ft_isalnum(str[i + j]) || str[i + j] == '?') && \
+			!ft_isspace(str[i + j]))
+		j++;
+	return (j);
 }

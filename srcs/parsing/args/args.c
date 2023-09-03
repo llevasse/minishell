@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 17:43:21 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:07:35 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,11 @@ int	i_dont_like_people_doing_this(t_prompt *p)
 /// @param *input Inputed string to get args from.
 void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 {
-	int	i = -1;
 	prompt->args = NULL;
 	separate_cmd(prompt, input, shell);
 	if (!input || !input[0])
 		return ;
 	prompt->full_args = ft_split_args(prompt, input, ' ', shell);
-	while (prompt->full_args[++i])
 	if (i_dont_like_people_doing_this(prompt))
 	{
 		if (!prompt->full_args[0])

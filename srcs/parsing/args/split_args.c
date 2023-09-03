@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 17:42:59 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:31:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,15 +140,13 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 		while (s[var.i] && s[var.i] == '|')
 			var.i++;
 		var.res[var.word] = init_arg(shell);
-		if (s[var.i] == '"' || s[var.i] == 39)
-		{
-			if (!go_get_that_quote(prompt, &var, shell))
-				return ((void)(errno = 2), NULL);
-		}
+		if ((s[var.i] == '"' || s[var.i] == 39) && \
+			!go_get_that_quote(prompt, &var, shell))
+			return ((void)(errno = 2), NULL);
 		else if (s[var.i] == '$')
-			get_env_var_as_arg(prompt, &var, shell);
+			get_env_var_as_arg(&var, shell);
 		else
-			get_arg_not_quoted(prompt, &var, shell);
+			get_arg_not_quoted(&var, shell);
 		if (!prompt->cmd && !is_redir_symbol(var.res[var.word], 0) && \
 				var.res[var.word])
 			prompt->cmd = var.res[var.word]->s;

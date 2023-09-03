@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 16:17:56 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 15:35:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:30:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ char	*get_split_quote(t_prompt *prompt, char **s, int *i);
 
 //srcs/parsing/args/split_args_utils.c:
 void	var_set(t_var_2 *var, char *s, char c, t_minishell *shell);
-void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
+void	get_arg_not_quoted(t_var_2 *var, t_minishell *shell);
 int		go_get_that_quote(t_prompt *prompt, t_var_2 *var, t_minishell *shell);
 void	we_go_forward(t_arg **res, int *word, t_prompt *prompt);
 int		is_redir_symbol(t_arg *arg, int is_alone);
-void	get_env_var_as_arg(t_prompt *p, t_var_2 *var, t_minishell *shell);
+void	get_env_var_as_arg(t_var_2 *var, t_minishell *shell);
 
 //srcs/parsing/args/tab_utils.c:
 void	delete_element_at_index(char **tab, int index);
