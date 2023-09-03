@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/15 22:22:04 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 00:22:09 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 22:27:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ void	check_redirection(t_prompt *prompt)
 /// @param *prompt Pointer to prompt struct.
 void	reset_stdio_fd(t_prompt *prompt)
 {
-	if (prompt->exec_fd[0] != -1)
-	{
-		close(prompt->exec_fd[0]);
-		prompt->exec_fd[0] = -1;
-	}
 	if (prompt->old_stdout != -1)
 	{
 		dup2(prompt->old_stdout, 1);

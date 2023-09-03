@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:27:22 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:09:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 22:19:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@ int	is_only_digit(char *s)
 
 void	exit_with_one(t_minishell *shell)
 {
-	int	i;
+//	int	i;
 
-	i = -1;
+//	i = -1;
 	free_garbage(shell->garbage);
 	free_garbage(shell->at_exit_garbage);
 	printf(EXIT);
 	write(2, NOT_NUM_ARG, ft_strlen(NOT_NUM_ARG));
-	while (++i < 1024)
-		close(i);
+//	while (++i < 1024)
+//		close(i);
 	exit(2);
 }
 
@@ -52,16 +52,16 @@ void	exit_with_one(t_minishell *shell)
 /// @param **args array of t_arg pointer. 
 void	ft_exit(t_minishell *shell, t_arg **args)
 {
-	int	i;
+//	int	i;
 
-	i = -1;
+//	i = -1;
 	if (!args || !args[0])
 	{
 		free_garbage(shell->garbage);
 		free_garbage(shell->at_exit_garbage);
 		printf(EXIT);
-		while (++i < 1024)
-			close(i);
+//		while (++i < 1024)
+//			close(i);
 		exit(shell->error_value);
 	}
 	if (is_only_digit(args[0]->s) && args[1])
@@ -71,8 +71,8 @@ void	ft_exit(t_minishell *shell, t_arg **args)
 	}
 	if (!is_only_digit(args[0]->s))
 		exit_with_one(shell);
-	while (++i < 1024)
-		close(i);
+//	while (++i < 1024)
+//		close(i);
 	printf(EXIT);
 	exit((unsigned char)ft_atoi(args[0]->s));
 }
