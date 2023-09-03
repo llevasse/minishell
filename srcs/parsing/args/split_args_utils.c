@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 17:42:45 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 18:03:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,20 @@ int	is_redir_symbol(t_arg *arg, int is_alone)
 	return (0);
 }
 
+static void	remove_env_var(char **str, t_minishell *shell)
+{
+	t_var	var;
+
+	var.i = get_char_pos(*str, '$');
+	while (var.i >= 0 && var.i < (int)ft_strlen(*str) && \
+		get_char_pos((*str) + var.i, '$') >= 0)
+	{
+		var.var = get_env_var_name((*str) + var.i, shell);
+		replace_str(str, var.var, var.env_var, shell);
+		var.i = get_char_pos(*str, '$');
+	}
+}
+
 int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 {
 	v->res[v->word]->quote = v->str[v->i];
@@ -65,10 +79,13 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
 		v->res[v->word--] = NULL;
 	}
-	if (v->str[v->i] == '"')
+	if (v->res[v->word]->quote == '"')
 	{
 		if (!(v->word >= 0 && !ft_strncmp(v->res[v->word]->s, "<<", 2)))
-			check_is_env_var(&v->res[v->word]->s, shell);
+		{
+			if (check_is_env_var(&v->res[v->word]->s, shell) == -1)
+				remove_env_var(&v->res[v->word]->s, shell);
+		}
 	}
 	return (1);
 }
