@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 10:21:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:31:46 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 int	exec_child(t_prompt *prompt)
 {
+	if (prompt->exec_pid != 0)
+		dup2(prompt->tmp_fd, STDIN_FILENO);
 	dup2(prompt->exec_fd[1], STDOUT_FILENO);
-	do_close(&prompt->exec_fd[1]);
 	do_close(&prompt->exec_fd[0]);
 	if (is_builtin(prompt->full_args[0]->s))
+	{
 		exec_builtin(prompt);
-	else if (ft_execute(prompt->full_args, prompt->tmp_fd,
+		write(1, "\0", 1);
+		return (1);
+	}
+	do_close(&prompt->exec_fd[1]);
+	if (ft_execute(prompt->full_args, prompt->tmp_fd,
 			prompt->shell))
 		return (0);
 	return (1);
