@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 17:09:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:30:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 		if (!(v->word >= 0 && !ft_strncmp(v->res[v->word]->s, "<<", 2)))
 			check_is_env_var(&v->res[v->word]->s, shell);
 	}
-	printf("quote : |%s|\n", v->res[v->word]->s);
 	return (1);
 }
 
@@ -106,17 +105,16 @@ void	get_env_var_as_arg(t_prompt *p, t_var_2 *var, t_minishell *shell)
 	split = ft_split(var_name, ' ');
 	add_split_to_garbage(split, shell);
 	i = 0;
-	arg = malloc(get_tab_size(split) + 1);
+	arg = malloc((get_tab_size(split) + 1) * sizeof(t_arg));
 	ft_add_garbage(0, &shell->garbage, arg, shell);
 	while (split[i])
 	{
 		arg[i] = init_arg(shell);
 		arg[i]->s = split[i];
-		printf("add |%s| to args\n", arg[i]->s);
 		arg[i++]->quote = '"';
 		arg[i] = NULL;
 	}
 	var->res = insert_tab_at_index(var->res, arg, var->word, shell);
-	var->word++;
+	var->word += get_tab_size(split) - 1;
 	(void)p;
 }
