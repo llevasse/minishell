@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 16:25:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/27 12:32:39 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:26:12 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*get_quoted_str(char *str, char quote, int env_var, t_prompt *prompt)
 	}
 	new_str[j] = 0;
 	if (env_var)
-		check_is_env_var(prompt, &new_str, prompt->shell);
+		check_is_env_var(&new_str, prompt->shell);
 	return (new_str);
 }
 

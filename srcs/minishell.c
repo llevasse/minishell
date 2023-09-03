@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:10:20 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 14:16:30 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:25:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ char	*get_mini_prompt(t_garbage *garbage, t_minishell *shell)
 	return (prompt);
 }
 
-void	pre_parse(char *s, t_minishell *shell)
+void	pre_parse(char **s, t_minishell *shell)
 {
-	if (s == NULL)
-		ft_exit(shell, NULL);
-	while (*s && ft_isspace(*s))
-		s++;
-	if (s[0] != 0)
-		add_history(s);
+	while (**s && ft_isspace(**s))
+		(*s)++;
+	if (**s != 0)
+		add_history(*s);
 	if (g_sig == SIGINT)
 		shell->error_value = 130;
 }
@@ -57,10 +55,13 @@ void	get_input(t_garbage *garbage, t_minishell *shell)
 	shell->error_value = errno;
 	errno = 0;
 	g_sig = 0;
-	s = "";
 	s = readline(get_mini_prompt(garbage, shell));
-	pre_parse(s, shell);
-	parse(s, garbage, shell);
+	if (s)
+	{
+		pre_parse(&s, shell);
+		if (s[0] != 0)
+			parse(s, garbage, shell);
+	}
 	if (errno == 130)
 		errno = 0;
 }

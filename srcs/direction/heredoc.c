@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 16:11:20 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:27:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	check_heredoc(t_prompt *p, t_heredoc *doc)
 	if (!ft_strcmp(text, doc->delimiter))
 		return ((void)(doc->status = 1), 0);
 	if (doc->use_env_var)
-		check_is_env_var(p, &text, p->shell);
+		check_is_env_var(&text, p->shell);
 	if (doc->len < 57000)
 	{
 		doc->len += ft_strlen(text);

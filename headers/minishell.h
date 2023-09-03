@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 14:55:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:25:10 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char		*ft_strsep(char **p_str, const char *delim);
 char		*ft_getenv(char **env, char *search, t_minishell *shell);
 char		*get_cmd_w_path(t_prompt *prompt, t_minishell *shell);
 int			check_present_in_path(t_prompt *prompt, char *path);
-int			check_is_env_var(t_prompt *prompt, char **str, t_minishell *shell);
+int			check_is_env_var(char **str, t_minishell *shell);
 char		*get_env_var_name(char *str, t_minishell *shell);
 
 // chars.c
@@ -71,7 +71,7 @@ int			get_substr_pos(char *str, char *sub_str);
 
 // SRCS/EXEC //
 
-void		pre_parse(char *s, t_minishell *shell);
+void		pre_parse(char **s, t_minishell *shell);
 
 // SRCS/BUILTIN //
 int			is_builtin(char *cmd);

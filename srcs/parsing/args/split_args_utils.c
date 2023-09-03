@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/08/29 22:57:04 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:26:57 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 	if (v->str[v->i] == '"')
 	{
 		if (!(v->word >= 0 && !ft_strncmp(v->res[v->word]->s, "<<", 2)))
-			check_is_env_var(prompt, &v->res[v->word]->s, shell);
+			check_is_env_var(&v->res[v->word]->s, shell);
 	}
 	return (1);
 }
@@ -87,7 +87,7 @@ void	get_arg_not_quoted(t_prompt *prompt, t_var_2 *var, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
-	if (check_is_env_var(prompt, &var->res[var->word]->s, shell) == -1)
+	if (check_is_env_var(&var->res[var->word]->s, shell) == -1)
 	{
 		if (prompt->cmd && !ft_strcmp(prompt->cmd, "export"))
 		{

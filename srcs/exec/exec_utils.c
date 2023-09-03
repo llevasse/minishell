@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:34:30 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 13:36:34 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:28:32 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	redir(t_prompt *prompt)
 			do_close(&prompt->exec_fd[0]);
 			do_close(&prompt->old_stdin);
 			do_close(&prompt->old_stdout);
-			pre_parse(prompt->heredoc_last_input, prompt->shell);
+			pre_parse(&prompt->heredoc_last_input, prompt->shell);
 			parse(prompt->heredoc_last_input, prompt->garbage, prompt->shell);
 		}
 		return (0);

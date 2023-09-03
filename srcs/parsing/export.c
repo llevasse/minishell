@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 20:41:08 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 14:08:51 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 14:27:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_key(t_prompt *prompt, char **input)
 	ft_add_garbage(0, &prompt->garbage, key, prompt->shell);
 	if (get_char_pos(key, '"') != -1 || get_char_pos(key, 39) != -1)
 		check_quotes(prompt, &key);
-	if (check_is_env_var(prompt, &key, prompt->shell) == -1 || key[0] == 0)
+	if (check_is_env_var(&key, prompt->shell) == -1 || key[0] == 0)
 		return ((void)printf(BAD_ASS), NULL);
 	if (!must_be_valid(key))
 	{
@@ -64,7 +64,7 @@ char	*get_content(t_prompt *prompt, char **input)
 	if (content[0] == 0 || content[0] == '>' || content[1] == '<')
 		return ("");
 	if (content[0] != '>' && content[1] != '<')
-		check_is_env_var(prompt, &content, prompt->shell);
+		check_is_env_var(&content, prompt->shell);
 	ft_add_garbage(0, &prompt->garbage, content, prompt->shell);
 	return (content);
 }
