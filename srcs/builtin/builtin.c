@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 11:55:18 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 00:42:00 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 13:40:08 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,4 @@ void	exec_builtin(t_prompt *p)
 		ft_unset(p);
 	else if (!p->prev_cmd && !ft_strcmp(p->cmd, "exit"))
 		ft_exit(p->shell, p->args);
-}
-
-/// @brief Execute a builtin command.
-/// This command is not meant to print anything, and is only used for builtin
-/// modifing the environment.
-/// @param *prompt prompt struct containing cmd param,
-/// @param *garbage pointer to garbage collector.
-int	exec_builtin_main_thread(t_prompt *prompt)
-{
-	if (!ft_strcmp(prompt->full_args[0]->s, "export") && prompt->export_args)
-	{
-		ft_export(prompt);
-		return (1);
-	}
-	if (!ft_strcmp(prompt->full_args[0]->s, "unset") && prompt->args)
-	{
-		ft_unset(prompt);
-		return (1);
-	}
-	if (!ft_strcmp(prompt->full_args[0]->s, "cd"))
-	{
-		ft_cd(prompt);
-		return (1);
-	}
-	else
-		return (0);
 }
