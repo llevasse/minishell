@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 19:29:21 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 15:48:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/03 17:16:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ t_arg	**ft_split_args(t_prompt *prompt, char *s, char c, t_minishell *shell)
 			if (!go_get_that_quote(prompt, &var, shell))
 				return ((void)(errno = 2), NULL);
 		}
-		if (s[var.i] == '$')
+		else if (s[var.i] == '$')
 			get_env_var_as_arg(prompt, &var, shell);
 		else
 			get_arg_not_quoted(prompt, &var, shell);
