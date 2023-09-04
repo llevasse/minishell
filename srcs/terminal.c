@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 00:54:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:33:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 	if (sig == SIGINT)
 	{
 		if (info->si_pid == 0)
-			write(1, "\n\n", 1);
+			write(0, "\n", 1);
 		if (info->si_pid != 0)
 		{
 			write(1, CTRL_C, 3);
