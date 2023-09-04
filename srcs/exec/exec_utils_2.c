@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:59:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 15:34:58 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:35:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ int	child_exec(t_prompt *prompt)
 		prompt->tmp_fd = dup(prompt->exec_fd[0]);
 	if (is_builtin(prompt->full_args[0]->s))
 		exec_builtin(prompt);
-	return (ft_execute(prompt->full_args, prompt->tmp_fd, \
-				prompt->shell));
+	return (ft_execute(prompt->full_args, prompt->tmp_fd, prompt->shell));
 }
 
 t_prompt	*next_prompt(t_prompt *prompt)
