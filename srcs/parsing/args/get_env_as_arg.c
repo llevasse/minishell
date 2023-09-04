@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 11:24:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/04 12:08:41 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:06:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ static char *get_var(t_var_2 *var, t_minishell *shell)
 
 static int join_condition(char *var_name, char **split, t_var_2 *var, t_minishell *shell)
 {
-	printf("input |%s|\n", var->str);
-	printf("char : |%c|\n", var->str[var->i]);
 	if (var->word > 0 && (var->str[var->i - \
 		(ft_strlen(var_name) + 1)] != var->p || \
 		is_redir_symbol(var->res[var->word - 1], 1)) && split[0])
@@ -60,6 +58,8 @@ void	get_env_var_as_arg(t_var_2 *var, t_minishell *shell)
 	split = ft_split(var_name, ' ');
 	add_split_to_garbage(split, shell);
 	i = join_condition(var_name_dup, split, var, shell);
+	if (!split[i])
+		return ;
 	arg = malloc((get_tab_size(split) + 1) * sizeof(t_arg));
 	ft_add_garbage(0, &shell->garbage, arg, shell);
 	while (split[i])
