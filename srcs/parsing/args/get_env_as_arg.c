@@ -6,13 +6,13 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 11:24:19 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/04 14:06:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:13:24 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *get_var(t_var_2 *var, t_minishell *shell)
+static char	*get_var(t_var_2 *var, t_minishell *shell)
 {
 	char	*var_name;
 
@@ -28,7 +28,8 @@ static char *get_var(t_var_2 *var, t_minishell *shell)
 	return (var_name);
 }
 
-static int join_condition(char *var_name, char **split, t_var_2 *var, t_minishell *shell)
+static int	join_condition(char *var_name, char **split, t_var_2 *var, 
+				t_minishell *shell)
 {
 	if (var->word > 0 && (var->str[var->i - \
 		(ft_strlen(var_name) + 1)] != var->p || \
@@ -41,6 +42,22 @@ static int join_condition(char *var_name, char **split, t_var_2 *var, t_minishel
 		return (1);
 	}
 	return (0);
+}
+
+static t_arg	**create_arg(char **split, int i, t_minishell *shell)
+{
+	t_arg	**arg;
+
+	arg = malloc((get_tab_size(split) + 1) * sizeof(t_arg *));
+	ft_add_garbage(0, &shell->garbage, arg, shell);
+	while (split[i])
+	{
+		arg[i] = init_arg(shell);
+		arg[i]->s = split[i];
+		arg[i++]->quote = '"';
+	}
+	arg[i] = NULL;
+	return (arg);
 }
 
 void	get_env_var_as_arg(t_var_2 *var, t_minishell *shell)
@@ -60,15 +77,7 @@ void	get_env_var_as_arg(t_var_2 *var, t_minishell *shell)
 	i = join_condition(var_name_dup, split, var, shell);
 	if (!split[i])
 		return ;
-	arg = malloc((get_tab_size(split) + 1) * sizeof(t_arg));
-	ft_add_garbage(0, &shell->garbage, arg, shell);
-	while (split[i])
-	{
-		arg[i] = init_arg(shell);
-		arg[i]->s = split[i];
-		arg[i++]->quote = '"';
-	}
-	arg[i] = NULL;
+	arg = create_arg(split, i, shell);
 	var->res = insert_tab_at_index(var->res, arg, var->word, shell);
 	var->word += get_tab_size(split) - 1;
 }

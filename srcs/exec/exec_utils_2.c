@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:59:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 00:52:10 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:14:26 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	sig_init(t_prompt *prompt)
 	prompt->shell->sig.sigint_parent.sa_handler = SIG_IGN;
 	sigemptyset(&prompt->shell->sig.sigint_parent.sa_mask);
 	prompt->shell->sig.sigint_child.sa_flags = SA_RESTART;
-//	prompt->shell->sig.sigint_child.sa_handler = SIG_DFL;
 	prompt->shell->sig.sigint_child.sa_sigaction = &handler;
 	sigemptyset(&prompt->shell->sig.sigint_child.sa_mask);
 }
