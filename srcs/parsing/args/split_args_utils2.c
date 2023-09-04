@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 18:14:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 19:16:40 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 11:15:36 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,16 @@ void	get_env_var_as_arg(t_var_2 *var, t_minishell *shell)
 	split = ft_split(var_name, ' ');
 	add_split_to_garbage(split, shell);
 	i = 0;
+	if (var->word > 0 && (var->str[var->i - \
+		(ft_strlen(var_name) + 1)] != var->p || \
+		is_redir_symbol(var->res[var->word - 1], 1)) && split[0])
+	{
+		var->res[var->word - 1]->s = ft_strjoin(var->res[var->word - 1]->s, \
+			split[0]);
+		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
+		var->res[var->word--] = NULL;
+		i++;
+	}
 	arg = malloc((get_tab_size(split) + 1) * sizeof(t_arg));
 	ft_add_garbage(0, &shell->garbage, arg, shell);
 	while (split[i])
