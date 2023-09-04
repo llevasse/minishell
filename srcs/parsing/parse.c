@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 14:19:13 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:19:49 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 void	check_cmd(t_prompt *prompt)
 {
 	if (!prompt->cmd && prompt->args)
-		return (check_redirection(prompt));
+		return ((void)redir(prompt));
 	if (!ft_strcmp(prompt->cmd, ""))
 		return ((void)(errno = 127));
 	if (!ft_strcmp(prompt->cmd, "exit") && !prompt->next_cmd)
