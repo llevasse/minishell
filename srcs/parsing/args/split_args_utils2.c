@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 18:14:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/04 11:15:36 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/04 11:16:55 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	get_env_var_as_arg(t_var_2 *var, t_minishell *shell)
 	var_name = get_env_var_name(var->str + var->i, shell);
 	var->i += ft_strlen(var_name);
 	if (check_is_env_var(&var_name, shell) == -1)
-		return ((void)(var->res[var->word] = NULL));
+		return ((void)(var->res[var->word--] = NULL));
 	split = ft_split(var_name, ' ');
 	add_split_to_garbage(split, shell);
 	i = 0;
