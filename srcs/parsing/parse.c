@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/05 22:55:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 23:01:03 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 		return ;
 	}
 	check_cmd(prompt);
+	register_last_args(prompt, shell);
 }
 
 void	register_last_args(t_prompt *p, t_minishell *shell)
@@ -40,7 +41,6 @@ void	register_last_args(t_prompt *p, t_minishell *shell)
 	delete_duplicate_export("_", shell);
 	shell->env = insert_at_end(exports, shell->env, shell);
 	reset_stdio_fd(p);
-
 }
 
 /// @brief Check if t_prompt is a builtin of a command in PATH
