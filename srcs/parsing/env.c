@@ -6,11 +6,13 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 11:26:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/05 23:23:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 23:28:44 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_sig;
 
 char	*ft_getenv(char **env, char *search, t_minishell *shell)
 {
@@ -50,10 +52,11 @@ char	*get_cmd_w_path(t_prompt *prompt, t_minishell *shell)
 	int		has_exec;
 
 	has_exec = 0;
+	g_sig = 0;
 	if (prompt->cmd[0] == '.' || prompt->cmd[0] == '/')
 		return (local_path(prompt->cmd, shell));
 	if (!ft_getenv(prompt->environ, "PATH", shell))
-		return ((void)printf(ERR_404, prompt->cmd), NULL);
+		return ((void)printf(ERR_404, prompt->cmd, errno = 127), NULL);
 	path = ft_strdup(ft_getenv(prompt->environ, "PATH", shell));
 	ft_add_garbage(0, &shell->garbage, path, shell);
 	while (*path && !has_exec)
