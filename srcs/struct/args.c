@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/29 23:37:54 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 22:50:42 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	get_arg_size(t_arg **tab)
 	int	i;
 
 	i = 0;
-	while (tab && tab[i])
+	while (tab && tab[i] && tab[i]->s)
 		i++;
 	return (i);
 }

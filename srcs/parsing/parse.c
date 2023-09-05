@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/04 15:19:49 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 22:55:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 {
 	t_prompt	*prompt;
-	char		*exports;
 
 	prompt = init_prompt(input, garbage, shell, 0);
 	if (!prompt)
@@ -27,12 +26,21 @@ void	parse(char *input, t_garbage *garbage, t_minishell *shell)
 		return ;
 	}
 	check_cmd(prompt);
+}
+
+void	register_last_args(t_prompt *p, t_minishell *shell)
+{
+	char		*exports;
+	int			i;
+
+	i = !!get_arg_size(p->full_args);
 	exports = ft_joinf("_=%s",
-			prompt->full_args[get_arg_size(prompt->full_args) - 1]);
+		p->full_args[get_arg_size(p->full_args) - i]->s);
 	ft_add_garbage(1, &shell->at_exit_garbage, exports, shell);
 	delete_duplicate_export("_", shell);
 	shell->env = insert_at_end(exports, shell->env, shell);
-	reset_stdio_fd(prompt);
+	reset_stdio_fd(p);
+
 }
 
 /// @brief Check if t_prompt is a builtin of a command in PATH

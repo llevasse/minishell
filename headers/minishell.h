@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 22:29:40 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/03 15:10:52 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 22:54:19 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 int			minishell_loop(t_minishell *shell, t_garbage *garbage);
 // parse.c
 void		parse(char *input, t_garbage *garbage, t_minishell *shell);
+void		register_last_args(t_prompt *p, t_minishell *shell);
 void		check_cmd(t_prompt *prompt);
 void		get_cmd(char **input, t_prompt *prompt, t_minishell *shell);
 

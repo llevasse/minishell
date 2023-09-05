@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:34:09 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/03 19:17:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 22:36:05 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	var_set(t_var_2 *var, char *s, char c, t_minishell *shell)
 	var->p = c;
 	var->word = 0;
 	var->res = alloc_tab_args(s, c, shell);
+	var->res[0] = NULL;
 	var->i = skip_char(s, c, 0);
 }
 
