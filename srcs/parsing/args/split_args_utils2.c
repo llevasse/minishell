@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 18:14:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/04 11:24:53 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 23:42:31 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,4 @@ void	get_arg_not_quoted(t_var_2 *var, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, var->res[var->word - 1]->s, shell);
 		var->res[var->word--] = NULL;
 	}
-	var->res[var->word + 1] = NULL;
 }

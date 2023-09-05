@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/22 14:31:14 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/05 22:41:01 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 23:44:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_arg	**insert_tab_at_index(t_arg **t1, t_arg **t2,
 {
 	t_arg	**new;
 
-	new = malloc((get_arg_size(t1) + get_arg_size(t2) + 1) * sizeof(t_arg *));
+	new = malloc((get_arg_size(t1) + get_arg_size(t2) + 2) * sizeof(t_arg *));
 	ft_add_garbage(0, &shell->garbage, new, shell);
 	if (!new)
 		return (t1);
