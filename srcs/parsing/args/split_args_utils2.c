@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 18:14:23 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/05 23:42:31 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/05 23:57:07 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	go_get_that_quote(t_prompt *prompt, t_var_2 *v, t_minishell *shell)
 		ft_add_garbage(0, &shell->garbage, v->res[v->word - 1]->s, shell);
 		v->res[v->word--] = NULL;
 	}
-	if (ft_strncmp(v->res[v->word]->s, "<<", 2))
+	if (v->res[v->word]->quote == '"' && ft_strncmp(v->res[v->word]->s, "<<", 2))
 	{
 		if (check_is_env_var(&v->res[v->word]->s, shell) == -1)
 			remove_env_var(&v->res[v->word]->s, shell);
