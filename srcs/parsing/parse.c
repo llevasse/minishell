@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:51:31 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/05 23:01:03 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 00:00:13 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	register_last_args(t_prompt *p, t_minishell *shell)
 
 	i = !!get_arg_size(p->full_args);
 	exports = ft_joinf("_=%s",
-		p->full_args[get_arg_size(p->full_args) - i]->s);
+			p->full_args[get_arg_size(p->full_args) - i]->s);
 	ft_add_garbage(1, &shell->at_exit_garbage, exports, shell);
 	delete_duplicate_export("_", shell);
 	shell->env = insert_at_end(exports, shell->env, shell);
