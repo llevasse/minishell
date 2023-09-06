@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 14:38:55 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/06 10:17:26 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:44:16 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	heredoc(int use_env_var, char *eof_name, t_prompt *prompt)
 	if (g_sig == SIGINT)
 		return ((void)(prompt->has_redir = -2));
 	g_sig = 0;
-	write_heredoc(prompt, eof_name, !use_env_var);
 	if (prompt->tmp_fd != -1)
 		dup2(prompt->exec_fd[0], prompt->tmp_fd);
 	if (!prompt->next_cmd)
