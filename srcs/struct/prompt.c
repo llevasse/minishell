@@ -6,7 +6,7 @@
 /*   By: llevasse <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 21:52:58 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/02 23:53:23 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:48:53 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_prompt	*init_prompt(char *input, t_garbage *garbage, \
 {
 	t_prompt	*prompt;
 
-	if (get_char_occurance(input, '"') % 2 != 0 || \
+	if (get_char_occurance(input, '"') % 2 != 0 && \
 		get_char_occurance(input, 39) % 2 != 0)
 		return (NULL);
 	prompt = malloc(sizeof(struct s_prompt));
