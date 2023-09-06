@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/08/30 15:52:40 by mwubneh          ###   ########.fr       */
+/*   Updated: 2023/09/06 09:58:25 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_is_cd_args(char *args);
 static void	cd_with_args(t_prompt *prompt, char *new_path,
-				char cwd[PATH_MAX]);
+				char *cwd);
 static void	cd_without_args(char *new_path, t_minishell *shell);
 
 /// @brief Change current directory.
@@ -23,9 +23,14 @@ static void	cd_without_args(char *new_path, t_minishell *shell);
 void	ft_cd(t_prompt *prompt)
 {
 	char	*new_path;
-	char	cwd[PATH_MAX];
+	char	*cwd;
 
 	new_path = get_pwd(prompt->shell);
+	cwd = NULL;
+	if (prompt->args && prompt->args[0] && prompt->args[1])
+		return ((void)write(2, TMA, ft_strlen(TMA)));
+	if (prompt->full_args[1] && !ft_strcmp(prompt->full_args[1]->s, "."))
+		return ;
 	if (!(prompt->full_args[1]) || !ft_is_cd_args(prompt->full_args[1]->s))
 		cd_without_args(new_path, prompt->shell);
 	else
@@ -48,33 +53,30 @@ static int	ft_is_cd_args(char *args)
 /// @param *new_path Current path,
 /// @param cwd[PATH_MAX] idk. TODO
 /// @param *garbage Pointer to garbage struct.
-static void	cd_with_args(t_prompt *prompt, char *new_path, char cwd[PATH_MAX])
+static void	cd_with_args(t_prompt *p, char *new_path, char *cwd)
 {
-	if (prompt->args[1])
-		write(2, TMA, ft_strlen(TMA));
-	if (!ft_strncmp(new_path, prompt->full_args[1]->s, ft_strlen(new_path)))
+	if (!ft_strncmp(new_path, p->full_args[1]->s, ft_strlen(new_path)))
 		return ;
-	else if (!ft_strcmp(prompt->full_args[1]->s, "-"))
-		new_path = ft_joinf("%s", ft_getenv(prompt->shell->env, \
-		"OLDPWD", prompt->shell));
-	else if (!ft_strncmp(prompt->full_args[1]->s, "~/", 2))
-		new_path = ft_joinf("%s/%s", ft_getenv(prompt->shell->env,
-					"HOME", prompt->shell), &prompt->full_args[1]->s[2]);
+	else if (!ft_strcmp(p->full_args[1]->s, "-"))
+		new_path = ft_joinf("%s", ft_getenv(p->shell->env, "OLDPWD", p->shell));
+	else if (!ft_strncmp(p->full_args[1]->s, "~/", 2))
+		new_path = ft_joinf("%s/%s", ft_getenv(p->shell->env,
+					"HOME", p->shell), &p->full_args[1]->s[2]);
 	else
-		new_path = ft_strjoin("", prompt->args[0]->s);
-	cwd = ft_getenv(prompt->shell->env, "OLDPWD", prompt->shell);
+		new_path = ft_strjoin("", p->args[0]->s);
+	ft_add_garbage(0, &p->shell->garbage, new_path, p->shell);
+	cwd = ft_getenv(p->shell->env, "OLDPWD", p->shell);
+	if (ft_strcmp(cwd, get_pwd(p->shell)))
+		return ;
 	if (chdir(new_path) == 0)
 	{
-		replace_env("OLDPWD", cwd, prompt->shell);
-		ft_add_garbage(0, &prompt->garbage, new_path, prompt->shell);
-		getcwd(cwd, PATH_MAX);
-		replace_env("PWD", cwd, prompt->shell);
+		replace_env("OLDPWD", cwd, p->shell);
+		ft_add_garbage(0, &p->garbage, new_path, p->shell);
+		cwd = get_pwd(p->shell);
+		replace_env("PWD", cwd, p->shell);
 	}
 	else
-	{
-		free(new_path);
 		write(2, NO_FILE_E, ft_strlen(NO_FILE_E));
-	}
 }
 
 /// @brief Change directory to HOME env variable.
