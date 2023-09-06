@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/21 23:04:22 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 15:33:19 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 10:19:00 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,16 @@ void	handler(int sig, siginfo_t *info, void *context)
 			write(0, "\n", 1);
 		if (info->si_pid != 0)
 		{
-			write(1, CTRL_C, 3);
-			write(1, PROMPT, ft_strlen(PROMPT));
+			if (g_sig == SIGUSR2)
+			{
+				write(1, "\n", 1);
+				write(1, PROMPT, ft_strlen(PROMPT));
+			}
+			else
+			{
+				write(1, CTRL_C, 3);
+				rl_on_new_line();
+			}
 			rl_replace_line("", 1);
 			rl_redisplay();
 		}
