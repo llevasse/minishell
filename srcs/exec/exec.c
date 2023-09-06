@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 13:38:23 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/06 09:40:42 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 10:00:39 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ int	ft_execute(t_arg **args, int tmp_fd, t_minishell *shell)
 	execve(c_args[0], c_args, shell->env);
 	ft_putstr_fd("error : cannot execute ", 2);
 	ft_putendl_fd(c_args[0], 2);
+	close(1);
 	ft_exit (shell, NULL);
 	return (1);
 }
