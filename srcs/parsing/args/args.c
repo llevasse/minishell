@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 14:35:00 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/05 22:44:29 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 09:21:04 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	i_dont_like_people_doing_this(t_prompt *p)
 	if (!p->full_args[i])
 		return ((void)(p->args = &p->full_args[0]), 0);
 	p->cmd = p->full_args[i]->s;
+	p->cmd_wo_path = ft_strdup(p->cmd);
+	ft_add_garbage(0, &p->shell->garbage, p->cmd_wo_path, p->shell);
 	if (!is_builtin(p->cmd) && p->cmd[0] != '/')
 		p->cmd = get_cmd_w_path(p, p->shell);
 	delete_arg_at_index(p->full_args, i);
@@ -51,6 +53,8 @@ void	get_args(t_prompt *prompt, char *input, t_minishell *shell)
 		if (!prompt->full_args[0])
 			return ;
 		prompt->cmd = prompt->full_args[0]->s;
+		prompt->cmd_wo_path = ft_strdup(prompt->cmd);
+		ft_add_garbage(0, &prompt->shell->garbage, prompt->cmd_wo_path, shell);
 		if (!is_builtin(prompt->cmd) && prompt->cmd[0] != '/')
 			prompt->cmd = get_cmd_w_path(prompt, shell);
 		prompt->args = NULL;

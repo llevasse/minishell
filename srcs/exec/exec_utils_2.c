@@ -6,7 +6,7 @@
 /*   By: mwubneh <mwubneh@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 11:59:13 by mwubneh           #+#    #+#             */
-/*   Updated: 2023/09/04 15:35:44 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 09:16:20 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	signal_termios(t_prompt *prompt)
 void	sig_mute(t_prompt *prompt)
 {
 	sigaction(SIGQUIT, &prompt->shell->sig.sigquit_parent, NULL);
+	if (prompt->cmd_wo_path && !ft_strcmp("./minishell", prompt->cmd_wo_path))
+		sigaction(SIGINT, &prompt->shell->sig.sigint_parent, NULL);
 }
 
 int	child_exec(t_prompt *prompt)
