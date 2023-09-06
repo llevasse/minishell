@@ -6,7 +6,7 @@
 /*   By: llevasse <llevasse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 09:24:53 by llevasse          #+#    #+#             */
-/*   Updated: 2023/09/06 09:58:25 by llevasse         ###   ########.fr       */
+/*   Updated: 2023/09/06 10:10:56 by llevasse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void	cd_with_args(t_prompt *p, char *new_path, char *cwd)
 	else
 		new_path = ft_strjoin("", p->args[0]->s);
 	ft_add_garbage(0, &p->shell->garbage, new_path, p->shell);
-	cwd = ft_getenv(p->shell->env, "OLDPWD", p->shell);
-	if (ft_strcmp(cwd, get_pwd(p->shell)))
+	cwd = ft_getenv(p->shell->env, "PWD", p->shell);
+	if (!ft_strcmp(get_pwd(p->shell), new_path))
 		return ;
 	if (chdir(new_path) == 0)
 	{
